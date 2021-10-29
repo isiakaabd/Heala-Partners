@@ -49,7 +49,7 @@ const HeaderProfile = () => {
           <Grid container direction="column" justifyContent="center">
             <Grid item>
               <Typography variant="body1" className={classes.name}>
-                Emmanuel Chuckwu
+                H-Medix
               </Typography>
             </Grid>
             <Grid item>

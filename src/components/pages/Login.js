@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, Redirect } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -16,6 +16,7 @@ import { useTheme } from '@mui/material/styles'
 import Search from 'components/Utilities/Search'
 import useFormInput from 'components/hooks/useFormInput'
 import { useActions } from 'components/hooks/useActions'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
@@ -70,7 +71,7 @@ const Login = ({ history }) => {
 
   const { loginUser } = useActions()
 
-  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth)
 
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
@@ -81,7 +82,7 @@ const Login = ({ history }) => {
   }
 
   const [showPassword, setShowPassword] = useState(false)
-  //   const [emailHelper, setEmailHelper] = useState("");
+  // const [emailHelper, setEmailHelper] = useState('')
   const [formInput, handleFormInput] = useFormInput({
     email: '',
     password: '',
@@ -89,23 +90,23 @@ const Login = ({ history }) => {
 
   const { email, password } = formInput
 
-  //   const validateInput = (event) => {
-  //     let valid;
+  // const validateInput = (event) => {
+  //   let valid
 
-  //     switch (event.target.name) {
-  //       case "email":
-  //         valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
+  //   switch (event.target.name) {
+  //     case 'email':
+  //       valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
 
-  //         if (!valid) {
-  //           setEmailHelper("Invalid email");
-  //         } else {
-  //           setEmailHelper("");
-  //         }
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   };
+  //       if (!valid) {
+  //         setEmailHelper('Invalid email')
+  //       } else {
+  //         setEmailHelper('')
+  //       }
+  //       break
+  //     default:
+  //       break
+  //   }
+  // }
 
   const handleLogin = () => {
     const { state = {} } = location
@@ -115,9 +116,9 @@ const Login = ({ history }) => {
     history.push(prevLocation || '/dashboard')
   }
 
-  // if (isAuthenticated) {
-  //   return <Redirect to="/dashboard" />;
-  // }
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />
+  }
 
   return (
     <Grid container className={classes.gridContainer}>

@@ -137,6 +137,7 @@ const SideMenu = (props) => {
 
   useEffect(
     () =>
+      // eslint-disable-next-line
       [...menus].filter((menu) => {
         switch (location.pathname) {
           case menu.path:

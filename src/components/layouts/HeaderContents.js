@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const CustomHeaderText = ({ title, total, path }) => {
+const CustomHeaderText = ({ title, path }) => {
   const classes = useStyles()
 
   return (
@@ -198,7 +198,7 @@ const HeaderText = (props) => {
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            Emmanuel Chukwu
+            H-Medix Pharmarcy
           </Typography>
         </div>
       )
@@ -386,7 +386,7 @@ const HeaderText = (props) => {
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            Emmanuel Chukwu
+            H-Medix Pharmarcy
           </Typography>
         </div>
       )

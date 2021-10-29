@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Grid from '@mui/material/Grid'
-import Success from 'components/modals/Success'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import Checkbox from '@mui/material/Checkbox'
@@ -13,6 +12,7 @@ import { makeStyles } from '@mui/styles'
 import Modals from 'components/Utilities/Modal'
 import Search from 'components/Utilities/Search'
 import FilterList from 'components/Utilities/FilterList'
+import { Link } from 'react-router-dom'
 import { rows } from 'components/Utilities/DataHeader'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
@@ -121,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
     '&.MuiChip-root': {
       fontSize: '1.25rem',
       height: '3rem',
+      cursor: 'pointer',
       borderRadius: '1.3rem',
       background: theme.palette.common.white,
       color: theme.palette.common.grey,
@@ -147,9 +148,6 @@ const CompletedOrders = () => {
     date: '',
     categoryName: '',
   })
-  const [modal, setModal] = useState(false)
-  const handleDialogClose = () => setModal(false)
-  const handleDialogOpen = () => setModal(true)
 
   const { hospitalName, date, categoryName } = filterSelectInput
 
@@ -256,7 +254,8 @@ const CompletedOrders = () => {
                       <Chip
                         label="view order"
                         variant="outlined"
-                        onClick={handleDialogOpen}
+                        component={Link}
+                        to={`pending-order/${row.id}/order`}
                         className={classes.chip}
                         deleteIcon={<ArrowForwardIosIcon />}
                         onDelete={() => console.log(' ')}
@@ -364,16 +363,6 @@ const CompletedOrders = () => {
             </Grid>
           </Grid>
         </Modals>
-
-        {/* ADD NEW PARTER MODAL */}
-
-        <Success
-          open={modal}
-          handleDialogClose={handleDialogClose}
-          title="SUCCESSFUL"
-          btnValue="Done"
-          confirmationMsg="Your order has been successful"
-        />
       </Grid>
     </>
   )
