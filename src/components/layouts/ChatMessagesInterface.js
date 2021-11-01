@@ -130,14 +130,14 @@ const ChatMessagesInterface = ({ setChatMediaActive }) => {
           <Grid item container justifyContent="flex-end" style={{ padding: "0 5rem 3rem" }}>
             <Grid item className={classes.chatMessage}>
               <Typography variant="body1">
-                Social money transfers for millenial. Send and receive money with your abeg tag.
+                Social money transfers for millenial. Send and receive money with your abeg tag....
                 Social money transfers for millenial. Send and receive money with your abeg tag
               </Typography>
             </Grid>
           </Grid>
           <Grid item container style={{ padding: "0 5rem 3rem" }}>
             <Grid item className={`${classes.chatMessage} ${classes.purpleChatBox}`}>
-              <Typography variant="body1">Thank you. Goodnight</Typography>
+              <Typography variant="body1">Thank you. Goodnight......</Typography>
             </Grid>
           </Grid>
         </Grid>
