@@ -4,7 +4,6 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Badge from '@mui/material/Badge'
 import { makeStyles } from '@mui/styles'
-// import { useTheme } from "@mui/material/styles";
 import displayPhoto from 'assets/images/avatar.png'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import Notifications from 'components/layouts/Notifications'

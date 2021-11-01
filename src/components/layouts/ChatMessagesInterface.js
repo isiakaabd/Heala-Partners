@@ -137,7 +137,7 @@ const ChatMessagesInterface = ({ setChatMediaActive }) => {
           </Grid>
           <Grid item container style={{ padding: "0 5rem 3rem" }}>
             <Grid item className={`${classes.chatMessage} ${classes.purpleChatBox}`}>
-              <Typography variant="body1">Thank you. Goodnight...</Typography>
+              <Typography variant="body1">Thank you. Goodnight</Typography>
             </Grid>
           </Grid>
         </Grid>
