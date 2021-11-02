@@ -26,5 +26,11 @@ export const emailData = (data) => {
     payload: data,
   };
 };
+export const chat = (data) => {
+  return {
+    type: actionType.CHAT,
+    payload: data,
+  };
+};
 
 // modal

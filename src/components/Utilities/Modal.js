@@ -64,11 +64,12 @@ const Modals = ({
               justifyContent="space-between"
               alignItems="center"
               flex="2"
+              flexWrap="nowrap"
             >
               <Grid item>
-                <Typography variant="h3">{title}</Typography>
+                <Typography variant="h3">{title ? title : ''}</Typography>
               </Grid>
-              <Grid item>
+              <Grid item marginLeft={0.3}>
                 <CloseIcon
                   color={color ? color : 'secondary'}
                   className={classes.closeIcon}

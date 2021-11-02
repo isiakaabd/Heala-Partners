@@ -2,9 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@mui/material/Grid'
 import { makeStyles } from '@mui/styles'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputAdornment from '@mui/material/InputAdornment'
+import FormLabel from '@mui/material/FormLabel'
+import EditIcon from '@mui/icons-material/Edit'
 
 const useStyles = makeStyles((theme) => ({
   input: {
+    '& .MuiOutlinedInput-input': {
+      background: 'transparent',
+    },
     ...theme.typography.input,
   },
   label: {
@@ -13,31 +20,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const FormInput = ({ label, labelId, id, ...rest }) => {
+const FormInput = ({ label, labelId, id, position, iconButton, ...rest }) => {
   const classes = useStyles()
   return (
     <Grid container direction="column">
-      <Grid item style={{ marginBottom: '1rem' }}>
-        <label htmlFor={labelId} className={classes.label}>
+      <Grid item>
+        <FormLabel component="legend" className={classes.label}>
           {label}
-        </label>
+        </FormLabel>
       </Grid>
-      <input
-        typ
-        id={id}
-        className={classes.input}
-        {...rest}
-        autoComplete="off"
-        style={{ minHeight: '5rem' }}
-      />
+
+      <Grid item>
+        <OutlinedInput
+          id={id}
+          className={classes.input}
+          sx={{ background: 'transparent' }}
+          endAdornment={
+            <InputAdornment position="end">
+              <EditIcon />
+            </InputAdornment>
+          }
+          {...rest}
+        />
+      </Grid>
     </Grid>
   )
 }
 
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
-  labelId: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  labelId: PropTypes.string,
+  id: PropTypes.string,
+  position: PropTypes.string,
+  iconButton: PropTypes.node,
 }
 
 export default FormInput

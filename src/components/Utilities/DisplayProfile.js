@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
@@ -9,6 +8,7 @@ import CustomButton from './CustomButton'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { MessageOutlined } from '@mui/icons-material'
+import MessageModal from 'components/pages/MessageModal'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -37,7 +37,7 @@ const DisplayProfile = (props) => {
     statusId,
     specialization,
     status,
-    setChatMediaActive,
+    // setChatMediaActive,
   } = props
 
   const greenButton = {
@@ -45,114 +45,127 @@ const DisplayProfile = (props) => {
     hover: theme.palette.success.light,
     active: theme.palette.success.dark,
   }
-
+  const [message, setMessage] = useState(false)
   return (
-    <Grid
-      container
-      justifyContent="space-between"
-      alignItems="center"
-      className={classes.gridsWrapper}
-    >
-      <Grid item>
-        <Grid container alignItems="center">
-          <Grid item style={{ marginRight: '2rem' }}>
-            <Avatar
-              alt={`Display Photo`}
-              src={displayPhoto}
-              sx={{ width: 50, height: 50 }}
-            />
-          </Grid>
-          <Grid item>
-            <Grid container direction="column">
-              <Grid item style={{ marginBottom: '1rem' }}>
-                <Typography variant="h3">{fullName}</Typography>
-              </Grid>
-              <Grid item>
-                <Grid container alignItems="center">
-                  <Grid item style={{ marginRight: '3rem' }}>
-                    <Typography
-                      variant="h4"
-                      color="success"
-                      style={{ fontWeight: 400 }}
-                    >
-                      <span>{medicalTitle}:</span>{' '}
-                      <span style={{ color: 'green' }}>{statusId}</span>
-                    </Typography>
+    <>
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        className={classes.gridsWrapper}
+      >
+        <Grid item>
+          <Grid container alignItems="center">
+            <Grid item style={{ marginRight: '2rem' }}>
+              <Avatar
+                alt={`Display Photo`}
+                src={displayPhoto}
+                sx={{ width: 50, height: 50 }}
+              />
+            </Grid>
+            <Grid item>
+              <Grid container direction="column">
+                <Grid item style={{ marginBottom: '1rem' }}>
+                  <Typography variant="h3">{fullName}</Typography>
+                </Grid>
+                <Grid item>
+                  <Grid container alignItems="center">
+                    <Grid item style={{ marginRight: '3rem' }}>
+                      <Typography
+                        variant="h4"
+                        color="success"
+                        style={{ fontWeight: 400 }}
+                      >
+                        <span>{medicalTitle}:</span>{' '}
+                        <span style={{ color: 'green' }}>{statusId}</span>
+                      </Typography>
+                    </Grid>
+                    {specialization ? (
+                      <Grid item>
+                        <Typography variant="h4" style={{ fontWeight: 400 }}>
+                          <span
+                            style={{ color: theme.palette.common.lightGrey }}
+                          >
+                            Specialization:
+                          </span>{' '}
+                          <Chip
+                            label="Dentistry"
+                            color="success"
+                            className={classes.badge}
+                          />
+                        </Typography>
+                      </Grid>
+                    ) : status ? (
+                      <Grid item>
+                        {' '}
+                        <Typography variant="h4">
+                          <span
+                            style={{ color: theme.palette.common.lightGrey }}
+                          >
+                            Status:
+                          </span>{' '}
+                          <Chip
+                            label={status}
+                            color={status === 'Active' ? 'success' : 'error'}
+                            className={classes.badge}
+                            style={{
+                              background:
+                                status === 'Active'
+                                  ? theme.palette.common.lightGreen
+                                  : theme.palette.common.lightRed,
+                              color:
+                                status === 'Active'
+                                  ? theme.palette.common.green
+                                  : theme.palette.common.red,
+                            }}
+                          />
+                        </Typography>
+                      </Grid>
+                    ) : null}
                   </Grid>
-                  {specialization ? (
-                    <Grid item>
-                      <Typography variant="h4" style={{ fontWeight: 400 }}>
-                        <span style={{ color: theme.palette.common.lightGrey }}>
-                          Specialization:
-                        </span>{' '}
-                        <Chip
-                          label="Dentistry"
-                          color="success"
-                          className={classes.badge}
-                        />
-                      </Typography>
-                    </Grid>
-                  ) : status ? (
-                    <Grid item>
-                      {' '}
-                      <Typography variant="h4">
-                        <span style={{ color: theme.palette.common.lightGrey }}>
-                          Status:
-                        </span>{' '}
-                        <Chip
-                          label={status}
-                          color={status === 'Active' ? 'success' : 'error'}
-                          className={classes.badge}
-                          style={{
-                            background:
-                              status === 'Active'
-                                ? theme.palette.common.lightGreen
-                                : theme.palette.common.lightRed,
-                            color:
-                              status === 'Active'
-                                ? theme.palette.common.green
-                                : theme.palette.common.red,
-                          }}
-                        />
-                      </Typography>
-                    </Grid>
-                  ) : null}
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      {/* Action Buttons grid */}
-      <Grid item>
-        <Grid container alignItems="center">
-          <Grid item>
-            <CustomButton
-              startIcon={<MessageOutlined />}
-              title="Message"
-              type={greenButton}
-              variant="contained"
-              component={Link}
-              onClick={() => setChatMediaActive(true)}
-            />
+        {/* Action Buttons grid */}
+        <Grid item>
+          <Grid container alignItems="center">
+            <Grid item>
+              <CustomButton
+                startIcon={<MessageOutlined />}
+                title="Message"
+                type={greenButton}
+                variant="contained"
+                // component={Link}
+                onClick={() => setMessage(true)}
+                // onClick={() => setChatMediaActive(true)}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+      <MessageModal
+        isOpen={message}
+        handleClose={() => setMessage(false)}
+        minHeight="30rem"
+        title="Sule Muntari"
+      ></MessageModal>
+    </>
   )
 }
 
 DisplayProfile.propTypes = {
   fullName: PropTypes.string.isRequired,
-  displayPhoto: PropTypes.string.isRequired,
-  medicalTitle: PropTypes.string.isRequired,
-  statusId: PropTypes.number.isRequired,
+  displayPhoto: PropTypes.string,
+  medicalTitle: PropTypes.string,
+  statusId: PropTypes.number,
   specialization: PropTypes.string,
   status: PropTypes.string,
-  chatPath: PropTypes.string.isRequired,
-  callPath: PropTypes.string.isRequired,
-  videoPath: PropTypes.string.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
+  chatPath: PropTypes.string,
+  callPath: PropTypes.string,
+  videoPath: PropTypes.string,
+  setChatMediaActive: PropTypes.func,
 }
 
 export default DisplayProfile
