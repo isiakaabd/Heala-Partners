@@ -33,7 +33,7 @@ const DataToggleHolder = styled.div`
     &:hover,
     &.selected {
       color: #fff;
-      background: #3ea584;
+      background: #3e5ea9;
     }
   }
 `
@@ -58,8 +58,8 @@ const LineGraph = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="pv" stroke="#3EA584" />
-        <Line type="monotone" dataKey="uv" stroke="#ED3237" />
+        <Line type="monotone" dataKey="pv" stroke="#3e5ea9" />
+        <Line type="monotone" dataKey="uv" stroke="#3e5ea9" />
       </LineChart>
       <DataToggleHolder>
         <p

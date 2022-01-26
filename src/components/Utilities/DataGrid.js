@@ -49,13 +49,13 @@ const DataTable = ({ rows, columns, rowHeight, headerHeight }) => {
         textAlign: "center !important",
       },
       "& .cellAmount": {
-        color: "#ED3237",
+        color: "#3e5ea9",
       },
       "& .email": {
         fontSize: "1.4rem",
         lineHeight: 2.1,
         fontWeight: "500",
-        color: "#3EA584",
+        color: "#3e5ea9",
         textAlign: "center !important",
         display: "flex",
         justifyContent: "center",

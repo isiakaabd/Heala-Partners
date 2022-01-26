@@ -44,8 +44,8 @@ const DashboardHome = () => {
                   alignItems: 'center',
                 }}
               >
-                <ArrowUpward style={{ color: '#3EA584' }} />
-                <P color="#3EA584" fontSize="8px">
+                <ArrowUpward style={{ color: '#3e5ea9' }} />
+                <P color="#3e5ea9" fontSize="8px">
                   2.76%
                 </P>
               </div>
@@ -99,8 +99,8 @@ const DashboardHome = () => {
                 alignItems: 'center',
               }}
             >
-              <ArrowUpward style={{ color: '#3EA584' }} />
-              <P color="#3EA584" fontSize="8px">
+              <ArrowUpward style={{ color: '#3e5ea9' }} />
+              <P color="#3e5ea9" fontSize="8px">
                 2.76%
               </P>
             </div>

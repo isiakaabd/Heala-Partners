@@ -2,11 +2,11 @@ import { createTheme } from "@mui/material/styles";
 
 const dark = "#4F4F4F";
 const grey = "#757886";
-const red = "#ED3237";
+const red = "#3e5ea9";
 const lightRed = "#FEF8F7";
 const lightGrey = "#CCCCCC";
 const lighterGrey = "F2F2F2";
-const green = "#3EA584";
+const green = "#3e5ea9";
 const lightGreen = "#ECF6F3";
 const gold = "rgb(243, 173, 83)";
 const black = "#2D2F39";
