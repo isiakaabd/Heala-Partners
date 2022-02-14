@@ -4,7 +4,6 @@ const initialState = {
   rowsPerPage: 5,
   selectedRows: [],
   emailData: [],
-  chat: [],
 }
 
 const tablesReducer = (state = initialState, action) => {
@@ -28,11 +27,6 @@ const tablesReducer = (state = initialState, action) => {
       return {
         ...state,
         emailData: [action.payload, ...state.emailData],
-      }
-    case actionType.CHAT:
-      return {
-        ...state,
-        chat: [...state.chat, action.payload],
       }
     default:
       return state

@@ -1,8 +1,9 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
-import { Link } from "react-router-dom";
+import React from 'react'
+import Button from '@mui/material/Button'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@mui/styles'
+import { Link } from 'react-router-dom'
+import Loader from 'components/Utilities/Loader'
 
 const CustomButton = ({
   title,
@@ -13,66 +14,78 @@ const CustomButton = ({
   borderRadius,
   textColor,
   path,
-  type: { background, hover, active },
+  type: { background, hover, active, disabled },
+  isSubmitting,
   ...rest
 }) => {
   const useStyles = makeStyles((theme) => ({
     button: {
-      "&.MuiButton-root": {
+      '&.MuiButton-root': {
         ...theme.typography.btn,
         backgroundColor: background,
         color: textColor,
         width: width,
         borderRadius: borderRadius ? borderRadius : 10,
-        height: height ? height : "5rem",
+        height: height ? height : '5rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
 
-        "&:hover": {
+        '&:hover': {
           backgroundColor: hover,
           color: textColorOnHover,
 
-          "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          '& .MuiButton-endIcon>*:nth-of-type(1)': {
             color: textColorOnHover,
           },
         },
 
-        "&:active": {
+        '&:active': {
           backgroundColor: active,
-          boxShadow: "none",
+          boxShadow: 'none',
+          color: textColor,
         },
 
-        "& .MuiButton-endIcon>*:nth-of-type(1)": {
-          fontSize: "2rem",
+        '&:disabled': {
+          backgroundColor: disabled,
+          color: textColor,
+          boxShadow: 'none',
+          cursor: 'no-drop',
+        },
+        '& .MuiButton-endIcon>*:nth-of-type(1)': {
+          fontSize: '2rem',
         },
 
-        "& .MuiButton-endIcon": {
-          marginLeft: ".5rem",
-          marginTop: "-.2rem",
+        '& .MuiButton-endIcon': {
+          marginLeft: '.5rem',
+          marginTop: '-.2rem',
         },
       },
     },
-  }));
+  }))
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Button
       variant="contained"
       LinkComponent={Link}
-      to={path}
+      to={path ? path : ''}
       type="submit"
       endIcon={endIcon}
       className={classes.button}
       {...rest}
     >
-      {title}
+      {!isSubmitting && title}{' '}
+      {isSubmitting && <Loader size={35} color="info" />}
     </Button>
-  );
-};
+  )
+}
 
 CustomButton.defaultProps = {
-  width: "auto",
-  textColor: "#fff",
-};
+  width: 'auto',
+  textColor: '#fff',
+}
 
 CustomButton.propTypes = {
   endIcon: PropTypes.node,
@@ -84,6 +97,7 @@ CustomButton.propTypes = {
   borderRadius: PropTypes.string,
   textColorOnHover: PropTypes.string,
   path: PropTypes.string,
-};
+  isSubmitting: PropTypes.bool,
+}
 
-export default CustomButton;
+export default CustomButton

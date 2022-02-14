@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css'
+import { setAccessToken } from './accessToken'
 import { muiTheme } from 'components/muiTheme'
 import Header from 'components/layouts/Header'
 import SideMenu from 'components/layouts/SideMenu'
@@ -31,77 +32,86 @@ const App = () => {
   const [selectedScopedMenu, setSelectedScopedMenu] = useState(0)
   const [selectedPendingMenu, setSelectedPendingMenu] = useState(0)
   const [chatMediaActive, setChatMediaActive] = useState(false)
+  const [state, setstate] = useState(true)
 
   const { isAuthenticated } = useSelector((state) => state.auth)
-
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setAccessToken(token)
+  }, [])
   return (
     <ThemeProvider theme={muiTheme}>
       <Router>
         <div className="container">
-          {isAuthenticated && !chatMediaActive && (
-            <Header
-              selectedMenu={selectedMenu}
-              selectedPendingMenu={selectedPendingMenu}
-              selectedSubMenu={selectedSubMenu}
-              selectedPatientMenu={selectedPatientMenu}
-              selectedHcpMenu={selectedHcpMenu}
-              selectedAppointmentMenu={selectedAppointmentMenu}
-              waitingListMenu={waitingListMenu}
-              selectedScopedMenu={selectedScopedMenu}
-            />
+          {isAuthenticated && !chatMediaActive && state && (
+            <Loader color="success" />
           )}
-
-          <ScrollToView>
-            {!isAuthenticated && (
-              <Route
-                path={['/', '/login']}
-                render={(props) => <Login {...props} />}
+          {isAuthenticated && !chatMediaActive && !state && (
+            <>
+              <Header
+                selectedMenu={selectedMenu}
+                selectedPendingMenu={selectedPendingMenu}
+                selectedSubMenu={selectedSubMenu}
+                selectedPatientMenu={selectedPatientMenu}
+                selectedHcpMenu={selectedHcpMenu}
+                selectedAppointmentMenu={selectedAppointmentMenu}
+                waitingListMenu={waitingListMenu}
+                selectedScopedMenu={selectedScopedMenu}
               />
-            )}
 
-            <main
-              style={{
-                display: isAuthenticated
-                  ? 'flex'
-                  : chatMediaActive
-                  ? 'block'
-                  : 'none',
-              }}
-            >
-              {!chatMediaActive && (
-                <SideMenu
-                  selectedMenu={selectedMenu}
-                  setSelectedMenu={setSelectedMenu}
-                  setSelectedSubMenu={setSelectedSubMenu}
-                  setWaitingListMenu={setWaitingListMenu}
-                  setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                />
-              )}
-              <section
-                style={!chatMediaActive ? sectionStyles : { width: '100%' }}
-              >
-                <Routes
-                  setSelectedMenu={setSelectedMenu}
-                  selectedMenu={selectedMenu}
-                  selectedSubMenu={selectedSubMenu}
-                  setSelectedSubMenu={setSelectedSubMenu}
-                  selectedPatientMenu={selectedPatientMenu}
-                  setSelectedPatientMenu={setSelectedPatientMenu}
-                  selectedHcpMenu={selectedHcpMenu}
-                  setSelectedHcpMenu={setSelectedHcpMenu}
-                  selectedAppointmentMenu={selectedAppointmentMenu}
-                  setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                  waitingListMenu={waitingListMenu}
-                  setWaitingListMenu={setWaitingListMenu}
-                  chatMediaActive={chatMediaActive}
-                  setChatMediaActive={setChatMediaActive}
-                  selectedScopedMenu={selectedScopedMenu}
-                  setSelectedScopedMenu={setSelectedScopedMenu}
-                  setSelectedPendingMenu={setSelectedPendingMenu}
-                />
-              </section>
-            </main>
-          </ScrollToView>
+              <ScrollToView>
+                {!isAuthenticated && (
+                  <Route
+                    path={['/', '/login']}
+                    render={(props) => <Login {...props} />}
+                  />
+                )}
+
+                <main
+                  style={{
+                    display: isAuthenticated
+                      ? 'flex'
+                      : chatMediaActive
+                      ? 'block'
+                      : 'none',
+                  }}
+                >
+                  {!chatMediaActive && (
+                    <SideMenu
+                      selectedMenu={selectedMenu}
+                      setSelectedMenu={setSelectedMenu}
+                      setSelectedSubMenu={setSelectedSubMenu}
+                      setWaitingListMenu={setWaitingListMenu}
+                      setSelectedAppointmentMenu={setSelectedAppointmentMenu}
+                    />
+                  )}
+                  <section
+                    style={!chatMediaActive ? sectionStyles : { width: '100%' }}
+                  >
+                    <Routes
+                      setSelectedMenu={setSelectedMenu}
+                      selectedMenu={selectedMenu}
+                      selectedSubMenu={selectedSubMenu}
+                      setSelectedSubMenu={setSelectedSubMenu}
+                      selectedPatientMenu={selectedPatientMenu}
+                      setSelectedPatientMenu={setSelectedPatientMenu}
+                      selectedHcpMenu={selectedHcpMenu}
+                      setSelectedHcpMenu={setSelectedHcpMenu}
+                      selectedAppointmentMenu={selectedAppointmentMenu}
+                      setSelectedAppointmentMenu={setSelectedAppointmentMenu}
+                      waitingListMenu={waitingListMenu}
+                      setWaitingListMenu={setWaitingListMenu}
+                      chatMediaActive={chatMediaActive}
+                      setChatMediaActive={setChatMediaActive}
+                      selectedScopedMenu={selectedScopedMenu}
+                      setSelectedScopedMenu={setSelectedScopedMenu}
+                      setSelectedPendingMenu={setSelectedPendingMenu}
+                    />
+                  </section>
+                </main>
+              </ScrollToView>
+            </>
+          )}
         </div>
       </Router>
     </ThemeProvider>

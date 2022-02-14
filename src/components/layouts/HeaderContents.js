@@ -1,12 +1,13 @@
-import React, { Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Typography from '@mui/material/Typography'
+import { Typography, Toolbar } from '@mui/material'
 import HeaderProfile from './HeaderProfile'
-import Toolbar from '@mui/material/Toolbar'
 import { makeStyles } from '@mui/styles'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles'
+import { useLazyQuery } from '@apollo/client'
+import { getPartner } from 'components/graphQL/useQuery'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -187,8 +188,26 @@ const HeaderText = (props) => {
   } = props
   const classes = useStyles()
   const theme = useTheme()
+  const id = localStorage.getItem('user_id')
+  const [pharmacyData, setPharmacyData] = useState([])
 
-  const { pathname } = useLocation()
+  const [pharmacy, { data }] = useLazyQuery(getPartner, {
+    variables: { id: id },
+  })
+
+  useEffect(() => {
+    ;(async () => {
+      pharmacy()
+    })()
+    if (data) {
+      setPharmacyData(data.getPartner)
+    }
+  }, [pharmacy, data])
+  useEffect(() => {
+    if (data) {
+      setPharmacyData(data.getPartner)
+    }
+  }, [data])
 
   switch (selectedMenu) {
     case 0:
@@ -198,7 +217,7 @@ const HeaderText = (props) => {
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            H-Medix Pharmarcy
+            {pharmacyData && pharmacyData.name}
           </Typography>
         </div>
       )
@@ -216,21 +235,21 @@ const HeaderText = (props) => {
                 ? theme.palette.common.green
                 : theme.palette.common.grey
             }
-            subSubTitle={
-              selectedPatientMenu === 1
-                ? 'Patient Profile'
-                : selectedPatientMenu === 2
-                ? 'Appointments'
-                : selectedPatientMenu === 3
-                ? 'Prescriptions'
-                : selectedPatientMenu === 4
-                ? 'Medical Records'
-                : selectedPatientMenu === 5
-                ? 'Consultations'
-                : selectedPatientMenu === 6
-                ? 'Medications'
-                : ''
-            }
+            // subSubTitle={
+            //   selectedPatientMenu === 1
+            //     ? 'Patient Profile'
+            //     : selectedPatientMenu === 2
+            //     ? 'Appointments'
+            //     : selectedPatientMenu === 3
+            //     ? 'Prescriptions'
+            //     : selectedPatientMenu === 4
+            //     ? 'Medical Records'
+            //     : selectedPatientMenu === 5
+            //     ? 'Consultations'
+            //     : selectedPatientMenu === 6
+            //     ? 'Medications'
+            //     : ''
+            // }
             selectedPatientMenu={selectedPatientMenu}
           />
         )
@@ -321,72 +340,15 @@ const HeaderText = (props) => {
       return (
         <CustomHeaderTitle title="Cancelled Requests" path="cancelled-order" />
       )
-    case 6:
-      return <CustomHeaderTitle title="Email" path="email" />
-    case 7:
-      if (selectedSubMenu === 8) {
-        return (
-          <CustomSubHeaderText
-            title="HCP Verification"
-            scopedMenu={0}
-            scopedSubMenu={0}
-            subTitle="HCP View"
-          />
-        )
-      }
-      return <CustomHeaderTitle title="HCP Verification" path="verification" />
-    case 8:
-      if (selectedSubMenu === 9) {
-        return (
-          <CustomSubHeaderText
-            title="Finance"
-            scopedMenu={0}
-            scopedSubMenu={0}
-            subTitle={
-              pathname === '/finance/earnings'
-                ? 'Earnings Table'
-                : 'Payouts Table'
-            }
-          />
-        )
-      }
-      return <CustomHeaderTitle title="Finance" path="finance" />
-    case 9:
-      if (selectedSubMenu === 10) {
-        return (
-          <CustomSubHeaderText
-            title="Referrals"
-            subTitle="Referral View"
-            scopedMenu={0}
-            scopedSubMenu={0}
-          />
-        )
-      }
-      return <CustomHeaderTitle title="Referrals" path="referrals" />
-    case 10:
-      return <CustomHeaderTitle title="Subscription Plans" path="plans" />
-    case 11:
-      if (selectedSubMenu === 12) {
-        return (
-          <CustomSubHeaderText
-            title="Settings"
-            subTitle={
-              pathname === '/settings/profile' ? 'View profile' : 'Management'
-            }
-            scopedMenu={0}
-            scopedSubMenu={0}
-          />
-        )
-      }
-      return <CustomHeaderTitle title="Settings" path="settings" />
+
     default:
       return (
         <div>
           <Typography variant="h5" className={classes.text} gutterBottom>
-            Welcome,
+            Welcomex,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            H-Medix Pharmarcy
+            {pharmacyData && pharmacyData.name}
           </Typography>
         </div>
       )

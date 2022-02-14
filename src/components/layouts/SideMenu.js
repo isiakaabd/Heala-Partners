@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import DeleteOrDisable from 'components/modals/DeleteOrDisable'
 import PropTypes from 'prop-types'
-import List from '@mui/material/List'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
+import { ListItemButton, List, ListItemIcon, ListItemText } from '@mui/material'
 import { menus } from 'helpers/asideMenus'
 import { makeStyles } from '@mui/styles'
 import logo from 'assets/images/logo.svg'
 import { Link, useLocation } from 'react-router-dom'
 import { HiLogout } from 'react-icons/hi'
 import { useActions } from 'components/hooks/useActions'
+import { LOGOUT_USER } from 'components/graphQL/Mutation'
+import { useMutation } from '@apollo/client'
 
 const useStyles = makeStyles((theme) => ({
   aside: {
@@ -123,35 +122,38 @@ const SideMenu = (props) => {
     setSelectedSubMenu,
     setWaitingListMenu,
   } = props
-
   const { logout } = useActions()
 
   const classes = useStyles()
+  const [logout_user] = useMutation(LOGOUT_USER)
   const [Logout, setLogout] = useState(false)
   const location = useLocation()
 
-  const handleLogout = () => {
-    setSelectedMenu(12)
-    logout()
+  const handleLogout = async () => {
+    try {
+      await logout_user()
+      logout()
+      setSelectedMenu(13)
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
-  useEffect(
-    () =>
-      // eslint-disable-next-line
-      [...menus].filter((menu) => {
-        switch (location.pathname) {
-          case menu.path:
-            if (menu.id !== selectedMenu) {
-              setSelectedMenu(menu.id)
-            }
-            break
-          default:
-            break
-        }
-      }),
+  useEffect(() => {
     // eslint-disable-next-line
-    [selectedMenu],
-  )
+    menus.filter((menu) => {
+      switch (location.pathname) {
+        case menu.path:
+          if (menu.id !== selectedMenu) {
+            setSelectedMenu(menu.id)
+          }
+          break
+        default:
+          break
+      }
+    })
+    // eslint-disable-next-line
+  }, [selectedMenu])
 
   return (
     <>

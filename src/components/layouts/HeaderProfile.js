@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
-import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
-import Badge from '@mui/material/Badge'
+import React, { useState, useEffect } from 'react'
+import { Avatar, IconButton, Grid, Typography, Badge } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 // import { useTheme } from "@mui/material/styles";
 import displayPhoto from 'assets/images/avatar.png'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import Notifications from 'components/layouts/Notifications'
-import IconButton from '@mui/material/IconButton'
+import { useLazyQuery } from '@apollo/client'
+import { getPartner } from 'components/graphQL/useQuery'
 
 const useStyles = makeStyles((theme) => ({
   role: {
@@ -38,18 +36,45 @@ const HeaderProfile = () => {
     }
     return `${count} notifications`
   }
+  const id = localStorage.getItem('user_id')
+  const [pharmacyData, setPharmacyData] = useState([])
+
+  const [pharmacy, { data }] = useLazyQuery(getPartner, {
+    variables: { id: id },
+  })
+
+  useEffect(() => {
+    ;(async () => {
+      pharmacy()
+    })()
+    if (data) {
+      setPharmacyData(data.getPartner)
+    }
+  }, [pharmacy, data])
+  useEffect(() => {
+    if (data) {
+      setPharmacyData(data.getPartner)
+    }
+  }, [data])
 
   return (
     <header>
       <Grid container alignItems="center">
         <Grid item>
-          <Avatar alt="Display avatar" src={displayPhoto} />
+          <Avatar
+            alt="Display avatar"
+            src={
+              pharmacyData.logoImageUrl
+                ? pharmacyData.logoImageUrl
+                : displayPhoto
+            }
+          />
         </Grid>
         <Grid item style={{ marginRight: '3em', marginLeft: '1em' }}>
           <Grid container direction="column" justifyContent="center">
             <Grid item>
               <Typography variant="body1" className={classes.name}>
-                H-Medix
+                {pharmacyData && pharmacyData.name}
               </Typography>
             </Grid>
             <Grid item>
@@ -58,7 +83,7 @@ const HeaderProfile = () => {
                 className={classes.role}
                 style={{ fontWeight: 300 }}
               >
-                Admin
+                {pharmacyData && pharmacyData.category}
               </Typography>
             </Grid>
           </Grid>
