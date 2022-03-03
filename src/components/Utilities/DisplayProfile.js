@@ -145,12 +145,12 @@ const DisplayProfile = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <MessageModal
+      {/* <MessageModal
         isOpen={message}
         handleClose={() => setMessage(false)}
         minHeight="30rem"
         title="Sule Muntari"
-      ></MessageModal>
+      ></MessageModal> */}
     </>
   )
 }

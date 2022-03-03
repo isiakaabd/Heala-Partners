@@ -10,7 +10,7 @@ export const patientsHeadCells = [
   },
   {
     id: 12,
-    label: 'List of drugs',
+    label: "Doctor's Name",
   },
   {
     id: 2,

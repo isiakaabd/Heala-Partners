@@ -1,22 +1,32 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Modals from 'components/Utilities/Modal'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Chip from '@mui/material/Chip'
 import { makeStyles } from '@mui/styles'
-import CustomButton from 'components/Utilities/CustomButton'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import DisplayProfile from 'components/Utilities/DisplayProfile'
+import {
+  DisplayProfile,
+  PreviousButton,
+  CustomButton,
+  Loader,
+} from 'components/Utilities'
+import { NoData } from 'components/layouts'
 import displayPhoto from 'assets/images/avatar.png'
 import { useTheme } from '@mui/material/styles'
 import DisablePatient from 'components/modals/DeleteOrDisable'
+
+import { dateMoment } from 'components/Utilities/Time'
 import Success from 'components/modals/Success'
 import { useParams } from 'react-router-dom'
-import RadioGroup from '@mui/material/RadioGroup'
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
-import FormRadio from 'components/Utilities/FormRadio'
+import {
+  Chip,
+  Grid,
+  Typography,
+  RadioGroup,
+  FormControl,
+  FormLabel,
+} from '@mui/material'
+
+import { useQuery } from '@apollo/client'
+import { getDrugOrder } from 'components/graphQL/useQuery'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -80,8 +90,15 @@ const useStyles = makeStyles((theme) => ({
 const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
   const classes = useStyles()
   const theme = useTheme()
-
   const { orderId } = useParams()
+
+  const { data, loading, error } = useQuery(getDrugOrder, {
+    variables: { id: orderId },
+  })
+  const [state, setState] = useState([])
+  useEffect(() => {
+    if (data) return setState(data?.getDrugOrder)
+  }, [data])
   const onConfirm = () => {
     setCancel(true)
   }
@@ -108,6 +125,28 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
 
     // eslint-disable-next-line
   }, [chatMediaActive])
+  const {
+    createdAt,
+    gender,
+    sampleCollection,
+    referralId,
+    affliation,
+    reason,
+    testId,
+    orderId: idOrder,
+    userLocation,
+    status,
+    doctor,
+    tests,
+    affiliation,
+    testOption,
+    doctorData,
+    patientData,
+    // eslint-disable-next-line
+  } = state
+  console.log(state)
+  if (loading) return <Loader />
+  if (error) return <NoData error={error} />
 
   return (
     <>
@@ -154,7 +193,11 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label="Abigail Chisom"
+                  label={
+                    patientData
+                      ? `${patientData.firstName} ${patientData.lastName}`
+                      : 'no Value'
+                  }
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -180,7 +223,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label="7/11/1995"
+                  label={dateMoment(createdAt)}
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -212,8 +255,8 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               </Grid>
               <Grid item>
                 <Chip
+                  label={idOrder}
                   variant="outlined"
-                  label="11995"
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -234,15 +277,18 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               alignItems="center"
             >
               <Grid item>
-                <Typography variant="h4">List of Drugs</Typography>
+                <Typography variant="h4">Doctor Name</Typography>
               </Grid>
               <Grid item>
                 <Chip
+                  label={
+                    doctorData
+                      ? `${doctorData.firstName} ${doctorData.lastName}`
+                      : 'No Value'
+                  }
                   variant="outlined"
-                  label="Panadol, Amartem, Ciprotab"
                   className={classes.infoBadge}
                 />
-                {/* <Chip variant="outlined" label="08123456789" className={classes.infoBadge} /> */}
               </Grid>
             </Grid>
           </Grid>
@@ -268,7 +314,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               alignItems="center"
             >
               <Grid item>
-                <Typography variant="h4">Pharmarcist Name</Typography>
+                <Typography variant="h4">Diagnostics</Typography>
               </Grid>
               <Grid item>
                 <Chip
@@ -299,7 +345,70 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label="St Mary Hospital"
+                  label={affliation ? affliation : 'No Value'}
+                  className={classes.infoBadge}
+                />
+                {/* <Chip variant="outlined" label="08123456789" className={classes.infoBadge} /> */}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          container
+          justifyContent="space-between"
+          style={{ paddingTop: '5rem' }}
+        >
+          {/* EMAIL ADDRESS GRID */}
+          <Grid
+            item
+            md
+            className={classes.cardGrid}
+            style={{ marginRight: '2rem' }}
+          >
+            <Grid
+              container
+              direction="column"
+              style={{ height: '100%' }}
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item>
+                <Typography variant="h4">1st Prescription</Typography>
+              </Grid>
+              <Grid item>
+                <Chip
+                  variant="outlined"
+                  label="Chisom Sule"
+                  className={classes.infoBadge}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          {/* DATE OF BIRTH GRID */}
+          <Grid
+            item
+            md
+            className={classes.cardGrid}
+            style={{ marginLeft: '2rem' }}
+          >
+            <Grid
+              container
+              direction="column"
+              style={{ height: '100%' }}
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item>
+                <Typography variant="h4">2nd Prescription</Typography>
+              </Grid>
+              <Grid item>
+                {prescriptions.map((prescription) => {
+                  return Object.keys(prescription)
+                })}
+                <Chip
+                  variant="outlined"
+                  label={affliation ? affliation : 'No Value'}
                   className={classes.infoBadge}
                 />
                 {/* <Chip variant="outlined" label="08123456789" className={classes.infoBadge} /> */}
@@ -372,11 +481,11 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               defaultValue="Reason 1"
               name=" reason for cancelling referrals"
             >
-              <FormRadio value="Reason 1" label="Reason 1" name="Reason 1" />
+              {/* <FormRadio value="Reason 1" label="Reason 1" name="Reason 1" />
               <FormRadio value="Reason 2" label="Reason 2" name="Reason 2" />
               <FormRadio value="Reason 3" label="Reason 3" name="Reason 3" />
               <FormRadio value="Reason 4" label="Reason 4" name="Reason 4" />
-              <FormRadio value="Reason 5" label="Reason 5" name="Reason 5" />
+              <FormRadio value="Reason 5" label="Reason 5" name="Reason 5" /> */}
             </RadioGroup>
           </FormControl>
         </Grid>

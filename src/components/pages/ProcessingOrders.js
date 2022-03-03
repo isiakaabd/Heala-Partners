@@ -1,31 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Success from 'components/modals/Success'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
+import {
+  Grid,
+  FormControl,
+  FormLabel,
+  Chip,
+  Button,
+  Checkbox,
+  Avatar,
+  TableCell,
+  TableRow,
+} from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Modals from 'components/Utilities/Modal'
 import FormSelect from 'components/Utilities/FormSelect'
 import Search from 'components/Utilities/Search'
 import FilterList from 'components/Utilities/FilterList'
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { hcpsHeadCells } from 'components/Utilities/tableHeaders'
 import { rows } from 'components/Utilities/DataHeader'
-import Chip from '@mui/material/Chip'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import Avatar from '@mui/material/Avatar'
+import { Loader } from 'components/Utilities'
 import displayPhoto from 'assets/images/avatar.png'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
 import { isSelected } from 'helpers/isSelected'
 import useFormInput from 'components/hooks/useFormInput'
-
+import { useQuery } from '@apollo/client'
+import { getDrugOrders } from 'components/graphQL/useQuery'
+import { NoData } from 'components/layouts'
 const dates = ['Hello', 'World', 'Goodbye', 'World']
 const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
 const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
@@ -118,6 +123,14 @@ const useStyles = makeStyles((theme) => ({
 const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   const classes = useStyles()
 
+  const [state, setState] = useState([])
+  const { data, loading, error } = useQuery(getDrugOrders, {
+    variables: { status: 'processing' },
+  })
+  useEffect(() => {
+    if (data) return setState(data?.getDrugOrders.data)
+  }, [data])
+  console.log(state)
   const [searchHcp, setSearchHcp] = useState('')
   const [openHcpFilter, setOpenHcpFilter] = useState(false)
   const [modal, setModal] = useState(false)
@@ -139,6 +152,8 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
     (state) => state.tables,
   )
   const { setSelectedRows } = useActions()
+  if (loading) return <Loader />
+  if (error) return <NoData error={error} />
 
   return (
     <Grid container direction="column">

@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import Checkbox from '@mui/material/Checkbox'
-import FormLabel from '@mui/material/FormLabel'
-import FormControl from '@mui/material/FormControl'
-import Button from '@mui/material/Button'
-import Modals from 'components/Utilities/Modal'
-import Search from 'components/Utilities/Search'
-import FilterList from 'components/Utilities/FilterList'
+
+import { dateMoment } from 'components/Utilities/Time'
+import {
+  Grid,
+  Button,
+  FormControl,
+  Chip,
+  Avatar,
+  TableRow,
+  FormLabel,
+  Checkbox,
+  TableCell,
+} from '@mui/material'
+import { Modals, Search, FilterList, Loader } from 'components/Utilities'
 import FormSelect from 'components/Utilities/FormSelect'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { patientsHeadCells } from 'components/Utilities/tableHeaders'
-import { rows } from 'components/Utilities/DataHeader'
-import Chip from '@mui/material/Chip'
-import Avatar from '@mui/material/Avatar'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import displayPhoto from 'assets/images/avatar.png'
 import { Link } from 'react-router-dom'
@@ -26,6 +27,9 @@ import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
 import { isSelected } from 'helpers/isSelected'
 import useFormInput from 'components/hooks/useFormInput'
+import { useQuery } from '@apollo/client'
+import { getDrugOrders } from 'components/graphQL/useQuery'
+import { NoData } from 'components/layouts' //
 
 const referralOptions = ['Hello', 'World', 'Goodbye', 'World']
 
@@ -73,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   tableCell: {
     '&.MuiTableCell-root': {
       fontSize: '1.25rem',
-      textAlign: 'center',
+      textAlign: 'left',
     },
   },
 
@@ -110,6 +114,13 @@ const useStyles = makeStyles((theme) => ({
 const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   const classes = useStyles()
   const theme = useTheme()
+  const [state, setState] = useState([])
+  const { data, loading, error } = useQuery(getDrugOrders, {
+    variables: { status: 'pending' },
+  })
+  useEffect(() => {
+    if (data) return setState(data?.getDrugOrders.data)
+  }, [data])
 
   const [inputValue, handleInputValue] = useFormInput({
     date: '',
@@ -131,7 +142,8 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   const handleDialogOpen = () => setIsOpen(true)
 
   const handleDialogClose = () => setIsOpen(false)
-
+  if (loading) return <Loader />
+  if (error) return <NoData error={error} />
   return (
     <>
       <Grid container direction="column">
@@ -154,104 +166,134 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         </Grid>
         {/* The Search and Filter ends here */}
         <Grid item container>
-          <EnhancedTable
-            headCells={patientsHeadCells}
-            rows={rows}
-            page={page}
-            paginationLabel="orders per page"
-            hasCheckbox={true}
-          >
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const isItemSelected = isSelected(row.id, selectedRows)
+          {state.length > 0 ? (
+            <EnhancedTable
+              headCells={patientsHeadCells}
+              rows={state}
+              page={page}
+              paginationLabel="orders per page"
+              hasCheckbox={true}
+            >
+              {state.length > 0 &&
+                state
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const {
+                      orderId,
+                      createdAt,
+                      _id,
+                      affliation,
+                      patientData,
+                      doctorData,
+                    } = row
+                    const isItemSelected = isSelected(_id, selectedRows)
 
-                const labelId = `enhanced-table-checkbox-${index}`
+                    const labelId = `enhanced-table-checkbox-${index}`
 
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        onClick={() =>
-                          handleSelectedRows(
-                            row.id,
-                            selectedRows,
-                            setSelectedRows,
-                          )
-                        }
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      id={labelId}
-                      scope="row"
-                      align="center"
-                      className={classes.tableCell}
-                      style={{ color: theme.palette.common.grey }}
-                    >
-                      {row.entryDate}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.medical}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.drugs}
-                    </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      <div
-                        style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={_id}
+                        selected={isItemSelected}
                       >
-                        <span style={{ marginRight: '1rem' }}>
-                          <Avatar
-                            alt={`Display Photo of ${row.patientName}`}
-                            src={displayPhoto}
-                            sx={{ width: 24, height: 24 }}
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            onClick={() =>
+                              handleSelectedRows(
+                                _id,
+                                selectedRows,
+                                setSelectedRows,
+                              )
+                            }
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
                           />
-                        </span>
-                        <span style={{ fontSize: '1.25rem' }}>
-                          {row.firstName}
-                          {row.lastName}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.affliation}
-                    </TableCell>
+                        </TableCell>
+                        <TableCell
+                          id={labelId}
+                          scope="row"
+                          align="left"
+                          className={classes.tableCell}
+                          style={{ color: theme.palette.common.grey }}
+                        >
+                          {dateMoment(createdAt)}
+                        </TableCell>
+                        <TableCell align="left" className={classes.tableCell}>
+                          {orderId}
+                        </TableCell>
 
-                    <TableCell>
-                      <Chip
-                        label="view request"
-                        variant="outlined"
-                        onClick={() => {
-                          setSelectedSubMenu(2)
-                          setSelectedPatientMenu(0)
-                        }}
-                        component={Link}
-                        to={`pending-order/${row.id}/order`}
-                        className={classes.chip}
-                        deleteIcon={<ArrowForwardIosIcon />}
-                        onDelete={() => console.log(' ')}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-          </EnhancedTable>
+                        <TableCell align="left" className={classes.tableCell}>
+                          <div
+                            style={{
+                              height: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <span style={{ marginRight: '1rem' }}>
+                              <Avatar
+                                alt={`Display Photo of ${patientData?.name}`}
+                                src={patientData?.logoImageUrl || displayPhoto}
+                                sx={{ width: 24, height: 24 }}
+                              />
+                            </span>
+                            <span style={{ fontSize: '1.25rem' }}>
+                              {patientData ? patientData?.name : 'No Value'}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell align="left" className={classes.tableCell}>
+                          <div
+                            style={{
+                              height: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <span style={{ marginRight: '1rem' }}>
+                              <Avatar
+                                alt={`Display Photo of ${doctorData?.name}`}
+                                src={doctorData?.logoImageUrl || displayPhoto}
+                                sx={{ width: 24, height: 24 }}
+                              />
+                            </span>
+                            <span style={{ fontSize: '1.25rem' }}>
+                              {doctorData ? doctorData?.name : 'No Value'}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell align="left" className={classes.tableCell}>
+                          {affliation ? affliation : 'No Value'}
+                        </TableCell>
+
+                        <TableCell>
+                          <Chip
+                            label="view request"
+                            variant="outlined"
+                            onClick={() => {
+                              setSelectedSubMenu(2)
+                              setSelectedPatientMenu(0)
+                            }}
+                            component={Link}
+                            to={`pending-order/${_id}/order`}
+                            className={classes.chip}
+                            deleteIcon={<ArrowForwardIosIcon />}
+                            onDelete={() => console.log(' ')}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+            </EnhancedTable>
+          ) : (
+            <NoData />
+          )}
         </Grid>
       </Grid>
       <Modals

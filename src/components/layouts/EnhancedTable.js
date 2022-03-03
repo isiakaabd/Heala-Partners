@@ -1,71 +1,84 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import EnhancedTableHeader from "./EnhancedTableHeader";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { makeStyles } from "@mui/styles";
-import { useSelector } from "react-redux";
-import { useActions } from "components/hooks/useActions";
-import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import React from 'react'
+import PropTypes from 'prop-types'
+import {
+  Box,
+  Table,
+  Paper,
+  TableRow,
+  TablePagination,
+  TableBody,
+  TableCell,
+  TableContainer,
+} from '@mui/material'
+import EnhancedTableHeader from './EnhancedTableHeader'
+
+import { makeStyles } from '@mui/styles'
+import { useSelector } from 'react-redux'
+import { useActions } from 'components/hooks/useActions'
+import EnhancedTableToolbar from './EnhancedTableToolbar'
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
-    "& .MuiTablePagination-selectLabel": {
-      fontSize: "1.2rem",
+    '& .MuiTablePagination-selectLabel': {
+      fontSize: '1.2rem',
     },
 
-    "& .MuiTablePagination-select": {
-      fontSize: "1.2rem",
+    '& .MuiTablePagination-select': {
+      fontSize: '1.2rem',
     },
 
-    "& .MuiTablePagination-displayedRows": {
-      fontSize: "1.2rem",
+    '& .MuiTablePagination-displayedRows': {
+      fontSize: '1.2rem',
     },
   },
 
   tableToolbar: {
-    "&.MuiToolbar-root": {
-      background: "#eee",
+    '&.MuiToolbar-root': {
+      background: '#eee',
     },
   },
-}));
+}))
 
 const EnhancedTable = (props) => {
-  const classes = useStyles();
-  const { setPage, setRowsPerPage, setSelectedRows } = useActions();
-  const { page, rowsPerPage, selectedRows } = useSelector((state) => state.tables);
-  const { rows, children, headCells, paginationLabel, title, hasCheckbox } = props;
+  const classes = useStyles()
+  const { setPage, setRowsPerPage, setSelectedRows } = useActions()
+  const { page, rowsPerPage, selectedRows } = useSelector(
+    (state) => state.tables,
+  )
+  const {
+    rows,
+    children,
+    headCells,
+    paginationLabel,
+    title,
+    hasCheckbox,
+  } = props
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((selected) => selected.id);
-      setSelectedRows(newSelecteds);
-      return;
+      const newSelecteds = rows.map((selected) => selected.id)
+      setSelectedRows(newSelecteds)
+      return
     }
-    setSelectedRows([]);
-  };
+    setSelectedRows([])
+  }
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selectedRows.length} title={title} />
 
         <TableContainer>
@@ -105,8 +118,8 @@ const EnhancedTable = (props) => {
         />
       </Paper>
     </Box>
-  );
-};
+  )
+}
 
 EnhancedTable.propTypes = {
   children: PropTypes.node,
@@ -115,6 +128,6 @@ EnhancedTable.propTypes = {
   paginationLabel: PropTypes.string,
   title: PropTypes.string,
   hasCheckbox: PropTypes.bool.isRequired,
-};
+}
 
-export default EnhancedTable;
+export default EnhancedTable

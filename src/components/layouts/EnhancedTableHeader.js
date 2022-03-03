@@ -1,32 +1,36 @@
-import React from "react";
-import PropTypes from "prop-types";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import Checkbox from "@mui/material/Checkbox";
-import { makeStyles } from "@mui/styles";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { TableHead, Checkbox, TableRow, TableCell } from '@mui/material'
+
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   tableHeader: {
-    "&.MuiTableHead-root": {
-      background: "rgb(251, 251, 251)",
+    '&.MuiTableHead-root': {
+      background: 'rgb(251, 251, 251)',
     },
   },
   tableHeaderCell: {
-    "&.MuiTableCell-root, &.MuiTableCell-root": {
-      fontSize: "1.65rem",
+    '&.MuiTableCell-root, &.MuiTableCell-root': {
+      fontSize: '1.65rem',
     },
 
-    "&.MuiTableCell-root": {
-      fontSize: "1.35rem",
+    '&.MuiTableCell-root': {
+      fontSize: '1.35rem',
     },
   },
-}));
+}))
 
 function EnhancedTableHead(props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const { onSelectAllClick, numSelected, rowCount, headCells, hasCheckbox } = props;
+  const {
+    onSelectAllClick,
+    numSelected,
+    rowCount,
+    headCells,
+    hasCheckbox,
+  } = props
 
   return (
     <TableHead className={classes.tableHeader}>
@@ -39,7 +43,7 @@ function EnhancedTableHead(props) {
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={onSelectAllClick}
               inputProps={{
-                "aria-label": "select all desserts",
+                'aria-label': 'select all desserts',
               }}
             />
           </TableCell>
@@ -48,15 +52,15 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             className={classes.tableHeaderCell}
-            align={headCell.id === 1 ? "left" : "center"}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            align="left"
+            padding={headCell.disablePadding ? 'none' : 'normal'}
           >
             {headCell.label}
           </TableCell>
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 EnhancedTableHead.propTypes = {
@@ -65,6 +69,6 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
   headCells: PropTypes.array.isRequired,
   hasCheckbox: PropTypes.bool,
-};
+}
 
-export default EnhancedTableHead;
+export default EnhancedTableHead

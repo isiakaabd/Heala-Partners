@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Chip from '@mui/material/Chip'
+import { Chip } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
@@ -24,7 +24,7 @@ import { handleSelectedRows } from 'helpers/selectedRows'
 import { isSelected } from 'helpers/isSelected'
 import { rows } from 'components/Utilities/DataHeader'
 import Modals from 'components/Utilities/Modal'
-
+import Loader from 'components/Utilities/Loader'
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
     '&.MuiGrid-root': {
