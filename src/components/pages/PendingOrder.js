@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-
 import { dateMoment } from 'components/Utilities/Time'
 import {
   Grid,
@@ -115,8 +114,9 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   const classes = useStyles()
   const theme = useTheme()
   const [state, setState] = useState([])
+  const orderState = 'pending'
   const { data, loading, error } = useQuery(getDrugOrders, {
-    variables: { status: 'pending' },
+    variables: { status: orderState },
   })
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data)
@@ -146,7 +146,13 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   if (error) return <NoData error={error} />
   return (
     <>
-      <Grid container direction="column">
+      <Grid
+        container
+        direction="column"
+        gap={2}
+        flexWrap="nowrap"
+        height="100%"
+      >
         <Grid item container style={{ paddingBottom: '5rem' }}>
           <Grid item className={classes.searchGrid}>
             <Search
@@ -165,7 +171,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
-        <Grid item container>
+        <Grid item container height="100%" direction="column">
           {state.length > 0 ? (
             <EnhancedTable
               headCells={patientsHeadCells}

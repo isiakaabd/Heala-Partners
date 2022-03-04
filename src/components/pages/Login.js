@@ -125,9 +125,10 @@ const Login = () => {
           },
         })
         if (data) {
-          const { email, access_token } = data.login.account
+          const { email, _id, access_token } = data.login.account
           setAccessToken(access_token)
-          localStorage.setItem('email', email)
+          localStorage.setItem('pharmacyId', _id)
+          localStorage.setItem('pharmacy_Email', email)
           // localStorage.setItem('userTypeId', userTypeId)
           history.push('/')
         }

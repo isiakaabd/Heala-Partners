@@ -36,7 +36,7 @@ const HeaderProfile = () => {
     }
     return `${count} notifications`
   }
-  const id = localStorage.getItem('user_id')
+  const id = localStorage.getItem('pharmacyId')
   const [pharmacyData, setPharmacyData] = useState([])
 
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
@@ -45,17 +45,12 @@ const HeaderProfile = () => {
 
   useEffect(() => {
     ;(async () => {
-      pharmacy()
+      setTimeout(pharmacy, 300)
     })()
     if (data) {
-      setPharmacyData(data.getPartner)
+      setPharmacyData(data?.getPartner)
     }
   }, [pharmacy, data])
-  useEffect(() => {
-    if (data) {
-      setPharmacyData(data.getPartner)
-    }
-  }, [data])
 
   return (
     <header>

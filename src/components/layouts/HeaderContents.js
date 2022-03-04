@@ -188,7 +188,8 @@ const HeaderText = (props) => {
   } = props
   const classes = useStyles()
   const theme = useTheme()
-  const id = localStorage.getItem('user_id')
+  const id = localStorage.getItem('pharmacyId')
+
   const [pharmacyData, setPharmacyData] = useState([])
 
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
@@ -197,9 +198,10 @@ const HeaderText = (props) => {
 
   useEffect(() => {
     ;(async () => {
-      pharmacy()
+      setTimeout(pharmacy, 300)
     })()
     if (data) {
+      localStorage.setItem('pharmacyID', data.getPartner._id)
       setPharmacyData(data.getPartner)
     }
   }, [pharmacy, data])

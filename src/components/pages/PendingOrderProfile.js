@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Modals from 'components/Utilities/Modal'
 import PropTypes from 'prop-types'
+import StarIcon from '@mui/icons-material/Star'
 import { makeStyles } from '@mui/styles'
 import {
   DisplayProfile,
@@ -22,6 +23,10 @@ import {
   Typography,
   RadioGroup,
   FormControl,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
   FormLabel,
 } from '@mui/material'
 
@@ -88,6 +93,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
+  const arr = [
+    'Drugs',
+    'Dosage',
+    'Dosage Frequency',
+    'Dosage Duration',
+    'Mode of Administration',
+  ]
   const classes = useStyles()
   const theme = useTheme()
   const { orderId } = useParams()
@@ -131,6 +143,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
     sampleCollection,
     referralId,
     affliation,
+    prescriptions,
     reason,
     testId,
     orderId: idOrder,
@@ -376,12 +389,25 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               <Grid item>
                 <Typography variant="h4">1st Prescription</Typography>
               </Grid>
-              <Grid item>
-                <Chip
-                  variant="outlined"
-                  label="Chisom Sule"
-                  className={classes.infoBadge}
-                />
+              <Grid item container flexWrap="nowrap">
+                {prescriptions && prescriptions.length > 0 ? (
+                  <>
+                    <Grid item container direction="column">
+                      {arr.map((i) => {
+                        return (
+                          <Typography key={i} variant="h6">
+                            {i}
+                          </Typography>
+                        )
+                      })}
+                    </Grid>
+                    <Grid item container direction="column">
+                      {Object.values(prescriptions[0]).map((i) => {
+                        return <Typography variant="h6">{i}</Typography>
+                      })}
+                    </Grid>
+                  </>
+                ) : null}
               </Grid>
             </Grid>
           </Grid>
@@ -398,20 +424,30 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
               style={{ height: '100%' }}
               justifyContent="space-between"
               alignItems="center"
+              flexWrap="nowrap"
             >
               <Grid item>
                 <Typography variant="h4">2nd Prescription</Typography>
               </Grid>
-              <Grid item>
-                {prescriptions.map((prescription) => {
-                  return Object.keys(prescription)
-                })}
-                <Chip
-                  variant="outlined"
-                  label={affliation ? affliation : 'No Value'}
-                  className={classes.infoBadge}
-                />
-                {/* <Chip variant="outlined" label="08123456789" className={classes.infoBadge} /> */}
+              <Grid item container flexWrap="nowrap">
+                {prescriptions && prescriptions.length > 0 ? (
+                  <>
+                    <Grid item container direction="column">
+                      {arr.map((i) => {
+                        return (
+                          <Typography key={i} variant="h6">
+                            {i}
+                          </Typography>
+                        )
+                      })}
+                    </Grid>
+                    <Grid item container direction="column">
+                      {Object.values(prescriptions[0]).map((i) => {
+                        return <Typography variant="h6">{i}</Typography>
+                      })}
+                    </Grid>
+                  </>
+                ) : null}
               </Grid>
             </Grid>
           </Grid>
