@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Modals from 'components/Utilities/Modal'
 import PropTypes from 'prop-types'
+import * as Yup from 'yup'
 import StarIcon from '@mui/icons-material/Star'
 import { makeStyles } from '@mui/styles'
+import { FormikControl } from 'components/validation'
+import { Formik, Form } from 'formik'
 import {
   DisplayProfile,
   PreviousButton,
@@ -16,7 +19,7 @@ import DisablePatient from 'components/modals/DeleteOrDisable'
 
 import { dateMoment } from 'components/Utilities/Time'
 import Success from 'components/modals/Success'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import {
   Chip,
   Grid,
@@ -30,8 +33,12 @@ import {
   FormLabel,
 } from '@mui/material'
 
-import { useQuery } from '@apollo/client'
-import { getDrugOrder } from 'components/graphQL/useQuery'
+import { useQuery, useMutation } from '@apollo/client'
+import {
+  getDrugOrder,
+  getDrugOrders,
+  cancelDrugOrder,
+} from 'components/graphQL/useQuery'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -119,6 +126,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
   const [cancel, setCancel] = useState(false)
   const handleDialogClose = () => setModal(false)
   const handleDialogOpen = () => setModal(true)
+  const [cancelTest] = useMutation(cancelDrugOrder)
 
   const darkButton = {
     background: theme.palette.primary.main,
@@ -131,12 +139,44 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
     hover: '#fafafa',
     active: '#f4f4f4',
   }
+  const history = useHistory()
 
   useLayoutEffect(() => {
     setChatMediaActive(false)
 
     // eslint-disable-next-line
   }, [chatMediaActive])
+
+  const initialValues = {
+    reason: '',
+  }
+  const validationSchema = Yup.object({
+    reason: Yup.string('Enter Reason ').required('Reason is required'),
+  })
+  const onSubmit = async (values) => {
+    const { reason } = values
+    await cancelTest({
+      variables: {
+        id: orderId,
+        reason,
+      },
+      refetchQueries: [
+        {
+          query: getDrugOrders,
+          variables: {
+            status: 'pending',
+          },
+        },
+        {
+          query: getDrugOrders,
+          variables: {
+            status: 'cancelled',
+          },
+        },
+      ],
+    })
+    history.push('/pending-request')
+  }
   const {
     createdAt,
     gender,
@@ -500,39 +540,44 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
 
       <Modals
         isOpen={cancel}
-        title="Select a reason for cancelling referrals"
+        title="Cancel Test"
         rowSpacing={5}
         handleClose={() => setCancel(false)}
       >
-        <Grid item>
-          <FormControl component="fieldset">
-            <FormLabel
-              sx={{ color: 'secondary', margin: '2rem 0' }}
-              component="legend"
-            >
-              Select an Option
-            </FormLabel>
-            <RadioGroup
-              aria-label="Select an Option"
-              defaultValue="Reason 1"
-              name=" reason for cancelling referrals"
-            >
-              {/* <FormRadio value="Reason 1" label="Reason 1" name="Reason 1" />
-              <FormRadio value="Reason 2" label="Reason 2" name="Reason 2" />
-              <FormRadio value="Reason 3" label="Reason 3" name="Reason 3" />
-              <FormRadio value="Reason 4" label="Reason 4" name="Reason 4" />
-              <FormRadio value="Reason 5" label="Reason 5" name="Reason 5" /> */}
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <CustomButton
-            title="Submit"
-            type={darkButton}
-            width="100%"
-            onClick={() => setCancel(false)}
-          />
-        </Grid>
+        <Formik
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+          validateOnChange={false}
+          validateOnMount={false}
+          initialValues={initialValues}
+          enableReinitialize
+        >
+          {({ isSubmitting, dirty, isValid }) => {
+            return (
+              <Form style={{ marginTop: '3rem' }}>
+                <Grid container>
+                  <Grid item container>
+                    <FormikControl
+                      control="input"
+                      label="State a Reason"
+                      name="reason"
+                      placeholder="Enter reason"
+                    />
+                  </Grid>
+                  <Grid item container sx={{ flexGrow: 1, marginTop: '10rem' }}>
+                    <CustomButton
+                      title="Cancel Test"
+                      type={darkButton}
+                      width="100%"
+                      isSubmitting={isSubmitting}
+                      disabled={!(dirty || isValid)}
+                    />
+                  </Grid>
+                </Grid>
+              </Form>
+            )
+          }}
+        </Formik>
       </Modals>
     </>
   )

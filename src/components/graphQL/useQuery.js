@@ -81,3 +81,44 @@ export const getDrugOrder = gql`
     }
   }
 `
+
+export const cancelDrugOrder = gql`
+  mutation cancelDrugOrder($id: String, $reason: String) {
+    cancelDrugOrder(data: { id: $id, reason: $reason }) {
+      drugOrder {
+        _id
+        partner
+        patient
+        doctor
+        orderId
+        status
+        reason
+        consultationId
+        note
+        cancellationReason
+        partnerData
+        doctorData
+        patientData
+        prescriptions {
+          priceListId
+          drugName
+          drugPrice
+          unitPrice
+          dosageQuantity
+          notes
+        }
+        userLocation {
+          address
+          phoneNumber
+          city
+          lat
+          lng
+        }
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`

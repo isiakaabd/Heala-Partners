@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { dateMoment } from 'components/Utilities/Time'
+import { dateMoment, timeMoment } from 'components/Utilities/Time'
 import {
   Chip,
   TableRow,
@@ -210,7 +210,7 @@ const CancelledOrders = ({
               {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { _id, createdAt } = row
+                  const { _id, createdAt, orderId, patientData, status } = row
                   const isItemSelected = isSelected(_id, selectedRows)
 
                   const labelId = `enhanced-table-checkbox-${index}`
@@ -243,16 +243,16 @@ const CancelledOrders = ({
                       <TableCell
                         id={labelId}
                         scope="row"
-                        align="center"
+                        align="left"
                         className={classes.tableCell}
                       >
                         {dateMoment(createdAt)}
                       </TableCell>
-                      <TableCell align="center" className={classes.tableCell}>
-                        {row.time}
+                      <TableCell align="left" className={classes.tableCell}>
+                        {timeMoment(createdAt)}
                       </TableCell>
-                      <TableCell align="center" className={classes.tableCell}>
-                        {row.medical}
+                      <TableCell align="left" className={classes.tableCell}>
+                        {orderId}
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
                         <div
@@ -264,28 +264,34 @@ const CancelledOrders = ({
                         >
                           <span style={{ marginRight: '1rem' }}>
                             <Avatar
-                              alt={`Display Photo of ${row.firstName}`}
-                              src={displayPhoto}
+                              alt={`Display Photo of ${patientData?.firstName}`}
+                              src={
+                                patientData
+                                  ? patientData.logoImageUrl
+                                  : displayPhoto
+                              }
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
                           <span style={{ fontSize: '1.25rem' }}>
-                            {row.firstName}
-                            {row.lastName}
+                            {patientData
+                              ? `${patientData.firstName}
+                            ${patientData.lastName}`
+                              : 'No Patient'}
                           </span>
                         </div>
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
                         <Chip
-                          label="completed"
+                          label={status}
                           className={classes.badge}
                           style={{
                             background:
-                              row.status === 'active'
+                              row.status === 'completed'
                                 ? theme.palette.common.lightGreen
                                 : theme.palette.common.lightRed,
                             color:
-                              row.status === 'active'
+                              row.status === 'completed'
                                 ? theme.palette.common.green
                                 : theme.palette.common.red,
                           }}

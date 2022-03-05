@@ -3,7 +3,7 @@ import { Field, ErrorMessage } from 'formik'
 import { TextError } from 'components/Utilities'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
-import Search from 'components/Utilities/SearchInput'
+import { Search } from 'components/Utilities'
 import { Grid, Typography } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({

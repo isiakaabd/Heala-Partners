@@ -1,30 +1,38 @@
-import React, { useState } from 'react'
-import Grid from '@mui/material/Grid'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
-import FormLabel from '@mui/material/FormLabel'
-import FormControl from '@mui/material/FormControl'
-import FormSelect from 'components/Utilities/FormSelect'
+import React, { useState, useEffect } from 'react'
+import {
+  Grid,
+  Chip,
+  Avatar,
+  FormControl,
+  FormLabel,
+  Button,
+  TableCell,
+  Checkbox,
+  TableRow,
+} from '@mui/material'
+
+import {
+  FormSelect,
+  Loader,
+  Modals,
+  Search,
+  FilterList,
+} from 'components/Utilities'
 import useFormInput from 'components/hooks/useFormInput'
 import { makeStyles } from '@mui/styles'
-import Modals from 'components/Utilities/Modal'
-import Search from 'components/Utilities/Search'
-import FilterList from 'components/Utilities/FilterList'
 import { Link } from 'react-router-dom'
 import { rows } from 'components/Utilities/DataHeader'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
-import Avatar from '@mui/material/Avatar'
 import displayPhoto from 'assets/images/avatar.png'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
 import { isSelected } from 'helpers/isSelected'
-import Chip from '@mui/material/Chip'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-
+import { useQuery } from '@apollo/client'
+import { getDrugOrders } from 'components/graphQL/useQuery'
+import { NoData } from 'components/layouts'
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
     '&.MuiGrid-root': {
@@ -140,7 +148,16 @@ const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
 const CompletedOrders = () => {
   const classes = useStyles()
   const [searchPartner, setSearchPartner] = useState('')
+  const [state, setState] = useState([])
+
   const [openFilterPartner, setOpenFilterPartner] = useState(false)
+  const orderState = 'pending'
+  const { data, loading, error } = useQuery(getDrugOrders, {
+    variables: { status: orderState },
+  })
+  useEffect(() => {
+    if (data) return setState(data?.getDrugOrders.data)
+  }, [data])
 
   // FILTER PARTNERS SELECT STATES
   const [filterSelectInput, handleSelectedInput] = useFormInput({
@@ -155,10 +172,18 @@ const CompletedOrders = () => {
     (state) => state.tables,
   )
   const { setSelectedRows } = useActions()
+  if (loading) return <Loader />
+  if (error) return <NoData error={error} />
 
   return (
     <>
-      <Grid container direction="column">
+      <Grid
+        container
+        direction="column"
+        gap={2}
+        flexWrap="nowrap"
+        height="100%"
+      >
         <Grid item container>
           <Grid item className={classes.searchGrid}>
             <Search
@@ -175,96 +200,108 @@ const CompletedOrders = () => {
             />
           </Grid>
         </Grid>
-        <Grid item container style={{ marginTop: '5rem' }}>
-          <EnhancedTable
-            headCells={partnersHeadCells}
-            rows={rows}
-            page={page}
-            paginationLabel="Patients per page"
-            hasCheckbox={true}
-          >
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const isItemSelected = isSelected(row.id, selectedRows)
+        <Grid
+          item
+          container
+          height="100%"
+          direction="column"
+          tainer
+          style={{ marginTop: '5rem' }}
+        >
+          {state.length > 0 ? (
+            <EnhancedTable
+              headCells={partnersHeadCells}
+              rows={state}
+              page={page}
+              paginationLabel="Patients per page"
+              hasCheckbox={true}
+            >
+              {state
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const { _id } = row
+                  const isItemSelected = isSelected(_id, selectedRows)
 
-                const labelId = `enhanced-table-checkbox-${index}`
+                  const labelId = `enhanced-table-checkbox-${index}`
 
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        onClick={() =>
-                          handleSelectedRows(
-                            row.id,
-                            selectedRows,
-                            setSelectedRows,
-                          )
-                        }
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      id={labelId}
-                      scope="row"
-                      align="center"
-                      className={classes.tableCell}
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
                     >
-                      {row.entryDate}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.time}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.medical}
-                    </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      <div
-                        style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          onClick={() =>
+                            handleSelectedRows(
+                              row.id,
+                              selectedRows,
+                              setSelectedRows,
+                            )
+                          }
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        id={labelId}
+                        scope="row"
+                        align="center"
+                        className={classes.tableCell}
                       >
-                        <span style={{ marginRight: '1rem' }}>
-                          <Avatar
-                            alt={`Display Photo of ${row.firstName}`}
-                            src={displayPhoto}
-                            sx={{ width: 24, height: 24 }}
-                          />
-                        </span>
-                        <span style={{ fontSize: '1.25rem' }}>
-                          {row.firstName}
-                          {row.lastName}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label="view order"
-                        variant="outlined"
-                        component={Link}
-                        to={`pending-order/${row.id}/order`}
-                        className={classes.chip}
-                        deleteIcon={<ArrowForwardIosIcon />}
-                        onDelete={() => console.log(' ')}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-          </EnhancedTable>
+                        {row.entryDate}
+                      </TableCell>
+                      <TableCell align="center" className={classes.tableCell}>
+                        {row.time}
+                      </TableCell>
+                      <TableCell align="center" className={classes.tableCell}>
+                        {row.medical}
+                      </TableCell>
+                      <TableCell align="center" className={classes.tableCell}>
+                        <div
+                          style={{
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <span style={{ marginRight: '1rem' }}>
+                            <Avatar
+                              alt={`Display Photo of ${row.firstName}`}
+                              src={displayPhoto}
+                              sx={{ width: 24, height: 24 }}
+                            />
+                          </span>
+                          <span style={{ fontSize: '1.25rem' }}>
+                            {row.firstName}
+                            {row.lastName}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label="view order"
+                          variant="outlined"
+                          component={Link}
+                          to={`pending-order/${row.id}/order`}
+                          className={classes.chip}
+                          deleteIcon={<ArrowForwardIosIcon />}
+                          onDelete={() => console.log(' ')}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+            </EnhancedTable>
+          ) : (
+            <NoData />
+          )}
         </Grid>
         <Modals
           isOpen={openFilterPartner}
