@@ -24,3 +24,36 @@ export const LOGOUT_USER = gql`
     logout
   }
 `
+export const updatePartner = gql`
+  mutation updatePartnerProfile(
+    $id: String
+    $name: String
+    $category: String
+    $email: String
+    $logoImageUrl: String
+  ) {
+    updatePartnerProfile(
+      data: {
+        id: $id
+        name: $name
+        category: $category
+        email: $email
+        logoImageUrl: $logoImageUrl
+      }
+    ) {
+      partner {
+        _id
+        name
+        email
+        category
+        logoImageUrl
+        accountId
+        dociId
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`

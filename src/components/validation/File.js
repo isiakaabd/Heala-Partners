@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Field, ErrorMessage } from 'formik'
 import TextError from 'components/Utilities/TextError'
-import { LinearWithValueLabel } from 'components/Utilities'
+import { Loader } from 'components/Utilities'
 import PropTypes from 'prop-types'
 import {
   FormControl,
@@ -142,7 +142,7 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
       </Grid>
       <Grid item>
         {progress < 100 ? (
-          <LinearWithValueLabel progres={progress} />
+          <Loader />
         ) : (
           preview && !type && <Avatar src={preview} />
         )}

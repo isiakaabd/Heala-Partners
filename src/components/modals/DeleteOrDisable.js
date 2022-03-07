@@ -1,15 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Backdrop from '@mui/material/Backdrop'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import Fade from '@mui/material/Fade'
+import { Grid, Modal, Fade, Typography, Box, Backdrop } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import CloseIcon from '@mui/icons-material/Close'
-import CustomButton from 'components/Utilities/CustomButton'
+import { CustomButton } from 'components/Utilities'
 import { BsExclamationCircle } from 'react-icons/bs'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 
@@ -19,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
 
       '&:hover': {
-        color: theme.palette.common.green,
+        color: theme.palette.common.lightGreen,
       },
     },
   },
@@ -30,11 +25,13 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
-  height: '65vh',
+  width: 'auto',
+  minWidth: '40rem',
+  height: 'auto',
   bgcolor: 'background.paper',
   boxShadow: 24,
   borderRadius: '1rem',
+  padding: '3rem',
 }
 
 const DeleteOrDisable = ({
@@ -83,18 +80,15 @@ const DeleteOrDisable = ({
             alignItems="center"
             justifyContent="center"
           >
-            <Grid
-              item
-              alignSelf="flex-end"
-              style={{ padding: '2rem 2rem 3rem 0' }}
-            >
+            <Grid item alignSelf="flex-end">
               <CloseIcon
                 color="primary"
+                fontSize="medium"
                 className={classes.closeIcon}
                 onClick={() => setOpen(false)}
               />
             </Grid>
-            <Grid item style={{ marginBottom: '4rem' }}>
+            <Grid item style={{ marginBottom: '3rem' }}>
               {type === 'logout' ? (
                 <LogoutRoundedIcon
                   sx={{ fontSize: '10rem', color: 'red' }}
@@ -110,11 +104,17 @@ const DeleteOrDisable = ({
             <Grid item style={{ marginBottom: '2rem' }}>
               <Typography variant="h2">{title}</Typography>
             </Grid>
-            <Grid item style={{ marginBottom: '5rem' }}>
+            <Grid item style={{ marginBottom: '2rem' }}>
               <Typography variant="body1">{`Are you sure you want to ${confirmationMsg}?`}</Typography>
             </Grid>
-            <Grid item container style={{ padding: '0 7rem' }}>
-              <Grid item md style={{ marginRight: '2rem' }}>
+            <Grid
+              item
+              container
+              justifyContent="space-between"
+              gap={3}
+              sx={{ justifyContent: 'space-between' }}
+            >
+              <Grid item md>
                 <CustomButton
                   title="Discard"
                   textColor={theme.palette.common.black}
@@ -123,7 +123,7 @@ const DeleteOrDisable = ({
                   onClick={() => setOpen(false)}
                 />
               </Grid>
-              <Grid item md style={{ marginLeft: '2rem' }}>
+              <Grid item md>
                 <CustomButton
                   title={`Yes, ${btnValue}`}
                   type={disableButton}

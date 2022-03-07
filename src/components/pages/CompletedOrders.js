@@ -21,7 +21,6 @@ import {
 import useFormInput from 'components/hooks/useFormInput'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-import { rows } from 'components/Utilities/DataHeader'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
 import displayPhoto from 'assets/images/avatar.png'

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Modals from 'components/Utilities/Modal'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
-import StarIcon from '@mui/icons-material/Star'
 import { makeStyles } from '@mui/styles'
 import { FormikControl } from 'components/validation'
 import { Formik, Form } from 'formik'
@@ -20,19 +19,7 @@ import DisablePatient from 'components/modals/DeleteOrDisable'
 import { dateMoment } from 'components/Utilities/Time'
 import Success from 'components/modals/Success'
 import { useParams, useHistory } from 'react-router-dom'
-import {
-  Chip,
-  Grid,
-  Typography,
-  RadioGroup,
-  FormControl,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  FormLabel,
-} from '@mui/material'
-
+import { Chip, Grid, Typography } from '@mui/material'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   getDrugOrder,
@@ -179,25 +166,13 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive }) => {
   }
   const {
     createdAt,
-    gender,
-    sampleCollection,
-    referralId,
     affliation,
     prescriptions,
-    reason,
-    testId,
     orderId: idOrder,
-    userLocation,
-    status,
-    doctor,
-    tests,
-    affiliation,
-    testOption,
     doctorData,
     patientData,
     // eslint-disable-next-line
   } = state
-  console.log(state)
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
 

@@ -8,7 +8,7 @@ import CustomButton from './CustomButton'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { MessageOutlined } from '@mui/icons-material'
-import MessageModal from 'components/pages/MessageModal'
+// import MessageModal from 'components/pages/MessageModal'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -45,7 +45,7 @@ const DisplayProfile = (props) => {
     hover: theme.palette.success.light,
     active: theme.palette.success.dark,
   }
-  const [message, setMessage] = useState(false)
+  const [setMessage] = useState(false)
   return (
     <>
       <Grid

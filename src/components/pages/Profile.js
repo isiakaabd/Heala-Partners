@@ -1,44 +1,16 @@
-import React, { useEffect } from 'react'
-import useFormInput from 'components/hooks/useFormInput'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import { makeStyles } from '@mui/styles'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import Button from '@mui/material/Button'
-import Avatar from '@mui/material/Avatar'
-import displayPhoto from 'assets/images/avatar.png'
-import FormControl from '@mui/material/FormControl'
-import FormInput from 'components/Utilities/FormInput'
-import Badge from '@mui/material/Badge'
-import EditIcon from '@mui/icons-material/Edit'
-import { styled } from '@mui/material/styles'
-
-const useStyles = makeStyles((theme) => ({
-  btn: {
-    '&.MuiButton-root': {
-      ...theme.typography.btn,
-      width: '100%',
-    },
-  },
-}))
-const Icon = styled(EditIcon)(({ theme }) => ({
-  '&.MuiBadge-badge': {
-    background: 'red !important',
-    '&::after': {
-      content: '""',
-    },
-  },
-  color: 'white',
-  position: 'absolute',
-  top: '100%',
-  left: '10px',
-  background: 'green',
-  borderRadius: '50%',
-  width: 20,
-  height: 20,
-
-  // border: `2px solid ${theme.palette.background.paper}`,
-}))
+import { Grid } from '@mui/material'
+import { useMutation, useQuery } from '@apollo/client'
+import { updatePartner } from 'components/graphQL/Mutation'
+import { useTheme } from '@mui/material/styles'
+import { NoData } from 'components/layouts'
+import { CustomButton, PreviousButton, Loader } from 'components/Utilities'
+import { useHistory } from 'react-router-dom'
+import { Formik, Form } from 'formik'
+import FormikControl from 'components/validation/FormikControl'
+import { getPartner } from 'components/graphQL/useQuery'
+import * as Yup from 'yup'
 
 const Profile = ({
   selectedMenu,
@@ -46,14 +18,62 @@ const Profile = ({
   setSelectedMenu,
   setSelectedSubMenu,
 }) => {
-  const classes = useStyles()
-
-  const [formInput, handleFormInput] = useFormInput({
-    firstName: '',
-    email: '',
-    phone: '',
-    password: '',
+  const [update] = useMutation(updatePartner)
+  const history = useHistory()
+  const { loading, error, data } = useQuery(getPartner, {
+    variables: {
+      id: localStorage.getItem('pharmacyId'),
+    },
   })
+  const [profile, setProfile] = useState()
+
+  useEffect(() => {
+    setProfile(data?.getPartner)
+  }, [data])
+
+  const theme = useTheme()
+  const validationSchema = Yup.object({
+    name: Yup.string('Enter your Name').required('Name is required'),
+    email: Yup.string('Enter your Email').required('Email is required'),
+    category: Yup.string('Select your Category'),
+    image: Yup.string('Upload a single Image'),
+  })
+
+  const trasparentButton = {
+    background: theme.palette.common.black,
+    hover: theme.palette.primary.main,
+    active: theme.palette.primary.dark,
+    disabled: theme.palette.common.black,
+  }
+
+  const onSubmit = async (values) => {
+    const { email, name, image } = values
+
+    await update({
+      variables: {
+        id: localStorage.getItem('pharmacyID'),
+        name,
+        email,
+        category: 'pharmacy',
+        logoImageUrl: image,
+      },
+      refetchQueries: [
+        {
+          query: getPartner,
+          variables: {
+            id: localStorage.getItem('pharmacyId'),
+          },
+        },
+      ],
+    })
+    history.push('/settings')
+  }
+  const initialValues = {
+    name: profile?.name,
+    email: profile?.email,
+    category: profile?.category || '',
+    image: profile?.logoImageUrl,
+  }
 
   useEffect(() => {
     setSelectedMenu(11)
@@ -62,92 +82,71 @@ const Profile = ({
     // eslint-disable-next-line
   }, [selectedMenu, selectedSubMenu])
 
-  const { firstName, email, password, phone } = formInput
-
+  if (loading) return <Loader />
+  if (error) return <NoData />
   return (
-    <>
-      <Grid item container direction="column" md={5} spacing={2}>
-        <Grid item style={{ marginBottom: '3rem' }}>
-          <PreviousButton path={'/settings'} />
-        </Grid>
-        <Grid item container>
-          <Badge
-            // variant="dot"
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={<Icon />}
-          >
-            <Avatar
-              src={displayPhoto}
-              alt="name"
-              sx={{ height: 100, width: 100 }}
-            />
-          </Badge>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <FormInput
-              label="Name"
-              labelId="Name"
-              id="firstName"
-              name="firstName"
-              value={firstName}
-              onChange={handleFormInput}
-              placeholder="Choose Date"
-            />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <FormInput
-              label="Email"
-              type="email"
-              id="Email"
-              name="email"
-              value={email}
-              onChange={handleFormInput}
-              placeholder="Enter Email"
-            />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <FormInput
-              label="Phone Number"
-              labelId="phone"
-              id="phone"
-              name="phone"
-              value={phone}
-              onChange={handleFormInput}
-              placeholder="Enter phone number"
-            />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <FormInput
-              label="Password"
-              type="Password"
-              id="Password"
-              name="password"
-              value={password}
-              onChange={handleFormInput}
-              placeholder="Enter Password"
-            />
-          </FormControl>
-        </Grid>
-        <Grid item container marginTop={4}>
-          <Button
-            variant="contained"
-            type="submit"
-            className={classes.btn}
-            // onClick={handleDialogCloses}
-          >
-            Save
-          </Button>
-        </Grid>
+    <Grid container>
+      <Grid item style={{ marginBottom: '3rem' }}>
+        <PreviousButton path={'/settings'} />
       </Grid>
-    </>
+      <Grid container>
+        <Formik
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+          validateOnChange={false}
+          validateOnMount={false}
+          initialValues={initialValues}
+          enableReinitialize
+        >
+          {({ isSubmitting, dirty, isValid, setFieldValue }) => {
+            return (
+              <Grid item container direction="column">
+                <Form>
+                  <Grid item container gap={2} md={4} direction="column">
+                    <Grid item md={6}>
+                      <FormikControl
+                        control="file"
+                        name="image"
+                        label="Upload Your Logo"
+                        setFieldValue={setFieldValue}
+                        type="image"
+                        file={profile?.logoImageUrl}
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <FormikControl
+                        control="input"
+                        name="name"
+                        label="Name "
+                        placeholder="Enter Name"
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <FormikControl
+                        control="input"
+                        name="email"
+                        label="Email"
+                        placeholder="Email"
+                      />
+                    </Grid>
+
+                    <Grid item md={6}>
+                      <CustomButton
+                        title="Save"
+                        type={trasparentButton}
+                        width="100%"
+                        isSubmitting={isSubmitting}
+                        disabled={!(dirty || isValid)}
+                      />
+                    </Grid>
+                  </Grid>
+                </Form>
+              </Grid>
+            )
+          }}
+        </Formik>
+      </Grid>
+    </Grid>
   )
 }
 Profile.propTypes = {
