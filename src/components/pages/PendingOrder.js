@@ -19,7 +19,7 @@ import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { patientsHeadCells } from 'components/Utilities/tableHeaders'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import displayPhoto from 'assets/images/avatar.png'
+import displayPhoto from 'assets/images/avatar.svg'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
@@ -140,7 +140,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleDialogOpen = () => setIsOpen(true)
-
+  console.log(state)
   const handleDialogClose = () => setIsOpen(false)
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
@@ -244,13 +244,15 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           >
                             <span style={{ marginRight: '1rem' }}>
                               <Avatar
-                                alt={`Display Photo of ${patientData?.name}`}
-                                src={patientData?.logoImageUrl || displayPhoto}
+                                alt={`Display Photo of ${doctorData?.firstName}`}
+                                src={doctorData?.picture || displayPhoto}
                                 sx={{ width: 24, height: 24 }}
                               />
                             </span>
                             <span style={{ fontSize: '1.25rem' }}>
-                              {patientData ? patientData?.name : 'No Value'}
+                              {doctorData
+                                ? `${doctorData?.firstName} ${doctorData?.lastName}`
+                                : 'No Value'}
                             </span>
                           </div>
                         </TableCell>
@@ -264,13 +266,15 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           >
                             <span style={{ marginRight: '1rem' }}>
                               <Avatar
-                                alt={`Display Photo of ${doctorData?.name}`}
-                                src={doctorData?.logoImageUrl || displayPhoto}
+                                alt={`Display Photo of ${patientData?.firstName}`}
+                                src={patientData?.picture || displayPhoto}
                                 sx={{ width: 24, height: 24 }}
                               />
                             </span>
                             <span style={{ fontSize: '1.25rem' }}>
-                              {doctorData ? doctorData?.name : 'No Value'}
+                              {patientData
+                                ? `${patientData?.firstName} ${patientData?.lastName}`
+                                : 'No Value'}
                             </span>
                           </div>
                         </TableCell>
@@ -289,6 +293,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                             component={Link}
                             to={`pending-order/${_id}/order`}
                             className={classes.chip}
+                            type="pending"
                             deleteIcon={<ArrowForwardIosIcon />}
                             onDelete={() => console.log(' ')}
                           />

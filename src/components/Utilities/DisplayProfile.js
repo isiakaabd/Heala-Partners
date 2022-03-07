@@ -31,12 +31,11 @@ const DisplayProfile = (props) => {
   const theme = useTheme()
 
   const {
-    fullName,
     displayPhoto,
     medicalTitle,
-    statusId,
     specialization,
     status,
+    patientData,
     // setChatMediaActive,
   } = props
 
@@ -59,14 +58,18 @@ const DisplayProfile = (props) => {
             <Grid item style={{ marginRight: '2rem' }}>
               <Avatar
                 alt={`Display Photo`}
-                src={displayPhoto}
+                src={patientData ? patientData.picture : displayPhoto}
                 sx={{ width: 50, height: 50 }}
               />
             </Grid>
             <Grid item>
               <Grid container direction="column">
                 <Grid item style={{ marginBottom: '1rem' }}>
-                  <Typography variant="h3">{fullName}</Typography>
+                  <Typography variant="h3">
+                    {patientData
+                      ? `${patientData.firstName} ${patientData.lastName}`
+                      : 'No Patient'}
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <Grid container alignItems="center">
@@ -77,7 +80,11 @@ const DisplayProfile = (props) => {
                         style={{ fontWeight: 400 }}
                       >
                         <span>{medicalTitle}:</span>{' '}
-                        <span style={{ color: 'green' }}>{statusId}</span>
+                        <span style={{ color: 'green' }}>
+                          {patientData
+                            ? patientData?.dociId.split('-')[1]
+                            : 'No Value'}
+                        </span>
                       </Typography>
                     </Grid>
                     {specialization ? (

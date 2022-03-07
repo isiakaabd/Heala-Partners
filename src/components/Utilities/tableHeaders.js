@@ -331,9 +331,10 @@ export const partnersHeadCells = [
 
 // Messages's HEADCELLS
 export const messagesHeadCells = [
-  { id: 0, label: 'Date' },
+  { id: 24, label: 'Date' },
   { id: 9, label: 'Time' },
   { id: 2, label: 'Order Num' },
+  { id: 22, label: "Cancellation's Reason" },
   { id: 3, label: "Patient's Name" },
   { id: 4, label: 'status' },
 ]

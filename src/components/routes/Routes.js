@@ -10,6 +10,7 @@ import Profile from 'components/pages/Profile'
 import PendingOrder from 'components/pages/PendingOrder'
 import CompletedOrders from 'components/pages/CompletedOrders'
 import CancelledOrders from 'components/pages/CancelledOrders'
+import ViewCompleted from 'components/pages/ViewCompleted'
 
 const Routes = (props) => {
   const {
@@ -74,6 +75,19 @@ const Routes = (props) => {
       />
 
       <PrivateRoute exact path="/completed-order" component={CompletedOrders} />
+      <PrivateRoute
+        exact
+        path="/completed-order/:orderId/order"
+        component={ViewCompleted}
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
+        setSelectedSubMenu={setSelectedSubMenu}
+        chatMediaActive={chatMediaActive}
+        setChatMediaActive={setChatMediaActive}
+      />
+
+      {/* ViewCompleted */}
 
       <PrivateRoute
         exact

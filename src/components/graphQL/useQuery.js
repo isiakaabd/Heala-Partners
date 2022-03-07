@@ -122,43 +122,4 @@ export const cancelDrugOrder = gql`
     }
   }
 `
-export const fulfillDrugOrder = gql`
-  mutation fulfillDrugOrder($id: String) {
-    fulfillDrugOrder(data: { id: $id }) {
-      drugOrder {
-        _id
-        partner
-        patient
-        doctor
-        orderId
-        status
-        reason
-        consultationId
-        note
-        cancellationReason
-        partnerData
-        doctorData
-        patientData
-        prescriptions {
-          priceListId
-          drugName
-          drugPrice
-          unitPrice
-          dosageQuantity
-          notes
-        }
-        userLocation {
-          address
-          phoneNumber
-          city
-          lat
-          lng
-        }
-      }
-      errors {
-        field
-        message
-      }
-    }
-  }
-`
+

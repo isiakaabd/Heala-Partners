@@ -20,7 +20,7 @@ import useFormInput from 'components/hooks/useFormInput'
 import { useTheme } from '@mui/material/styles'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { messagesHeadCells } from 'components/Utilities/tableHeaders'
-import displayPhoto from 'assets/images/avatar.png'
+import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
@@ -135,6 +135,7 @@ const CancelledOrders = ({
   const classes = useStyles()
   const theme = useTheme()
   const [state, setState] = useState([])
+  console.log(state)
   const orderState = 'cancelled'
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: orderState },
@@ -210,7 +211,14 @@ const CancelledOrders = ({
               {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { _id, createdAt, orderId, patientData, status } = row
+                  const {
+                    _id,
+                    createdAt,
+                    orderId,
+                    patientData,
+                    reason,
+                    status,
+                  } = row
                   const isItemSelected = isSelected(_id, selectedRows)
 
                   const labelId = `enhanced-table-checkbox-${index}`
@@ -255,6 +263,9 @@ const CancelledOrders = ({
                         {orderId}
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
+                        {reason}
+                      </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
                             height: '100%',
@@ -266,9 +277,7 @@ const CancelledOrders = ({
                             <Avatar
                               alt={`Display Photo of ${patientData?.firstName}`}
                               src={
-                                patientData
-                                  ? patientData.logoImageUrl
-                                  : displayPhoto
+                                patientData ? patientData.picture : displayPhoto
                               }
                               sx={{ width: 24, height: 24 }}
                             />

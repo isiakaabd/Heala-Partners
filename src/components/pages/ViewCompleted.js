@@ -1,32 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import Modals from 'components/Utilities/Modal'
 import PropTypes from 'prop-types'
-import * as Yup from 'yup'
 import { makeStyles } from '@mui/styles'
-import { FormikControl } from 'components/validation'
-import { Formik, Form } from 'formik'
-import {
-  DisplayProfile,
-  PreviousButton,
-  CustomButton,
-  Loader,
-} from 'components/Utilities'
+import { DisplayProfile, PreviousButton, Loader } from 'components/Utilities'
 import { NoData } from 'components/layouts'
-// import displayPhoto from 'assets/images/avatar.svg'
-import { useTheme } from '@mui/material/styles'
-import DisablePatient from 'components/modals/DeleteOrDisable'
-
 import { dateMoment } from 'components/Utilities/Time'
-import Success from 'components/modals/Success'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Chip, Grid, Typography } from '@mui/material'
-import { useQuery, useMutation } from '@apollo/client'
-import {
-  getDrugOrder,
-  getDrugOrders,
-  cancelDrugOrder,
-} from 'components/graphQL/useQuery'
-import { fulfillDrugOrder } from 'components/graphQL/Mutation'
+import { useQuery } from '@apollo/client'
+import { getDrugOrder } from 'components/graphQL/useQuery'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -87,65 +68,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
+const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
   const classes = useStyles()
-  const theme = useTheme()
   const { orderId } = useParams()
 
   const { data, loading, error } = useQuery(getDrugOrder, {
     variables: { id: orderId },
   })
   const [state, setState] = useState([])
-  const [fulfill] = useMutation(fulfillDrugOrder)
+
   useEffect(() => {
     if (data) return setState(data?.getDrugOrder)
   }, [data])
-  const onConfirm = () => {
-    setCancel(true)
-  }
-  const [openDisablePatient, setOpenDisablePatient] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [cancel, setCancel] = useState(false)
-  const handleDialogClose = () => setModal(false)
-  const handleDialogOpen = async () => {
-    setModal(true)
-    await fulfill({
-      variables: {
-        id: orderId,
-      },
-      refetchQueries: [
-        {
-          query: getDrugOrders,
-          variables: {
-            status: 'pending',
-          },
-        },
-        {
-          query: getDrugOrders,
-          variables: {
-            status: 'cancelled',
-          },
-        },
-      ],
-    })
-    history.push('/pending-order')
-
-    setModal(false)
-  }
-  const [cancelTest] = useMutation(cancelDrugOrder)
-  console.log(state)
-  const darkButton = {
-    background: theme.palette.primary.main,
-    hover: theme.palette.primary.light,
-    active: theme.palette.primary.dark,
-  }
-
-  const trasparentButton = {
-    background: 'transparent',
-    hover: '#fafafa',
-    active: '#f4f4f4',
-  }
-  const history = useHistory()
 
   useLayoutEffect(() => {
     setChatMediaActive(false)
@@ -153,36 +87,6 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     // eslint-disable-next-line
   }, [chatMediaActive])
 
-  const initialValues = {
-    reason: '',
-  }
-  const validationSchema = Yup.object({
-    reason: Yup.string('Enter Reason ').required('Reason is required'),
-  })
-  const onSubmit = async (values) => {
-    const { reason } = values
-    await cancelTest({
-      variables: {
-        id: orderId,
-        reason,
-      },
-      refetchQueries: [
-        {
-          query: getDrugOrders,
-          variables: {
-            status: 'pending',
-          },
-        },
-        {
-          query: getDrugOrders,
-          variables: {
-            status: 'cancelled',
-          },
-        },
-      ],
-    })
-    history.push('/pending-order')
-  }
   const {
     createdAt,
     affliation,
@@ -492,102 +396,15 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
             </Grid>
           </Grid>
         </Grid>
-
-        <Grid
-          item
-          container
-          gap={4}
-          justifyContent="center"
-          alignItems="center"
-          className={`${classes.gridsWrapper} ${classes.buttonsGridWrapper}`}
-        >
-          <Grid item xs={3}>
-            <CustomButton
-              variant="contained"
-              title="Cancel Request"
-              type={trasparentButton}
-              width="100%"
-              textColor={theme.palette.common.black}
-              onClick={() => setOpenDisablePatient(true)}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <CustomButton
-              variant="contained"
-              title="Process Order"
-              width="100%"
-              type={darkButton}
-              onClick={handleDialogOpen}
-            />
-          </Grid>
-
-          <DisablePatient
-            open={openDisablePatient}
-            setOpen={setOpenDisablePatient}
-            title="Cancel Referral"
-            btnValue="cancel"
-            confirmationMsg="Cancel Referral"
-            onConfirm={onConfirm}
-          />
-          <Success
-            open={modal}
-            handleDialogClose={handleDialogClose}
-            title="SUCCESSFUL"
-            btnValue="Done"
-            confirmationMsg="Your order has been successful"
-          />
-        </Grid>
       </Grid>
-
-      <Modals
-        isOpen={cancel}
-        title="Cancel Test"
-        rowSpacing={5}
-        handleClose={() => setCancel(false)}
-      >
-        <Formik
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-          validateOnChange={false}
-          validateOnMount={false}
-          initialValues={initialValues}
-          enableReinitialize
-        >
-          {({ isSubmitting, dirty, isValid }) => {
-            return (
-              <Form style={{ marginTop: '3rem' }}>
-                <Grid container>
-                  <Grid item container>
-                    <FormikControl
-                      control="input"
-                      label="State a Reason"
-                      name="reason"
-                      placeholder="Enter reason"
-                    />
-                  </Grid>
-                  <Grid item container sx={{ flexGrow: 1, marginTop: '10rem' }}>
-                    <CustomButton
-                      title="Cancel Test"
-                      type={darkButton}
-                      width="100%"
-                      isSubmitting={isSubmitting}
-                      disabled={!(dirty || isValid)}
-                    />
-                  </Grid>
-                </Grid>
-              </Form>
-            )
-          }}
-        </Formik>
-      </Modals>
     </>
   )
 }
 
-PendingOrderProfile.propTypes = {
+ViewCompleted.propTypes = {
   chatMediaActive: PropTypes.bool.isRequired,
   setChatMediaActive: PropTypes.func.isRequired,
   type: PropTypes.string,
 }
 
-export default PendingOrderProfile
+export default ViewCompleted

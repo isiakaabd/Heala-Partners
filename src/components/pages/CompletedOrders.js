@@ -23,7 +23,7 @@ import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
-import displayPhoto from 'assets/images/avatar.png'
+import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
@@ -32,6 +32,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { useQuery } from '@apollo/client'
 import { getDrugOrders } from 'components/graphQL/useQuery'
 import { NoData } from 'components/layouts'
+import { dateMoment, timeMoment } from 'components/Utilities/Time'
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
     '&.MuiGrid-root': {
@@ -218,7 +219,7 @@ const CompletedOrders = () => {
               {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { _id } = row
+                  const { orderId, createdAt, _id, patientData } = row
                   const isItemSelected = isSelected(_id, selectedRows)
 
                   const labelId = `enhanced-table-checkbox-${index}`
@@ -251,18 +252,19 @@ const CompletedOrders = () => {
                       <TableCell
                         id={labelId}
                         scope="row"
-                        align="center"
+                        align="left"
                         className={classes.tableCell}
                       >
-                        {row.entryDate}
+                        {dateMoment(createdAt)}
                       </TableCell>
-                      <TableCell align="center" className={classes.tableCell}>
-                        {row.time}
+                      <TableCell align="left" className={classes.tableCell}>
+                        {timeMoment(createdAt)}
                       </TableCell>
-                      <TableCell align="center" className={classes.tableCell}>
-                        {row.medical}
+                      <TableCell align="left" className={classes.tableCell}>
+                        {orderId}
                       </TableCell>
-                      <TableCell align="center" className={classes.tableCell}>
+
+                      <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
                             height: '100%',
@@ -272,14 +274,15 @@ const CompletedOrders = () => {
                         >
                           <span style={{ marginRight: '1rem' }}>
                             <Avatar
-                              alt={`Display Photo of ${row.firstName}`}
-                              src={displayPhoto}
+                              alt={`Display Photo of ${patientData?.firstName}`}
+                              src={patientData?.picture || displayPhoto}
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
                           <span style={{ fontSize: '1.25rem' }}>
-                            {row.firstName}
-                            {row.lastName}
+                            {patientData
+                              ? `${patientData?.firstName} ${patientData?.lastName}`
+                              : 'No Value'}
                           </span>
                         </div>
                       </TableCell>
@@ -288,7 +291,7 @@ const CompletedOrders = () => {
                           label="view order"
                           variant="outlined"
                           component={Link}
-                          to={`pending-order/${row.id}/order`}
+                          to={`completed-order/${_id}/order`}
                           className={classes.chip}
                           deleteIcon={<ArrowForwardIosIcon />}
                           onDelete={() => console.log(' ')}
