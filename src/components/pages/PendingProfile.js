@@ -93,7 +93,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PendingProfile = ({ chatMediaActive, setChatMediaActive }) => {
+const PendingProfile = ({
+  chatMediaActive,
+  setChatMediaActive,
+  setSelectedSubMenu,
+  setSelectedPatientMenu,
+}) => {
   const initialValues = {
     reason: '',
   }
@@ -227,7 +232,12 @@ const PendingProfile = ({ chatMediaActive, setChatMediaActive }) => {
     <>
       <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
         <Grid item style={{ marginBottom: '3rem' }}>
-          <PreviousButton path={'/pending-request/'} />
+          <PreviousButton
+            path={'/pending'}
+            onClick={() => {
+              setSelectedSubMenu(3)
+            }}
+          />
         </Grid>
 
         <DisplayProfile2

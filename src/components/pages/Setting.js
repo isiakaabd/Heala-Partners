@@ -57,9 +57,9 @@ const Setting = ({ setSelectedSubMenu }) => {
         sm={12}
       >
         <Link
-          to="/settings/profile"
+          to="/setting/profile"
           style={{ textDecoration: 'none' }}
-          onClick={() => setSelectedSubMenu(12)}
+          onClick={() => setSelectedSubMenu(11)}
         >
           <Card
             alt="A administrator icon used as a representation for the administrator "

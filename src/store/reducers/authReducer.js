@@ -59,6 +59,8 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem('pharmacyID')
       localStorage.removeItem('pharmacy_Email')
       localStorage.removeItem('pharmacyId')
+      localStorage.removeItem('role')
+      localStorage.clear()
       return {
         ...state,
         isAuthenticated: false,
@@ -66,6 +68,7 @@ const authReducer = (state = initialState, action) => {
         userId: null,
         authError: {},
         dociId: null,
+        role: null,
         healaID: null,
         id: null,
       }

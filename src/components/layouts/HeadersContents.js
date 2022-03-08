@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Typography, Toolbar } from '@mui/material'
-import HeaderProfile from './HeaderProfile'
+import { HeaderProfile } from '.'
 import { makeStyles } from '@mui/styles'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Link, useLocation } from 'react-router-dom'
@@ -69,7 +69,7 @@ const CustomHeaderText = ({ title, path }) => {
 
 CustomHeaderText.propTypes = {
   title: PropTypes.string.isRequired,
-  total: PropTypes.number.isRequired,
+  total: PropTypes.number,
   path: PropTypes.string.isRequired,
 }
 
@@ -182,16 +182,14 @@ const HeaderText = (props) => {
     selectedSubMenu,
     selectedPatientMenu,
     selectedHcpMenu,
+    selectedScopedMenu,
   } = props
   const classes = useStyles()
   const theme = useTheme()
-  const { pathname } = useLocation()
-
   const id = localStorage.getItem('pharmacyId')
+  const [pharmacyData, setPharmacyData] = useState()
 
-  const [pharmacyData, setPharmacyData] = useState([])
-
-  const [pharmacy, { data }] = useLazyQuery(getPartner, {
+  const [pharmacy, { data, error }] = useLazyQuery(getPartner, {
     variables: { id },
   })
 
@@ -200,11 +198,13 @@ const HeaderText = (props) => {
       setTimeout(pharmacy, 300)
     })()
     if (data) {
-      localStorage.setItem('pharmacyID', data.getPartner._id)
-      setPharmacyData(data.getPartner)
+      localStorage.setItem('partnerID', data.getPartner._id)
+      setPharmacyData(data?.getPartner)
     }
   }, [pharmacy, data])
 
+  const { pathname } = useLocation()
+  if (error) return
   switch (selectedMenu) {
     case 0:
       return (
@@ -213,7 +213,7 @@ const HeaderText = (props) => {
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            {pharmacyData && pharmacyData.name}
+            {pharmacyData?.name}
           </Typography>
         </div>
       )
@@ -221,10 +221,10 @@ const HeaderText = (props) => {
       if (selectedSubMenu === 2) {
         return (
           <CustomSubHeaderText
-            title="Pending Tests"
-            subTitle=" View Request"
-            scopedMenu={0}
-            scopedSubMenu={0}
+            title="Pending Requests"
+            subTitle=" View Requestsssssssss"
+            scopedMenu={selectedPatientMenu}
+            scopedSubMenu={selectedScopedMenu}
             titleColor={
               selectedPatientMenu === 0
                 ? theme.palette.common.green
@@ -234,66 +234,91 @@ const HeaderText = (props) => {
           />
         )
       }
-      return <CustomHeaderText title="Pending Tests" path="pending" />
+      return (
+        <CustomHeaderText
+          title="Pending Requests"
+          // total={24}
+          path="pending"
+        />
+      )
     case 2:
       if (selectedSubMenu === 3) {
         return (
           <CustomSubHeaderText
-            scopedMenu={0}
-            scopedSubMenu={0}
-            title="Scheduled Tests"
-            subTitle="view Scheduled Request "
+            title="Scheduled Requests"
+            path="schedule"
+            subTitle="View Scheduled Results"
+            scopedMenu={selectedHcpMenu}
+            scopedSubMenu={selectedScopedMenu}
             titleColor={
-              selectedHcpMenu === 0
-                ? theme.palette.common.red
+              selectedPatientMenu === 0
+                ? theme.palette.common.green
                 : theme.palette.common.grey
             }
+            selectedPatientMenu={selectedPatientMenu}
           />
         )
       }
-      return <CustomHeaderText title="Scheduled Tests" path="schedule" />
+      return <CustomHeaderText title="Scheduled Requests" path="schedule" />
     case 3:
-      if (selectedSubMenu === 4) {
-        return (
-          <CustomSubHeaderText
-            scopedMenu={0}
-            scopedSubMenu={0}
-            title="Completed Tests"
-            subTitle="view Completed Request"
-            titleColor={
-              selectedHcpMenu === 0
-                ? theme.palette.common.red
-                : theme.palette.common.grey
-            }
-          />
-        )
-      }
-      return <CustomHeaderText title="Completed Tests" path="completed" />
+      return (
+        <CustomHeaderText title="Completed Requests" path="completed-order" />
+      )
 
     case 5:
       if (selectedSubMenu === 6) {
         return (
           <CustomSubHeaderText
-            title="Cancelled Tests"
+            title="Cancelled Requests"
             scopedMenu={0}
             scopedSubMenu={0}
           />
         )
       }
-      return <CustomHeaderTitle title="Cancelled Tests" path="cancelled" />
+      return (
+        <CustomHeaderTitle title="Cancelled Requests" path="cancelled-order" />
+      )
+    case 7:
+      if (selectedSubMenu === 8) {
+        return (
+          <CustomSubHeaderText
+            title="Completed Requests"
+            scopedMenu={0}
+            scopedSubMenu={0}
+            subTitle="View Completed Results"
+          />
+        )
+      }
+      return (
+        <CustomHeaderTitle title="Completed Requests" path="completed-order" />
+      )
+    case 8:
+      if (selectedSubMenu === 9) {
+        return (
+          <CustomSubHeaderText
+            title="Scheduled Requests"
+            scopedMenu={0}
+            scopedSubMenu={0}
+            subTitle="View Schedule Requests"
+          />
+        )
+      }
+      return (
+        <CustomHeaderTitle title="Scheduled Requests" path="schedule-request" />
+      )
+
     case 11:
       if (selectedSubMenu === 12) {
         return (
           <CustomSubHeaderText
             title="Settings"
-            subTitle={pathname === '/setting/profile' ? 'Profile' : ''}
+            subTitle={pathname === '/setting/profile' ? 'View profile' : ''}
             scopedMenu={0}
             scopedSubMenu={0}
           />
         )
       }
-      return <CustomHeaderTitle title="Settings" path="setting" />
-
+      return <CustomHeaderTitle title="Settings" path="settings" />
     default:
       return (
         <div>
@@ -301,7 +326,7 @@ const HeaderText = (props) => {
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            {pharmacyData && pharmacyData.name}
+            {pharmacyData?.name}
           </Typography>
         </div>
       )
@@ -318,7 +343,7 @@ HeaderText.propTypes = {
   selectedScopedMenu: PropTypes.number.isRequired,
 }
 
-const HeaderContent = (props) => {
+const HeaderContents = (props) => {
   const {
     selectedMenu,
     selectedSubMenu,
@@ -345,7 +370,7 @@ const HeaderContent = (props) => {
   )
 }
 
-HeaderContent.propTypes = {
+HeaderContents.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
   selectedSubMenu: PropTypes.number.isRequired,
   selectedPatientMenu: PropTypes.number.isRequired,
@@ -355,4 +380,4 @@ HeaderContent.propTypes = {
   selectedScopedMenu: PropTypes.number.isRequired,
 }
 
-export default HeaderContent
+export default HeaderContents

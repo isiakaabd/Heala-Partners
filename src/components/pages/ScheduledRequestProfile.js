@@ -88,7 +88,8 @@ const useStyles = makeStyles((theme) => ({
 const ScheduledRequestProfile = ({
   chatMediaActive,
   setChatMediaActive,
-  type,
+  setSelectedSubMenu,
+  setSelectedHcpMenu,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -232,9 +233,14 @@ const ScheduledRequestProfile = ({
   } = scheduleState
   return (
     <>
-      <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
+      <Grid container direction="column" style={{ paddingBottom: '2rem' }}>
         <Grid item style={{ marginBottom: '3rem' }}>
-          <PreviousButton path={'/schedule'} />
+          <PreviousButton
+            path={'/schedule'}
+            onClick={() => {
+              setSelectedSubMenu(4)
+            }}
+          />
         </Grid>
         {/* Display photo and profile name grid */}
 

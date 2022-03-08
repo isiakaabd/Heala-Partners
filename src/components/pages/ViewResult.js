@@ -83,7 +83,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ViewResult = ({ chatMediaActive, setChatMediaActive, type }) => {
+const ViewResult = ({
+  chatMediaActive,
+  setChatMediaActive,
+  setSelectedSubMenu,
+  type,
+}) => {
   const classes = useStyles()
   const { completeId } = useParams()
   const [scheduleState, setScheduleState] = useState([])
@@ -130,7 +135,12 @@ const ViewResult = ({ chatMediaActive, setChatMediaActive, type }) => {
     <>
       <Grid container direction="column" style={{ paddingBottom: '2rem' }}>
         <Grid item style={{ marginBottom: '3rem' }}>
-          <PreviousButton path={'/completed'} />
+          <PreviousButton
+            path={'/completed'}
+            onClick={() => {
+              setSelectedSubMenu(6)
+            }}
+          />
         </Grid>
         {/* Display photo and profile name grid */}
 

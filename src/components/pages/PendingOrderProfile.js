@@ -199,7 +199,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     <>
       <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
         <Grid item style={{ marginBottom: '3rem' }}>
-          <PreviousButton path={'/pending-order'} />
+          <PreviousButton path={'/pending'} />
         </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>

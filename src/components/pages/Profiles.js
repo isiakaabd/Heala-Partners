@@ -74,7 +74,7 @@ const Profile = ({
 
   useEffect(() => {
     setSelectedMenu(11)
-    setSelectedSubMenu(12)
+    // setSelectedSubMenu(12)
 
     // eslint-disable-next-line
   }, [selectedMenu, selectedSubMenu])
@@ -84,7 +84,12 @@ const Profile = ({
   return (
     <Grid container>
       <Grid item style={{ marginBottom: '3rem' }}>
-        <PreviousButton path={'/settings'} />
+        <PreviousButton
+          path={'/settings'}
+          onClick={() => {
+            setSelectedSubMenu(11)
+          }}
+        />
       </Grid>
       <Grid container>
         <Formik

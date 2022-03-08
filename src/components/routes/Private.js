@@ -21,6 +21,8 @@ const Private = (props) => {
     setSelectedMenu,
     selectedSubMenu,
     setSelectedSubMenu,
+    setSelectedHcpMenu,
+    selectedHcpMenu,
     setSelectedPatientMenu,
     chatMediaActive,
     setChatMediaActive,
@@ -51,19 +53,33 @@ const Private = (props) => {
         component={PendingProfile}
         selectedMenu={selectedMenu}
         setSelectedMenu={setSelectedMenu}
+        setSelectedPatientMenu={setSelectedPatientMenu}
         selectedSubMenu={selectedSubMenu}
         setSelectedSubMenu={setSelectedSubMenu}
         chatMediaActive={chatMediaActive}
         setChatMediaActive={setChatMediaActive}
       />
 
-      <PrivateRoute exact path="/schedule" component={ScheduledRequest} />
+      <PrivateRoute
+        exact
+        path="/schedule"
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
+        selectedHcpMenu={selectedHcpMenu}
+        setSelectedSubMenu={setSelectedSubMenu}
+        setSelectedHcpMenu={setSelectedHcpMenu}
+        setSelectedPatientMenu={setSelectedPatientMenu}
+        component={ScheduledRequest}
+      />
 
       <PrivateRoute
         exact
         path="/schedule/:scheduleId/schedule"
         component={ScheduledRequestProfile}
         selectedMenu={selectedMenu}
+        setSelectedHcpMenu={setSelectedHcpMenu}
+        selectedHcpMenu={selectedHcpMenu}
         setSelectedMenu={setSelectedMenu}
         selectedSubMenu={selectedSubMenu}
         setSelectedSubMenu={setSelectedSubMenu}
@@ -71,7 +87,19 @@ const Private = (props) => {
         setChatMediaActive={setChatMediaActive}
       />
 
-      <PrivateRoute exact path="/completed" component={CompletedOrder} />
+      <PrivateRoute
+        exact
+        path="/completed"
+        selectedMenu={selectedMenu}
+        setSelectedHcpMenu={setSelectedHcpMenu}
+        selectedHcpMenu={selectedHcpMenu}
+        setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
+        setSelectedSubMenu={setSelectedSubMenu}
+        chatMediaActive={chatMediaActive}
+        setChatMediaActive={setChatMediaActive}
+        component={CompletedOrder}
+      />
       <PrivateRoute
         exact
         path="/completed/:completeId/view"
@@ -104,7 +132,7 @@ const Private = (props) => {
       />
 
       <PrivateRoute
-        path="/settings/profile"
+        path="/setting/profile"
         component={Profile}
         selectedMenu={selectedMenu}
         selectedSubMenu={selectedSubMenu}

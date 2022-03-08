@@ -87,7 +87,7 @@ const Profile = ({
   return (
     <Grid container>
       <Grid item style={{ marginBottom: '3rem' }}>
-        <PreviousButton path={'/settings'} />
+        <PreviousButton path={'/setting'} />
       </Grid>
       <Grid container>
         <Formik

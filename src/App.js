@@ -5,7 +5,7 @@ import './App.css'
 import { Loader } from 'components/Utilities'
 import { setAccessToken } from './accessToken'
 import { muiTheme } from 'components/muiTheme'
-import { Header, SideMenu, SideMenus } from 'components/layouts'
+import { Header, Headers, SideMenu, SideMenus } from 'components/layouts'
 import Routes from 'components/routes/Routes'
 import { useSelector } from 'react-redux'
 import ScrollToView from 'components/ScrollToView'
@@ -25,26 +25,12 @@ const sectionStyles = {
 const App = () => {
   // const { userDetail } = useActions()
   /* The selected SubMenu handles the visibility of the menu's sub. 0 is set as a buffer. so if you want to reset the submenu, just pass in 0 to the setSelectedSubMenu function. 1 is for the dashboard submenu, 2 for Patients and serially like that to the last menu items */
-  // const [pharmacy, { data: pharmaData }] = useLazyQuery(getPartner)
   useEffect(() => {
     const token = localStorage.getItem('token')
     setAccessToken(token)
     setstate(false)
   }, [])
 
-  // useEffect(() => {
-  //   ;(async () => {
-  //     await pharmacy({
-  //       variables: {
-  //         id: localStorage.getItem('pharmacyId'),
-  //       },
-  //     })
-  //   })()
-  //   if (pharmaData) {
-  //     userDetail({ data: pharmaData })
-  //   }
-  // }, [])
-  // console.log(pharmaData)
   const [selectedMenu, setSelectedMenu] = useState(0)
   const { isAuthenticated, role } = useSelector((state) => state.auth)
   const [selectedSubMenu, setSelectedSubMenu] = useState(0)
@@ -76,7 +62,7 @@ const App = () => {
             role === 'diagnostics' &&
             !state && (
               <>
-                <Header
+                <Headers
                   selectedMenu={selectedMenu}
                   selectedPendingMenu={selectedPendingMenu}
                   selectedSubMenu={selectedSubMenu}
@@ -88,7 +74,6 @@ const App = () => {
                 />
                 <ScrollToView>
                   {!isAuthenticated && (
-                    //||(isAuthenticated &&  //  role !== 'pharmacy'
                     <Route
                       path={['/', '/login']}
                       render={(props) => <Login {...props} />}
@@ -143,7 +128,7 @@ const App = () => {
             )}
           {isAuthenticated &&
             !chatMediaActive &&
-            // role === 'pharmacy' &&
+            role !== 'diagnostics' &&
             !state && (
               <>
                 <Header
@@ -158,7 +143,6 @@ const App = () => {
                 />
                 <ScrollToView>
                   {!isAuthenticated && (
-                    //||(isAuthenticated &&  //  role !== 'pharmacy'
                     <Route
                       path={['/', '/login']}
                       render={(props) => <Login {...props} />}

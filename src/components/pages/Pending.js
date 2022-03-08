@@ -290,7 +290,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           variant="outlined"
                           onClick={() => {
                             setSelectedSubMenu(2)
-                            setSelectedPatientMenu(0)
+                            setSelectedPatientMenu(1)
                           }}
                           component={Link}
                           to={`pending/${_id}/request`}
