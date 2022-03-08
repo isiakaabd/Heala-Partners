@@ -7,6 +7,7 @@ const initialState = {
   id: localStorage.getItem('user_id'),
   userDetail: null,
   isAuthenticated: localStorage.getItem('auth') ? true : false,
+  role: localStorage.getItem('role'),
 }
 
 const authReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
+        role: null,
         healaID: action.payload.dociId,
         authError: action.payload.messages,
         id: action.payload._id,
@@ -30,10 +32,12 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
       }
     case actionTypes.USER_DETAIL:
+      localStorage.setItem('role', action.payload)
       return {
         ...state,
         userDetail: action.payload,
-        // isAuthenticated: true,
+        isAuthenticated: true,
+        role: action.payload,
       }
     case actionTypes.LOGIN_FAILURE:
       localStorage.removeItem('auth')
@@ -52,7 +56,9 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem('user_id')
       localStorage.removeItem('token')
       localStorage.removeItem('email')
-      localStorage.removeItem('hcp')
+      localStorage.removeItem('pharmacyID')
+      localStorage.removeItem('pharmacy_Email')
+      localStorage.removeItem('pharmacyId')
       return {
         ...state,
         isAuthenticated: false,

@@ -122,4 +122,93 @@ export const cancelDrugOrder = gql`
     }
   }
 `
+export const getDiagnosticTests = gql`
+  query getDiagnosticTests($status: String!) {
+    getDiagnosticTests(status: $status) {
+      data {
+        _id
+        partner
+        patient
+        doctor
+        reason
+        testId
+        patientData
+        doctorData
+        referralId
+        note
+        sampleCollection
+        testResults
+        cancellationReason
+        partnerData
+        createdAt
+        userLocation {
+          address
+          phoneNumber
+          city
+          lat
+          lng
+        }
+      }
+    }
+  }
+`
+export const cancelDiagnosticReferral = gql`
+  query cancelDiagnosticReferral($id: String) {
+    cancelDiagnosticReferral(id: $id) {
+      _id
+      partner
+      patient
+      patientData
+      doctorData
+      doctor
 
+      testId
+      referralId
+      note
+      reason
+      sampleCollection
+      createdAt
+      userLocation {
+        address
+        city
+        lat
+        lng
+      }
+    }
+  }
+`
+export const getDiagnosticTest = gql`
+  query getDiagnosticTest($id: String) {
+    getDiagnosticTest(id: $id) {
+      _id
+      partner
+      patient
+      doctor
+      reason
+      referralId
+      note
+      testId
+      status
+      patientData
+      doctorData
+      sampleCollection
+      testResults
+      cancellationReason
+      partnerData
+      createdAt
+      tests {
+        name
+        price
+        tat
+        paid
+      }
+      userLocation {
+        address
+        phoneNumber
+        city
+        lat
+        lng
+      }
+    }
+  }
+`

@@ -25,6 +25,13 @@ export const patientsHeadCells = [
     label: '',
   },
 ]
+
+export const messagesHeadCell = [
+  { id: 0, label: 'Date' },
+  { id: 9, label: 'Referral ID' },
+  { id: 2, label: 'Cancellation Reasons' },
+  { id: 3, label: "Patient's Name" },
+]
 export const emailHeader = [
   {
     id: 0,

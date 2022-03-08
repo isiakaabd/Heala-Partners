@@ -19,6 +19,98 @@ export const Login_USER = gql`
     }
   }
 `
+export const cancelDiagnosticTest = gql`
+  mutation cancelDiagnosticTest($id: String!, $reason: String!) {
+    cancelDiagnosticTest(data: { id: $id, reason: $reason }) {
+      diagnosticTest {
+        _id
+        partner
+        patient
+        doctor
+        affiliation
+        reason
+        referralId
+        note
+        time
+        sampleCollection
+        testResults
+        cancellationReason
+        userLocation {
+          address
+          city
+          lat
+          lng
+        }
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`
+export const completeDiagnosticTest = gql`
+  mutation completeDiagnosticTest($id: String!, $testResults: [JSONObject]) {
+    completeDiagnosticTest(data: { id: $id, testResults: $testResults }) {
+      diagnosticTest {
+        _id
+        partner
+        patient
+        doctor
+        affiliation
+
+        reason
+        referralId
+        note
+        time
+        sampleCollection
+        testResults
+        cancellationReason
+        userLocation {
+          address
+          city
+          lat
+          lng
+        }
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`
+export const scheduleDiagnosticTest = gql`
+  mutation scheduleDiagnosticTest($id: String!, $time: String) {
+    scheduleDiagnosticTest(data: { id: $id, time: $time }) {
+      diagnosticTest {
+        _id
+        partner
+        patient
+        doctor
+        affiliation
+
+        reason
+        referralId
+        note
+        time
+        sampleCollection
+        testResults
+        cancellationReason
+        userLocation {
+          address
+          city
+          lat
+          lng
+        }
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`
 export const LOGOUT_USER = gql`
   mutation logout {
     logout

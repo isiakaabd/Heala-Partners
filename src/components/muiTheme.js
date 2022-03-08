@@ -1,15 +1,15 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles'
 
-const dark = "#4F4F4F";
-const grey = "#757886";
-const red = "#3e5ea9";
-const lightRed = "#FEF8F7";
-const lightGrey = "#CCCCCC";
-const lighterGrey = "F2F2F2";
-const green = "#3e5ea9";
-const lightGreen = "#ECF6F3";
-const gold = "rgb(243, 173, 83)";
-const black = "#2D2F39";
+const dark = '#4F4F4F'
+const grey = '#757886'
+const red = '#ED3237'
+const lightRed = '#FEF8F7'
+const lightGrey = '#CCCCCC'
+const lighterGrey = '#F2F2F2'
+const green = '#3E5EA9'
+const lightGreen = '#E7EFFA'
+const gold = 'rgb(243, 173, 83)'
+const black = '#2D2F39'
 
 export const muiTheme = createTheme({
   palette: {
@@ -45,100 +45,109 @@ export const muiTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: ['"Euclid Circular"', '"Circular Std Medium"', "Roboto", "sans-serif"].join(", "),
+    fontFamily: [
+      '"Euclid Circular"',
+      '"Circular Std Medium"',
+      'Roboto',
+      'sans-serif',
+    ].join(', '),
     fontSize: 10,
     htmlFontSize: 10,
     h1: {
-      fontSize: "3rem",
+      fontSize: '3rem',
       color: dark,
       fontWeight: 700,
     },
     h2: {
-      fontSize: "2.5rem",
+      fontSize: '2.5rem',
       color: dark,
       fontWeight: 600,
     },
     h3: {
-      fontSize: "2.25rem",
+      fontSize: '2.4rem',
       fontWeight: 500,
     },
     h4: {
-      fontSize: "1.85rem",
+      fontSize: '1.85rem !important',
       fontWeight: 500,
     },
     h5: {
-      fontSize: "1.5rem",
+      fontSize: '1.5rem',
       fontWeight: 500,
+    },
+    h6: {
+      fontSize: '1rem',
+      fontWeight: 400,
     },
 
     body1: {
-      fontSize: "1.6rem",
-      fontWeight: 500,
+      fontSize: '1.4rem',
+      fontWeight: 400,
       lineHeight: 1.7,
       color: dark,
     },
     body2: {
-      fontSize: "1.4rem",
+      fontSize: '1.4rem',
       fontWeight: 500,
       lineHeight: 1.85,
     },
     btn: {
-      fontSize: "1.5rem",
-      textTransform: "none",
-      height: "5rem",
+      fontSize: '1.5rem',
+      textTransform: 'none',
       borderRadius: 10,
-      boxShadow: "0px 0px 4px -1px rgba(71,64,71,0.63)",
+      height: '5rem',
+      boxShadow: '0px 0px 4px -1px rgba(71,64,71,0.63)',
     },
 
     rowBtn: {
-      textTransform: "none",
-      borderRadius: "2rem",
-      padding: "1rem",
-      maxWidth: "10rem",
+      textTransform: 'none',
+      borderRadius: '2rem',
+      padding: '1rem',
+      maxWidth: '10rem',
     },
 
     cardIconWrapper: {
       width: 86,
       height: 84,
-      borderRadius: "50%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      borderRadius: '50%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     cardGridWrapper: {
-      height: "100%",
-      padding: "5rem 3rem",
+      height: '100%',
+      padding: '5rem 3rem',
       borderRadius: 10,
-      boxShadow: "-1px 0px 10px -2px rgba(0,0,0,0.15)",
+      boxShadow: '-1px 0px 10px -2px rgba(0,0,0,0.15)',
     },
 
     cardParentGrid: {
-      background: "#fff",
+      background: '#fff',
       borderRadius: 10,
-      height: "25.8rem",
-      cursor: "pointer",
+      height: '25.8rem',
+      cursor: 'pointer',
     },
     FormLabel: {
-      fontSize: "1.6rem",
+      fontSize: '1.6rem',
       color: dark,
     },
     input: {
       // ...theme
-      width: "100%",
-      height: "5rem",
-      border: "1px solid lightGrey",
-      borderRadius: ".5rem",
-      padding: "1rem",
-      fontSize: "1.6rem",
+      width: '100%',
+      height: '5rem',
+      border: 'none',
+      borderRadius: '.5rem',
+      padding: '1rem',
+      fontSize: '1.6rem',
       color: dark,
-      fontWeight: 600,
+      fontWeight: 400,
 
-      "&:focus": {
-        outline: "none",
+      '&:focus': {
+        outline: 'none',
       },
 
-      "&::placeholder": {
+      '&::placeholder': {
         color: lightGrey,
         fontWeight: 500,
       },
@@ -148,17 +157,17 @@ export const muiTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: "#fff",
-          boxShadow: "-1px 0px 10px -2px rgba(0,0,0,0.15)",
+          background: '#fff',
+          boxShadow: '-1px 0px 10px -2px rgba(0,0,0,0.15)',
         },
       },
     },
     MuiBadge: {
       styleOverrides: {
         badge: {
-          top: "-.9rem",
+          top: '-.9rem',
         },
       },
     },
   },
-});
+})

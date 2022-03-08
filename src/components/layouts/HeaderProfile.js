@@ -7,6 +7,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import Notifications from 'components/layouts/Notifications'
 import { useLazyQuery } from '@apollo/client'
 import { getPartner } from 'components/graphQL/useQuery'
+import { useActions } from 'components/hooks/useActions'
 
 const useStyles = makeStyles((theme) => ({
   role: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderProfile = () => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const { userDetail } = useActions()
 
   const classes = useStyles()
 
@@ -49,7 +51,11 @@ const HeaderProfile = () => {
     })()
     if (data) {
       setPharmacyData(data?.getPartner)
+      userDetail({
+        data: data?.getPartner.category,
+      })
     }
+    //eslint-disable-next-line
   }, [pharmacy, data])
 
   return (

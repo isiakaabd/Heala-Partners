@@ -6,7 +6,9 @@ export const dateMoment = (dateString) => {
 export const timeMoment = (dateString) => {
   return moment(dateString).format('hh:mm A')
 }
-
+export const time = (dateString) => {
+  return moment(dateString).format('YYYY-MM-DD HH:mm')
+}
 export const timeConverter = (str) => {
   const date = new Date(str),
     mnth = ('0' + (date.getMonth() + 1)).slice(-2),
@@ -46,11 +48,13 @@ export const financialPercent = (a, b) => {
 }
 
 export const selectOptions = [
-  { key: 'One day', value: '1' },
-  { key: 'Five Days', value: '5' },
-  { key: 'One Month', value: '30' },
-  { key: 'Three Months', value: '90' },
-  { key: 'One Year', value: '365' },
+  { key: 'Jan', value: '1' },
+  { key: 'Mar', value: '3' },
+  { key: 'May', value: '5' },
+  { key: 'Jul', value: '7' },
+  { key: 'Sept', value: '9' },
+  { key: 'Nov', value: '11' },
+  { key: 'Jan', value: '1' },
 ]
 export const formatNumber = (num) => {
   return new Intl.NumberFormat().format(num)

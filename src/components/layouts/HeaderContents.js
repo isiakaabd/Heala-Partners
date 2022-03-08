@@ -205,11 +205,7 @@ const HeaderText = (props) => {
       setPharmacyData(data.getPartner)
     }
   }, [pharmacy, data])
-  useEffect(() => {
-    if (data) {
-      setPharmacyData(data.getPartner)
-    }
-  }, [data])
+
 
   switch (selectedMenu) {
     case 0:
@@ -347,7 +343,7 @@ const HeaderText = (props) => {
       return (
         <div>
           <Typography variant="h5" className={classes.text} gutterBottom>
-            Welcomex,
+            Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
             {pharmacyData && pharmacyData.name}
