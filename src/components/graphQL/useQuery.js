@@ -10,6 +10,20 @@ export const getPartner = gql`
     }
   }
 `
+export const getDiagnosticDashboard = gql`
+  query getDiagnosticDashboard {
+    getDiagnosticDashboard(partner: "") {
+      testRequestsCount
+      scheduledTestsCount
+      completedTestsCount
+      cancelledTestsCount
+      testRequestsStats
+      scheduledTestsStats
+      completedTestsStats
+      cancelledTestsStats
+    }
+  }
+`
 export const getDrugOrders = gql`
   query getDrugOrders($status: String, $patient: String) {
     getDrugOrders(status: $status, patient: $patient) {

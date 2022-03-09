@@ -1,22 +1,23 @@
-import React, { Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import Chip from '@mui/material/Chip'
+import { Grid, Chip } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { Line } from 'react-chartjs-2'
+import { monthNames } from 'components/Utilities/Time'
 
 const useStyles = makeStyles((theme) => ({
   intervalButtonsGrid: {
     background: theme.palette.common.lightGreen,
-    borderRadius: '20rem',
-    padding: '.5rem 0',
+    borderRadius: '5rem',
+    padding: '1rem',
+    flexWrap: 'nowrap',
   },
 
   chip: {
     '&.MuiChip-root': {
       background: '#fff',
-      fontSize: '1.05rem',
+      fontSize: '1rem',
     },
   },
 
@@ -28,21 +29,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const LineChart = ({
-  timeFrames,
-  selectedTimeframe,
-  setSelectedTimeframe,
-  tooltipTitle,
-}) => {
+const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
   const classes = useStyles()
   const theme = useTheme()
+  const [state, setState] = useState([])
+  useEffect(() => {
+    setState(
+      details &&
+        Object.keys(details)
+          .map((key) => details[key].sum)
+          .filter((element) => {
+            return element !== undefined
+          }),
+    )
+  }, [details])
 
   const data = {
-    labels: ['0', '500', '1000', '1500', '2000', '2500'],
+    labels: monthNames,
     datasets: [
       {
-        label: 'Inactive',
-        data: ['300', '200', '100', '700', '500', '400'],
+        label: 'Orders',
+        data: state,
         fill: false,
         borderColor: theme.palette.common.red,
         pointBackgroundColor: theme.palette.common.red,
@@ -76,6 +83,7 @@ const LineChart = ({
       tooltip: {
         backgroundColor: '#fff',
         titleColor: colorItem,
+        onHover: hover,
         bodyColor: theme.palette.common.lightGrey,
         titleAlign: 'center',
         bodyAlign: 'center',
@@ -87,16 +95,11 @@ const LineChart = ({
         yAlign: 'bottom',
         usePointStyle: true,
         callbacks: {
-          title: (context) => {
-            return tooltipTitle
-          },
-          label: (context) => {
-            return new Date().toString().slice(0, 21)
-          },
           labelPointStyle: (context) => {
             return {
               pointStyle: 'triangle',
               rotation: 0,
+              cursor: 'pointer',
             }
           },
         },
@@ -104,6 +107,9 @@ const LineChart = ({
     },
   }
 
+  function hover(event, chartElement) {
+    event.target.style.cursor = chartElement[0] ? 'pointer' : 'default'
+  }
   function colorItem(tooltipItem) {
     const tooltipTitleColor = tooltipItem.tooltip.labelColors[0].backgroundColor
 
@@ -112,7 +118,7 @@ const LineChart = ({
 
   return (
     <Fragment>
-      <Grid>
+      <Grid item>
         <Line data={data} options={options} />;
       </Grid>
       <Grid item>
@@ -121,10 +127,10 @@ const LineChart = ({
           justifyContent="space-evenly"
           className={classes.intervalButtonsGrid}
         >
-          {timeFrames.map((timeFrame) => (
-            <Grid item key={timeFrame.id}>
+          {monthNames.map((timeFrame, index) => (
+            <Grid item key={index}>
               <Chip
-                label={timeFrame.time}
+                label={timeFrame}
                 color={timeFrame === timeFrame.id ? 'success' : undefined}
                 clickable
                 className={`${classes.chip} ${
@@ -143,10 +149,10 @@ const LineChart = ({
 }
 
 LineChart.propTypes = {
-  timeFrames: PropTypes.array.isRequired,
-  selectedTimeframe: PropTypes.number.isRequired,
-  setSelectedTimeframe: PropTypes.func.isRequired,
-  tooltipTitle: PropTypes.string.isRequired,
+  timeFrames: PropTypes.array,
+  selectedTimeframe: PropTypes.number,
+  setSelectedTimeframe: PropTypes.func,
+  tooltipTitle: PropTypes.string,
 }
 
 export default LineChart

@@ -10,9 +10,9 @@ import {
   Checkbox,
   Button,
 } from '@mui/material'
-import { NoData, EnhancedTable } from 'components/layouts'
 import { dateMoment } from 'components/Utilities/Time'
 import { makeStyles } from '@mui/styles'
+import { NoData, EnhancedTable } from 'components/layouts'
 import {
   Search,
   Modals,
@@ -130,8 +130,8 @@ const CancelledOrder = ({
   setSelectedSubMenu,
 }) => {
   const classes = useStyles()
-  const [scheduleState, setScheduleState] = useState([])
   const status = 'cancelled'
+  const [scheduleState, setScheduleState] = useState([])
   const { data, loading, error } = useQuery(getDiagnosticTests, {
     variables: { status },
   })

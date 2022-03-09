@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import React, { useState, useEffect } from 'react'
+import { Grid, Typography, Divider } from '@mui/material'
 import GroupIcon from '@mui/icons-material/Group'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
-import Divider from '@mui/material/Divider'
-import LineChart from 'components/Utilities/LineChart'
+import { LineChart, Loader } from 'components/Utilities'
+import { NoData } from 'components/layouts'
 import 'chartjs-plugin-style'
+import { useQuery } from '@apollo/client'
+import { getDiagnosticDashboard } from 'components/graphQL/useQuery'
 
 const useStyles = makeStyles((theme) => ({
   parentGrid: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1.5rem 2rem',
   },
   overviewGrid: {
-    padding: '4rem 2rem 3rem',
+    padding: '1rem 1rem 1rem',
   },
   groupIconGrid: {
     width: '5rem',
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bottomChartGrid: {
-    padding: '3rem 2rem',
+    padding: '3rem 0.5rem',
   },
 
   dottedCircle: {
@@ -90,27 +91,55 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DashboardCharts = () => {
+  const [cancelled, setCancelled] = useState([])
+  const [testRequest, setTestRequest] = useState('')
+  const [scheduledTests, setScheduledTests] = useState('')
+  const [completedTests, setCompletedTests] = useState('')
+  const [testRequestsStats, setTestRequestsStats] = useState('')
+  const [scheduledTestsStats, setScheduledTestsStats] = useState('')
+  const [completedTestsStats, setCompletedTestsStats] = useState('')
+  const [cancelledTestsStats, setCancelledTestsStats] = useState('')
+
+  const { data, loading, error } = useQuery(getDiagnosticDashboard)
+
+  useEffect(() => {
+    if (data) {
+      const {
+        testRequestsCount,
+        scheduledTestsCount,
+        completedTestsCount,
+        cancelledTestsCount,
+        testRequestsStats,
+        scheduledTestsStats,
+        completedTestsStats,
+        cancelledTestsStats,
+      } = data?.getDiagnosticDashboard
+      // setState(data.getDiagnosticTests.data)
+      setTestRequest(testRequestsCount)
+      setScheduledTests(scheduledTestsCount)
+      setCompletedTests(completedTestsCount)
+      setCancelled(cancelledTestsCount)
+      setTestRequestsStats(testRequestsStats)
+      setScheduledTestsStats(scheduledTestsStats)
+      setCompletedTestsStats(completedTestsStats)
+      setCancelledTestsStats(cancelledTestsStats)
+    }
+  }, [data])
   const classes = useStyles()
   const theme = useTheme()
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(0)
 
-  const timeFrames = [
-    { id: 0, time: 'One Day' },
-    { id: 1, time: 'Five Days' },
-    { id: 2, time: 'One Month' },
-    { id: 3, time: 'Three Months' },
-    { id: 4, time: 'One Year' },
-  ]
-
+  if (loading) return <Loader />
+  if (error) return <NoData />
   return (
     <Grid
       container
       style={{ marginBottom: '5rem' }}
       justifyContent="space-between"
-      spacing={5}
+      spacing={1}
     >
-      <Grid item md>
+      <Grid item md={6} sm={12} lg={6}>
         <Grid container direction="column">
           <Grid
             item
@@ -137,7 +166,7 @@ const DashboardCharts = () => {
                         />
                       </Grid>
                       <Grid item style={{ margin: '0 0.5rem 0 1rem' }}>
-                        <Typography variant="h1">3000</Typography>
+                        <Typography variant="h1">{testRequest}</Typography>
                       </Grid>
                       <Grid item style={{ marginRight: '0.5rem' }}>
                         <ArrowUpwardIcon color="success" />
@@ -162,10 +191,9 @@ const DashboardCharts = () => {
                 className={classes.bottomChartGrid}
               >
                 <LineChart
-                  timeFrames={timeFrames}
                   selectedTimeframe={selectedTimeframe}
                   setSelectedTimeframe={setSelectedTimeframe}
-                  tooltipTitle="1800 HCPs"
+                  details={testRequestsStats}
                 />
               </Grid>
             </Grid>
@@ -191,7 +219,7 @@ const DashboardCharts = () => {
                   <Grid item style={{ margin: '0 0.5rem 0 1rem' }}>
                     <Grid container direction="column" alignItems="center">
                       <Grid item>
-                        <Typography variant="h1">3000</Typography>
+                        <Typography variant="h1">{completedTests}</Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -218,19 +246,18 @@ const DashboardCharts = () => {
             className={classes.bottomChartGrid}
           >
             <LineChart
-              timeFrames={timeFrames}
               selectedTimeframe={selectedTimeframe}
               setSelectedTimeframe={setSelectedTimeframe}
-              tooltipTitle="900 Subscribers"
+              details={completedTestsStats}
             />
           </Grid>
         </Grid>
       </Grid>
 
-      <Grid item md>
+      <Grid item md={6} sm={12} lg={6}>
         <Grid container direction="column" className={classes.chartCard}>
           <Grid item className={classes.headerGrid}>
-            <Typography variant="h5">Processing Orders</Typography>
+            <Typography variant="h5">Scheduled Orders</Typography>
           </Grid>
           <Divider color={theme.palette.common.lightGrey} />
           <Grid item>
@@ -247,7 +274,7 @@ const DashboardCharts = () => {
                   <Grid item style={{ margin: '0 0.5rem 0 1rem' }}>
                     <Grid container direction="column" alignItems="center">
                       <Grid item>
-                        <Typography variant="h1">3000</Typography>
+                        <Typography variant="h1">{scheduledTests}</Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -275,10 +302,9 @@ const DashboardCharts = () => {
             className={classes.bottomChartGrid}
           >
             <LineChart
-              timeFrames={timeFrames}
               selectedTimeframe={selectedTimeframe}
               setSelectedTimeframe={setSelectedTimeframe}
-              tooltipTitle="1800 Patients"
+              details={scheduledTestsStats}
             />
           </Grid>
           <Divider color={theme.palette.common.lighterGrey} />
@@ -300,7 +326,7 @@ const DashboardCharts = () => {
                   <Grid item style={{ margin: '0 0.5rem 0 1rem' }}>
                     <Grid container direction="column" alignItems="center">
                       <Grid item>
-                        <Typography variant="h1">3000</Typography>
+                        <Typography variant="h1">{cancelled}</Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -327,10 +353,9 @@ const DashboardCharts = () => {
             className={classes.bottomChartGrid}
           >
             <LineChart
-              timeFrames={timeFrames}
               selectedTimeframe={selectedTimeframe}
               setSelectedTimeframe={setSelectedTimeframe}
-              tooltipTitle="900 Subscribers"
+              details={cancelledTestsStats}
             />
           </Grid>
         </Grid>
