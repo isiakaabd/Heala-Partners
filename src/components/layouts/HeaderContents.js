@@ -4,7 +4,7 @@ import { Typography, Toolbar } from '@mui/material'
 import HeaderProfile from './HeaderProfile'
 import { makeStyles } from '@mui/styles'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles'
 import { useLazyQuery } from '@apollo/client'
 import { getPartner } from 'components/graphQL/useQuery'
@@ -185,12 +185,8 @@ const HeaderText = (props) => {
   } = props
   const classes = useStyles()
   const theme = useTheme()
-  const { pathname } = useLocation()
-
   const id = localStorage.getItem('pharmacyId')
-
   const [pharmacyData, setPharmacyData] = useState([])
-
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   })
@@ -242,7 +238,7 @@ const HeaderText = (props) => {
             scopedMenu={0}
             scopedSubMenu={0}
             title="Scheduled Tests"
-            subTitle="view Scheduled Request "
+            subTitle="view Scheduled Request"
             titleColor={
               selectedHcpMenu === 0
                 ? theme.palette.common.red
@@ -286,7 +282,13 @@ const HeaderText = (props) => {
         return (
           <CustomSubHeaderText
             title="Settings"
-            subTitle={pathname === '/setting/profile' ? 'Profile' : ''}
+            subTitle="Profile"
+            titleColor={
+              selectedHcpMenu === 0
+                ? theme.palette.common.red
+                : theme.palette.common.grey
+            }
+            // {pathname === '/setting/profile' ? 'Profile' : ''}
             scopedMenu={0}
             scopedSubMenu={0}
           />

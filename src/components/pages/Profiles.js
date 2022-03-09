@@ -20,9 +20,10 @@ const Profile = ({
   const [update] = useMutation(updatePartner)
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
-      id: localStorage.getItem('diagnosticId'),
+      id: localStorage.getItem('pharmacyId'),
     },
   })
+
   const [profile, setProfile] = useState()
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const Profile = ({
 
     await update({
       variables: {
-        id: localStorage.getItem('partnerID'),
+        id: profile._id,
         name,
         email,
         category: 'diagnostics',
@@ -85,7 +86,7 @@ const Profile = ({
     <Grid container>
       <Grid item style={{ marginBottom: '3rem' }}>
         <PreviousButton
-          path={'/settings'}
+          path={'/setting'}
           onClick={() => {
             setSelectedSubMenu(11)
           }}
@@ -131,16 +132,6 @@ const Profile = ({
                         placeholder="Email"
                       />
                     </Grid>
-                    {/* <Grid item md={6}>
-                      <FormikControl
-                        control="select"
-                        name="category"
-                        label="Category"
-                        defaultValue={profile?.category}
-                        placeholder="Select Category"
-                        options={options}
-                      />
-                    </Grid> */}
 
                     <Grid item md={6}>
                       <CustomButton

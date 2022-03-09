@@ -221,8 +221,8 @@ const HeaderText = (props) => {
       if (selectedSubMenu === 2) {
         return (
           <CustomSubHeaderText
-            title="Pending Requests"
-            subTitle=" View Requestsssssssss"
+            title="Pending Orders"
+            subTitle=" View Order"
             scopedMenu={selectedPatientMenu}
             scopedSubMenu={selectedScopedMenu}
             titleColor={
@@ -236,7 +236,7 @@ const HeaderText = (props) => {
       }
       return (
         <CustomHeaderText
-          title="Pending Requests"
+          title="Pending Orders"
           // total={24}
           path="pending"
         />
@@ -245,9 +245,9 @@ const HeaderText = (props) => {
       if (selectedSubMenu === 3) {
         return (
           <CustomSubHeaderText
-            title="Scheduled Requests"
-            path="schedule"
-            subTitle="View Scheduled Results"
+            title="Processing Orders"
+            path="processing-order"
+            subTitle="View Order"
             scopedMenu={selectedHcpMenu}
             scopedSubMenu={selectedScopedMenu}
             titleColor={
@@ -259,30 +259,32 @@ const HeaderText = (props) => {
           />
         )
       }
-      return <CustomHeaderText title="Scheduled Requests" path="schedule" />
+      return (
+        <CustomHeaderText title="Processing Orders" path="processing-order" />
+      )
     case 3:
       return (
-        <CustomHeaderText title="Completed Requests" path="completed-order" />
+        <CustomHeaderText title="Completed Orders" path="completed-order" />
       )
 
     case 5:
       if (selectedSubMenu === 6) {
         return (
           <CustomSubHeaderText
-            title="Cancelled Requests"
+            title="Cancelled Orders"
             scopedMenu={0}
             scopedSubMenu={0}
           />
         )
       }
       return (
-        <CustomHeaderTitle title="Cancelled Requests" path="cancelled-order" />
+        <CustomHeaderTitle title="Cancelled Orders" path="cancelled-order" />
       )
     case 7:
       if (selectedSubMenu === 8) {
         return (
           <CustomSubHeaderText
-            title="Completed Requests"
+            title="Completed Orders"
             scopedMenu={0}
             scopedSubMenu={0}
             subTitle="View Completed Results"
@@ -290,21 +292,21 @@ const HeaderText = (props) => {
         )
       }
       return (
-        <CustomHeaderTitle title="Completed Requests" path="completed-order" />
+        <CustomHeaderTitle title="Completed Orders" path="completed-order" />
       )
     case 8:
       if (selectedSubMenu === 9) {
         return (
           <CustomSubHeaderText
-            title="Scheduled Requests"
+            title="Scheduled Orders"
             scopedMenu={0}
             scopedSubMenu={0}
-            subTitle="View Schedule Requests"
+            subTitle="View Schedule Orders"
           />
         )
       }
       return (
-        <CustomHeaderTitle title="Scheduled Requests" path="schedule-request" />
+        <CustomHeaderTitle title="Scheduled Orders" path="schedule-request" />
       )
 
     case 11:
@@ -312,7 +314,7 @@ const HeaderText = (props) => {
         return (
           <CustomSubHeaderText
             title="Settings"
-            subTitle={pathname === '/setting/profile' ? 'View profile' : ''}
+            subTitle={pathname === '/settings/profile' ? 'View profile' : ''}
             scopedMenu={0}
             scopedSubMenu={0}
           />

@@ -10,7 +10,7 @@ import {
   CompletedOrder,
   Pending,
   PendingProfile,
-  Profile,
+  Profiles,
   Setting,
   Dashboard,
 } from 'components/pages'
@@ -133,11 +133,13 @@ const Private = (props) => {
 
       <PrivateRoute
         path="/setting/profile"
-        component={Profile}
+        component={Profiles}
         selectedMenu={selectedMenu}
-        selectedSubMenu={selectedSubMenu}
         setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
         setSelectedSubMenu={setSelectedSubMenu}
+        chatMediaActive={chatMediaActive}
+        setChatMediaActive={setChatMediaActive}
       />
     </Switch>
   )

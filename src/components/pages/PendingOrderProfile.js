@@ -192,9 +192,21 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     patientData,
     // eslint-disable-next-line
   } = state
+  console.log(state)
+  const [pre, setPre] = useState([])
+  useEffect(() => {
+    if (state) {
+      setPre(state.prescriptions)
+    }
+  }, [])
+  console.log(pre)
+
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
+  // const { drugPrice, dosageQuantity, drugName } = pre[0]
 
+  // const { drugPrice: price, dosageQuantity: quantity, drugName: name } =
+  //   prescriptions.length > 0 && prescriptions[1]
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
@@ -421,30 +433,28 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
               <Grid item>
                 <Typography variant="h4">1st Prescription</Typography>
               </Grid>
-              <Grid item container flexWrap="nowrap" gap={3}>
-                {prescriptions && prescriptions.length > 0 ? (
-                  <>
-                    <Grid item container direction="column">
-                      {Object.keys(prescriptions[0])
-                        .filter((i) => i !== '__typename')
-                        .map((i) => {
-                          return (
-                            <Typography key={i} variant="h6">
-                              {i}
-                            </Typography>
-                          )
-                        })}
-                    </Grid>
-                    <Grid item container direction="column">
-                      {Object.values(prescriptions[0])
-                        .filter((i) => i !== 'DrugPrescription')
-                        .map((i) => {
-                          return <Typography variant="h6">{i}</Typography>
-                        })}
-                    </Grid>
-                  </>
-                ) : null}
-              </Grid>
+              {prescriptions && prescriptions.length > 0 ? (
+                <Grid item container flexWrap="nowrap" gap={3}>
+                  <ul style={{ padding: '2rem' }}>
+                    <Typography variant="h4" gutterBottom>
+                      <li>
+                        Drugs :{'   '} {prescriptions[0].drugName}
+                      </li>
+                    </Typography>
+                    <Typography variant="h4" gutterBottom>
+                      <li>Dosage : {prescriptions[0].drugName}</li>
+                    </Typography>
+                    <Typography variant="h4" gutterBottom>
+                      <li>
+                        Dosage Quantity: {prescriptions[0].dosageQuantity}
+                      </li>
+                    </Typography>
+                    <Typography variant="h4" gutterBottom>
+                      <li>Drug Price : {prescriptions[0].drugPrice}</li>
+                    </Typography>
+                  </ul>
+                </Grid>
+              ) : null}
             </Grid>
           </Grid>
           {/* DATE OF BIRTH GRID */}
@@ -457,7 +467,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              gap={2}
               justifyContent="space-between"
               alignItems="center"
               flexWrap="nowrap"
@@ -465,30 +475,26 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
               <Grid item>
                 <Typography variant="h4">2nd Prescription</Typography>
               </Grid>
-              <Grid item container flexWrap="nowrap">
-                {prescriptions && prescriptions.length > 0 ? (
-                  <>
-                    <Grid item container direction="column">
-                      {Object.keys(prescriptions[0])
-                        .slice(1, 6)
-                        .map((i) => {
-                          return (
-                            <Typography key={i} variant="h6">
-                              {i}
-                            </Typography>
-                          )
-                        })}
-                    </Grid>
-                    <Grid item container direction="column">
-                      {Object.values(prescriptions[0])
-                        .slice(1, 6)
-                        .map((i) => {
-                          return <Typography variant="h6">{i}</Typography>
-                        })}
-                    </Grid>
-                  </>
-                ) : null}
-              </Grid>
+              {prescriptions && prescriptions.length > 0 ? (
+                <Grid item container flexWrap="nowrap" gap={3}>
+                  <ul style={{ padding: '2rem' }}>
+                    <Typography variant="h4" gutterBottom>
+                      <li>Drugs : {prescriptions[1].drugName}</li>
+                    </Typography>
+                    <Typography variant="h4" gutterBottom>
+                      <li>Dosage : {prescriptions[1].drugName}</li>
+                    </Typography>
+                    <Typography variant="h4" gutterBottom>
+                      <li>
+                        Dosage Quantity: {prescriptions[1].dosageQuantity}
+                      </li>
+                    </Typography>
+                    <Typography variant="h4" gutterBottom>
+                      <li>Drug Price : {prescriptions[1].drugPrice}</li>
+                    </Typography>
+                  </ul>
+                </Grid>
+              ) : null}
             </Grid>
           </Grid>
         </Grid>

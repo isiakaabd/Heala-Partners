@@ -140,7 +140,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleDialogOpen = () => setIsOpen(true)
-  console.log(state)
   const handleDialogClose = () => setIsOpen(false)
   if (loading) return <Loader />
   if (error) return <NoData error={error} />

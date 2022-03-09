@@ -26,7 +26,7 @@ const Profile = ({
     },
   })
   const [profile, setProfile] = useState()
-
+  console.log(profile)
   useEffect(() => {
     setProfile(data?.getPartner)
   }, [data])
@@ -51,7 +51,7 @@ const Profile = ({
 
     await update({
       variables: {
-        id: localStorage.getItem('pharmacyID'),
+        id: profile._id,
         name,
         email,
         category: 'pharmacy',
@@ -69,10 +69,10 @@ const Profile = ({
     history.push('/settings')
   }
   const initialValues = {
-    name: profile?.name,
-    email: profile?.email,
+    name: profile?.name || '',
+    email: profile?.email || '',
     category: profile?.category || '',
-    image: profile?.logoImageUrl,
+    image: profile?.logoImageUrl || '',
   }
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const Profile = ({
   return (
     <Grid container>
       <Grid item style={{ marginBottom: '3rem' }}>
-        <PreviousButton path={'/setting'} />
+        <PreviousButton path={'/settings'} />
       </Grid>
       <Grid container>
         <Formik

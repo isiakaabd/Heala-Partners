@@ -62,7 +62,7 @@ const App = () => {
             role === 'diagnostics' &&
             !state && (
               <>
-                <Headers
+                <Header
                   selectedMenu={selectedMenu}
                   selectedPendingMenu={selectedPendingMenu}
                   selectedSubMenu={selectedSubMenu}
@@ -131,7 +131,7 @@ const App = () => {
             role !== 'diagnostics' &&
             !state && (
               <>
-                <Header
+                <Headers
                   selectedMenu={selectedMenu}
                   selectedPendingMenu={selectedPendingMenu}
                   selectedSubMenu={selectedSubMenu}
