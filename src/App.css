@@ -133,3 +133,7 @@ body {
 .MuiSelect-select {
   padding: 10px !important;
 }
+
+li {
+  font-weight: 400;
+}

@@ -133,7 +133,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     setModal(false)
   }
   const [cancelTest] = useMutation(cancelDrugOrder)
-  console.log(state)
+ 
   const darkButton = {
     background: theme.palette.primary.main,
     hover: theme.palette.primary.light,
@@ -192,21 +192,11 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     patientData,
     // eslint-disable-next-line
   } = state
-  console.log(state)
-  const [pre, setPre] = useState([])
-  useEffect(() => {
-    if (state) {
-      setPre(state.prescriptions)
-    }
-  }, [])
-  console.log(pre)
+ 
 
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
-  // const { drugPrice, dosageQuantity, drugName } = pre[0]
-
-  // const { drugPrice: price, dosageQuantity: quantity, drugName: name } =
-  //   prescriptions.length > 0 && prescriptions[1]
+  
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
