@@ -45,14 +45,7 @@ const DeleteOrDisable = ({
   onCancel,
   ...rest
 }) => {
-  const classes = useStyles()
   const theme = useTheme()
-
-  const discardButton = {
-    background: theme.palette.info.main,
-    hover: theme.palette.info.light,
-    active: theme.palette.info.dark,
-  }
 
   const disableButton = {
     background: theme.palette.primary.main,

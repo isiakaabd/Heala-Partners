@@ -1,9 +1,9 @@
-import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import PropTypes from "prop-types";
-import { InputAdornment, OutlinedInput } from "@mui/material";
+import React from 'react'
+import SearchIcon from '@mui/icons-material/Search'
+import PropTypes from 'prop-types'
+import { InputAdornment, OutlinedInput } from '@mui/material'
 
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from '@mui/styles'
 const SearchContainer = ({
   width,
   placeholder,
@@ -20,8 +20,8 @@ const SearchContainer = ({
     //       fontSize: "1.6rem",
     //     },
     //   },
-  });
-  const classes = useStyles();
+  })
+  const classes = useStyles()
   return (
     <div className={classes.root}>
       <OutlinedInput
@@ -30,29 +30,29 @@ const SearchContainer = ({
         onChange={onChange}
         {...rest}
         sx={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           width,
           height,
-          fontSize: "16px",
+          fontSize: '16px',
           placeholderWidth,
-          background: "white",
+          background: 'white',
           borderRadius: 2,
         }}
         placeholder={placeholder}
-        inputProps={{ "aria-label": placeholder }}
+        inputProps={{ 'aria-label': placeholder }}
         startAdornment={
           hasStartIcon && (
             <InputAdornment position="start">
-              <SearchIcon style={{ fontSize: "3rem" }} />
+              <SearchIcon style={{ fontSize: '3rem' }} />
             </InputAdornment>
           )
         }
         autoFocus
       />
     </div>
-  );
-};
+  )
+}
 SearchContainer.propTypes = {
   width: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
@@ -61,6 +61,6 @@ SearchContainer.propTypes = {
   value: PropTypes.string,
   hasStartIcon: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-};
+}
 
-export default SearchContainer;
+export default SearchContainer

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import {Typography,Grid,Avatar,Chip} from '@mui/material'
+import { Typography, Grid, Avatar, Chip } from '@mui/material'
 import CustomButton from './CustomButton'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
@@ -12,17 +12,8 @@ const useStyles = makeStyles((theme) => ({
     background: '#fff',
     borderRadius: '1rem',
     padding: '4rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
-  },
-
-  badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.3rem !important',
-      borderRadius: '1.5rem',
-    },
   },
 }))
-
 const DisplayProfile = (props) => {
   const classes = useStyles()
   const theme = useTheme()

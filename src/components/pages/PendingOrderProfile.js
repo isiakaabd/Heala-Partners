@@ -133,7 +133,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     setModal(false)
   }
   const [cancelTest] = useMutation(cancelDrugOrder)
- 
+
   const darkButton = {
     background: theme.palette.primary.main,
     hover: theme.palette.primary.light,
@@ -192,11 +192,10 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     patientData,
     // eslint-disable-next-line
   } = state
- 
 
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
-  
+
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
