@@ -10,7 +10,7 @@ const Dashboard = ({ chatMediaActive, setChatMediaActive }) => {
     // eslint-disable-next-line
   }, [chatMediaActive])
   return (
-    <Grid container direction="column">
+    <Grid container>
       <DashboardCharts />
     </Grid>
   )

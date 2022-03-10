@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1.5rem 2rem',
   },
   overviewGrid: {
-    padding: '1rem 1rem 1rem',
+    padding: '4rem 2rem 3rem',
   },
   groupIconGrid: {
     width: '5rem',
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bottomChartGrid: {
-    padding: '3rem 0.5rem',
+    padding: '3rem 2rem',
   },
 
   dottedCircle: {
@@ -137,7 +137,7 @@ const DashboardCharts = () => {
       container
       style={{ marginBottom: '5rem' }}
       justifyContent="space-between"
-      spacing={1}
+      spacing={5}
     >
       <Grid item md={6} sm={12} lg={6}>
         <Grid container direction="column">
@@ -255,7 +255,7 @@ const DashboardCharts = () => {
       </Grid>
 
       <Grid item md={6} sm={12} lg={6}>
-        <Grid container direction="column" className={classes.chartCard}>
+        <Grid item container direction="column" className={classes.chartCard}>
           <Grid item className={classes.headerGrid}>
             <Typography variant="h5">Scheduled Orders</Typography>
           </Grid>

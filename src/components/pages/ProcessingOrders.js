@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Success from 'components/modals/Success'
+import { dateMoment, timeMoment } from 'components/Utilities/Time'
 import PropTypes from 'prop-types'
 import {
   Grid,
@@ -20,18 +21,19 @@ import {
   FilterList,
   Loader,
 } from 'components/Utilities'
-import EnhancedTable from 'components/layouts/EnhancedTable'
+import { EnhancedTable } from 'components/layouts'
 import { hcpsHeadCells } from 'components/Utilities/tableHeaders'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-
+import { useHistory } from 'react-router-dom'
 import displayPhoto from 'assets/images/avatar.png'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
 import { isSelected } from 'helpers/isSelected'
 import useFormInput from 'components/hooks/useFormInput'
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { getDrugOrders } from 'components/graphQL/useQuery'
+import { fulfillDrugOrder } from 'components/graphQL/Mutation'
 import { NoData } from 'components/layouts'
 const dates = ['Hello', 'World', 'Goodbye', 'World']
 const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
@@ -122,9 +124,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
+const ProcessingOrders = () => {
   const classes = useStyles()
-
   const [state, setState] = useState([])
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: 'processing' },
@@ -132,12 +133,32 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data)
   }, [data])
-
+  const history = useHistory()
   const [searchHcp, setSearchHcp] = useState('')
   const [openHcpFilter, setOpenHcpFilter] = useState(false)
+  const [fulfill] = useMutation(fulfillDrugOrder)
   const [modal, setModal] = useState(false)
   const handleDialogClose = () => setModal(false)
-  const handleDialogOpen = () => setModal(true)
+  const handleDialogOpen = async (id) => {
+    console.log(id)
+    setModal(true)
+    await fulfill({
+      variables: {
+        id,
+      },
+      refetchQueries: [
+        {
+          query: getDrugOrders,
+          variables: {
+            status: 'processing',
+          },
+        },
+      ],
+    })
+    history.push('/processing-order')
+
+    setModal(false)
+  }
 
   const [selectedInput, handleSelectedInput] = useFormInput({
     date: '',
@@ -193,7 +214,8 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
             {state
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { _id } = row
+                console.log(row)
+                const { _id, createdAt, orderId, patientData } = row
                 const isItemSelected = isSelected(_id, selectedRows)
 
                 const labelId = `enhanced-table-checkbox-${index}`
@@ -204,17 +226,13 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={_id}
                     selected={isItemSelected}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         onClick={() =>
-                          handleSelectedRows(
-                            row.id,
-                            selectedRows,
-                            setSelectedRows,
-                          )
+                          handleSelectedRows(_id, selectedRows, setSelectedRows)
                         }
                         color="primary"
                         checked={isItemSelected}
@@ -226,18 +244,18 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                     <TableCell
                       id={labelId}
                       scope="row"
-                      align="center"
+                      align="left"
                       className={classes.tableCell}
                     >
-                      {row.entryDate}
+                      {dateMoment(createdAt)}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.time}
+                    <TableCell align="left" className={classes.tableCell}>
+                      {timeMoment(createdAt)}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
-                      {row.medical}
+                    <TableCell align="left" className={classes.tableCell}>
+                      {orderId}
                     </TableCell>
-                    <TableCell align="center" className={classes.tableCell}>
+                    <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
                           height: '100%',
@@ -247,14 +265,15 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                       >
                         <span style={{ marginRight: '1rem' }}>
                           <Avatar
-                            alt={`Display Photo of ${row.firstName}`}
-                            src={displayPhoto}
+                            alt={`Display Photo of ${patientData?.firstName}`}
+                            src={patientData?.picture || displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
                         <span style={{ fontSize: '1.25rem' }}>
-                          {row.firstName}
-                          {row.lastName}
+                          {patientData
+                            ? `${patientData?.firstName} ${patientData?.lastName}`
+                            : 'No Value'}
                         </span>
                       </div>
                     </TableCell>
@@ -262,7 +281,7 @@ const ProcessingOrders = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                       <Chip
                         label="complete order"
                         variant="outlined"
-                        onClick={handleDialogOpen}
+                        onClick={() => handleDialogOpen(_id)}
                         className={classes.chip}
                         deleteIcon={<ArrowForwardIosIcon />}
                         onDelete={() => console.log(' ')}
