@@ -1,5 +1,17 @@
 import { gql } from '@apollo/client'
-
+export const updateDrugOrder = gql`
+  mutation updateDrugOrder($id: String) {
+    updateDrugOrder(data: { id: $id, status: "processing" }) {
+      drugOrder {
+        _id
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`
 export const Login_USER = gql`
   mutation Login($data: LoginUserInput!) {
     login(data: $data) {

@@ -7,7 +7,6 @@ export const loginUser = (data) => async (dispatch) => {
   })
 }
 export const userDetail = (data) => async (dispatch) => {
-  console.log(data)
   dispatch({
     type: actionTypes.USER_DETAIL,
     payload: data.data,
@@ -38,4 +37,3 @@ export const logout = () => async (dispatch) => {
     })
   }
 }
-// export const alert

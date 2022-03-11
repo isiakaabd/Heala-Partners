@@ -1,22 +1,21 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
+import React from 'react'
+import { Button, Stack } from '@mui/material'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    textTransform: "capitalize",
-    fontFamily: "Circular Std",
-    fontSize: "1.6rem",
-    fontStyle: "normal",
+    textTransform: 'capitalize',
+    fontFamily: 'Circular Std',
+    fontSize: '1.6rem',
+    fontStyle: 'normal',
     fontWeight: 500,
-    lineHeight: "2.4rem",
-    letterSpacing: "0px",
-    textAlign: "left",
-    height: "100%",
+    lineHeight: '2.4rem',
+    letterSpacing: '0px',
+    textAlign: 'left',
+    height: '100%',
   },
-}));
+}))
 
 const IconLabelButtons = ({
   placeholder,
@@ -27,7 +26,7 @@ const IconLabelButtons = ({
   height,
   endIcon,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <Stack
       direction="row"
@@ -46,8 +45,8 @@ const IconLabelButtons = ({
         {placeholder}
       </Button>
     </Stack>
-  );
-};
+  )
+}
 
 IconLabelButtons.propTypes = {
   width: PropTypes.string.isRequired,
@@ -57,6 +56,6 @@ IconLabelButtons.propTypes = {
   border: PropTypes.string,
   height: PropTypes.string,
   endIcon: PropTypes.node,
-};
+}
 
-export default IconLabelButtons;
+export default IconLabelButtons

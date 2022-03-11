@@ -26,7 +26,6 @@ export const menus = [
     icon: CheckCircleSharpIcon,
     path: '/completed-order',
   },
-  // { id: 4, title: "Appointments", icon: AssignmentIcon, path: "/appointments" },
   {
     id: 5,
     title: 'Cancelled Orders',
@@ -56,7 +55,7 @@ export const menu = [
     icon: CheckCircleSharpIcon,
     path: '/completed',
   },
-  // { id: 4, title: "Appointments", icon: AssignmentIcon, path: "/appointments" },
+
   {
     id: 5,
     title: 'Cancelled Tests',

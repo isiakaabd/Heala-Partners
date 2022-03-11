@@ -153,6 +153,12 @@ const ProcessingOrders = () => {
             status: 'processing',
           },
         },
+        {
+          query: getDrugOrders,
+          variables: {
+            status: 'completed',
+          },
+        },
       ],
     })
     history.push('/processing-order')

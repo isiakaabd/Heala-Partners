@@ -10,6 +10,7 @@ export const getPartner = gql`
     }
   }
 `
+
 export const getDiagnosticDashboard = gql`
   query getDiagnosticDashboard {
     getDiagnosticDashboard(partner: "") {

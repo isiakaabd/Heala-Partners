@@ -26,7 +26,7 @@ import {
   getDrugOrders,
   cancelDrugOrder,
 } from 'components/graphQL/useQuery'
-import { fulfillDrugOrder } from 'components/graphQL/Mutation'
+import { updateDrugOrder } from 'components/graphQL/Mutation'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -96,7 +96,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     variables: { id: orderId },
   })
   const [state, setState] = useState([])
-  const [fulfill] = useMutation(fulfillDrugOrder)
+  const [fulfill] = useMutation(updateDrugOrder)
   useEffect(() => {
     if (data) return setState(data?.getDrugOrder)
   }, [data])
@@ -171,6 +171,12 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
           query: getDrugOrders,
           variables: {
             status: 'pending',
+          },
+        },
+        {
+          query: getDrugOrders,
+          variables: {
+            status: 'processing',
           },
         },
         {
