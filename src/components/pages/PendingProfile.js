@@ -141,13 +141,13 @@ const PendingProfile = ({
         },
       ],
     })
-    history.push('/pending-request')
+    history.push('/pending')
   }
 
   const onConfirm = () => setCancel(true)
 
   const { data, loading, error } = useQuery(getDiagnosticTest, {
-    variables: { id: requestId },
+    variables: { id: requestId }, 
   })
 
   useEffect(() => {
@@ -170,7 +170,7 @@ const PendingProfile = ({
           },
         ],
       })
-      history.push('/pending-request')
+      history.push('/pending')
     } catch (err) {
       console.log(err)
     }

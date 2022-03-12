@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client";
 export const updateDrugOrder = gql`
   mutation updateDrugOrder($id: String) {
     updateDrugOrder(data: { id: $id, status: "processing" }) {
@@ -11,7 +11,7 @@ export const updateDrugOrder = gql`
       }
     }
   }
-`
+`;
 export const Login_USER = gql`
   mutation Login($data: LoginUserInput!) {
     login(data: $data) {
@@ -30,7 +30,7 @@ export const Login_USER = gql`
       }
     }
   }
-`
+`;
 export const cancelDiagnosticTest = gql`
   mutation cancelDiagnosticTest($id: String!, $reason: String!) {
     cancelDiagnosticTest(data: { id: $id, reason: $reason }) {
@@ -39,7 +39,6 @@ export const cancelDiagnosticTest = gql`
         partner
         patient
         doctor
-        affiliation
         reason
         referralId
         note
@@ -60,7 +59,7 @@ export const cancelDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const completeDiagnosticTest = gql`
   mutation completeDiagnosticTest($id: String!, $testResults: [JSONObject]) {
     completeDiagnosticTest(data: { id: $id, testResults: $testResults }) {
@@ -69,8 +68,6 @@ export const completeDiagnosticTest = gql`
         partner
         patient
         doctor
-        affiliation
-
         reason
         referralId
         note
@@ -91,7 +88,7 @@ export const completeDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const scheduleDiagnosticTest = gql`
   mutation scheduleDiagnosticTest($id: String!, $time: String) {
     scheduleDiagnosticTest(data: { id: $id, time: $time }) {
@@ -100,8 +97,6 @@ export const scheduleDiagnosticTest = gql`
         partner
         patient
         doctor
-        affiliation
-
         reason
         referralId
         note
@@ -122,12 +117,12 @@ export const scheduleDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const LOGOUT_USER = gql`
   mutation logout {
     logout
   }
-`
+`;
 export const updatePartner = gql`
   mutation updatePartnerProfile(
     $id: String
@@ -160,7 +155,7 @@ export const updatePartner = gql`
       }
     }
   }
-`
+`;
 export const fulfillDrugOrder = gql`
   mutation fulfillDrugOrder($id: String) {
     fulfillDrugOrder(data: { id: $id }) {
@@ -200,4 +195,4 @@ export const fulfillDrugOrder = gql`
       }
     }
   }
-`
+`;

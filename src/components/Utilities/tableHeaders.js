@@ -18,7 +18,7 @@ export const patientsHeadCells = [
   },
   {
     id: 3,
-    label: 'Affliation',
+    label: 'Provider',
   },
   {
     id: 4,

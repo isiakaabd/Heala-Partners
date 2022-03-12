@@ -187,7 +187,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
         },
       ],
     })
-    history.push('/pending-order')
+    history.push('/pending')
   }
   const {
     createdAt,
