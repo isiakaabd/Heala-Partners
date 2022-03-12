@@ -430,7 +430,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
               </Grid>
               {prescriptions && prescriptions.length > 0 ? (
                 <Grid item container flexWrap="nowrap" gap={3}>
-                  <ul style={{ padding: '2rem' }}>
+                  <ul style={{ padding: "2rem", color: "#606060" }}>
                     <Typography variant="h4" gutterBottom>
                       <li>
                         Drugs :{'   '} {prescriptions[0].drugName}
@@ -472,7 +472,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
               </Grid>
               {prescriptions && prescriptions.length > 0 ? (
                 <Grid item container flexWrap="nowrap" gap={3}>
-                  <ul style={{ padding: '2rem' }}>
+                  <ul style={{ padding: "2rem", color: "#606060" }}>
                     <Typography variant="h4" gutterBottom>
                       <li>Drugs : {prescriptions[1].drugName}</li>
                     </Typography>
