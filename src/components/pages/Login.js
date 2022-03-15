@@ -113,7 +113,7 @@ const Login = () => {
         // })
         if (data) {
           // console.log(pharmaData)
-          const { email, _id, access_token } = data.login.account
+          const { email, _id, access_token, providerId } = data.login.account
 
           loginUser({
             data,
@@ -124,6 +124,7 @@ const Login = () => {
           })
           setAccessToken(access_token)
           localStorage.setItem('pharmacyId', _id)
+          localStorage.setItem('partnerProviderId', providerId)
           localStorage.setItem('pharmacy_Email', email)
           history.push('/')
         } else {

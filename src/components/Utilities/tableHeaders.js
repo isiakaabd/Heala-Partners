@@ -291,6 +291,36 @@ export const prescriptionsHeadCells = [
   { id: 201, label: 'Details' },
   { id: 202, label: 'Dosage' },
 ]
+export const consultationsHeadCells2 = [
+  { id: 100, label: 'Doctor' },
+  { id: 101, label: 'Date' },
+  { id: 102, label: 'Time' },
+  { id: 103, label: '' },
+  { id: 139, label: '' },
+]
+export const consultationsHeadCells4 = [
+  { id: 100, label: 'Date' },
+  { id: 101, label: 'Doctor' },
+  { id: 102, label: 'Symptoms' },
+  { id: 105, label: 'Contact' },
+  { id: 133, label: 'Type' },
+  { id: 1232, label: 'Status' },
+  { id: 103, label: '' },
+]
+export const editManagement = [
+  {
+    id: 110,
+    label: '',
+  },
+  {
+    id: 0,
+    label: 'Endpoints',
+  },
+  {
+    id: 1,
+    label: 'Operations',
+  },
+]
 
 // Patients > Medications Route Table
 export const medicationsHeadCells = [

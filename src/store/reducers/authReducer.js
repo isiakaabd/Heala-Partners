@@ -15,7 +15,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.LOGIN_SUCCESS:
       localStorage.setItem('auth', true)
       localStorage.setItem('user_id', action.payload._id)
-      localStorage.setItem('token', action.payload.access_token)
+      localStorage.setItem('Pharmacy_token', action.payload.access_token)
       return {
         ...state,
         loading: false,
@@ -42,7 +42,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.LOGIN_FAILURE:
       localStorage.removeItem('auth')
       localStorage.removeItem('user_id')
-      localStorage.removeItem('token')
+      localStorage.removeItem('Pharmacy_token')
       localStorage.removeItem('email')
       localStorage.removeItem('hcp')
       return {
@@ -54,7 +54,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.LOGOUT:
       localStorage.removeItem('auth')
       localStorage.removeItem('user_id')
-      localStorage.removeItem('token')
+      localStorage.removeItem('Pharmacy_token')
       localStorage.removeItem('email')
       localStorage.removeItem('pharmacyID')
       localStorage.removeItem('pharmacy_Email')
@@ -64,7 +64,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        token: null,
+        Pharmacy_token: null,
         userId: null,
         authError: {},
         dociId: null,

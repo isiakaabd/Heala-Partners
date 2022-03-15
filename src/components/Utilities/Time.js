@@ -73,12 +73,4 @@ export const unformat = (amount, locale) => {
       .replace(new RegExp('\\' + decimalSeparator), ','),
   )
 }
-export const monthNames = [
-  'Jan',
-  'Mar',
-  'May',
-  'Jul',
-  'Sept',
-  'Nov',
-  'Jan',
-]
+export const monthNames = ['Jan', 'Mar', 'May', 'Jul', 'Sept', 'Nov', 'Jan']

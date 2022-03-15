@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Typography, Toolbar } from '@mui/material'
-import { HospitalHeaderProfile } from '.'
+import { HeaderProfile } from '.'
 import { makeStyles } from '@mui/styles'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Link, useLocation } from 'react-router-dom'
@@ -204,7 +204,7 @@ const HeaderText = (props) => {
   }, [pharmacy, data])
 
   const { pathname } = useLocation()
- 
+
   switch (selectedMenu) {
     case 0:
       return (
@@ -345,7 +345,7 @@ HeaderText.propTypes = {
   selectedScopedMenu: PropTypes.number.isRequired,
 }
 
-const HeaderContents = (props) => {
+const HospitalHeaderContent = (props) => {
   const {
     selectedMenu,
     selectedSubMenu,
@@ -367,12 +367,12 @@ const HeaderContents = (props) => {
         selectedAppointmentMenu={selectedAppointmentMenu}
         selectedScopedMenu={selectedScopedMenu}
       />
-      <HospitalHeaderProfile />
+      <HeaderProfile />
     </Toolbar>
   )
 }
 
-HeaderContents.propTypes = {
+HospitalHeaderContent.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
   selectedSubMenu: PropTypes.number.isRequired,
   selectedPatientMenu: PropTypes.number.isRequired,
@@ -382,4 +382,4 @@ HeaderContents.propTypes = {
   selectedScopedMenu: PropTypes.number.isRequired,
 }
 
-export default HeaderContents
+export default HospitalHeaderContent
