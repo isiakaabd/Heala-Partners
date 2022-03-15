@@ -142,6 +142,7 @@ const HospitalMenu = (props) => {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line
     ;[...hospitalMenu].filter((menu) => {
       switch (location.pathname) {
         case menu.path:

@@ -39,7 +39,6 @@ const App = () => {
   const [selectedSubMenu, setSelectedSubMenu] = useState(0)
   const [selectedPatientMenu, setSelectedPatientMenu] = useState(0)
   const [selectedHcpMenu, setSelectedHcpMenu] = useState(0)
-  const [selectedManagementMenu, setSelectedManagementMenu] = useState(0)
   const [selectedAppointmentMenu, setSelectedAppointmentMenu] = useState(0)
   const [waitingListMenu, setWaitingListMenu] = useState(0)
   const [selectedScopedMenu, setSelectedScopedMenu] = useState(0)
@@ -166,7 +165,6 @@ const App = () => {
                       selectedMenu={selectedMenu}
                       setSelectedMenu={setSelectedMenu}
                       setSelectedSubMenu={setSelectedSubMenu}
-                      setSelectedManagementMenu={setSelectedManagementMenu}
                       setWaitingListMenu={setWaitingListMenu}
                       setSelectedAppointmentMenu={setSelectedAppointmentMenu}
                     />
@@ -183,7 +181,6 @@ const App = () => {
                         setSelectedSubMenu={setSelectedSubMenu}
                         selectedPatientMenu={selectedPatientMenu}
                         setSelectedPatientMenu={setSelectedPatientMenu}
-                        setSelectedManagementMenu={setSelectedManagementMenu}
                         selectedHcpMenu={selectedHcpMenu}
                         setSelectedHcpMenu={setSelectedHcpMenu}
                         selectedAppointmentMenu={selectedAppointmentMenu}

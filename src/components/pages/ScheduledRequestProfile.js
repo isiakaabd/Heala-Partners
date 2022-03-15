@@ -146,7 +146,7 @@ const ScheduledRequestProfile = ({
         },
       ],
     })
-    history.push('/schedule-request')
+    history.push('/schedule')
   }
 
   const darkButton = {

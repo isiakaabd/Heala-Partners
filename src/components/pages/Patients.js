@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import FormikControl from 'components/validation/FormikControl'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -32,7 +32,7 @@ import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
 import { isSelected } from 'helpers/isSelected'
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { getPatients } from 'components/graphQL/useQuery'
 
 const genderType = [
@@ -168,25 +168,9 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
 
   const { setSelectedRows } = useActions()
 
-  const [searchPatient, setSearchPatient] = useState('')
-  // const onChange = async (e) => {
-  //   const value = e.target.value;
-  //   console.log(searchPatient);
-
-  //   setSearchPatient(e.target.value);
-  //   refetch({ dociId: `HEALA-${value.toUpperCase()}` });
-  // };
-
-  const debouncer = useCallback(debounce(fetchpatient, 3000), [])
-
-  // const debouncedChangeHandler = useMemo(() => {
-  //   return debounce(onChange, 300);
-  // }, []);
-  // useEffect(() => {
-  //   return () => {
-  //     debouncedChangeHandler.cancel();
-  //   };
-  // });
+  const debouncer = useCallback(() => {
+    debounce(fetchpatient, 3000)
+  }, [fetchpatient])
 
   const fetchMoreFunc = async (e, newPage) => {
     fetchpatient({
@@ -349,11 +333,11 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         className={classes.badge}
                         style={{
                           background:
-                            status == 'Active'
+                            status === 'Active'
                               ? theme.palette.common.lightGreen
                               : theme.palette.common.lightRed,
                           color:
-                            status == 'Active'
+                            status === 'Active'
                               ? theme.palette.common.green
                               : theme.palette.common.red,
                         }}

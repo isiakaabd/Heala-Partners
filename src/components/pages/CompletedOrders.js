@@ -151,7 +151,7 @@ const CompletedOrders = () => {
   const [state, setState] = useState([])
 
   const [openFilterPartner, setOpenFilterPartner] = useState(false)
-  const orderState = 'pending'
+  const orderState = 'completed'
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: orderState },
   })

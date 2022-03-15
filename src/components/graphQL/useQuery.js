@@ -409,6 +409,7 @@ export const getDiagnosticTest = gql`
       testId
       status
       patientData
+      
       doctorData
       sampleCollection
       testResults

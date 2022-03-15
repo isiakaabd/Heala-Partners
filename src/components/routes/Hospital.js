@@ -4,7 +4,6 @@ import { Switch } from 'react-router-dom'
 import PrivateRoute from 'components/routes/PrivateRoute'
 import { CircularChart } from 'components/Utilities'
 import {
-  ViewHCP,
   Chat,
   Patients,
   Subscription,
@@ -61,7 +60,6 @@ const Hospital = (props) => {
     setSelectedAppointmentMenu,
     chatMediaActive,
     setChatMediaActive,
-    setSelectedManagementMenu,
     selectedScopedMenu,
     setSelectedScopedMenu,
   } = props
@@ -445,15 +443,6 @@ const Hospital = (props) => {
         setSelectedMenu={setSelectedMenu}
         setSelectedSubMenu={setSelectedSubMenu}
       />
-      {/* <PrivateRoute
-        exact
-        path="/finance/pending"
-        component={PendingPayout}
-        selectedMenu={selectedMenu}
-        selectedSubMenu={selectedSubMenu}
-        setSelectedMenu={setSelectedMenu}
-        setSelectedSubMenu={setSelectedSubMenu}
-      /> */}
 
       <PrivateRoute
         path="/referrals/:referralId"

@@ -100,6 +100,11 @@ const DashboardCharts = () => {
   const [completedTestsStats, setCompletedTestsStats] = useState('')
   const [cancelledTestsStats, setCancelledTestsStats] = useState('')
 
+  // const totalDoc = activeDoctors + inactiveDoctors;
+  // const totalPatient = activePatients + inactivePatients;
+  // const patientPercentage = returnpercent(activePatients, inactivePatients);
+  // const doctorPercentage = returnpercent(activeDoctors, inactiveDoctors);
+
   const { data, loading, error } = useQuery(getDiagnosticDashboard)
 
   useEffect(() => {
@@ -176,7 +181,7 @@ const DashboardCharts = () => {
                           variant="body2"
                           style={{ color: theme.palette.success.main }}
                         >
-                          2.76%
+                          {/* 2.76% */}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -231,7 +236,7 @@ const DashboardCharts = () => {
                       variant="body2"
                       style={{ color: theme.palette.success.main }}
                     >
-                      2.76%
+                      {/* 2.76% */}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -286,7 +291,7 @@ const DashboardCharts = () => {
                       variant="body2"
                       style={{ color: theme.palette.success.main }}
                     >
-                      2.76%
+                      {/* 2.76% */}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -338,7 +343,7 @@ const DashboardCharts = () => {
                       variant="body2"
                       style={{ color: theme.palette.success.main }}
                     >
-                      2.76%
+                      {/* 2.76% */}
                     </Typography>
                   </Grid>
                 </Grid>

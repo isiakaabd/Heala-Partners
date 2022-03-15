@@ -12,6 +12,7 @@ export const updateDrugOrder = gql`
     }
   }
 `
+
 export const Login_USER = gql`
   mutation Login($data: LoginUserInput!) {
     login(data: $data) {
@@ -226,7 +227,6 @@ export const cancelDiagnosticTest = gql`
         partner
         patient
         doctor
-        affiliation
         reason
         referralId
         note
@@ -256,8 +256,6 @@ export const completeDiagnosticTest = gql`
         partner
         patient
         doctor
-        affiliation
-
         reason
         referralId
         note
@@ -287,8 +285,6 @@ export const scheduleDiagnosticTest = gql`
         partner
         patient
         doctor
-        affiliation
-
         reason
         referralId
         note
