@@ -195,7 +195,7 @@ const HeaderText = (props) => {
 
   useEffect(() => {
     ;(async () => {
-      setTimeout(pharmacy, 300)
+      setTimeout(pharmacy, 200)
     })()
     if (data) {
       localStorage.setItem('partnerID', data.getPartner._id)
@@ -204,7 +204,7 @@ const HeaderText = (props) => {
   }, [pharmacy, data])
 
   const { pathname } = useLocation()
- 
+
   switch (selectedMenu) {
     case 0:
       return (

@@ -221,14 +221,36 @@ const HeaderText = (props) => {
       if (selectedSubMenu === 2) {
         return (
           <CustomSubHeaderText
-            title="Pending Orders"
-            subTitle=" View Order"
+            title="Patients"
+            subTitle="Patient View"
             scopedMenu={selectedPatientMenu}
             scopedSubMenu={selectedScopedMenu}
+            scopedSubTitle={
+              selectedScopedMenu === 1
+                ? 'Consultation Details'
+                : selectedScopedMenu === 3
+                ? 'Create Message'
+                : ''
+            }
             titleColor={
               selectedPatientMenu === 0
-                ? theme.palette.common.green
+                ? theme.palette.common.red
                 : theme.palette.common.grey
+            }
+            subSubTitle={
+              selectedPatientMenu === 1
+                ? 'Patient Profile'
+                : selectedPatientMenu === 2
+                ? 'Appointments'
+                : selectedPatientMenu === 3
+                ? 'Prescriptions'
+                : selectedPatientMenu === 4
+                ? 'Medical Records'
+                : selectedPatientMenu === 5
+                ? 'Consultations'
+                : selectedPatientMenu === 6
+                ? 'Medications'
+                : ''
             }
             selectedPatientMenu={selectedPatientMenu}
           />
@@ -236,91 +258,153 @@ const HeaderText = (props) => {
       }
       return (
         <CustomHeaderText
-          title="Pending Orders"
-          // total={24}
-          path="pending"
+          title="Patients"
+          // total={patientContent.loading ? 'Loading' : profiles}
+          path="patients"
         />
       )
     case 2:
       if (selectedSubMenu === 3) {
         return (
           <CustomSubHeaderText
-            title="Processing Orders"
-            path="processing-order"
-            subTitle="View Order"
             scopedMenu={selectedHcpMenu}
             scopedSubMenu={selectedScopedMenu}
+            subSubTitle={
+              selectedHcpMenu === 1
+                ? 'Doctor Profile'
+                : selectedHcpMenu === 2
+                ? 'Doctor Appointments'
+                : selectedHcpMenu === 3
+                ? 'Availability'
+                : selectedHcpMenu === 4
+                ? 'Earnings'
+                : selectedHcpMenu === 5
+                ? 'Patients'
+                : selectedHcpMenu === 6
+                ? 'Consultations'
+                : 'White Label'
+            }
+            scopedSubTitle={
+              selectedScopedMenu === 2
+                ? 'Case Note'
+                : selectedScopedMenu === 3
+                ? 'Create Message'
+                : ''
+            }
+            title="Doctors"
+            subTitle="Doctor View"
             titleColor={
-              selectedPatientMenu === 0
-                ? theme.palette.common.green
+              selectedHcpMenu === 0
+                ? theme.palette.common.red
                 : theme.palette.common.grey
             }
-            selectedPatientMenu={selectedPatientMenu}
           />
         )
       }
       return (
-        <CustomHeaderText title="Processing Orders" path="processing-order" />
+        <CustomHeaderText
+          title="Doctors"
+          // total={doctorContent.data && doctorContent.data.DoctorCount}
+          path="hcps"
+        />
       )
     case 3:
-      return (
-        <CustomHeaderText title="Completed Orders" path="completed-order" />
-      )
+      return <CustomHeaderText title="Partners" total={24} path="partners" />
 
     case 5:
       if (selectedSubMenu === 6) {
         return (
           <CustomSubHeaderText
-            title="Cancelled Orders"
+            title="Messages"
             scopedMenu={0}
             scopedSubMenu={0}
+            subTitle={
+              pathname === '/messages/create-message'
+                ? 'New Message'
+                : 'View Message'
+            }
           />
         )
       }
-      return (
-        <CustomHeaderTitle title="Cancelled Orders" path="cancelled-order" />
-      )
+      return <CustomHeaderTitle title="Messages" path="messages" />
+    case 6:
+      return <CustomHeaderTitle title="Email" path="email" />
     case 7:
       if (selectedSubMenu === 8) {
         return (
           <CustomSubHeaderText
-            title="Completed Orders"
+            title="Doctor Verification"
             scopedMenu={0}
             scopedSubMenu={0}
-            subTitle="View Completed Results"
+            subTitle="Doctor View"
           />
         )
       }
       return (
-        <CustomHeaderTitle title="Completed Orders" path="completed-order" />
+        <CustomHeaderTitle title="Doctor Verification" path="verification" />
       )
     case 8:
       if (selectedSubMenu === 9) {
         return (
           <CustomSubHeaderText
-            title="Scheduled Orders"
+            title="Finance"
             scopedMenu={0}
             scopedSubMenu={0}
-            subTitle="View Schedule Orders"
+            subTitle={
+              pathname === '/finance/earnings'
+                ? 'Earnings Table'
+                : 'Payouts Table'
+            }
           />
         )
       }
-      return (
-        <CustomHeaderTitle title="Scheduled Orders" path="schedule-request" />
-      )
-
+      return <CustomHeaderTitle title="Finance" path="finance" />
+    case 9:
+      if (selectedSubMenu === 10) {
+        return (
+          <CustomSubHeaderText
+            title="Referrals"
+            subTitle="Referral View"
+            scopedMenu={0}
+            scopedSubMenu={0}
+          />
+        )
+      }
+      return <CustomHeaderTitle title="Referrals" path="referrals" />
+    case 10:
+      return <CustomHeaderTitle title="Subscription Plans" path="plans" />
     case 11:
       if (selectedSubMenu === 12) {
         return (
           <CustomSubHeaderText
             title="Settings"
-            subTitle={pathname === '/settings/profile' ? 'View profile' : ''}
+            subTitle={
+              pathname === '/settings/administrator'
+                ? 'Administrator'
+                : 'Profile'
+            }
+            scopedSubMenu={0} // okay
             scopedMenu={0}
-            scopedSubMenu={0}
           />
         )
       }
       return <CustomHeaderTitle title="Settings" path="settings" />
+    case 12:
+      if (selectedSubMenu === 13) {
+        return (
+          <CustomSubHeaderText
+            title="White Label"
+            subTitle={
+              pathname === '/label/provider' ? 'Providers' : 'User Types'
+            }
+            scopedMenu={0}
+            scopedSubMenu={selectedScopedMenu}
+            // scopedSubMenu={0}
+          />
+        )
+      }
+      return <CustomHeaderTitle title="White Label" path="label" />
+
     default:
       return (
         <div>

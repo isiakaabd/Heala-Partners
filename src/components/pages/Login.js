@@ -75,6 +75,9 @@ const Login = () => {
   const history = useHistory()
   const [loginInfo] = useMutation(Login_USER) //{ data, loading, error }
   const { loginUser, loginFailue } = useActions()
+  // const [pharmacy, { data }] = useLazyQuery(getPartner, {
+  //   variables: { id: id },
+  // })
 
   const [showPassword, setShowPassword] = useState(false)
   const greenButton = {
@@ -106,14 +109,21 @@ const Login = () => {
             data: { email, password, authType },
           },
         })
-        // await pharmacy({
-        //   variables: {
-        //     id: _id,
-        //   },
-        // })
+
         if (data) {
-          // console.log(pharmaData)
           const { email, _id, access_token, providerId } = data.login.account
+          setAccessToken(access_token)
+          localStorage.setItem('pharmacyId', _id)
+          localStorage.setItem('partnerProviderId', providerId)
+          localStorage.setItem('pharmacy_Email', email)
+
+          // await setTimeout(pharmacy, 300)
+
+          // if (data) {
+          //   userDetail({
+          //     data: data?.getPartner.category,
+          //   })
+          // }
 
           loginUser({
             data,
@@ -122,10 +132,7 @@ const Login = () => {
               type: 'success',
             },
           })
-          setAccessToken(access_token)
-          localStorage.setItem('pharmacyId', _id)
-          localStorage.setItem('partnerProviderId', providerId)
-          localStorage.setItem('pharmacy_Email', email)
+
           history.push('/')
         } else {
           history.push('/')

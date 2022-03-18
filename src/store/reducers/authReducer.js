@@ -14,16 +14,13 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
       localStorage.setItem('auth', true)
-      localStorage.setItem('user_id', action.payload._id)
       localStorage.setItem('Pharmacy_token', action.payload.access_token)
       return {
         ...state,
         loading: false,
         isAuthenticated: true,
-        role: null,
-        healaID: action.payload.dociId,
+
         authError: action.payload.messages,
-        id: action.payload._id,
       }
     case actionTypes.REFRESH_USER:
       return {

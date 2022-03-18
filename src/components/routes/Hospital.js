@@ -16,6 +16,7 @@ import {
   HcpAppointments,
   HcpProfile,
   Medications,
+  HospitalProfile,
   SinglePatient,
   CaseNotes,
   MedicalRecords,
@@ -24,7 +25,7 @@ import {
   Email,
   Consultations,
   PatientProfile,
-  Dashboard,
+  HospitalDashboard,
   HcpCaseNote,
   HcpConsultations,
   ViewMessage,
@@ -33,7 +34,6 @@ import {
   WaitingListDetails,
   WaitingList,
   ViewReferral,
-  Settings,
   ReferralTab,
   Finance,
   Payout,
@@ -42,6 +42,7 @@ import {
   ViewMail,
   //   PendingPayout,
   Financetable,
+  HospitalSettings,
 } from 'components/pages'
 
 const Hospital = (props) => {
@@ -69,7 +70,7 @@ const Hospital = (props) => {
       <PrivateRoute
         path={['/', '/dashboard']}
         exact
-        component={Dashboard}
+        component={HospitalDashboard}
         chatMediaActive={chatMediaActive}
         setChatMediaActive={setChatMediaActive}
       />
@@ -464,8 +465,16 @@ const Hospital = (props) => {
 
       <PrivateRoute
         exact
-        path="/settings"
-        component={Settings}
+        path="/hsettings"
+        component={HospitalSettings}
+        selectedMenu={selectedMenu}
+        selectedSubMenu={selectedSubMenu}
+        setSelectedMenu={setSelectedMenu}
+        setSelectedSubMenu={setSelectedSubMenu}
+      />
+      <PrivateRoute
+        path="/hsettings/profile"
+        component={HospitalProfile}
         selectedMenu={selectedMenu}
         selectedSubMenu={selectedSubMenu}
         setSelectedMenu={setSelectedMenu}

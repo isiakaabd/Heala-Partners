@@ -12,7 +12,7 @@ import { FilterList, Search, Modals, CustomButton } from 'components/Utilities'
 import AddIcon from '@mui/icons-material/Add'
 import { useTheme } from '@mui/material/styles'
 import EnhancedTable from 'components/layouts/EnhancedTable'
-import { hcpsHeadCells } from 'components/Utilities/tableHeaders'
+import { hcpsHeadCells5 } from 'components/Utilities/tableHeaders'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -130,6 +130,9 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   const { data, error, loading, refetch, fetchMore } = useQuery(
     getDoctorsProfile,
     {
+      variables: {
+        providerId: localStorage.getItem('partnerProviderId'),
+      },
       notifyOnNetworkStatusChange: true,
     },
   )
@@ -311,7 +314,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       <Grid item container height="100%" direction="column">
         {profiles.length > 0 ? (
           <EnhancedTable
-            headCells={hcpsHeadCells}
+            headCells={hcpsHeadCells5}
             rows={profiles}
             paginationLabel="Doctors per page"
             page={page}

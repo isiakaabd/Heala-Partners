@@ -1,6 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Files, Input, DateTimePicker, Selects, FormRadio, Checkbox } from '.'
+import {
+  Files,
+  Textarea,
+  Input,
+  DateTimePicker,
+  Selects,
+  FormRadio,
+  Checkbox,
+} from '.'
 
 const FormikControl = (props) => {
   const { control, ...rest } = props
@@ -8,6 +16,8 @@ const FormikControl = (props) => {
     case 'input':
       return <Input {...rest} />
     case 'textarea':
+      return <Textarea {...rest} />
+
     case 'select':
       return <Selects {...rest} />
     case 'checkbox':

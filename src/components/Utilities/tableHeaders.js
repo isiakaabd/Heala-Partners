@@ -25,12 +25,57 @@ export const patientsHeadCells = [
     label: '',
   },
 ]
-
+export const patientsHeadCells1 = [
+  {
+    id: 0,
+    label: 'User ID',
+  },
+  {
+    id: 1,
+    label: 'Patient Name',
+  },
+  {
+    id: 2,
+    label: 'Plan',
+  },
+  {
+    id: 8,
+    label: 'Provider',
+  },
+  {
+    id: 3,
+    label: 'Consultations',
+  },
+  {
+    id: 4,
+    label: 'Status',
+  },
+  {
+    id: 5,
+    label: '',
+  },
+]
+export const hcpsHeadCells5 = [
+  { id: 0, label: 'Medical ID' },
+  { id: 1, label: 'Name' },
+  { id: 2, label: 'Category' },
+  { id: 3, label: 'Consultations' },
+  { id: 4, label: 'Hospital' },
+  { id: 5, label: 'Status' },
+  { id: 6, label: '' },
+]
 export const messagesHeadCell = [
   { id: 0, label: 'Date' },
   { id: 9, label: 'Referral ID' },
   { id: 2, label: 'Cancellation Reasons' },
   { id: 3, label: "Patient's Name" },
+]
+export const messagesHeadCells3 = [
+  { id: 0, label: 'Recipients' },
+  { id: 1, label: 'Subject' },
+  { id: 2, label: 'Date' },
+  { id: 3, label: 'Time' },
+  { id: 4, label: '' },
 ]
 export const emailHeader = [
   {
@@ -179,6 +224,64 @@ export const referralHeader = [
     label: '',
   },
 ]
+export const referralHeaderss = [
+  {
+    id: 0,
+    label: 'Date',
+  },
+  {
+    id: 1,
+    label: 'Referral ID',
+  },
+  {
+    id: 2,
+    label: 'Doctor',
+  },
+
+  {
+    id: 3,
+    label: 'Patient',
+  },
+
+  {
+    id: 8,
+    label: 'Type',
+  },
+  {
+    id: 18,
+    label: 'Category',
+  },
+  {
+    id: 6,
+    label: '',
+  },
+]
+export const subscriptionHeadersss = [
+  {
+    id: 8,
+    label: "Name of plan",
+  },
+  {
+    id: 1,
+    label: "Amount",
+  },
+  {
+    id: 2,
+    label: " Description",
+  },
+  {
+    id: 4,
+    label: " Provider",
+  },
+  {
+    id: 6,
+    label: "Duration",
+  },
+  {
+    id: 8,
+    label: "",
+  },
+];
 export const subscriptionHeader = [
   {
     id: 0,

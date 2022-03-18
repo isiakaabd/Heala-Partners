@@ -130,6 +130,7 @@ export const findProfile = gql`
       height
       weight
       bloodGroup
+      email
       genotype
       gender
       phoneNumber
@@ -409,7 +410,7 @@ export const getDiagnosticTest = gql`
       testId
       status
       patientData
-      
+
       doctorData
       sampleCollection
       testResults
@@ -512,13 +513,21 @@ export const getDoctorPatients = gql`
 `
 export const getDoctorsProfile = gql`
   ${PageInfo}
-  query doctorProfiles($specialization: String, $page: Int) {
-    doctorProfiles(filterBy: { specialization: $specialization }, page: $page) {
+  query doctorProfiles(
+    $specialization: String
+    $providerId: String
+    $page: Int
+  ) {
+    doctorProfiles(
+      filterBy: { providerId: $providerId, specialization: $specialization }
+      page: $page
+    ) {
       profile {
         _id
         firstName
         lastName
         gender
+
         phoneNumber
         createdAt
         updatedAt
@@ -580,9 +589,9 @@ export const getLabResult = gql`
 `
 export const getMessage = gql`
   ${PageInfo}
-  query getMessages($recipient: String, $page: Int) {
+  query getMessages($recipient: String, $providerId: String, $page: Int) {
     getMessages(
-      filterBy: { recipient: $recipient }
+      filterBy: { providerId: $providerId, recipient: $recipient }
       page: $page
       orderBy: "-createdAt"
     ) {
@@ -638,11 +647,38 @@ export const getPatients = gql`
     }
   }
 `
+export const dashboard = gql`
+  query getStats($providerId: String, $q: String) {
+    getStats(filterBy: { providerId: $providerId }, q: $q) {
+      patientStats
+      doctorStats
+      totalEarnings
+      totalPayout
+      appointmentStats
+      subscribers
+      availabilityCalendar {
+        _id
+        doctor
+        doctorData
+        dates {
+          day
+          available
+          times {
+            start
+            stop
+          }
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`
 export const getPlans = gql`
   ${PageInfo}
-  query getPlans($amount: Float, $page: Int) {
+  query getPlans($amount: Float, $providerId: String, $page: Int) {
     getPlans(
-      filterBy: { amount: $amount }
+      filterBy: { amount: $amount, providerId: $providerId }
       page: $page
       orderBy: "-createdAt"
     ) {
@@ -669,6 +705,7 @@ export const getProfile = gql`
       firstName
       lastName
       height
+      email
       weight
       bloodGroup
       genotype
@@ -709,10 +746,12 @@ export const getRefferals = gql`
     $page: Int
     $specialization: String
     $patient: String
+    $providerId: String
   ) {
     getReferrals(
       filterBy: {
         doctor: $doctor
+        providerId: $providerId
         _id: $id
         specialization: $specialization
         patient: $patient

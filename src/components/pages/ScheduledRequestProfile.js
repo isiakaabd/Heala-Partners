@@ -563,28 +563,44 @@ const ScheduledRequestProfile = ({
                         />
                       </Grid>
 
-                      <Grid item container md>
+                      <Grid
+                        item
+                        container
+                        sx={{ flexDirection: 'row', background: 'red' }}
+                      >
                         <FormikControl
                           control="file"
                           name="image"
                           label="Upload Your File"
                           setFieldValue={setFieldValue}
                         />
+                        {/* <CustomButton
+                          title="Complete Test"
+                          width="50%"
+                          type={buttonType}
+                        /> */}
                       </Grid>
                     </Grid>
                     <Grid
                       item
                       container
+                      justifyContent="space-between"
                       alignItems="flex-end"
+                      gap={2}
                       marginTop={3}
                       xs={12}
                     >
                       <CustomButton
                         title="Complete Test"
-                        width="100%"
+                        width="40%"
                         type={buttonType}
                         isSubmitting={isSubmitting}
                         disabled={!(dirty || isValid)}
+                      />
+                      <CustomButton
+                        title="Upload More"
+                        width="40%"
+                        type={buttonType}
                       />
                     </Grid>
                   </Form>

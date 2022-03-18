@@ -60,14 +60,18 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
-  const [preview, setPreview] = useState('')
+  const [preview, setPreview] = useState([])
+  // const [array, setArray] = useState([])
   const [progress, setProgress] = useState()
   const classes = useStyles()
-
+  // console.log(array)
   const uploadImage = async (file) => {
     try {
       const form = new FormData()
-      form.append('file', file)
+      for (let i = 0; i < file.length; i++) {
+        form.append('file', file[i])
+      }
+      // form.append('file', file)
       const data = await axios({
         method: 'post',
         url: 'https://api-staging.heala.io/rest/media/upload/',
@@ -87,8 +91,10 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
   }
 
   const onChange = async (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files
+
     const files = await uploadImage(file)
+
     setPreview(files)
 
     setFieldValue(name, files)
@@ -103,6 +109,7 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
               accept="image/*"
               onChange={onChange}
               type="file"
+              multiple
               name={name}
               onBlur={onBlur}
               hidden

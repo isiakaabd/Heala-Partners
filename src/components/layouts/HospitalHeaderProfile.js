@@ -55,6 +55,7 @@ const HospitalHeaderProfile = () => {
         data: data?.getPartner.category,
       })
     }
+    console.log(data)
     //eslint-disable-next-line
   }, [pharmacy, data])
 

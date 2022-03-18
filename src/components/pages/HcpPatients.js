@@ -135,51 +135,48 @@ const HcpPatients = (props) => {
             handleChangePage={fetchMoreFunc}
             hasCheckbox={true}
           >
-            {profiles
+            {profiles.map((row, index) => {
+              const isItemSelected = isSelected(row.id, selectedRows)
 
-              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const isItemSelected = isSelected(row.id, selectedRows)
+              const labelId = `enhanced-table-checkbox-${index}`
 
-                const labelId = `enhanced-table-checkbox-${index}`
-
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row._id}
-                    selected={isItemSelected}
+              return (
+                <TableRow
+                  hover
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={row._id}
+                  selected={isItemSelected}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      onClick={() =>
+                        handleSelectedRows(
+                          row.id,
+                          selectedRows,
+                          setSelectedRows,
+                        )
+                      }
+                      color="primary"
+                      checked={isItemSelected}
+                      inputProps={{
+                        'aria-labelledby': labelId,
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell
+                    id={labelId}
+                    scope="row"
+                    align="left"
+                    className={classes.tableCell}
+                    style={{ color: theme.palette.common.grey }}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        onClick={() =>
-                          handleSelectedRows(
-                            row.id,
-                            selectedRows,
-                            setSelectedRows,
-                          )
-                        }
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      id={labelId}
-                      scope="row"
-                      align="left"
-                      className={classes.tableCell}
-                      style={{ color: theme.palette.common.grey }}
-                    >
-                      {row.doctor}
-                    </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {row.patient}
-                      {/* <div
+                    {row.doctor}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCell}>
+                    {row.patient}
+                    {/* <div
                           style={{
                             height: "100%",
                             display: "flex",
@@ -199,21 +196,21 @@ const HcpPatients = (props) => {
                             {row.lastName}
                           </span>
                         </div> */}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        className={classes.button}
-                        component={Link}
-                        to={`/hcps/${hcpId}/profile`}
-                        endIcon={<ArrowForwardIosIcon />}
-                      >
-                        View Doctor Profile
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      className={classes.button}
+                      component={Link}
+                      to={`/hcps/${hcpId}/profile`}
+                      endIcon={<ArrowForwardIosIcon />}
+                    >
+                      View Doctor Profile
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </EnhancedTable>
         ) : (
           <NoData />

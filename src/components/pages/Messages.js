@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { useTheme } from '@mui/material/styles'
 import EnhancedTable from 'components/layouts/EnhancedTable'
-import { messagesHeadCells } from 'components/Utilities/tableHeaders'
+import { messagesHeadCells3 } from 'components/Utilities/tableHeaders'
 import { Avatar, Button, Checkbox, Grid } from '@mui/material'
 import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
@@ -126,6 +126,9 @@ const Messages = ({
   const [searchMessage, setSearchMessage] = useState('')
   const [message, setMessage] = useState([])
   const { loading, data, error, refetch } = useQuery(getMessage, {
+    variables: {
+      providerId: localStorage.getItem('partnerProviderId'),
+    },
     notifyOnNetworkStatusChange: true,
   })
   const onChange = async (e) => {
@@ -162,8 +165,8 @@ const Messages = ({
     totalDocs,
   } = pageInfo
   const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (error) return <NoData error={error} />
   if (loading) return <Loader />
+  if (error) return <NoData error={error} />
   else {
     return (
       <Grid containerdirection="column" gap={2} flexWrap="nowrap" height="100%">
@@ -190,7 +193,7 @@ const Messages = ({
         <Grid item container height="100%" direction="column">
           {message.length > 0 ? (
             <EnhancedTable
-              headCells={messagesHeadCells}
+              headCells={messagesHeadCells3}
               rows={message}
               page={page}
               paginationLabel="Message per page"

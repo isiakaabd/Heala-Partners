@@ -1,41 +1,46 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import NoData from "components/layouts/NoData";
-import Loader from "components/Utilities/Loader";
-import { Grid, Typography } from "@mui/material";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import Stack from "@mui/material/Stack";
-import { useTheme } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
-import { CircularProgressBar } from "components/Utilities";
-import { Link } from "react-router-dom";
-import Card from "components/Utilities/Card";
-import { useQuery } from "@apollo/client";
-import { getEarningStats } from "components/graphQL/useQuery";
-import { financialPercent, selectOptions, formatNumber } from "components/Utilities/Time";
-import FormSelect from "components/Utilities/FormSelect";
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { NoData } from 'components/layouts'
+import { Grid, Typography } from '@mui/material'
+import TrendingDownIcon from '@mui/icons-material/TrendingDown'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import Stack from '@mui/material/Stack'
+import { useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import {
+  CircularProgressBar,
+  Loader,
+  Card,
+  FormSelect,
+} from 'components/Utilities'
+import { Link } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
+import { getEarningStats } from 'components/graphQL/useQuery'
+import { financialPercent, formatNumber } from 'components/Utilities/Time'
+
+import { getUsertypess } from 'components/graphQL/useQuery'
+
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
-    "&.MuiCard-root": {
-      width: "100%",
-      height: "15.8rem",
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      background: "white",
-      marginRight: "5rem",
-      "&:hover": {
-        boxShadow: "-1px 0px 10px -2px rgba(0,0,0,0.15)",
-        cursor: "pointer",
+    '&.MuiCard-root': {
+      width: '100%',
+      height: '15.8rem',
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center',
+      background: 'white',
+      marginRight: '5rem',
+      '&:hover': {
+        boxShadow: '-1px 0px 10px -2px rgba(0,0,0,0.15)',
+        cursor: 'pointer',
       },
-      "&:active": {
-        background: "#fafafa",
+      '&:active': {
+        background: '#fafafa',
       },
-      "& .MuiCardContent-root .MuiTypography-h5": {
-        textDecoration: "none !important",
-        textTransform: "uppercase",
+      '& .MuiCardContent-root .MuiTypography-h5': {
+        textDecoration: 'none !important',
+        textTransform: 'uppercase',
       },
     },
   },
@@ -43,25 +48,25 @@ const useStyles = makeStyles((theme) => ({
   iconWrapper: {
     width: 60,
     height: 60,
-    borderRadius: "50%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cardGrid: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: "25.8rem",
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '25.8rem',
   },
   flexContainer: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    margin: "auto",
-    width: "100%",
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 'auto',
+    width: '100%',
 
-    padding: "2rem 4rem",
-    "&:first-child": {
-      borderBottom: ".5px solid #F8F8F8",
+    padding: '2rem 4rem',
+    '&:first-child': {
+      borderBottom: '.5px solid #F8F8F8',
     },
   },
   lightGreen: {
@@ -72,63 +77,83 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.red,
   },
   mainContainer: {
-    flexDirection: "column",
-    width: "100%",
-    background: "white",
-    borderRadius: "2rem",
-    boxShadow: "-1px 0px 10px -2px rgba(0,0,0,0.15)",
+    flexDirection: 'column',
+    width: '100%',
+    background: 'white',
+    borderRadius: '2rem',
+    boxShadow: '-1px 0px 10px -2px rgba(0,0,0,0.15)',
   },
   parentGrid: {
-    textDecoration: "none",
-    width: "24.7rem",
+    textDecoration: 'none',
+    width: '24.7rem',
     color: theme.palette.primary.main,
-    "&.MuiGrid-item": {
+    '&.MuiGrid-item': {
       ...theme.typography.cardParentGrid,
-      minWidth: "20rem",
+      minWidth: '20rem',
 
-      "&:hover": {
-        background: "#fcfcfc",
+      '&:hover': {
+        background: '#fcfcfc',
       },
 
-      "&:active": {
-        background: "#fafafa",
+      '&:active': {
+        background: '#fafafa',
       },
     },
   },
 
   cardIcon: {
-    "&.MuiSvgIcon-root": {
-      fontSize: "3rem",
+    '&.MuiSvgIcon-root': {
+      fontSize: '3rem',
     },
   },
-}));
+}))
 const Finance = ({ setSelectedSubMenu }) => {
-  const [form, setForm] = useState("");
+  const [form, setForm] = useState('')
   const { data, error, loading, refetch } = useQuery(getEarningStats, {
-    variables: { q: "365" },
-  });
-  const [totalEarning, setTotalEarning] = useState([]);
-  const [totalPayouts, setTotalPayouts] = useState([]);
-  const financialValue = financialPercent(totalEarning, totalPayouts);
-  const [finances, setFinances] = useState(financialValue);
+    variables: {
+      q: '365',
+      providerId: localStorage.getItem('partnerProviderId'),
+    },
+  })
+  const [dropDown, setDropDown] = useState([])
+  const { data: da } = useQuery(getUsertypess, {
+    variables: {
+      userTypeId: '61ed2354e6091400135e3d94',
+    },
+  })
+  useEffect(() => {
+    if (da) {
+      const datas = da.getUserTypeProviders.provider
+      setDropDown(
+        datas &&
+          datas.map((i) => {
+            return { key: i.name, value: i._id }
+          }),
+      )
+    }
+  }, [da])
+  const [totalEarning, setTotalEarning] = useState([])
+  const [totalPayouts, setTotalPayouts] = useState([])
+  const financialValue = financialPercent(totalEarning, totalPayouts)
+  const [finances, setFinances] = useState(financialValue)
   const onChange = async (e) => {
-    setForm(e.target.value);
-    await refetch({ q: e.target.value });
-  };
+    setForm(e.target.value)
+    await refetch({ q: e.target.value })
+  }
 
-  const theme = useTheme();
+  const theme = useTheme()
   useEffect(() => {
     if (data) {
-      const { totalEarnings, totalPayout } = data.getEarningStats;
-      setTotalEarning(totalEarnings);
-      setTotalPayouts(totalPayout);
-      const value = financialPercent(totalEarnings, totalPayout);
-      setFinances(value);
+      const { totalEarnings, totalPayout } = data.getEarningStats
+      setTotalEarning(totalEarnings)
+      setTotalPayouts(totalPayout)
+      const value = financialPercent(totalEarnings, totalPayout)
+      setFinances(value)
     }
-  }, [form, data]);
-  const classes = useStyles();
-  if (loading) return <Loader />;
-  if (error) return <NoData error={error} />;
+  }, [form, data])
+  const classes = useStyles()
+  if (loading) return <Loader />
+  if (error) return <NoData error={error} />
 
   return (
     <Stack position="static" className={classes.containerGrid} spacing={3}>
@@ -144,14 +169,17 @@ const Finance = ({ setSelectedSubMenu }) => {
               placeholder="Select days"
               value={form}
               onChange={onChange}
-              options={selectOptions}
+              options={dropDown}
               name="finance"
             />
           </Grid>
         </Grid>
 
-        <Grid item container sx={{ padding: "3rem 4rem" }}>
-          <Grid container sx={{ alignItems: "center", justifyContent: "space-between" }}>
+        <Grid item container sx={{ padding: '3rem 4rem' }}>
+          <Grid
+            container
+            sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+          >
             <Grid item xs={4}>
               <CircularProgressBar
                 height="17rem"
@@ -168,31 +196,37 @@ const Finance = ({ setSelectedSubMenu }) => {
               container
               columnSpacing={2}
               xs={3}
-              sx={{ justifyContent: "center", alignItems: "center" }}
+              sx={{ justifyContent: 'center', alignItems: 'center' }}
             >
               <Grid
                 className={classes.iconWrapper}
                 sx={{ background: theme.palette.common.lightGreen }}
               >
                 <Grid item>
-                  <TrendingDownIcon color="success" className={classes.cardIcon} />
+                  <TrendingDownIcon
+                    color="success"
+                    className={classes.cardIcon}
+                  />
                 </Grid>
               </Grid>
               <Grid item>
-                <Typography noWrap variant="h2" style={{ fontSize: "3.9rem" }}>
+                <Typography noWrap variant="h2" style={{ fontSize: '3.9rem' }}>
                   <span
                     style={{
-                      textDecoration: "line-through",
-                      textDecorationStyle: "double",
+                      textDecoration: 'line-through',
+                      textDecorationStyle: 'double',
                     }}
                   >
-                    N{""}
+                    N{''}
                   </span>
                   {formatNumber(totalEarning)}
                 </Typography>
                 <Typography
                   variant="body2"
-                  style={{ color: theme.palette.common.lightGrey, fontSize: "2.275rem" }}
+                  style={{
+                    color: theme.palette.common.lightGrey,
+                    fontSize: '2.275rem',
+                  }}
                 >
                   Total earning
                 </Typography>
@@ -205,7 +239,7 @@ const Finance = ({ setSelectedSubMenu }) => {
               container
               columnSpacing={2}
               xs={3}
-              sx={{ justifyContent: "center", alignItems: "center" }}
+              sx={{ justifyContent: 'center', alignItems: 'center' }}
             >
               <Grid
                 className={classes.iconWrapper}
@@ -217,20 +251,23 @@ const Finance = ({ setSelectedSubMenu }) => {
               </Grid>
 
               <Grid item>
-                <Typography noWrap variant="h2" style={{ fontSize: "3.9rem" }}>
+                <Typography noWrap variant="h2" style={{ fontSize: '3.9rem' }}>
                   <span
                     style={{
-                      textDecoration: "line-through",
-                      textDecorationStyle: "double",
+                      textDecoration: 'line-through',
+                      textDecorationStyle: 'double',
                     }}
                   >
-                    N{""}
+                    N{''}
                   </span>
                   {formatNumber(totalPayouts)}
                 </Typography>
                 <Typography
                   variant="body2"
-                  style={{ color: theme.palette.common.lightGrey, fontSize: "2.275rem" }}
+                  style={{
+                    color: theme.palette.common.lightGrey,
+                    fontSize: '2.275rem',
+                  }}
                 >
                   Total withdrawal
                 </Typography>
@@ -245,10 +282,13 @@ const Finance = ({ setSelectedSubMenu }) => {
           component={Link}
           to="/finance/earnings"
           className={classes.parentGrid}
-          style={{ marginRight: "5rem" }}
+          style={{ marginRight: '5rem' }}
           onClick={() => setSelectedSubMenu(9)}
         >
-          <Card title="Earnings Table" background={theme.palette.common.lightGreen}>
+          <Card
+            title="Earnings Table"
+            background={theme.palette.common.lightGreen}
+          >
             <Grid className={classes.iconWrapper}>
               <TrendingDownIcon color="success" className={classes.cardIcon} />
             </Grid>
@@ -259,10 +299,13 @@ const Finance = ({ setSelectedSubMenu }) => {
           component={Link}
           to="/finance/payouts"
           className={classes.parentGrid}
-          style={{ marginRight: "5rem" }}
+          style={{ marginRight: '5rem' }}
           onClick={() => setSelectedSubMenu(9)}
         >
-          <Card title="Payouts Table" background={theme.palette.common.lightRed}>
+          <Card
+            title="Payouts Table"
+            background={theme.palette.common.lightRed}
+          >
             <TrendingUpIcon color="error" className={classes.cardIcon} />
           </Card>
         </Grid>
@@ -271,10 +314,13 @@ const Finance = ({ setSelectedSubMenu }) => {
           component={Link}
           to="/finance/pending"
           className={classes.parentGrid}
-          style={{ marginRight: "5rem" }}
+          style={{ marginRight: '5rem' }}
           onClick={() => setSelectedSubMenu(10)}
         >
-          <Card title="Pending Payout" background={theme.palette.common.lightRed}>
+          <Card
+            title="Pending Payout"
+            background={theme.palette.common.lightRed}
+          >
             <Grid className={classes.iconWrapper}>
               <TrendingUpIcon color="error" className={classes.cardIcon} />
             </Grid>
@@ -282,11 +328,11 @@ const Finance = ({ setSelectedSubMenu }) => {
         </Grid>
       </Grid>
     </Stack>
-  );
-};
+  )
+}
 
 Finance.propTypes = {
   setSelectedSubMenu: PropTypes.func.isRequired,
-};
+}
 
-export default Finance;
+export default Finance

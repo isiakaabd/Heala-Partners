@@ -6,9 +6,12 @@ import { dateMoment } from 'components/Utilities/Time'
 import NoData from 'components/layouts/NoData'
 import { Typography, Grid, Chip } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import CustomButton from 'components/Utilities/CustomButton'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import DisplayProfile from 'components/Utilities/DisplayProfile'
+
+import {
+  PreviousButton,
+  CustomButton,
+  DisplayProfileHospital,
+} from 'components/Utilities'
 import displayPhoto from 'assets/images/avatar.svg'
 import { useTheme } from '@mui/material/styles'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
@@ -98,6 +101,7 @@ const PatientProfile = ({
       profileId: patientId,
     },
   })
+  console.log(data)
   const { data: emailStatus, loading: emailLoading } = useQuery(verifiedEmail, {
     variables: {
       dociId: doci,
@@ -183,7 +187,7 @@ const PatientProfile = ({
       </Grid>
       {/* Display photo and profile name grid */}
       <Grid item>
-        <DisplayProfile
+        <DisplayProfileHospital
           fullName={`${firstName} ${lastName}`}
           displayPhoto={image ? image : displayPhoto}
           medicalTitle="User ID"
@@ -224,13 +228,7 @@ const PatientProfile = ({
             <Grid item>
               <Chip
                 variant="outlined"
-                label={
-                  gender === 0
-                    ? 'Male'
-                    : gender === 1
-                    ? 'Female'
-                    : 'Prefer not to say'
-                }
+                label={gender}
                 className={classes.infoBadge}
               />
             </Grid>

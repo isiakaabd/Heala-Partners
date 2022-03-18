@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Avatar, IconButton, Typography, Badge } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import displayPhoto from 'assets/images/avatar.svg'
+import { useActions } from 'components/hooks/useActions'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import Notifications from 'components/layouts/Notifications'
 import { useLazyQuery } from '@apollo/client'
@@ -35,6 +36,8 @@ const HeadersProfile = () => {
     }
     return `${count} notifications`
   }
+  const { userDetail } = useActions()
+
   const id = localStorage.getItem('diagnosticId')
   const [pharmacyData, setPharmacyData] = useState({})
 
@@ -46,8 +49,13 @@ const HeadersProfile = () => {
     ;(async () => {
       setTimeout(pharmacy, 300)
     })()
-
-    setPharmacyData(data?.getPartner)
+    if (data) {
+      setPharmacyData(data?.getPartner)
+      userDetail({
+        data: data?.getPartner.category,
+      })
+    }
+    //eslint-disable-next-line
   }, [pharmacy, data])
 
   return (

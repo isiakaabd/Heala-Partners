@@ -1,52 +1,58 @@
-import React from "react";
-import PropTypes from "prop-types";
-import CustomButton from "components/Utilities/CustomButton";
-import { Grid } from "@mui/material";
-import * as Yup from "yup";
-import { useMutation } from "@apollo/client";
-import { requestReferral } from "components/graphQL/Mutation";
-import { getRefferals } from "components/graphQL/useQuery";
-import { Formik, Form } from "formik";
-import FormikControl from "components/validation/FormikControl";
-import { useTheme } from "@mui/material/styles";
-const checkbox2 = [{ key: "dentist", value: "dentist" }];
-const checkbox1 = [{ key: "hcp", value: "hcp" }];
+import React from 'react'
+import PropTypes from 'prop-types'
+import CustomButton from 'components/Utilities/CustomButton'
+import { Grid } from '@mui/material'
+import * as Yup from 'yup'
+import { useMutation } from '@apollo/client'
+import { requestReferral } from 'components/graphQL/Mutation'
+import { getRefferals } from 'components/graphQL/useQuery'
+import { Formik, Form } from 'formik'
+import FormikControl from 'components/validation/FormikControl'
+import { useTheme } from '@mui/material/styles'
+const checkbox2 = [
+  { key: 'pharmacy', value: 'pharmacy' },
+  { key: 'diagnostic', value: 'diagnostic' },
+  { key: 'hospital', value: 'hospital' },
+]
+const checkbox1 = [{ key: 'hcp', value: 'hcp' }]
 
 const validationSchema = Yup.object({
-  type: Yup.string("choose a referral").required("Referral is required"),
-  note: Yup.string("Enter your message").required("note is required"),
-  reason: Yup.string("State a reason").required("reason is required"),
-  specialization: Yup.string("select a specialization").required("specialization is required"),
-});
+  type: Yup.string('choose a referral').required('Referral is required'),
+  note: Yup.string('Enter your message').required('note is required'),
+  reason: Yup.string('State a reason').required('reason is required'),
+  specialization: Yup.string('select a specialization').required(
+    'specialization is required',
+  ),
+})
 
 const ReferPatient = ({ handleDialogClose, initialValues, type }) => {
-  const [referPatient] = useMutation(requestReferral);
-  const theme = useTheme();
+  const [referPatient] = useMutation(requestReferral)
+  const theme = useTheme()
   const onSubmit = async (values, onSubmitProps) => {
-    if (type === "refer") {
-      const { reason, patient, note, type, doctor, specialization } = values;
+    if (type === 'refer') {
+      const { reason, patient, note, type, doctor, specialization } = values
       await referPatient({
         variables: {
-          doctor: doctor,
-          patient: patient,
-          type: type,
-          reason: reason,
-          note: note,
-          specialization: specialization,
+          doctor,
+          patient,
+          type,
+          reason,
+          note,
+          specialization,
         },
         refetchQueries: [{ query: getRefferals }],
-      });
+      })
     }
 
-    onSubmitProps.resetForm();
-    handleDialogClose();
-  };
+    onSubmitProps.resetForm()
+    handleDialogClose()
+  }
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
     disabled: theme.palette.common.black,
-  };
+  }
   return (
     <Formik
       initialValues={initialValues}
@@ -58,7 +64,7 @@ const ReferPatient = ({ handleDialogClose, initialValues, type }) => {
     >
       {({ isSubmitting, dirty, isValid }) => {
         return (
-          <Form style={{ marginTop: "3rem" }}>
+          <Form style={{ marginTop: '3rem' }}>
             <Grid item container direction="column" gap={1}>
               <Grid item container rowSpacing={2}>
                 <Grid item container>
@@ -98,7 +104,7 @@ const ReferPatient = ({ handleDialogClose, initialValues, type }) => {
                 </Grid>
                 <Grid item xs={12} marginTop={5}>
                   <CustomButton
-                    title="Search available HCP"
+                    title="Refer Patient"
                     width="100%"
                     type={buttonType}
                     isSubmitting={isSubmitting}
@@ -108,11 +114,11 @@ const ReferPatient = ({ handleDialogClose, initialValues, type }) => {
               </Grid>
             </Grid>
           </Form>
-        );
+        )
       }}
     </Formik>
-  );
-};
+  )
+}
 
 ReferPatient.propTypes = {
   open: PropTypes.bool,
@@ -120,6 +126,6 @@ ReferPatient.propTypes = {
   handleDialogClose: PropTypes.func,
   initialValues: PropTypes.object,
   type: PropTypes.string,
-};
+}
 
-export default ReferPatient;
+export default ReferPatient

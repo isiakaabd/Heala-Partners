@@ -79,5 +79,5 @@ export const hospitalMenu = [
   { id: 8, title: 'Finance', icon: PaymentsIcon, path: '/finance' },
   { id: 9, title: 'Referrals', icon: LoopIcon, path: '/referrals' },
   { id: 10, title: 'Subscription', icon: SubscriptionsIcon, path: '/plans' },
-  { id: 11, title: 'Settings', icon: SettingsIcon, path: '/settings' },
+  { id: 11, title: 'Settings', icon: SettingsIcon, path: '/hsettings' },
 ]

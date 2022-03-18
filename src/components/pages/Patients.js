@@ -24,7 +24,7 @@ import {
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
-import { patientsHeadCells } from 'components/Utilities/tableHeaders'
+import { patientsHeadCells1 } from 'components/Utilities/tableHeaders'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import displayPhoto from 'assets/images/avatar.svg'
 import { Link } from 'react-router-dom'
@@ -231,7 +231,7 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         <Grid item container height="100%" direction="column">
           {profiles.length > 0 ? (
             <EnhancedTable
-              headCells={patientsHeadCells}
+              headCells={patientsHeadCells1}
               rows={profiles}
               paginationLabel="Patients per page"
               page={page}

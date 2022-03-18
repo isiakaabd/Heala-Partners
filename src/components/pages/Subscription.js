@@ -13,7 +13,7 @@ import Search from 'components/Utilities/Search'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
-import { subscriptionHeader } from 'components/Utilities/tableHeaders'
+import { subscriptionHeadersss } from 'components/Utilities/tableHeaders'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
 import { handleSelectedRows } from 'helpers/selectedRows'
@@ -229,6 +229,9 @@ const Subscription = () => {
   }
   const [plan, setPlan] = useState([])
   const { loading, data, error, refetch } = useQuery(getPlans, {
+    variables: {
+      providerId: localStorage.getItem('partnerProviderId'),
+    },
     notifyOnNetworkStatusChange: true,
   })
   const onChange = async (e) => {
@@ -301,7 +304,7 @@ const Subscription = () => {
         <Grid item container height="100%" direction="column">
           {plan.length > 0 ? (
             <EnhancedTable
-              headCells={subscriptionHeader}
+              headCells={subscriptionHeadersss}
               rows={plan}
               paginationLabel="subscription per page"
               page={page}

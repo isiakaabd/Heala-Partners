@@ -20,7 +20,7 @@ import FilterList from 'components/Utilities/FilterList'
 import EnhancedTable from 'components/layouts/EnhancedTable'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
-import { referralHeader } from 'components/Utilities/tableHeaders'
+import { referralHeaderss } from 'components/Utilities/tableHeaders'
 import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
 import { useActions } from 'components/hooks/useActions'
@@ -144,6 +144,9 @@ const ReferralTab = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   const { setSelectedRows } = useActions()
   const [searchMail, setSearchMail] = useState('')
   const { data, loading, error, refetch } = useQuery(getRefferals, {
+    variables: {
+      providerId: localStorage.getItem('partnerProviderId'),
+    },
     notifyOnNetworkStatusChange: true,
   })
   const [referral, setReferral] = useState([])
@@ -195,7 +198,7 @@ const ReferralTab = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
         {referral.length > 0 ? (
           <Grid item container>
             <EnhancedTable
-              headCells={referralHeader}
+              headCells={referralHeaderss}
               paginationLabel="referral per page"
               rows={referral}
               page={page}
