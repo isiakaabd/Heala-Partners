@@ -5,6 +5,7 @@ import {
   Textarea,
   Input,
   DateTimePicker,
+  DateComponent,
   Selects,
   FormRadio,
   Checkbox,
@@ -28,6 +29,9 @@ const FormikControl = (props) => {
       return <DateTimePicker {...rest} />
     case 'file':
       return <Files {...rest} />
+    case 'date':
+      return <DateComponent {...rest} />
+
     default:
       return null
   }

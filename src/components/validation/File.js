@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Field, ErrorMessage } from 'formik'
-import TextError from 'components/Utilities/TextError'
-import { Loader } from 'components/Utilities'
+import { Loader, TextError } from 'components/Utilities'
 import PropTypes from 'prop-types'
 import {
   FormControl,
@@ -60,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
-  const [preview, setPreview] = useState([])
+  const [preview, setPreview] = useState('')
   // const [array, setArray] = useState([])
   const [progress, setProgress] = useState()
   const classes = useStyles()
@@ -68,10 +67,7 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
   const uploadImage = async (file) => {
     try {
       const form = new FormData()
-      for (let i = 0; i < file.length; i++) {
-        form.append('file', file[i])
-      }
-      // form.append('file', file)
+      form.append('file', file)
       const data = await axios({
         method: 'post',
         url: 'https://api-staging.heala.io/rest/media/upload/',
@@ -91,10 +87,8 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
   }
 
   const onChange = async (e) => {
-    const file = e.target.files
-
+    const file = e.target.files[0]
     const files = await uploadImage(file)
-
     setPreview(files)
 
     setFieldValue(name, files)

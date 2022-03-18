@@ -136,7 +136,7 @@ export const muiTheme = createTheme({
       // ...theme
       width: '100%',
       height: '5rem',
-      // border: 'none',
+      // border: '1px solid dark',
       borderRadius: '.5rem',
       padding: '1rem',
       fontSize: '1.6rem',
