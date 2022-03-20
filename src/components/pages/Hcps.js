@@ -185,26 +185,23 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   }
   const onSubmit = async (values) => {
     const {
-      createdAt,
-      updatedAt,
       firstName,
       lastName,
       gender,
       phone,
       email,
       hospital,
-      dociId,
+      healaId,
       specialization,
       dob,
       cadre,
       image,
     } = values
+    console.log(values)
     const correctDOB = timeConverter(dob)
     await createDoc({
       variables: {
-        dociId,
-        createdAt,
-        updatedAt,
+        dociId: healaId,
         firstName,
         lastName,
         gender,
@@ -241,7 +238,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
     hospital: '',
     phone: '',
     dob: null,
-    dociId: '',
+    healaId: '',
   }
   const validationSchema = Yup.object({
     firstName: Yup.string('Enter your firstName').required(
@@ -253,7 +250,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
     dob: Yup.date('required')
       .typeError(' Enter a valid DOB')
       .required(' DOB required'),
-    dociId: Yup.string('Enter dociId').required('DociId required'),
+    healaId: Yup.string('Enter healaId').required('HealaID required'),
     gender: Yup.string('select your Gender').required('Select a gender'),
     phone: Yup.number('Enter your Phone Number')
       .typeError(' Enter a valid phone number')
@@ -514,7 +511,15 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
           validateOnMount={false}
           validateOnBlur={false}
         >
-          {({ isSubmitting, dirty, isValid, setFieldValue, setValues }) => {
+          {({
+            isSubmitting,
+            dirty,
+            isValid,
+            setFieldValue,
+            errors,
+            setValues,
+          }) => {
+            console.log(errors)
             return (
               <Form style={{ marginTop: '1rem' }}>
                 <Grid container direction="column" gap={2}>
@@ -545,15 +550,6 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                       <Grid item container>
                         <Grid container spacing={2}>
                           <Grid item md>
-                            <FormikControl
-                              control="date"
-                              name="dob"
-                              label="DOB"
-                              setFieldValue={setFieldValue}
-                              setValues={setValues}
-                            />
-                          </Grid>
-                          <Grid item md>
                             <Grid container direction="column">
                               <FormikControl
                                 control="select"
@@ -563,6 +559,33 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                                 placeholder="Specialization"
                               />
                             </Grid>
+                            {/* <Grid item md>
+                            <FormikControl
+                              control="input"
+                              label="Heala-ID"
+                              id="dociId"
+                              name="dociId"
+                              placeholder="Enter Heala ID"
+                            /> */}
+                          </Grid>
+                          {/* <Grid item md>
+                            <FormikControl
+                              control="date"
+                              name="dob"
+                              label="DOB"
+                              setFieldValue={setFieldValue}
+                              setValues={setValues}
+                            />
+                          </Grid> */}
+                          <Grid item md>
+                            <FormikControl
+                              control="select"
+                              label="Gender"
+                              id="gender"
+                              name="gender"
+                              options={gender}
+                              placeholder="Gender"
+                            />
                           </Grid>
                         </Grid>
                       </Grid>
@@ -573,22 +596,23 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                       <Grid container spacing={2}>
                         <Grid item md>
                           <FormikControl
-                            control="select"
-                            label="Gender"
-                            id="gender"
-                            name="gender"
-                            options={gender}
-                            placeholder="Gender"
-                          />
-                        </Grid>
-                        <Grid item md>
-                          <FormikControl
                             control="input"
                             label="Phone Number"
                             id="phone"
                             name="phone"
                             placeholder="Enter last Phone number"
                           />
+                        </Grid>
+                        <Grid item md>
+                          <Grid container direction="column">
+                            <FormikControl
+                              control="select"
+                              options={cadre}
+                              name="cadre"
+                              label="Cadre"
+                              placeholder="Select Cadre"
+                            />
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -597,23 +621,21 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                         <Grid container spacing={2}>
                           <Grid item md>
                             <FormikControl
-                              control="input"
-                              label="Hospital"
-                              id="hospital"
-                              name="hospital"
-                              placeholder="Enter hospital Name"
+                              control="date"
+                              name="dob"
+                              label="DOB"
+                              setFieldValue={setFieldValue}
+                              setValues={setValues}
                             />
                           </Grid>
                           <Grid item md>
-                            <Grid container direction="column">
-                              <FormikControl
-                                control="select"
-                                options={cadre}
-                                name="cadre"
-                                label="Cadre"
-                                placeholder="Select Cadre"
-                              />
-                            </Grid>
+                            <FormikControl
+                              control="input"
+                              label="HealaId"
+                              id="heala"
+                              name="healaId"
+                              placeholder="Enter Heala ID"
+                            />
                           </Grid>
                         </Grid>
                       </Grid>
@@ -631,12 +653,20 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                     <Grid item md>
                       <FormikControl
                         control="input"
+                        name="hospital"
+                        label="Hospital"
+                        placeholder="Enter Hospital"
+                      />
+                    </Grid>
+                    {/* <Grid item md>
+                      <FormikControl
+                        control="input"
                         label="Heala-ID"
                         id="dociId"
                         name="dociId"
                         placeholder="Enter Heala ID"
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                   <Grid item container>
                     <CustomButton
