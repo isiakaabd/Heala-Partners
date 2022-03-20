@@ -197,7 +197,6 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       cadre,
       image,
     } = values
-
     const correctDOB = timeConverter(dob)
     await createDoc({
       variables: {

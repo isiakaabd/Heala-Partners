@@ -68,7 +68,6 @@ const App = () => {
         data: data?.getPartner.category,
       })
     }
-
     setstate(false)
     //eslint-disable-next-line
   }, [pharmacy, data])

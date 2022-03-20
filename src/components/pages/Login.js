@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
-import { ReactComponent as HealaIcon } from 'assets/images/logo.svg'
+import { ReactComponent as HealaIcon } from 'assets/images/logo2.svg'
 import { LoginInput } from 'components/validation'
 import { Formik, Form } from 'formik'
 import { Link, useHistory } from 'react-router-dom'
