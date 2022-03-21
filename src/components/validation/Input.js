@@ -24,13 +24,19 @@ const Input = (props) => {
       <FormLabel component="legend" className={classes.FormLabel}>
         {label}
       </FormLabel>
-      <Field id={name} name={name} {...rest} className={classes.input} />
+      <Field
+        id={name}
+        name={name}
+        className={classes.input}
+        {...rest}
+        style={{ minHeight: 50 }}
+      />
       <ErrorMessage name={name} component={TextError} />
     </Grid>
   )
 }
 Input.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   name: PropTypes.string.isRequired,
 }
 

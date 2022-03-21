@@ -16,17 +16,17 @@ import {
   Alert,
 } from "@mui/material";
 
-import { CustomButton } from "components/Utilities";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import vec from "assets/images/vec.png";
-import { makeStyles } from "@mui/styles";
-import { useTheme } from "@mui/material/styles";
-import { useActions } from "components/hooks/useActions";
+import { CustomButton } from 'components/Utilities'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import vec from 'assets/images/vec.png'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 // import { useSelector } from 'react-redux'
-import { Login_USER } from "components/graphQL/Mutation";
-import { useMutation } from "@apollo/client";
-import { setAccessToken } from "../../accessToken";
+import { Login_USER } from 'components/graphQL/Mutation'
+import { useMutation } from '@apollo/client'
+import { setAccessToken } from '../../accessToken'
+import { useActions } from 'components/hooks/useActions'
 
 const useStyles = makeStyles((theme) => ({
   form: theme.mixins.toolbar,
@@ -72,14 +72,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const history = useHistory();
-  const [loginInfo] = useMutation(Login_USER); //{ data, loading, error }
-  const { loginUser, loginFailue } = useActions();
-  // const [pharmacy, { data }] = useLazyQuery(getPartner, {
-  //   variables: { id: id },
-  // })
+  const classes = useStyles()
+  const theme = useTheme()
+  const history = useHistory()
+  const [loginInfo] = useMutation(Login_USER) //{ data, loading, error }
+  const { loginUser, loginFailue } = useActions()
 
   const [showPassword, setShowPassword] = useState(false);
   const greenButton = {

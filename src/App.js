@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css'
 import { Loader } from 'components/Utilities'
 import { getPartner } from 'components/graphQL/useQuery'
+import { LOGOUT_USER } from 'components/graphQL/Mutation'
 import { useActions } from 'components/hooks/useActions'
 import { setAccessToken } from './accessToken'
 import { muiTheme } from 'components/muiTheme'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { Header, Headers, SideMenu, SideMenus } from 'components/layouts'
 import Routes from 'components/routes/Routes'
 import { useSelector } from 'react-redux'
@@ -17,6 +18,8 @@ import Private from 'components/routes/Private'
 import HospitalHeader from 'components/layouts/HospitalHeader'
 import HospitalMenu from 'components/layouts/HospitalMenu'
 import Hospital from 'components/routes/Hospital'
+
+import jwtDecode from 'jwt-decode'
 
 const sectionStyles = {
   paddingLeft: '39rem',
@@ -29,18 +32,35 @@ const sectionStyles = {
 }
 
 const App = () => {
-  const { userDetail } = useActions()
+  const { userDetail, logout } = useActions()
+  const [logout_user] = useMutation(LOGOUT_USER)
   const id = localStorage.getItem('pharmacyId')
-  const [pharmacy, { data, error }] = useLazyQuery(getPartner, {
+  const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id: id },
   })
 
   useEffect(() => {
+    const token = localStorage.getItem('Pharmacy_token')
     ;(async () => {
-      try {
-        setTimeout(pharmacy, 300)
-      } catch (err) {
-        console.error(err)
+      if (!token) {
+        setSelectedMenu(13)
+        logout()
+      } else {
+        const { exp } = jwtDecode(token)
+
+        if (Date.now() >= exp * 1000) {
+          await logout_user()
+          setSelectedMenu(13)
+          logout()
+        } else {
+          setAccessToken(token)
+
+          try {
+            pharmacy()
+          } catch (err) {
+            console.error(err)
+          }
+        }
       }
     })()
     if (data) {
@@ -48,10 +68,6 @@ const App = () => {
         data: data?.getPartner.category,
       })
     }
-    if (error) console.log(error)
-    console.log(data)
-    const token = localStorage.getItem('Pharmacy_token')
-    setAccessToken(token)
     setstate(false)
     //eslint-disable-next-line
   }, [pharmacy, data])
@@ -239,6 +255,7 @@ const App = () => {
                   selectedMenu={selectedMenu}
                   selectedPendingMenu={selectedPendingMenu}
                   selectedSubMenu={selectedSubMenu}
+                  setSelectedMenu={setSelectedMenu}
                   selectedPatientMenu={selectedPatientMenu}
                   selectedHcpMenu={selectedHcpMenu}
                   selectedAppointmentMenu={selectedAppointmentMenu}

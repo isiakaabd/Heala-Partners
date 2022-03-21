@@ -7,9 +7,9 @@ import { Search } from 'components/Utilities'
 import { Grid, Typography } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
-  input: {
-    ...theme.typography.input,
-  },
+  // input: {
+  //   ...theme.typography.input,
+  // },
   FormLabel: {
     '&.MuiFormLabel-root': {
       ...theme.typography.FormLabel,

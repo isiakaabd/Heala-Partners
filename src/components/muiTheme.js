@@ -5,11 +5,12 @@ const grey = '#757886'
 const red = '#3E5EA9'
 const lightRed = '#f4f5f7'
 const lightGrey = '#CCCCCC'
-const lighterGrey = '#F2F2F2'
-const green = '#3E5EA9'
-const lightGreen = '#E7EFFA'
+const lighterGrey = 'F2F2F2'
+const green = '#2dd39e'
+const lightGreen = '#f7f7f7'
 const gold = 'rgb(243, 173, 83)'
 const black = '#2D2F39'
+// const disable = '#cccccc'
 
 export const muiTheme = createTheme({
   palette: {
@@ -133,23 +134,18 @@ export const muiTheme = createTheme({
       color: dark,
     },
     input: {
-      // ...theme
       width: '100%',
       height: '5rem',
-      // border: '1px solid dark',
+      border: '1px solid lightGrey',
       borderRadius: '.5rem',
       padding: '1rem',
       fontSize: '1.6rem',
       color: dark,
-      fontWeight: 400,
-
-      '&:focus': {
-        outline: 'none',
-      },
+      fontWeight: 600,
 
       '&::placeholder': {
         color: lightGrey,
-        fontWeight: 500,
+        fontWeight: '300 !important',
       },
     },
   },

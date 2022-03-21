@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import { AppBar } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import HospitalHeaderContent from 'components/layouts/HospitalHeaderContent'
+// import { LOGOUT_USER } from 'components/graphQL/Mutation'
+// import { useMutation } from '@apollo/client'
+// import jwtDecode from 'jwt-decode'
+// import { useActions } from 'components/hooks/useActions'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -16,8 +20,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const HospitalHeader = (props) => {
+  // const { logout } = useActions()
+  // const [logout_user] = useMutation(LOGOUT_USER)
   const {
     selectedMenu,
+    // setSelectedMenu,
     selectedSubMenu,
     selectedPatientMenu,
     selectedHcpMenu,
@@ -26,6 +33,27 @@ const HospitalHeader = (props) => {
     selectedScopedMenu,
   } = props
   const classes = useStyles()
+  // useEffect(() => {
+  //   const token = localStorage.getItem('Pharmacy_token')
+  //   const { exp } = jwtDecode(token)
+  //   ;(async () => {
+  //     if (Date.now() < exp * 1000) {
+  //       await logout_user()
+  //       setSelectedMenu(13)
+  //       logout()
+  //     } else {
+  //       console.log(123)
+  //       // setAccessToken(token)
+  //       // try {
+  //       //   setTimeout(pharmacy, 300)
+  //       //   setstate(false)
+  //       // } catch (err) {
+  //       //   console.error(err)
+  //       // }
+  //     }
+  //   })()
+  // }, [logout])
+
   return (
     <Fragment>
       <AppBar
