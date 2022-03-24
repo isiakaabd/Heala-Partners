@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { dateMoment } from 'components/Utilities/Time'
 import { makeStyles } from '@mui/styles'
-import { NoData, EnhancedTable } from 'components/layouts'
+import { NoData, EmptyTable, EnhancedTable } from 'components/layouts'
 import {
   Search,
   Modals,
@@ -185,7 +185,7 @@ const CancelledOrder = ({
             />
           </Grid>
         </Grid>
-        {scheduleState !== null ? (
+        {scheduleState !== null && scheduleState > 0 ? (
           <Grid item container style={{ marginTop: '5rem' }} height="100%">
             <EnhancedTable
               headCells={messagesHeadCell}
@@ -279,7 +279,10 @@ const CancelledOrder = ({
             </EnhancedTable>
           </Grid>
         ) : (
-          <NoData />
+          <EmptyTable
+            headCells={messagesHeadCell}
+            paginationLabel="Orders  per page"
+          />
         )}
       </Grid>
 

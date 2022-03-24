@@ -21,7 +21,7 @@ import {
   Loader,
 } from 'components/Utilities'
 import { Link } from 'react-router-dom'
-import { EnhancedTable, NoData } from 'components/layouts'
+import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
 import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
@@ -202,8 +202,8 @@ const ScheduledRequest = ({
             />
           </Grid>
         </Grid>
-        <Grid item container style={{ marginTop: '5rem' }}>
-          {scheduleState !== null ? (
+        {scheduleState !== null && scheduleState.length > 0 ? (
+          <Grid item container style={{ marginTop: '5rem' }}>
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={scheduleState}
@@ -304,10 +304,16 @@ const ScheduledRequest = ({
                   )
                 })}
             </EnhancedTable>
-          ) : (
+            ) : (
             <NoData />
-          )}
-        </Grid>
+            )}
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={partnersHeadCells}
+            paginationLabel="Requests  per page"
+          />
+        )}
         <Modals
           isOpen={openFilterPartner}
           title="Filter"

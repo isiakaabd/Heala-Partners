@@ -15,7 +15,6 @@ const Dashboards = ({ chatMediaActive, setChatMediaActive }) => {
       <Grid item>
         <DashboardCharts />
       </Grid>
-      {/* <AvailabilityTable /> */}
     </Grid>
   )
 }

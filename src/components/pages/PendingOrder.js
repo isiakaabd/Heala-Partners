@@ -28,7 +28,7 @@ import { isSelected } from 'helpers/isSelected'
 import useFormInput from 'components/hooks/useFormInput'
 import { useQuery } from '@apollo/client'
 import { getDrugOrders } from 'components/graphQL/useQuery'
-import { NoData } from 'components/layouts' //
+import { NoData, EmptyTable } from 'components/layouts' //
 
 const referralOptions = ['Hello', 'World', 'Goodbye', 'World']
 
@@ -170,8 +170,8 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
-        <Grid item container height="100%" direction="column">
-          {state.length > 0 ? (
+        {state.length > 0 ? (
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={patientsHeadCells}
               rows={state}
@@ -266,7 +266,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                             <span style={{ marginRight: '1rem' }}>
                               <Avatar
                                 alt={`Display Photo of ${patientData?.firstName}`}
-                                src={patientData?.picture || displayPhoto}
+                                src={patientData?.image || displayPhoto}
                                 sx={{ width: 24, height: 24 }}
                               />
                             </span>
@@ -301,10 +301,13 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                     )
                   })}
             </EnhancedTable>
-          ) : (
-            <NoData />
-          )}
-        </Grid>
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={patientsHeadCells}
+            paginationLabel="Orders  per page"
+          />
+        )}
       </Grid>
       <Modals
         isOpen={isOpen}

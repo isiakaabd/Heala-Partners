@@ -10,7 +10,8 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
 // import { BsChatDotsFill } from 'react-icons/bs'
 import PaymentsIcon from '@mui/icons-material/Payments'
 import LoopIcon from '@mui/icons-material/Loop'
-// import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
+
+mport SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 
 export const menus = [
   { id: 0, title: 'Dashboard', icon: DashboardIcon, path: '/dashboard' },
@@ -36,7 +37,7 @@ export const menus = [
     id: 5,
     title: 'Cancelled Orders',
     icon: EventBusySharpIcon,
-    path: '/cancelled-order',
+   path: '/cancelled-order',
   },
 
   { id: 11, title: 'Settings', icon: SettingsIcon, path: '/settings' },
@@ -78,6 +79,6 @@ export const hospitalMenu = [
   // { id: 5, title: 'Messages', icon: BsChatDotsFill, path: '/messages' },
   { id: 8, title: 'Finance', icon: PaymentsIcon, path: '/finance' },
   { id: 9, title: 'Referrals', icon: LoopIcon, path: '/referrals' },
-  // { id: 10, title: 'Subscription', icon: SubscriptionsIcon, path: '/plans' },
+  { id: 10, title: 'Subscription', icon: SubscriptionsIcon, path: '/plans' },
   { id: 11, title: 'Settings', icon: SettingsIcon, path: '/hsettings' },
 ]
