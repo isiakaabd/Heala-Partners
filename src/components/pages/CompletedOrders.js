@@ -21,7 +21,6 @@ import {
 import useFormInput from 'components/hooks/useFormInput'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-import EnhancedTable from 'components/layouts/EnhancedTable'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
 import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
@@ -31,7 +30,7 @@ import { isSelected } from 'helpers/isSelected'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { useQuery } from '@apollo/client'
 import { getDrugOrders } from 'components/graphQL/useQuery'
-import { NoData } from 'components/layouts'
+import { NoData, EmptyTable, EnhancedTable } from 'components/layouts'
 import { dateMoment, timeMoment } from 'components/Utilities/Time'
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
@@ -174,6 +173,7 @@ const CompletedOrders = () => {
   const { setSelectedRows } = useActions()
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
+  console.log(data)
 
   return (
     <>
@@ -200,15 +200,15 @@ const CompletedOrders = () => {
             />
           </Grid>
         </Grid>
-        <Grid
-          item
-          container
-          height="100%"
-          direction="column"
-          tainer
-          style={{ marginTop: '5rem' }}
-        >
-          {state.length > 0 ? (
+        {state.length > 0 ? (
+          <Grid
+            item
+            container
+            height="100%"
+            direction="column"
+            tainer
+            style={{ marginTop: '5rem' }}
+          >
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={state}
@@ -275,7 +275,7 @@ const CompletedOrders = () => {
                           <span style={{ marginRight: '1rem' }}>
                             <Avatar
                               alt={`Display Photo of ${patientData?.firstName}`}
-                              src={patientData?.picture || displayPhoto}
+                              src={patientData?.image || displayPhoto}
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
@@ -301,10 +301,13 @@ const CompletedOrders = () => {
                   )
                 })}
             </EnhancedTable>
-          ) : (
-            <NoData />
-          )}
-        </Grid>
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={partnersHeadCells}
+            paginationLabel="Orders  per page"
+          />
+        )}
         <Modals
           isOpen={openFilterPartner}
           title="Filter"

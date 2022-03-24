@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { Loader, Search, CustomButton, Modals } from 'components/Utilities'
 import { formatNumber } from 'components/Utilities/Time'
-import { EnhancedTable, NoData } from 'components/layouts'
+import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { subscriptionHeadersss } from 'components/Utilities/tableHeaders'
@@ -298,8 +298,8 @@ const Subscription = () => {
         </Grid>
         {/* The Search and Filter ends here */}
 
-        <Grid item container height="100%" direction="column">
-          {plan.length > 0 ? (
+        {plan.length > 0 ? (
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={subscriptionHeadersss}
               rows={plan}
@@ -437,10 +437,16 @@ const Subscription = () => {
                   )
                 })}
             </EnhancedTable>
-          ) : (
+            ) : (
             <NoData />
-          )}
-        </Grid>
+            )}
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={subscriptionHeadersss}
+            paginationLabel="Subscriptions  per page"
+          />
+        )}
       </Grid>
 
       {/* // modal */}

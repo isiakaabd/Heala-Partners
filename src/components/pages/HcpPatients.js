@@ -9,7 +9,7 @@ import {
   Button,
   Checkbox,
 } from '@mui/material'
-import { NoData, EnhancedTable } from 'components/layouts'
+import { NoData, EnhancedTable, EmptyTable } from 'components/layouts'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 
 import { hcpPatientsHeadCells } from 'components/Utilities/tableHeaders'
@@ -118,8 +118,8 @@ const HcpPatients = (props) => {
       <Grid item>
         <Typography variant="h2">Doctor Patients</Typography>
       </Grid>
-      <Grid item container direction="column" height="100%">
-        {profiles.length > 0 ? (
+      {profiles.length > 0 ? (
+        <Grid item container direction="column" height="100%">
           <EnhancedTable
             headCells={hcpPatientsHeadCells}
             rows={profiles}
@@ -212,10 +212,13 @@ const HcpPatients = (props) => {
               )
             })}
           </EnhancedTable>
-        ) : (
-          <NoData />
-        )}
-      </Grid>
+        </Grid>
+      ) : (
+        <EmptyTable
+          headCells={hcpPatientsHeadCells}
+          paginationLabel="Patients  per page"
+        />
+      )}
     </Grid>
   )
 }

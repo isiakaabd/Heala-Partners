@@ -12,7 +12,7 @@ import CustomButton from 'components/Utilities/CustomButton'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { useTheme } from '@mui/material/styles'
-import EnhancedTable from 'components/layouts/EnhancedTable'
+import { EnhancedTable, EmptyTable } from 'components/layouts'
 import { messagesHeadCells3 } from 'components/Utilities/tableHeaders'
 import { Avatar, Button, Checkbox, Grid } from '@mui/material'
 import displayPhoto from 'assets/images/avatar.svg'
@@ -190,8 +190,8 @@ const Messages = ({
             />
           </Grid>
         </Grid>
-        <Grid item container height="100%" direction="column">
-          {message.length > 0 ? (
+        {message.length > 0 ? (
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={messagesHeadCells3}
               rows={message}
@@ -301,10 +301,13 @@ const Messages = ({
                   )
                 })}
             </EnhancedTable>
-          ) : (
-            <NoData />
-          )}
-        </Grid>
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={messagesHeadCells3}
+            paginationLabel="Medications  per page"
+          />
+        )}
       </Grid>
     )
   }

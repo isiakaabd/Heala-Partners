@@ -34,7 +34,7 @@ import useFormInput from 'components/hooks/useFormInput'
 import { useQuery, useMutation } from '@apollo/client'
 import { getDrugOrders } from 'components/graphQL/useQuery'
 import { fulfillDrugOrder } from 'components/graphQL/Mutation'
-import { NoData } from 'components/layouts'
+import { NoData, EmptyTable } from 'components/layouts'
 const dates = ['Hello', 'World', 'Goodbye', 'World']
 const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
 const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
@@ -183,7 +183,7 @@ const ProcessingOrders = () => {
   const { setSelectedRows } = useActions()
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
-
+  console.log(data)
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
       <Grid item container>
@@ -202,14 +202,14 @@ const ProcessingOrders = () => {
           />
         </Grid>
       </Grid>
-      <Grid
-        item
-        container
-        height="100%"
-        direction="column"
-        style={{ marginTop: '5rem' }}
-      >
-        {state.length > 0 ? (
+      {state.length > 0 ? (
+        <Grid
+          item
+          container
+          height="100%"
+          direction="column"
+          style={{ marginTop: '5rem' }}
+        >
           <EnhancedTable
             headCells={hcpsHeadCells}
             rows={state}
@@ -272,7 +272,7 @@ const ProcessingOrders = () => {
                         <span style={{ marginRight: '1rem' }}>
                           <Avatar
                             alt={`Display Photo of ${patientData?.firstName}`}
-                            src={patientData?.picture || displayPhoto}
+                            src={patientData?.image || displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
@@ -297,10 +297,13 @@ const ProcessingOrders = () => {
                 )
               })}
           </EnhancedTable>
-        ) : (
-          <NoData />
-        )}
-      </Grid>
+        </Grid>
+      ) : (
+        <EmptyTable
+          headCells={hcpsHeadCells}
+          paginationLabel="Orders  per page"
+        />
+      )}
       {/* Filter Modal */}
       <Success
         open={modal}

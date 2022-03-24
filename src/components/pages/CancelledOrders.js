@@ -15,7 +15,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import { useQuery } from '@apollo/client'
 import { getDrugOrders } from 'components/graphQL/useQuery'
-import { NoData } from 'components/layouts' //
+import { NoData, EmptyTable } from 'components/layouts' //
 import useFormInput from 'components/hooks/useFormInput'
 import { useTheme } from '@mui/material/styles'
 import EnhancedTable from 'components/layouts/EnhancedTable'
@@ -168,6 +168,7 @@ const CancelledOrders = ({
   }, [selectedMenu, selectedSubMenu])
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
+  console.log(data)
   return (
     <>
       <Grid
@@ -193,14 +194,14 @@ const CancelledOrders = ({
             />
           </Grid>
         </Grid>
-        <Grid
-          item
-          container
-          height="100%"
-          direction="column"
-          style={{ marginTop: '5rem' }}
-        >
-          {state.length > 0 ? (
+        {state.length > 0 ? (
+          <Grid
+            item
+            container
+            height="100%"
+            direction="column"
+            style={{ marginTop: '5rem' }}
+          >
             <EnhancedTable
               headCells={messagesHeadCells}
               rows={state}
@@ -277,7 +278,7 @@ const CancelledOrders = ({
                             <Avatar
                               alt={`Display Photo of ${patientData?.firstName}`}
                               src={
-                                patientData ? patientData.picture : displayPhoto
+                                patientData ? patientData.image : displayPhoto
                               }
                               sx={{ width: 24, height: 24 }}
                             />
@@ -310,10 +311,13 @@ const CancelledOrders = ({
                   )
                 })}
             </EnhancedTable>
-          ) : (
-            <NoData />
-          )}
-        </Grid>
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={messagesHeadCells}
+            paginationLabel="Orders  per page"
+          />
+        )}
       </Grid>
 
       <Modals

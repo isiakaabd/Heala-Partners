@@ -264,7 +264,7 @@ const HcpAppointments = (props) => {
                   </Grid>
                   <Grid item>
                     <Avatar
-                      src={appoint.patientData.picture ? appoint.patientData.picture : displayPhoto}
+                      src={appoint.patientData.image ? appoint.patientData.image : displayPhoto}
                       alt="Display Photo of the patient"
                     />
                   </Grid>

@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import { Search, Loader } from 'components/Utilities'
-import { EnhancedTable, NoData } from 'components/layouts'
+import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { roleHeader } from 'components/Utilities/tableHeaders'
@@ -229,28 +229,28 @@ const Management = ({
             }}
           />
         </Grid>
-        {rolesManagements.length > 0 ? (
-          <>
-            <Grid item container>
-              <Grid item className={classes.searchGrid}>
-                <Search
-                  value={searchMail}
-                  onChange={(e) => onChange(e.target.value)}
-                  placeholder="Type to search roles by role..."
-                  height="5rem"
-                />
-              </Grid>
 
-              <Grid item>
-                <CustomButton
-                  endIcon={<AddIcon />}
-                  title="Add new role"
-                  type={buttonType}
-                  onClick={handleDialogOpen}
-                />
-              </Grid>
+        <>
+          <Grid item container>
+            <Grid item className={classes.searchGrid}>
+              <Search
+                value={searchMail}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder="Type to search roles by role..."
+                height="5rem"
+              />
             </Grid>
 
+            <Grid item>
+              <CustomButton
+                endIcon={<AddIcon />}
+                title="Add new role"
+                type={buttonType}
+                onClick={handleDialogOpen}
+              />
+            </Grid>
+          </Grid>
+          {rolesManagements.length > 0 ? (
             <Grid item container>
               <EnhancedTable
                 headCells={roleHeader}
@@ -385,10 +385,13 @@ const Management = ({
                   })}
               </EnhancedTable>
             </Grid>
-          </>
-        ) : (
-          <NoData />
-        )}
+          ) : (
+            <EmptyTable
+              headCells={roleHeader}
+              paginationLabel="Doctors  per page"
+            />
+          )}
+        </>
       </Grid>
       {/* // modal */}
       <Modals

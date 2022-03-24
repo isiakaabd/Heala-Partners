@@ -19,7 +19,7 @@ import {
   Button,
 } from '@mui/material'
 import { dateMoment } from 'components/Utilities/Time'
-import { EnhancedTable, NoData } from 'components/layouts'
+import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { referralHeaderss } from 'components/Utilities/tableHeaders'
@@ -366,7 +366,10 @@ const ReferralTab = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
             </EnhancedTable>
           </Grid>
         ) : (
-          <NoData />
+          <EmptyTable
+            headCells={referralHeaderss}
+            paginationLabel="Referral  per page"
+          />
         )}
       </Grid>
       <Modals

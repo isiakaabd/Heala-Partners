@@ -16,7 +16,7 @@ import {
 } from '@mui/material'
 import { consultationsHeadCells } from 'components/Utilities/tableHeaders'
 import { useSelector } from 'react-redux'
-import NoData from 'components/layouts/NoData'
+import { NoData, EmptyTable } from 'components/layouts'
 import { useActions } from 'components/hooks/useActions'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
@@ -137,25 +137,21 @@ const HcpConsultations = (props) => {
           onClick={() => setSelectedHcpMenu(0)}
         />
       </Grid>
-      {consultations.length > 0 ? (
-        <>
-          <Grid
-            item
-            container
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h2">Consultations</Typography>
-            </Grid>
-            <Grid item>
-              <FilterList
-                options={filterOptions}
-                title="Filter consultations"
-                width="18.7rem"
-              />
-            </Grid>
+
+      <>
+        <Grid item container justifyContent="space-between" alignItems="center">
+          <Grid item>
+            <Typography variant="h2">Consultations</Typography>
           </Grid>
+          <Grid item>
+            <FilterList
+              options={filterOptions}
+              title="Filter consultations"
+              width="18.7rem"
+            />
+          </Grid>
+        </Grid>
+        {consultations.length > 0 ? (
           <Grid item container>
             <EnhancedTable
               headCells={consultationsHeadCells}
@@ -234,8 +230,8 @@ const HcpConsultations = (props) => {
                             <Avatar
                               alt={`Display Photo of ${patientData.firstName}`}
                               src={
-                                patientData.picture
-                                  ? patientData.picture
+                                patientData.image
+                                  ? patientData.image
                                   : displayPhoto
                               }
                               sx={{ width: 24, height: 24 }}
@@ -313,10 +309,13 @@ const HcpConsultations = (props) => {
                 })}
             </EnhancedTable>
           </Grid>
-        </>
-      ) : (
-        <NoData />
-      )}
+        ) : (
+          <EmptyTable
+            headCells={consultationsHeadCells}
+            paginationLabel="Consultations  per page"
+          />
+        )}
+      </>
     </Grid>
   )
 }

@@ -22,7 +22,7 @@ import {
 import useFormInput from 'components/hooks/useFormInput'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-import { EnhancedTable } from 'components/layouts'
+import { EnhancedTable, EmptyTable } from 'components/layouts'
 import { partnersHeadCells } from 'components/Utilities/tableHeaders'
 import displayPhoto from 'assets/images/avatar.svg'
 import { useSelector } from 'react-redux'
@@ -196,18 +196,19 @@ const CompletedOrder = ({ setSelectedSubMenu }) => {
           </Grid>
         </Grid>
 
-        <Grid item container height="100%" style={{ marginTop: '5rem' }}>
-          {scheduleState !== null && scheduleState.length > 0 ? (
+        {scheduleState !== null && scheduleState.length > 0 ? (
+          <Grid item container height="100%" style={{ marginTop: '5rem' }}>
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={scheduleState}
               page={page}
-              paginationLabel="Patients per page"
+              paginationLabel="Orders per page"
               hasCheckbox={true}
             >
               {scheduleState
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
+                  console.log(row)
                   const { createdAt, _id, testId, patientData } = row
                   const isItemSelected = isSelected(_id, selectedRows)
 
@@ -297,10 +298,13 @@ const CompletedOrder = ({ setSelectedSubMenu }) => {
                   )
                 })}
             </EnhancedTable>
-          ) : (
-            <NoData />
-          )}
-        </Grid>
+          </Grid>
+        ) : (
+          <EmptyTable
+            headCells={partnersHeadCells}
+            paginationLabel="Orders  per page"
+          />
+        )}
 
         <Modals
           isOpen={openFilterPartner}
