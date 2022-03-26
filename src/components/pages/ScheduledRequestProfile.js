@@ -10,7 +10,8 @@ import * as Yup from 'yup'
 import { FormikControl } from 'components/validation'
 import { Formik, Form } from 'formik'
 import PropTypes from 'prop-types'
-import { Grid, Typography, Chip } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import { Grid, Typography, Chip, Avatar, Button } from '@mui/material'
 import { NoData } from 'components/layouts'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
@@ -89,7 +90,6 @@ const ScheduledRequestProfile = ({
   chatMediaActive,
   setChatMediaActive,
   setSelectedSubMenu,
-  setSelectedHcpMenu,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -104,13 +104,40 @@ const ScheduledRequestProfile = ({
       id: scheduleId,
     },
   })
+  const [value, setValue] = useState({
+    val: [],
+  })
 
+  const handleClick = (values, setFieldValue) => {
+    const { title, image } = values
+    if (title !== '' && image !== null) {
+      //||
+      const newValue = {
+        title,
+        file: image,
+      }
+
+      setValue((prevState) => ({
+        val: [...prevState.val, newValue],
+      }))
+      setFieldValue('title', '')
+      setFieldValue('image', '')
+    }
+  }
+
+  const handleDelete = (index) => {
+    const z = value.val.filter((_, ind) => index !== ind)
+
+    setValue({
+      val: z,
+    })
+  }
   useEffect(() => {
     if (data) {
       setScheduleState(data.getDiagnosticTest)
     }
   }, [data])
-
+  console.log(value.val.length)
   const [openDisablePatient, setOpenDisablePatient] = useState(false)
   const [modal, setModal] = useState(false)
   const [cancel, setCancel] = useState(false)
@@ -141,7 +168,7 @@ const ScheduledRequestProfile = ({
         {
           query: getDiagnosticTests,
           variables: {
-            status: 'cancelled',
+            status: 'completed',
           },
         },
       ],
@@ -177,23 +204,17 @@ const ScheduledRequestProfile = ({
     image: null,
   }
   const validationSchema1 = Yup.object({
-    title: Yup.string('select date and time ').required(
-      'Date  and time is required',
-    ),
-    image: Yup.string('Upload a single Image').required('Image is required'),
+    title: Yup.string('select date and time '),
+
+    image: Yup.string('Upload a single Image'),
   })
   const [completeTest] = useMutation(completeDiagnosticTest)
   const onSubmit1 = async (values) => {
-    const { title, image } = values
-    console.log(values)
     try {
       await completeTest({
         variables: {
           id: scheduleId,
-          testResults: {
-            title,
-            file: image,
-          },
+          testResults: [...value.val],
         },
         refetchQueries: [
           {
@@ -287,9 +308,9 @@ const ScheduledRequestProfile = ({
               </Grid>
               <Grid item container gap={2}>
                 {tests && tests.length > 0 ? (
-                  tests.map((i) => {
+                  tests.map((i, index) => {
                     return (
-                      <Grid item>
+                      <Grid item key={index}>
                         <Chip
                           variant="outlined"
                           label={i.name}
@@ -550,7 +571,7 @@ const ScheduledRequestProfile = ({
               validateOnChange={false}
               validateOnMount={false}
             >
-              {({ isSubmitting, dirty, isValid, setFieldValue }) => {
+              {({ isSubmitting, dirty, isValid, values, setFieldValue }) => {
                 return (
                   <Form style={{ marginTop: '3rem' }}>
                     <Grid item container direction="column" gap={4}>
@@ -562,32 +583,58 @@ const ScheduledRequestProfile = ({
                           placeholder="Enter Title"
                         />
                       </Grid>
-
-                      <Grid
-                        item
-                        container
-                        sx={{ flexDirection: 'row', background: 'red' }}
-                      >
-                        <FormikControl
-                          control="file"
-                          name="image"
-                          label="Upload Your File"
-                          setFieldValue={setFieldValue}
-                        />
-                        {/* <CustomButton
-                          title="Complete Test"
-                          width="50%"
-                          type={buttonType}
-                        /> */}
+                      <Grid container flexWrap="nowrap">
+                        <Grid item container>
+                          <FormikControl
+                            control="file"
+                            name="image"
+                            label="Upload Your File"
+                            setFieldValue={setFieldValue}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          container
+                          alignItems="end"
+                          justifyContent="center"
+                        >
+                          <Button
+                            type="button"
+                            variant="contained"
+                            sx={{
+                              height: '50%',
+                              maxHeight: '50%',
+                            }}
+                            startIcon={<AddIcon />}
+                            disableElevation
+                            onClick={() => handleClick(values, setFieldValue)}
+                          >
+                            {value.val.length <= 0
+                              ? 'Add Result'
+                              : 'Upload More'}
+                          </Button>
+                        </Grid>
                       </Grid>
+                    </Grid>
+                    <Grid container gap={1} marginTop={2}>
+                      {value.val.map((item, index) => {
+                        console.log(item)
+                        return (
+                          <Chip
+                            avatar={<Avatar alt="Natacha" src={item.file} />}
+                            onDelete={() => handleDelete(index)}
+                            label={item.title}
+                            variant="outlined"
+                          />
+                        )
+                      })}
                     </Grid>
                     <Grid
                       item
                       container
                       justifyContent="space-between"
                       alignItems="flex-end"
-                      gap={2}
-                      marginTop={3}
+                      marginTop={4}
                       xs={12}
                     >
                       <CustomButton
@@ -595,12 +642,7 @@ const ScheduledRequestProfile = ({
                         width="40%"
                         type={buttonType}
                         isSubmitting={isSubmitting}
-                        disabled={!(dirty || isValid)}
-                      />
-                      <CustomButton
-                        title="Upload More"
-                        width="40%"
-                        type={buttonType}
+                        disabled={!(dirty || isValid) || value.val.length <= 0}
                       />
                     </Grid>
                   </Form>
@@ -665,8 +707,8 @@ const ScheduledRequestProfile = ({
 }
 
 ScheduledRequestProfile.propTypes = {
-  chatMediaActive: PropTypes.bool.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
+  chatMediaActive: PropTypes.bool,
+  setChatMediaActive: PropTypes.func,
 }
 
 export default ScheduledRequestProfile

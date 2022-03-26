@@ -11,7 +11,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
 import PaymentsIcon from '@mui/icons-material/Payments'
 import LoopIcon from '@mui/icons-material/Loop'
 
-mport SubscriptionsIcon from '@mui/icons-material/Subscriptions'
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 
 export const menus = [
   { id: 0, title: 'Dashboard', icon: DashboardIcon, path: '/dashboard' },
@@ -37,7 +37,7 @@ export const menus = [
     id: 5,
     title: 'Cancelled Orders',
     icon: EventBusySharpIcon,
-   path: '/cancelled-order',
+    path: '/cancelled-order',
   },
 
   { id: 11, title: 'Settings', icon: SettingsIcon, path: '/settings' },

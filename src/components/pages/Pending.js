@@ -303,9 +303,6 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                   )
                 })}
             </EnhancedTable>
-            ) : (
-            <NoData />
-            )}
           </Grid>
         ) : (
           <EmptyTable

@@ -150,11 +150,7 @@ const dates = ['Hello', 'World', 'Goodbye', 'World']
 const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
 const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
 
-const ScheduledRequest = ({
-  setSelectedPatientMenu,
-  setSelectedSubMenu,
-  setSelectedHcpMenu,
-}) => {
+const ScheduledRequest = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   const classes = useStyles()
   const [searchPartner, setSearchPartner] = useState('')
   const [scheduleState, setScheduleState] = useState(null)
@@ -304,9 +300,6 @@ const ScheduledRequest = ({
                   )
                 })}
             </EnhancedTable>
-            ) : (
-            <NoData />
-            )}
           </Grid>
         ) : (
           <EmptyTable

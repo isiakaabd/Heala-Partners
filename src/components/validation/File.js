@@ -95,9 +95,9 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
   }
   const fileRef = useRef(null)
   return (
-    <Grid container spacing={2} alignItems="center">
+    <Grid item container spacing={2} alignItems="center">
       <Grid item>
-        <FormControl fullWidth>
+        <FormControl>
           <Grid item container>
             <input
               accept="image/*"

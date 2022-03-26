@@ -131,6 +131,7 @@ const ViewResult = ({
     tests,
     // eslint-disable-next-line
   } = scheduleState
+  console.log(testResults)
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: '2rem' }}>
@@ -426,6 +427,7 @@ const ViewResult = ({
             <Grid item container gap={2}>
               {testResults ? (
                 testResults.map((item, index) => {
+                  console.log(item)
                   return (
                     <Grid item key={index}>
                       <Grid container direction="column">

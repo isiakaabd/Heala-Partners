@@ -147,7 +147,7 @@ const PendingProfile = ({
   const onConfirm = () => setCancel(true)
 
   const { data, loading, error } = useQuery(getDiagnosticTest, {
-    variables: { id: requestId }, 
+    variables: { id: requestId },
   })
 
   useEffect(() => {
@@ -166,6 +166,12 @@ const PendingProfile = ({
             query: getDiagnosticTests,
             variables: {
               status: 'pending',
+            },
+          },
+          {
+            query: getDiagnosticTests,
+            variables: {
+              status: 'scheduled',
             },
           },
         ],
@@ -281,9 +287,9 @@ const PendingProfile = ({
               </Grid>
               <Grid item container gap={2}>
                 {tests && tests.length > 0 ? (
-                  tests.map((i) => {
+                  tests.map((i, index) => {
                     return (
-                      <Grid item>
+                      <Grid item key={index}>
                         <Chip
                           variant="outlined"
                           label={i.name}

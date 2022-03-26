@@ -173,7 +173,6 @@ const CompletedOrders = () => {
   const { setSelectedRows } = useActions()
   if (loading) return <Loader />
   if (error) return <NoData error={error} />
-  console.log(data)
 
   return (
     <>
