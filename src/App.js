@@ -18,7 +18,6 @@ import Private from 'components/routes/Private'
 import HospitalHeader from 'components/layouts/HospitalHeader'
 import HospitalMenu from 'components/layouts/HospitalMenu'
 import Hospital from 'components/routes/Hospital'
-
 import jwtDecode from 'jwt-decode'
 
 const sectionStyles = {

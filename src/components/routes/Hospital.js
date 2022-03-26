@@ -40,7 +40,6 @@ import {
   HCPChat,
   CreateEmail,
   ViewMail,
-  //   PendingPayout,
   Financetable,
   HospitalSettings,
 } from 'components/pages'

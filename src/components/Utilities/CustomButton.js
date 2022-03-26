@@ -1,9 +1,9 @@
 import React from 'react'
-import Button from '@mui/material/Button'
+import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-import Loader from 'components/Utilities/Loader'
+import { Loader } from 'components/Utilities'
 
 const CustomButton = ({
   title,
@@ -14,6 +14,7 @@ const CustomButton = ({
   borderRadius,
   textColor,
   path,
+  complete,
   type: { background, hover, active, disabled },
   isSubmitting,
   ...rest
@@ -71,7 +72,7 @@ const CustomButton = ({
       variant="contained"
       LinkComponent={Link}
       to={path ? path : ''}
-      type="submit"
+      type={complete ? 'button' : 'submit'}
       endIcon={endIcon}
       className={classes.button}
       {...rest}
@@ -98,6 +99,7 @@ CustomButton.propTypes = {
   textColorOnHover: PropTypes.string,
   path: PropTypes.string,
   isSubmitting: PropTypes.bool,
+  complete: PropTypes.bool,
 }
 
 export default CustomButton
