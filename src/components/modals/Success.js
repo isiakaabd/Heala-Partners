@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Modals from 'components/Utilities/Modal'
+import {Typography,Grid} from '@mui/material'
+import {Modals,CustomButton} from 'components/Utilities'
 import { useTheme } from '@mui/material/styles'
 import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp'
-import CustomButton from 'components/Utilities/CustomButton'
 
 const Success = ({
   open,
@@ -63,6 +61,6 @@ Success.propTypes = {
   btnValue: PropTypes.string.isRequired,
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
-}
+}                                                                                       
 
 export default Success

@@ -1,8 +1,7 @@
 import React from 'react'
-
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
-import { Typography, Stack, Grid, Box, Modal } from '@mui/material'
+import { Typography, Stack, Grid, Modal } from '@mui/material'
 
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -49,36 +48,35 @@ const Modals = ({
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-        <Box sx={style}>
+        <Grid
+          container
+          sx={style}
+          padding={0}
+          // rowSpacing={rowSpacing ? rowSpacing : 4}
+          className={classes.modal}
+          flexDirection="column"
+        >
           <Grid
+            item
             container
-            padding={0}
-            // rowSpacing={rowSpacing ? rowSpacing : 4}
-            className={classes.modal}
-            flexDirection="column"
+            justifyContent="space-between"
+            alignItems="center"
+            // flex="2"
+            flexWrap="nowrap"
           >
-            <Grid
-              item
-              container
-              justifyContent="space-between"
-              alignItems="center"
-              // flex="2"
-              flexWrap="nowrap"
-            >
-              <Grid item>
-                <Typography variant="h3">{title ? title : ''}</Typography>
-              </Grid>
-              <Grid item marginLeft={0.3}>
-                <CloseIcon
-                  color={color ? color : 'secondary'}
-                  className={classes.closeIcon}
-                  onClick={handleClose}
-                />
-              </Grid>
+            <Grid item>
+              <Typography variant="h3">{title ? title : ''}</Typography>
             </Grid>
-            <Grid item>{children}</Grid>
+            <Grid item marginLeft={0.3}>
+              <CloseIcon
+                color={color ? color : 'secondary'}
+                className={classes.closeIcon}
+                onClick={handleClose}
+              />
+            </Grid>
           </Grid>
-        </Box>
+          <Grid item>{children}</Grid>
+        </Grid>
       </Modal>
     </Stack>
   )
@@ -91,10 +89,6 @@ Modals.propTypes = {
   color: PropTypes.string,
   height: PropTypes.string,
   rowSpacing: PropTypes.number,
-}
-
-Modals.defaultProps = {
-  height: '85vh',
 }
 
 export default Modals

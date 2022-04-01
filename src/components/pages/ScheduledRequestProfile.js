@@ -584,7 +584,7 @@ const ScheduledRequestProfile = ({
                         />
                       </Grid>
                       <Grid item container md marginTop={3}>
-                        <Grid item container md={6}>
+                        <Grid item container>
                           <FormikControl
                             control="file"
                             name="image"
@@ -600,22 +600,7 @@ const ScheduledRequestProfile = ({
                           md={6}
                           alignItems="end"
                           justifyContent="end"
-                        >
-                          <Grid item container xs={8}>
-                            <CustomButton
-                              variant="contained"
-                              title={
-                                value.val.length <= 0
-                                  ? 'Add Result'
-                                  : 'Upload More'
-                              }
-                              type={buttonType}
-                              complete
-                              width="100%"
-                              onClick={() => handleClick(values, setFieldValue)}
-                            />
-                          </Grid>
-                        </Grid>
+                        ></Grid>
                       </Grid>
                       {value.val.length > 0 ? (
                         <Grid item container gap={1} marginTop={2}>
@@ -633,7 +618,24 @@ const ScheduledRequestProfile = ({
                           })}
                         </Grid>
                       ) : null}
-                      <Grid item container marginTop={4} xs={12}>
+                      <Grid
+                        item
+                        container
+                        marginTop={4}
+                        justifyContent="space-between"
+                        xs={12}
+                      >
+                        <CustomButton
+                          variant="contained"
+                          title={
+                            value.val.length <= 0 ? 'Add Result' : 'Upload More'
+                          }
+                          type={buttonType}
+                          complete
+                          width="40%"
+                          onClick={() => handleClick(values, setFieldValue)}
+                        />
+
                         <CustomButton
                           title="Complete Test"
                           width="40%"

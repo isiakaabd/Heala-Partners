@@ -109,6 +109,7 @@ const Login = () => {
 
         if (data) {
           const { email, _id, access_token, providerId } = data.login.account
+          console.log(providerId)
           setAccessToken(access_token)
           localStorage.setItem('pharmacyId', _id)
           localStorage.setItem('partnerProviderId', providerId)

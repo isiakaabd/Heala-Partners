@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { Loader, Search, CustomButton, Modals } from 'components/Utilities'
 import { formatNumber } from 'components/Utilities/Time'
-import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
+import { EnhancedTable /* NoData*/, EmptyTable } from 'components/layouts'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { subscriptionHeadersss } from 'components/Utilities/tableHeaders'
@@ -231,6 +231,7 @@ const Subscription = () => {
     },
     notifyOnNetworkStatusChange: true,
   })
+
   const onChange = async (e) => {
     setSearchMail(e)
     if (e === '') {
@@ -239,13 +240,12 @@ const Subscription = () => {
   }
   useEffect(() => {
     if (data) {
+      console.log(data)
       setPlan(data.getPlans.plan)
       setPageInfo(data.getPlans.pageInfo)
     }
   }, [data])
 
-  if (loading) return <Loader />
-  if (error) return <NoData error={error.message} />
   const initialValues = {
     name: '',
     amount: '',
@@ -257,7 +257,9 @@ const Subscription = () => {
     refetch({ page: newPage })
   }
   if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+
+  if (error) console.log(error)
+  //  return <NoData error={error} />
   return (
     <>
       <Grid
@@ -437,9 +439,6 @@ const Subscription = () => {
                   )
                 })}
             </EnhancedTable>
-            ) : (
-            <NoData />
-            )}
           </Grid>
         ) : (
           <EmptyTable
