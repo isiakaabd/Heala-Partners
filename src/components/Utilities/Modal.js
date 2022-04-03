@@ -1,12 +1,10 @@
 import React from 'react'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
+
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
+import { Typography, Stack, Grid, Box, Modal } from '@mui/material'
+
 import CloseIcon from '@mui/icons-material/Close'
-import { Stack } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
   closeIcon: {
@@ -28,7 +26,6 @@ const Modals = ({
   color,
   children,
   rowSpacing,
-  height,
 }) => {
   const style = {
     position: 'absolute',
@@ -37,9 +34,10 @@ const Modals = ({
     transform: 'translate(-50%, -50%)',
     width: 500,
     height: 'auto',
+    maxHeight: '600px',
     bgcolor: 'background.paper',
     borderRadius: '2rem',
-    p: 4,
+    padding: '2rem',
   }
 
   const classes = useStyles()
@@ -54,7 +52,8 @@ const Modals = ({
         <Box sx={style}>
           <Grid
             container
-            rowSpacing={rowSpacing ? rowSpacing : 4}
+            padding={0}
+            // rowSpacing={rowSpacing ? rowSpacing : 4}
             className={classes.modal}
             flexDirection="column"
           >
@@ -63,7 +62,7 @@ const Modals = ({
               container
               justifyContent="space-between"
               alignItems="center"
-              flex="2"
+              // flex="2"
               flexWrap="nowrap"
             >
               <Grid item>
@@ -77,7 +76,7 @@ const Modals = ({
                 />
               </Grid>
             </Grid>
-            {children}
+            <Grid item>{children}</Grid>
           </Grid>
         </Box>
       </Modal>

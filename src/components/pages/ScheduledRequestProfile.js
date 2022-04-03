@@ -10,8 +10,7 @@ import * as Yup from 'yup'
 import { FormikControl } from 'components/validation'
 import { Formik, Form } from 'formik'
 import PropTypes from 'prop-types'
-import AddIcon from '@mui/icons-material/Add'
-import { Grid, Typography, Chip, Avatar, Button } from '@mui/material'
+import { Grid, Typography, Chip, Avatar } from '@mui/material'
 import { NoData } from 'components/layouts'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
@@ -120,8 +119,9 @@ const ScheduledRequestProfile = ({
       setValue((prevState) => ({
         val: [...prevState.val, newValue],
       }))
-      setFieldValue('title', '')
+
       setFieldValue('image', '')
+      setFieldValue('title', '')
     }
   }
 
@@ -137,7 +137,7 @@ const ScheduledRequestProfile = ({
       setScheduleState(data.getDiagnosticTest)
     }
   }, [data])
-  console.log(value.val.length)
+
   const [openDisablePatient, setOpenDisablePatient] = useState(false)
   const [modal, setModal] = useState(false)
   const [cancel, setCancel] = useState(false)
@@ -574,7 +574,7 @@ const ScheduledRequestProfile = ({
               {({ isSubmitting, dirty, isValid, values, setFieldValue }) => {
                 return (
                   <Form style={{ marginTop: '3rem' }}>
-                    <Grid item container direction="column" gap={4}>
+                    <Grid item container direction="column">
                       <Grid item container md>
                         <FormikControl
                           control="input"
@@ -583,67 +583,67 @@ const ScheduledRequestProfile = ({
                           placeholder="Enter Title"
                         />
                       </Grid>
-                      <Grid container flexWrap="nowrap">
-                        <Grid item container>
+                      <Grid item container md marginTop={3}>
+                        <Grid item container md={6}>
                           <FormikControl
                             control="file"
                             name="image"
+                            value={values.image}
                             label="Upload Your File"
                             setFieldValue={setFieldValue}
                           />
                         </Grid>
                         <Grid
                           item
+                          marginTop={3}
                           container
+                          md={6}
                           alignItems="end"
-                          justifyContent="center"
+                          justifyContent="end"
                         >
-                          <Button
-                            type="button"
-                            variant="contained"
-                            sx={{
-                              height: '50%',
-                              maxHeight: '50%',
-                            }}
-                            startIcon={<AddIcon />}
-                            disableElevation
-                            onClick={() => handleClick(values, setFieldValue)}
-                          >
-                            {value.val.length <= 0
-                              ? 'Add Result'
-                              : 'Upload More'}
-                          </Button>
+                          <Grid item container xs={8}>
+                            <CustomButton
+                              variant="contained"
+                              title={
+                                value.val.length <= 0
+                                  ? 'Add Result'
+                                  : 'Upload More'
+                              }
+                              type={buttonType}
+                              complete
+                              width="100%"
+                              onClick={() => handleClick(values, setFieldValue)}
+                            />
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid container gap={1} marginTop={2}>
-                      {value.val.map((item, index) => {
-                        console.log(item)
-                        return (
-                          <Chip
-                            avatar={<Avatar alt="Natacha" src={item.file} />}
-                            onDelete={() => handleDelete(index)}
-                            label={item.title}
-                            variant="outlined"
-                          />
-                        )
-                      })}
-                    </Grid>
-                    <Grid
-                      item
-                      container
-                      justifyContent="space-between"
-                      alignItems="flex-end"
-                      marginTop={4}
-                      xs={12}
-                    >
-                      <CustomButton
-                        title="Complete Test"
-                        width="40%"
-                        type={buttonType}
-                        isSubmitting={isSubmitting}
-                        disabled={!(dirty || isValid) || value.val.length <= 0}
-                      />
+                      {value.val.length > 0 ? (
+                        <Grid item container gap={1} marginTop={2}>
+                          {value.val.map((item, index) => {
+                            return (
+                              <Chip
+                                avatar={
+                                  <Avatar alt={item.title} src={item.file} />
+                                }
+                                onDelete={() => handleDelete(index)}
+                                label={item.title}
+                                variant="outlined"
+                              />
+                            )
+                          })}
+                        </Grid>
+                      ) : null}
+                      <Grid item container marginTop={4} xs={12}>
+                        <CustomButton
+                          title="Complete Test"
+                          width="40%"
+                          type={buttonType}
+                          isSubmitting={isSubmitting}
+                          disabled={
+                            !(dirty || isValid) || value.val.length <= 0
+                          }
+                        />
+                      </Grid>
                     </Grid>
                   </Form>
                 )

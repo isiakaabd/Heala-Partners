@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { Field, ErrorMessage } from 'formik'
 import { Loader, TextError } from 'components/Utilities'
 import PropTypes from 'prop-types'
@@ -58,10 +58,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
-  const [preview, setPreview] = useState('')
+export const Formiks = ({ name, setFieldValue, onBlur, type, file, value }) => {
+  const [preview, setPreview] = useState(null)
+  console.log('preview', preview)
   // const [array, setArray] = useState([])
   const [progress, setProgress] = useState()
+  console.log(value)
   const classes = useStyles()
   // console.log(array)
   const uploadImage = async (file) => {
@@ -85,17 +87,24 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
       console.error(error)
     }
   }
+  useEffect(() => {
+    setPreview(value)
+  }, [value])
+  const onChange = useCallback(
+    async (e) => {
+      const file = e.target.files[0]
+      const files = await uploadImage(file)
+      if (value === '') {
+        setPreview(null)
+      } else setPreview(files)
 
-  const onChange = async (e) => {
-    const file = e.target.files[0]
-    const files = await uploadImage(file)
-    setPreview(files)
-
-    setFieldValue(name, files)
-  }
+      setFieldValue(name, files)
+    },
+    [setFieldValue, name, value],
+  )
   const fileRef = useRef(null)
   return (
-    <Grid item container spacing={2} alignItems="center">
+    <Grid item container alignItems="center" sx={{ overflow: 'hidden' }}>
       <Grid item>
         <FormControl>
           <Grid item container>
@@ -141,7 +150,7 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file }) => {
           </Grid>
         </FormControl>
       </Grid>
-      <Grid item>
+      <Grid item marginLeft="1rem">
         {progress < 100 ? (
           <Loader />
         ) : (
@@ -164,12 +173,12 @@ Formiks.propTypes = {
 }
 
 const Files = (props) => {
-  const { name, label, ...rest } = props
+  const { name, label, value, ...rest } = props
   const classes = useStyles()
   return (
-    <Grid container direction="column" gap={1}>
+    <Grid container direction="column">
       <FormLabel className={classes.FormLabel}>{label}</FormLabel>
-      <Field name={name} as={Formiks} label={label} {...rest} />
+      <Field name={name} as={Formiks} label={label} value={value} {...rest} />
       <ErrorMessage name={name} component={TextError} />
     </Grid>
   )

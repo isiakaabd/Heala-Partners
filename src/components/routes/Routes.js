@@ -2,15 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch } from 'react-router-dom'
 import PrivateRoute from 'components/routes/PrivateRoute'
-import ProcessingOrders from 'components/pages/ProcessingOrders'
-import Dashboard from 'components/pages/Dashboard'
-import PendingOrderProfile from 'components/pages/PendingOrderProfile'
-import Settings from 'components/pages/Settings'
-import Profile from 'components/pages/Profile'
-import PendingOrder from 'components/pages/PendingOrder'
-import CompletedOrders from 'components/pages/CompletedOrders'
-import CancelledOrders from 'components/pages/CancelledOrders'
-import ViewCompleted from 'components/pages/ViewCompleted'
+import {
+  Settings,
+  ViewCompleted,
+  ProcessingOrders,
+  PendingOrder,
+  Profile,
+  CancelledOrders,
+  CompletedOrders,
+  PendingOrderProfile,
+  Dashboard,
+} from 'components/pages'
 
 const Routes = (props) => {
   const {
