@@ -31,6 +31,7 @@ const sectionStyles = {
 }
 
 const App = () => {
+  const [state, setstate] = useState(true)
   const { userDetail, logout } = useActions()
   const [logout_user] = useMutation(LOGOUT_USER)
   const id = localStorage.getItem('pharmacyId')
@@ -44,6 +45,7 @@ const App = () => {
       if (!token) {
         setSelectedMenu(13)
         logout()
+        console.log(1)
       } else {
         const { exp } = jwtDecode(token)
 
@@ -51,9 +53,11 @@ const App = () => {
           await logout_user()
           setSelectedMenu(13)
           logout()
+          console.log(2)
         } else {
+          setstate(false)
           setAccessToken(token)
-
+          console.log(3)
           try {
             pharmacy()
           } catch (err) {
@@ -69,7 +73,7 @@ const App = () => {
     }
     setstate(false)
     //eslint-disable-next-line
-  }, [pharmacy, data])
+  }, [pharmacy, data, state])
 
   const [selectedMenu, setSelectedMenu] = useState(0)
   const { isAuthenticated, role } = useSelector((state) => state.auth)
@@ -81,7 +85,6 @@ const App = () => {
   const [selectedScopedMenu, setSelectedScopedMenu] = useState(0)
   const [selectedPendingMenu, setSelectedPendingMenu] = useState(0)
   const [chatMediaActive, setChatMediaActive] = useState(false)
-  const [state, setstate] = useState(true)
 
   return (
     <ThemeProvider theme={muiTheme}>

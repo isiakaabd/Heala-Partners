@@ -1,9 +1,7 @@
 import React from 'react'
-
+import { Modal, Stack, Box, Typography, Grid } from '@mui/material'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
-import { Typography, Stack, Grid, Box, Modal } from '@mui/material'
-
 import CloseIcon from '@mui/icons-material/Close'
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
 
       '&:hover': {
-        color: 'green',
+        color: 'red',
       },
     },
   },
@@ -21,23 +19,25 @@ const useStyles = makeStyles((theme) => ({
 
 const Modals = ({
   isOpen,
+  isClose,
   handleClose,
+  width,
   title,
   color,
   children,
   rowSpacing,
+  height,
 }) => {
   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
-    height: 'auto',
-    maxHeight: '600px',
+    width: width ? width : 500,
+    height,
     bgcolor: 'background.paper',
     borderRadius: '2rem',
-    padding: '2rem',
+    p: 4,
   }
 
   const classes = useStyles()
@@ -52,8 +52,7 @@ const Modals = ({
         <Box sx={style}>
           <Grid
             container
-            padding={0}
-            // rowSpacing={rowSpacing ? rowSpacing : 4}
+            rowSpacing={rowSpacing ? rowSpacing : 4}
             className={classes.modal}
             flexDirection="column"
           >
@@ -62,21 +61,22 @@ const Modals = ({
               container
               justifyContent="space-between"
               alignItems="center"
-              // flex="2"
-              flexWrap="nowrap"
+              flex="2"
             >
               <Grid item>
-                <Typography variant="h3">{title ? title : ''}</Typography>
+                <Typography variant="h3">{title}</Typography>
               </Grid>
-              <Grid item marginLeft={0.3}>
-                <CloseIcon
-                  color={color ? color : 'secondary'}
-                  className={classes.closeIcon}
-                  onClick={handleClose}
-                />
+              <Grid item>
+                {!isClose ? (
+                  <CloseIcon
+                    color={color ? color : 'secondary'}
+                    className={classes.closeIcon}
+                    onClick={handleClose}
+                  />
+                ) : null}
               </Grid>
             </Grid>
-            <Grid item>{children}</Grid>
+            {children}
           </Grid>
         </Box>
       </Modal>
@@ -84,17 +84,19 @@ const Modals = ({
   )
 }
 Modals.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool,
+  isClose: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.string,
+  width: PropTypes.string,
   rowSpacing: PropTypes.number,
 }
 
 Modals.defaultProps = {
-  height: '85vh',
+  height: 'auto',
 }
 
 export default Modals

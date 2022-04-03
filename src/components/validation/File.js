@@ -72,7 +72,7 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file, value }) => {
       form.append('file', file)
       const data = await axios({
         method: 'post',
-        url: 'https://api-staging.heala.io/rest/media/upload/',
+        url: 'https://api.heala.io/rest/media/upload/',
         data: form,
         headers: {
           'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
@@ -104,10 +104,10 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file, value }) => {
   )
   const fileRef = useRef(null)
   return (
-    <Grid item container alignItems="center" sx={{ overflow: 'hidden' }}>
+    <Grid item container alignItems="center">
       <Grid item>
-        <FormControl>
-          <Grid item container>
+        <Grid container>
+          <FormControl>
             <input
               accept="image/*"
               onChange={onChange}
@@ -147,15 +147,20 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file, value }) => {
                 Upload Photo
               </Button>
             )}
-          </Grid>
-        </FormControl>
+          </FormControl>
+        </Grid>
       </Grid>
+
       <Grid item marginLeft="1rem">
-        {progress < 100 ? (
-          <Loader />
-        ) : (
-          preview && !type && <Avatar src={preview} />
-        )}
+        <Grid container>
+          {progress < 100 ? (
+            <Grid item>
+              <Loader />
+            </Grid>
+          ) : (
+            preview && !type && <Avatar src={preview} />
+          )}
+        </Grid>
       </Grid>
     </Grid>
   )
