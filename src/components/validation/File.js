@@ -72,7 +72,7 @@ export const Formiks = ({ name, setFieldValue, onBlur, type, file, value }) => {
       form.append('file', file)
       const data = await axios({
         method: 'post',
-        url: 'https://api-staging.heala.io/rest/media/upload/',
+        url: 'https://api.heala.io/rest/media/upload/',
         data: form,
         headers: {
           'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
