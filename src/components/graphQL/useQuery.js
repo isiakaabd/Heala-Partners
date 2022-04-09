@@ -1,5 +1,5 @@
-import { PageInfo } from './fragment'
-import { gql } from '@apollo/client'
+import { PageInfo } from "./fragment";
+import { gql } from "@apollo/client";
 export const getPartner = gql`
   query getPartner($id: String!) {
     getPartner(accountId: $id) {
@@ -10,7 +10,7 @@ export const getPartner = gql`
       logoImageUrl
     }
   }
-`
+`;
 export const getDiagnosticDashboard = gql`
   query getDiagnosticDashboard {
     getDiagnosticDashboard(partner: "") {
@@ -24,7 +24,7 @@ export const getDiagnosticDashboard = gql`
       cancelledTestsStats
     }
   }
-`
+`;
 export const doctor = gql`
   query doctorProfile($id: ID!) {
     doctorProfile(id: $id) {
@@ -47,7 +47,7 @@ export const doctor = gql`
       dociId
     }
   }
-`
+`;
 export const getDrugOrders = gql`
   query getDrugOrders($status: String, $patient: String) {
     getDrugOrders(status: $status, patient: $patient) {
@@ -84,7 +84,7 @@ export const getDrugOrders = gql`
       }
     }
   }
-`
+`;
 export const findAdmin = gql`
   ${PageInfo}
   query findAccounts($role: String, $email: String, $page: Int) {
@@ -108,7 +108,7 @@ export const findAdmin = gql`
       }
     }
   }
-`
+`;
 export const findAllergies = gql`
   query findAllergies($id: String!) {
     findAllergies(filterBy: { profile: $id }) {
@@ -120,7 +120,7 @@ export const findAllergies = gql`
       }
     }
   }
-`
+`;
 export const findProfile = gql`
   query findProfile($id: ID!) {
     profile(id: $id) {
@@ -143,7 +143,7 @@ export const findProfile = gql`
       image
     }
   }
-`
+`;
 export const getAMessage = gql`
   query getMessage($id: ID!) {
     getMessage(id: $id) {
@@ -156,7 +156,7 @@ export const getAMessage = gql`
       body
     }
   }
-`
+`;
 export const getDrugOrder = gql`
   query getDrugOrder($id: String!) {
     getDrugOrder(id: $id) {
@@ -190,7 +190,7 @@ export const getDrugOrder = gql`
       }
     }
   }
-`
+`;
 export const getAppoint = gql`
   ${PageInfo}
   query getAppointments($id: ID!, $orderBy: String, $page: Int) {
@@ -215,7 +215,7 @@ export const getAppoint = gql`
       }
     }
   }
-`
+`;
 export const cancelDrugOrder = gql`
   mutation cancelDrugOrder($id: String, $reason: String) {
     cancelDrugOrder(data: { id: $id, reason: $reason }) {
@@ -255,7 +255,7 @@ export const cancelDrugOrder = gql`
       }
     }
   }
-`
+`;
 export const getConsult = gql`
   query getConsultation($id: ID!) {
     getConsultation(id: $id) {
@@ -292,7 +292,7 @@ export const getConsult = gql`
       referralId
     }
   }
-`
+`;
 export const getConsultations = gql`
   ${PageInfo}
   query getConsultations($id: ID!, $orderBy: String!, $page: Int) {
@@ -341,7 +341,7 @@ export const getConsultations = gql`
       }
     }
   }
-`
+`;
 export const getDiagnosticTests = gql`
   query getDiagnosticTests($status: String!) {
     getDiagnosticTests(status: $status) {
@@ -355,6 +355,9 @@ export const getDiagnosticTests = gql`
         patientData
         doctorData
         referralId
+        tests {
+          price
+        }
         note
         sampleCollection
         testResults
@@ -371,7 +374,7 @@ export const getDiagnosticTests = gql`
       }
     }
   }
-`
+`;
 export const cancelDiagnosticReferral = gql`
   query cancelDiagnosticReferral($id: String) {
     cancelDiagnosticReferral(id: $id) {
@@ -396,7 +399,7 @@ export const cancelDiagnosticReferral = gql`
       }
     }
   }
-`
+`;
 export const getDiagnosticTest = gql`
   query getDiagnosticTest($id: String) {
     getDiagnosticTest(id: $id) {
@@ -432,7 +435,7 @@ export const getDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const getDOCAppoint = gql`
   query getAppointments($id: ID!, $orderBy: String!) {
     getAppointments(filterBy: { doctor: $id }, orderBy: $orderBy) {
@@ -449,7 +452,7 @@ export const getDOCAppoint = gql`
       }
     }
   }
-`
+`;
 
 export const getDocConsult = gql`
   ${PageInfo}
@@ -493,7 +496,7 @@ export const getDocConsult = gql`
       }
     }
   }
-`
+`;
 export const getDoctorPatients = gql`
   ${PageInfo}
   query getDoctorPatients($id: String!, $page: Int) {
@@ -510,7 +513,7 @@ export const getDoctorPatients = gql`
       }
     }
   }
-`
+`;
 export const getDoctorsProfile = gql`
   ${PageInfo}
   query doctorProfiles(
@@ -547,7 +550,7 @@ export const getDoctorsProfile = gql`
       }
     }
   }
-`
+`;
 export const getEarningStats = gql`
   query getEarningStats($q: String, $page: Int, $providerId: String) {
     getEarningStats(filterBy: { providerId: $providerId }, q: $q, page: $page) {
@@ -557,7 +560,7 @@ export const getEarningStats = gql`
       payoutData
     }
   }
-`
+`;
 
 export const getMyEarningDoc = gql`
   query getMyEarnings($doc: String) {
@@ -588,7 +591,7 @@ export const getMyEarningDoc = gql`
       }
     }
   }
-`
+`;
 export const getEmailList = gql`
   query getEmailList {
     getEmailList(orderBy: "-createdAt") {
@@ -603,7 +606,7 @@ export const getEmailList = gql`
       }
     }
   }
-`
+`;
 export const getLabResult = gql`
   query getLabResults($id: ID!) {
     getLabResults(filterBy: { patient: $id }) {
@@ -617,7 +620,7 @@ export const getLabResult = gql`
       }
     }
   }
-`
+`;
 export const getMessage = gql`
   ${PageInfo}
   query getMessages($recipient: String, $providerId: String, $page: Int) {
@@ -640,7 +643,7 @@ export const getMessage = gql`
       }
     }
   }
-`
+`;
 export const getPatients = gql`
   ${PageInfo}
   query findProfiles(
@@ -677,7 +680,7 @@ export const getPatients = gql`
       }
     }
   }
-`
+`;
 export const dashboard = gql`
   query getStats($providerId: String, $q: String) {
     getStats(filterBy: { providerId: $providerId }, q: $q) {
@@ -704,7 +707,7 @@ export const dashboard = gql`
       }
     }
   }
-`
+`;
 export const getPlans = gql`
   ${PageInfo}
   query getPlans($amount: Float, $providerId: String, $page: Int) {
@@ -728,7 +731,7 @@ export const getPlans = gql`
       }
     }
   }
-`
+`;
 export const getProfile = gql`
   query findProfile($profileId: ID!) {
     profile(id: $profileId) {
@@ -751,7 +754,7 @@ export const getProfile = gql`
       image
     }
   }
-`
+`;
 export const getRefferal = gql`
   query getReferral($id: ID!) {
     getReferral(id: $id) {
@@ -768,7 +771,7 @@ export const getRefferal = gql`
       patientData
     }
   }
-`
+`;
 export const getRefferals = gql`
   ${PageInfo}
   query getReferrals(
@@ -808,7 +811,7 @@ export const getRefferals = gql`
       }
     }
   }
-`
+`;
 export const getRoles = gql`
   ${PageInfo}
   query getRoles($name: String, $page: Int) {
@@ -827,7 +830,7 @@ export const getRoles = gql`
       }
     }
   }
-`
+`;
 export const myMedic = gql`
   ${PageInfo}
   query getMyMedications($id: ID!, $orderBy: String!, $page: Int) {
@@ -847,7 +850,7 @@ export const myMedic = gql`
       }
     }
   }
-`
+`;
 export const verifiedEmail = gql`
   query findAccounts($dociId: String) {
     accounts(filterBy: { dociId: $dociId }) {
@@ -856,7 +859,7 @@ export const verifiedEmail = gql`
       }
     }
   }
-`
+`;
 export const getDoctorByDociId = gql`
   query doctorProfiles($dociId: String!) {
     doctorProfiles(filterBy: { dociId: $dociId }) {
@@ -866,7 +869,7 @@ export const getDoctorByDociId = gql`
       }
     }
   }
-`
+`;
 export const getProfileByDociId = gql`
   query findProfiles($dociId: String!) {
     profiles(filterBy: { dociId: $dociId }) {
@@ -877,7 +880,7 @@ export const getProfileByDociId = gql`
       }
     }
   }
-`
+`;
 export const getAvailability = gql`
   query getAvailabilities($id: String!) {
     getAvailabilities(filterBy: { doctor: $id }) {
@@ -900,7 +903,7 @@ export const getAvailability = gql`
       }
     }
   }
-`
+`;
 export const getSinglePlan = gql`
   query getPlan($id: ID!) {
     getPlan(id: $id) {
@@ -911,7 +914,7 @@ export const getSinglePlan = gql`
       duration
     }
   }
-`
+`;
 export const getUsertypess = gql`
   query getUserTypeProviders($userTypeId: String) {
     getUserTypeProviders(filterBy: { userTypeId: $userTypeId }) {
@@ -943,4 +946,4 @@ export const getUsertypess = gql`
       }
     }
   }
-`
+`;

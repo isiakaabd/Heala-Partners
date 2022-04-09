@@ -163,7 +163,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     reason: '',
   }
   const validationSchema = Yup.object({
-    reason: Yup.string('Enter Reason ').required('Reason is required'),
+    reason: Yup.string('Enter Reason ').trim().required('Reason is required'),
   })
   const onSubmit = async (values) => {
     const { reason } = values

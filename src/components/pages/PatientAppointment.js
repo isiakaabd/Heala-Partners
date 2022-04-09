@@ -190,7 +190,7 @@ const PatientAppointment = (props) => {
     status: Yup.string('Select your status').required('Status is required'),
   })
   const validationSchema1 = Yup.object({
-    date: Yup.string('select date and time ').required(
+    date: Yup.string('select date and time').required(
       'Date  and time is required',
     ),
   })

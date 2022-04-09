@@ -148,7 +148,7 @@ const ScheduledRequestProfile = ({
     reason: '',
   }
   const validationSchema = Yup.object({
-    reason: Yup.string('Enter Reason ').required('Reason is required'),
+    reason: Yup.string('Enter Reason ').trim().required('Reason is required'),
   })
   const [cancelTest] = useMutation(cancelDiagnosticTest)
   const onSubmit = async (values) => {
@@ -204,7 +204,7 @@ const ScheduledRequestProfile = ({
     image: null,
   }
   const validationSchema1 = Yup.object({
-    title: Yup.string('select date and time '),
+    title: Yup.string('select date and time ').trim(),
 
     image: Yup.string('Upload a single Image'),
   })

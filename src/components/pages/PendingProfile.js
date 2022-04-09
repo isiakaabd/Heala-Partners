@@ -103,7 +103,7 @@ const PendingProfile = ({
     reason: '',
   }
   const validationSchema = Yup.object({
-    reason: Yup.string('Enter Reason ').required('Reason is required'),
+    reason: Yup.string('Enter Reason').trim().required('Reason is required'),
   })
   const [scheduleReferrals] = useMutation(scheduleDiagnosticTest)
   const [cancel, setCancel] = useState(false)

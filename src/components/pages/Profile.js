@@ -33,8 +33,8 @@ const Profile = ({
 
   const theme = useTheme()
   const validationSchema = Yup.object({
-    name: Yup.string('Enter your Name').required('Name is required'),
-    email: Yup.string('Enter your Email').required('Email is required'),
+    name: Yup.string('Enter your Name').trim().required('Name is required'),
+    email: Yup.string('Enter your Email').trim().required('Email is required'),
     category: Yup.string('Select your Category'),
     image: Yup.string('Upload a single Image'),
   })

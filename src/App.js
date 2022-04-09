@@ -15,8 +15,7 @@ import { useSelector } from "react-redux";
 import ScrollToView from "components/ScrollToView";
 import { Login } from "components/pages";
 import Private from "components/routes/Private";
-import HospitalHeader from "components/layouts/HospitalHeader";
-import HospitalMenu from "components/layouts/HospitalMenu";
+import { HospitalHeader, HospitalMenu } from "components/layouts";
 import Hospital from "components/routes/Hospital";
 import jwtDecode from "jwt-decode";
 
@@ -36,88 +35,49 @@ const App = () => {
   const [logout_user] = useMutation(LOGOUT_USER);
   const id = localStorage.getItem("pharmacyId");
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
-    variables: { id: id },
+    variables: { id },
   });
-  console.log(123);
+
   const { isAuthenticated, role } = useSelector((state) => state.auth);
-  // useEffect(async() => {
-  //   const token = localStorage.getItem("Pharmacy_token");
-  //   if (token) {
-  //     const { exp } = jwtDecode(token);
-  //     const time = Date.now() >= exp * 1000;
-  //     if (token && time) {
-  //       setSelectedMenu(13);
-  //       logout();
-  //       console.log(2);
-  //       logout_user();
-  //     }
-  //     if (token && isAuthenticated && !time && state) {
-  //       setstate(false);
-  //       console.log(2);
-  //       logout_user();
-  //       logout();
-  //       setAccessToken(token);
-  //     } else if (token && isAuthenticated && !time && !state) {
-  //       setAccessToken(token);
-  //       setstate(false);
-  //       console.log(3);
-  //       try {
-  //       await  pharmacy();
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //       // }
-  //     }
-  //   }
-  //   //eslint-disable-next-line
-  // }, [pharmacy, data, state]);
-  // useEffect(() => {
-  //   if (data) {
-  //     userDetail({
-  //       data: data?.getPartner.category,
-  //     });
-  //   }
-  //   setstate(false);
-  // }, [userDetail, data,state]);
+
   useEffect(() => {
     const token = localStorage.getItem("Pharmacy_token");
-    if (token) {
-      const { exp } = jwtDecode(token);
-      const time = Date.now() >= exp * 1000;
-      console.log(time)
-      if (token && time) {
-        logout();
-        console.log("logout")
-        logout_user();
-      }
-      // if (time) {
-      //   logout();
-      //   logout_user();
-      //   console.log(22)
-      // }
-      if (token && isAuthenticated && !time && state) {
-        setstate(false);
-        console.log(2);
-        // logout_user();
-        setAccessToken(token);
-      } else if (token && isAuthenticated && !time && !state) {
-        setAccessToken(token);
-        try {
-          pharmacy();
-        } catch (err) {
-          console.error(err);
+    (async () => {
+      if (token) {
+        const { exp } = jwtDecode(token);
+        const time = Date.now() <= exp * 1000;
+        if (token && time) {
+          await logout_user();
+          logout();
+        }
+        if (token && time && state) {
+          await logout_user();
+          logout();
         }
 
-        if (data) {
-          userDetail({
-            data: data?.getPartner.category,
-          });
+        if (token && isAuthenticated && !time && state) {
+          setstate(false);
+          setAccessToken(token);
+        } else if (token && isAuthenticated && !time && !state) {
+          setAccessToken(token);
+          try {
+            await pharmacy();
+          } catch (err) {
+            console.error(err);
+          }
+
+          if (data) {
+            userDetail({
+              data: data?.getPartner.category,
+            });
+          }
+          setstate(false);
         }
-        setstate(false);
       }
-    }
-    // })();
-  }, [logout_user, data,pharmacy, state, isAuthenticated]);
+    })();
+
+    // eslint-disable-next-line
+  }, [logout_user, data, pharmacy, state, isAuthenticated]);
   const [selectedMenu, setSelectedMenu] = useState(0);
 
   const [selectedSubMenu, setSelectedSubMenu] = useState(0);
