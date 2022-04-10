@@ -45,7 +45,7 @@ const App = () => {
     (async () => {
       if (token) {
         const { exp } = jwtDecode(token);
-        const time = Date.now() <= exp * 1000;
+        const time = Date.now() >= exp * 1000;
         if (token && time) {
           await logout_user();
           logout();

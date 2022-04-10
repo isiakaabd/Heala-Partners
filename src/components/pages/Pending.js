@@ -32,6 +32,8 @@ import { isSelected } from "helpers/isSelected";
 import useFormInput from "components/hooks/useFormInput";
 import { useQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
+import prettyMoney from "pretty-money";
+ 
 
 const referralOptions = ["Hello", "World", "Goodbye", "World"];
 
@@ -148,7 +150,12 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   const handleDialogClose = () => setIsOpen(false);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-
+  const prettyDollarConfig = {
+    currency: "₦",
+    position: "before",
+    spaced: false,
+    thousandsDelimiter: ",",
+  };
   return (
     <>
       <Grid container direction="column" height="100%" flexWrap="nowrap">
@@ -282,13 +289,16 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         </div>
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
-                        {x.reduce(function (accumulator, currentValue) {
-                          return accumulator + currentValue;
-                        }, 0)}
+                        {prettyMoney(
+                          prettyDollarConfig,
+                          x.reduce(function (accumulator, currentValue) {
+                            return accumulator + currentValue;
+                          }, 0)
+                        )}
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
-                      {x.length}
-                      </TableCell>
+                        {x.length}
+                      </TableCell> 
 
                       <TableCell>
                         <Chip

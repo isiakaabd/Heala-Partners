@@ -34,7 +34,7 @@ const Modals = ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: width ? width : 500,
-    height,
+    height: 'auto',
     bgcolor: 'background.paper',
     borderRadius: '2rem',
     p: 4,
