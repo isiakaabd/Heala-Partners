@@ -26,7 +26,7 @@ const Profile = ({
     },
   })
   const [profile, setProfile] = useState()
-  console.log(profile)
+
   useEffect(() => {
     setProfile(data?.getPartner)
   }, [data])

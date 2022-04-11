@@ -12,8 +12,8 @@ export const getPartner = gql`
   }
 `;
 export const getDiagnosticDashboard = gql`
-  query getDiagnosticDashboard {
-    getDiagnosticDashboard(partner: "") {
+  query getDiagnosticDashboard($partner: String!) {
+    getDiagnosticDashboard(partner: $partner) {
       testRequestsCount
       scheduledTestsCount
       completedTestsCount

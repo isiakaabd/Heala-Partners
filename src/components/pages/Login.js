@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
   background: {
     width: "100%",
     height: "100vh !important",
+    background:
+      "linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),linear-gradient(98.44deg, #3e5ea9 1.92%, #7eedba 122.04%) !important",
   },
   secV: {
     backgroundImage: `url(${vec})`,
@@ -90,7 +92,8 @@ const Login = () => {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().trim()
+    email: Yup.string()
+      .trim()
       .email("Enter a valid email")
       .required("Email is required"),
     password: Yup.string().trim().required("password is required"),
@@ -110,7 +113,6 @@ const Login = () => {
 
         if (data) {
           const { email, _id, access_token, providerId } = data.login.account;
-          console.log(providerId);
           setAccessToken(access_token);
           localStorage.setItem("pharmacyId", _id);
           localStorage.setItem("partnerProviderId", providerId);

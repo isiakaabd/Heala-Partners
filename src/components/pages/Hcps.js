@@ -560,24 +560,8 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                                 placeholder="Specialization"
                               />
                             </Grid>
-                            {/* <Grid item md>
-                            <FormikControl
-                              control="input"
-                              label="Heala-ID"
-                              id="dociId"
-                              name="dociId"
-                              placeholder="Enter Heala ID"
-                            /> */}
                           </Grid>
-                          {/* <Grid item md>
-                            <FormikControl
-                              control="date"
-                              name="dob"
-                              label="DOB"
-                              setFieldValue={setFieldValue}
-                              setValues={setValues}
-                            />
-                          </Grid> */}
+
                           <Grid item md>
                             <FormikControl
                               control="select"
@@ -625,6 +609,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                               control="date"
                               name="dob"
                               label="DOB"
+                              type="hospital"
                               setFieldValue={setFieldValue}
                               setValues={setValues}
                             />

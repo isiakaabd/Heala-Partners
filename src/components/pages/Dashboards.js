@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
-import { DashboardCharts } from 'components/layouts'
+import { DashCharts } from 'components/layouts'
 // import AvailabilityTable from 'components/layouts/AvailabilityTable'
 
 const Dashboards = ({ chatMediaActive, setChatMediaActive }) => {
@@ -13,7 +13,7 @@ const Dashboards = ({ chatMediaActive, setChatMediaActive }) => {
   return (
     <Grid container direction="column">
       <Grid item>
-        <DashboardCharts />
+        <DashCharts />
       </Grid>
     </Grid>
   )

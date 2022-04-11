@@ -194,7 +194,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       orderId,
                       createdAt,
                       _id,
-                      affliation,
                       patientData,
                       doctorData,
                       prescriptions,
