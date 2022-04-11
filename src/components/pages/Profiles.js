@@ -53,7 +53,7 @@ const Profile = ({
         id: profile._id,
         name,
         email,
-        category: "diagnostics",
+        category: "pharmacy",
         logoImageUrl: image,
       },
       refetchQueries: [
@@ -108,7 +108,7 @@ const Profile = ({
                   <Grid item container gap={2} md={4} direction="column">
                     <Grid item md={6}>
                       <FormikControl
-                        control="file"
+                        control="file" 
                         name="image"
                         label="Upload Your Logo"
                         setFieldValue={setFieldValue}

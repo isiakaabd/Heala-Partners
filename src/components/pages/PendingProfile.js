@@ -541,7 +541,7 @@ const PendingProfile = ({
           <Grid item xs={3}>
             <CustomButton
               variant="contained"
-              title="Schedule Referral"
+              title="Schedule Test"
               width="100%"
               type={darkButton}
               onClick={handleDialogOpen}
@@ -559,7 +559,7 @@ const PendingProfile = ({
 
           <Modals
             isOpen={isPatients}
-            title="Schedule Referral"
+            title="Schedule Test"
             rowSpacing={5}
             height="90vh"
             handleClose={handlePatientCloses}
@@ -593,7 +593,7 @@ const PendingProfile = ({
                       xs={12}
                     >
                       <CustomButton
-                        title="Schedule Referral"
+                        title="Schedule Test"
                         width="100%"
                         type={buttonType}
                         isSubmitting={isSubmitting}
