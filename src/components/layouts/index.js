@@ -1,5 +1,6 @@
 export { default as AvailabilityTable } from './AvailabilityTable'
 export { default as DashboardCharts } from './DashboardChart'
+export { default as DashCharts } from './DashCharts'
 export { default as EnhancedTable } from './EnhancedTable'
 export { default as EnhancedTableHeader } from './EnhancedTableHeader'
 export { default as EnhancedTableToolbar } from './EnhancedTableToolbar'

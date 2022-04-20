@@ -200,7 +200,7 @@ const Administrator = ({
   ]
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Enter a valid email'),
+    email: Yup.string().trim().email('Enter a valid email'),
     role: Yup.string('Select your role'),
   })
   const onSubmit = async (values) => {
@@ -217,10 +217,10 @@ const Administrator = ({
   }
 
   const validationSchema1 = Yup.object({
-    password: Yup.string()
+    password: Yup.string().trim()
       .required('password is required')
       .min(8, 'Password is too short - should be 8 chars minimum.'),
-    email: Yup.string()
+    email: Yup.string().trim()
       .email('Enter a valid email')
       .required('Email is required'),
   })

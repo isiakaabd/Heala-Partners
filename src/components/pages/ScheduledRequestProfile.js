@@ -1,158 +1,158 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   Modals,
   Loader,
   CustomButton,
   PreviousButton,
   DisplayProfile1,
-} from 'components/Utilities'
-import * as Yup from 'yup'
-import { FormikControl } from 'components/validation'
-import { Formik, Form } from 'formik'
-import PropTypes from 'prop-types'
-import { Grid, Typography, Chip, Avatar } from '@mui/material'
-import { NoData } from 'components/layouts'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { DeleteOrDisable } from 'components/modals'
-import { useParams, useHistory } from 'react-router-dom'
-import { useQuery, useMutation } from '@apollo/client'
+} from "components/Utilities";
+import * as Yup from "yup";
+import { FormikControl } from "components/validation";
+import { Formik, Form } from "formik";
+import PropTypes from "prop-types";
+import { Grid, Typography, Chip, Avatar } from "@mui/material";
+import { NoData } from "components/layouts";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { DeleteOrDisable } from "components/modals";
+import { useParams, useHistory } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   getDiagnosticTest,
   getDiagnosticTests,
-} from 'components/graphQL/useQuery'
+} from "components/graphQL/useQuery";
 import {
   cancelDiagnosticTest,
   completeDiagnosticTest,
-} from 'components/graphQL/Mutation'
+} from "components/graphQL/Mutation";
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.3rem !important',
+    "&.MuiChip-root": {
+      fontSize: "1.3rem !important",
       //   height: "2.7rem",
       background: theme.palette.common.lightGreen,
       color: theme.palette.common.green,
-      borderRadius: '1.5rem',
+      borderRadius: "1.5rem",
     },
   },
 
   cardGrid: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem 5rem',
-    height: '16.1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem 5rem",
+    height: "16.1rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   infoBadge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem',
-      borderRadius: '1.5rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem",
+      borderRadius: "1.5rem",
       color: theme.palette.common.green,
     },
   },
 
   link: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.25rem',
+    display: "flex",
+    alignItems: "center",
+    fontSize: "1.25rem",
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.lightGrey}`,
-    padding: '.75rem',
-    borderRadius: '1.5rem',
-    textDecoration: 'none',
+    padding: ".75rem",
+    borderRadius: "1.5rem",
+    textDecoration: "none",
   },
 
   linkIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '1.25rem',
+    "&.MuiSvgIcon-root": {
+      fontSize: "1.25rem",
       color: theme.palette.common.green,
-      marginLeft: '1.2rem',
+      marginLeft: "1.2rem",
     },
   },
 
   buttonsGridWrapper: {
-    marginTop: '5rem !important',
-    height: '16.1rem',
+    marginTop: "5rem !important",
+    height: "16.1rem",
   },
-}))
+}));
 
 const ScheduledRequestProfile = ({
   chatMediaActive,
   setChatMediaActive,
   setSelectedSubMenu,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const history = useHistory()
+  const classes = useStyles();
+  const theme = useTheme();
+  const history = useHistory();
 
-  const { scheduleId } = useParams()
-  const onConfirm = () => setCancel(true)
-  const [scheduleState, setScheduleState] = useState([])
+  const { scheduleId } = useParams();
+  const onConfirm = () => setCancel(true);
+  const [scheduleState, setScheduleState] = useState([]);
 
   const { loading, error, data } = useQuery(getDiagnosticTest, {
     variables: {
       id: scheduleId,
     },
-  })
+  });
   const [value, setValue] = useState({
     val: [],
-  })
+  });
 
   const handleClick = (values, setFieldValue) => {
-    const { title, image } = values
-    if (title !== '' && image !== null) {
+    const { title, image } = values;
+    if (title !== "" && image !== null) {
       //||
       const newValue = {
         title,
         file: image,
-      }
+      };
 
       setValue((prevState) => ({
         val: [...prevState.val, newValue],
-      }))
+      }));
 
-      setFieldValue('image', '')
-      setFieldValue('title', '')
+      setFieldValue("image", "");
+      setFieldValue("title", "");
     }
-  }
+  };
 
   const handleDelete = (index) => {
-    const z = value.val.filter((_, ind) => index !== ind)
+    const z = value.val.filter((_, ind) => index !== ind);
 
     setValue({
       val: z,
-    })
-  }
+    });
+  };
   useEffect(() => {
     if (data) {
-      setScheduleState(data.getDiagnosticTest)
+      setScheduleState(data.getDiagnosticTest);
     }
-  }, [data])
+  }, [data]);
 
-  const [openDisablePatient, setOpenDisablePatient] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [cancel, setCancel] = useState(false)
-  const handleDialogClose = () => setModal(false)
-  const handleDialogOpen = () => setModal(true)
+  const [openDisablePatient, setOpenDisablePatient] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [cancel, setCancel] = useState(false);
+  const handleDialogClose = () => setModal(false);
+  const handleDialogOpen = () => setModal(true);
 
   const initialValues = {
-    reason: '',
-  }
+    reason: "",
+  };
   const validationSchema = Yup.object({
-    reason: Yup.string('Enter Reason ').required('Reason is required'),
-  })
-  const [cancelTest] = useMutation(cancelDiagnosticTest)
+    reason: Yup.string("Enter Reason ").trim().required("Reason is required"),
+  });
+  const [cancelTest] = useMutation(cancelDiagnosticTest);
   const onSubmit = async (values) => {
-    const { reason } = values
+    const { reason } = values;
     await cancelTest({
       variables: {
         id: scheduleId,
@@ -162,53 +162,53 @@ const ScheduledRequestProfile = ({
         {
           query: getDiagnosticTests,
           variables: {
-            status: 'scheduled',
+            status: "scheduled",
           },
         },
         {
           query: getDiagnosticTests,
           variables: {
-            status: 'completed',
+            status: "completed",
           },
         },
       ],
-    })
-    history.push('/schedule')
-  }
+    });
+    history.push("/schedule");
+  };
 
   const darkButton = {
     background: theme.palette.primary.main,
     hover: theme.palette.primary.light,
     active: theme.palette.primary.dark,
-  }
+  };
 
   const trasparentButton = {
-    background: 'transparent',
-    hover: '#fafafa',
-    active: '#f4f4f4',
-  }
+    background: "transparent",
+    hover: "#fafafa",
+    active: "#f4f4f4",
+  };
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
     disabled: theme.palette.common.black,
-  }
+  };
 
   useLayoutEffect(() => {
-    setChatMediaActive(false)
+    setChatMediaActive(false);
 
     // eslint-disable-next-line
-  }, [chatMediaActive])
+  }, [chatMediaActive]);
   const initialValues1 = {
-    title: '',
+    title: "",
     image: null,
-  }
+  };
   const validationSchema1 = Yup.object({
-    title: Yup.string('select date and time '),
+    title: Yup.string("select date and time ").trim(),
 
-    image: Yup.string('Upload a single Image'),
-  })
-  const [completeTest] = useMutation(completeDiagnosticTest)
+    image: Yup.string("Upload a single Image"),
+  });
+  const [completeTest] = useMutation(completeDiagnosticTest);
   const onSubmit1 = async (values) => {
     try {
       await completeTest({
@@ -220,20 +220,26 @@ const ScheduledRequestProfile = ({
           {
             query: getDiagnosticTests,
             variables: {
-              status: 'scheduled',
+              status: "scheduled",
+            },
+          },
+          {
+            query: getDiagnosticTests,
+            variables: {
+              status: "completed",
             },
           },
         ],
-      })
-      history.push('/schedule')
+      });
+      history.push("/schedule");
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    handleDialogClose()
-  }
+    handleDialogClose();
+  };
 
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   const {
     createdAt,
     gender,
@@ -251,15 +257,15 @@ const ScheduledRequestProfile = ({
     patient,
     patientData,
     // eslint-disable-next-line
-  } = scheduleState
+  } = scheduleState;
   return (
     <>
-      <Grid container direction="column" style={{ paddingBottom: '2rem' }}>
-        <Grid item style={{ marginBottom: '3rem' }}>
+      <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
+        <Grid item style={{ marginBottom: "3rem" }}>
           <PreviousButton
-            path={'/schedule'}
+            path={"/schedule"}
             onClick={() => {
-              setSelectedSubMenu(4)
+              setSelectedSubMenu(4);
             }}
           />
         </Grid>
@@ -285,25 +291,25 @@ const ScheduledRequestProfile = ({
           item
           container
           justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
+          style={{ paddingTop: "5rem" }}
         >
           {/* GENDER GRID */}
           <Grid
             item
             md
             className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
+            style={{ marginRight: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
             >
               <Grid item>
                 <Typography variant="body1">
-                  {tests && tests.length > 1 ? 'Tests' : 'Test'}
+                  {tests && tests.length > 1 ? "Tests" : "Test"}
                 </Typography>
               </Grid>
               <Grid item container gap={2}>
@@ -317,13 +323,13 @@ const ScheduledRequestProfile = ({
                           className={classes.infoBadge}
                         />
                       </Grid>
-                    )
+                    );
                   })
                 ) : (
                   <Grid item>
                     <Chip
                       variant="outlined"
-                      label={'No Test yet'}
+                      label={"No Test yet"}
                       className={classes.infoBadge}
                     />
                   </Grid>
@@ -336,12 +342,12 @@ const ScheduledRequestProfile = ({
             item
             md
             className={classes.cardGrid}
-            style={{ marginLeft: '2rem' }}
+            style={{ marginLeft: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
             >
@@ -351,7 +357,7 @@ const ScheduledRequestProfile = ({
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label={testId ? testId : 'No Value'}
+                  label={testId ? testId : "No Value"}
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -362,19 +368,19 @@ const ScheduledRequestProfile = ({
           item
           container
           justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
+          style={{ paddingTop: "5rem" }}
         >
           {/* EMAIL ADDRESS GRID */}
           <Grid
             item
             md
             className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
+            style={{ marginRight: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
             >
@@ -387,7 +393,7 @@ const ScheduledRequestProfile = ({
                   label={
                     doctorData
                       ? `${doctorData.firstName} ${doctorData.lastName}`
-                      : 'No Doctor'
+                      : "No Doctor"
                   }
                   className={classes.infoBadge}
                 />
@@ -399,12 +405,12 @@ const ScheduledRequestProfile = ({
             item
             md
             className={classes.cardGrid}
-            style={{ marginLeft: '2rem' }}
+            style={{ marginLeft: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
             >
@@ -414,7 +420,7 @@ const ScheduledRequestProfile = ({
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label={affiliation ? affiliation : 'No Affliation'}
+                  label={affiliation ? affiliation : "No Affliation"}
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -425,19 +431,19 @@ const ScheduledRequestProfile = ({
           item
           container
           justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
+          style={{ paddingTop: "5rem" }}
         >
           {/* EMAIL ADDRESS GRID */}
           <Grid
             item
             md
             className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
+            style={{ marginRight: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
             >
@@ -447,7 +453,7 @@ const ScheduledRequestProfile = ({
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label={sampleCollection ? sampleCollection : 'No Value'}
+                  label={sampleCollection ? sampleCollection : "No Value"}
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -458,12 +464,12 @@ const ScheduledRequestProfile = ({
             item
             md
             className={classes.cardGrid}
-            style={{ marginLeft: '2rem' }}
+            style={{ marginLeft: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
               flexWrap="wrap"
@@ -495,19 +501,19 @@ const ScheduledRequestProfile = ({
           item
           container
           justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
+          style={{ paddingTop: "5rem" }}
         >
           {/* EMAIL ADDRESS GRID */}
           <Grid
             item
             md
             className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
+            style={{ marginRight: "2rem" }}
           >
             <Grid
               container
               direction="column"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
               justifyContent="space-between"
               alignItems="left"
             >
@@ -517,7 +523,7 @@ const ScheduledRequestProfile = ({
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label={reason ? reason : 'No Reason'}
+                  label={reason ? reason : "No Reason"}
                   className={classes.infoBadge}
                 />
               </Grid>
@@ -528,7 +534,7 @@ const ScheduledRequestProfile = ({
             item
             md
             className={classes.cardGrid}
-            style={{ marginLeft: '2rem', visibility: 'hidden' }}
+            style={{ marginLeft: "2rem", visibility: "hidden" }}
           ></Grid>
         </Grid>
         <Grid
@@ -573,7 +579,7 @@ const ScheduledRequestProfile = ({
             >
               {({ isSubmitting, dirty, isValid, values, setFieldValue }) => {
                 return (
-                  <Form style={{ marginTop: '3rem' }}>
+                  <Form style={{ marginTop: "3rem" }}>
                     <Grid item container direction="column">
                       <Grid item container md>
                         <FormikControl
@@ -614,7 +620,7 @@ const ScheduledRequestProfile = ({
                                 label={item.title}
                                 variant="outlined"
                               />
-                            )
+                            );
                           })}
                         </Grid>
                       ) : null}
@@ -628,7 +634,7 @@ const ScheduledRequestProfile = ({
                         <CustomButton
                           variant="contained"
                           title={
-                            value.val.length <= 0 ? 'Add Result' : 'Upload More'
+                            value.val.length <= 0 ? "Add Result" : "Upload More"
                           }
                           type={buttonType}
                           complete
@@ -648,7 +654,7 @@ const ScheduledRequestProfile = ({
                       </Grid>
                     </Grid>
                   </Form>
-                )
+                );
               }}
             </Formik>
           </Modals>
@@ -679,7 +685,7 @@ const ScheduledRequestProfile = ({
         >
           {({ isSubmitting, dirty, isValid }) => {
             return (
-              <Form style={{ marginTop: '3rem' }}>
+              <Form style={{ marginTop: "3rem" }}>
                 <Grid container>
                   <Grid item container>
                     <FormikControl
@@ -689,7 +695,7 @@ const ScheduledRequestProfile = ({
                       placeholder="Enter reason"
                     />
                   </Grid>
-                  <Grid item container sx={{ flexGrow: 1, marginTop: '10rem' }}>
+                  <Grid item container sx={{ flexGrow: 1, marginTop: "10rem" }}>
                     <CustomButton
                       title="Cancel Test"
                       type={darkButton}
@@ -700,17 +706,17 @@ const ScheduledRequestProfile = ({
                   </Grid>
                 </Grid>
               </Form>
-            )
+            );
           }}
         </Formik>
       </Modals>
     </>
-  )
-}
+  );
+};
 
 ScheduledRequestProfile.propTypes = {
   chatMediaActive: PropTypes.bool,
   setChatMediaActive: PropTypes.func,
-}
+};
 
-export default ScheduledRequestProfile
+export default ScheduledRequestProfile;

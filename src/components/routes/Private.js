@@ -12,7 +12,7 @@ import {
   PendingProfile,
   Profiles,
   Setting,
-  Dashboard,
+  Dashboards,
 } from 'components/pages'
 
 const Private = (props) => {
@@ -32,7 +32,7 @@ const Private = (props) => {
       <PrivateRoute
         path={['/', '/dashboard']}
         exact
-        component={Dashboard}
+        component={Dashboards}
         chatMediaActive={chatMediaActive}
         setChatMediaActive={setChatMediaActive}
       />

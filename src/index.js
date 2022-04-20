@@ -1,3 +1,5 @@
+
+  
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
@@ -12,11 +14,11 @@ import {
   concat,
 } from '@apollo/client'
 import { getAccessToken } from './accessToken'
-require("dotenv").config();
 
 const httpLink = createHttpLink({
-  uri:"https://api-staging.heala.io",
-});
+  uri: 'https://api.heala.io',
+})
+
 const authMiddleware = new ApolloLink((operation, forward) => {
   const accessToken = getAccessToken()
 

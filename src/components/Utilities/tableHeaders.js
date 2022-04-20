@@ -18,7 +18,11 @@ export const patientsHeadCells = [
   },
   {
     id: 3,
-    label: 'Provider',
+    label: 'Test Amount',
+  },
+  {
+    id: 55,
+    label: 'Total Tests',
   },
   {
     id: 4,

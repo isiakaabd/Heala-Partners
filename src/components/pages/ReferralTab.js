@@ -114,8 +114,8 @@ const ReferralTab = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
     { key: 'Pharmacy', value: 'Pharmacy' },
   ]
   const validationSchema = Yup.object({
-    doctor: Yup.string('Enter Doctor ID'),
-    patient: Yup.string('Enter Patient ID'),
+    doctor: Yup.string('Enter Doctor ID').trim(),
+    patient: Yup.string('Enter Patient ID').trim(),
     category: Yup.string('Select category'),
     specialization: Yup.string('Select specialization'),
   })

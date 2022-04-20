@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client";
 export const updateDrugOrder = gql`
   mutation updateDrugOrder($id: String) {
     updateDrugOrder(data: { id: $id, status: "processing" }) {
@@ -11,7 +11,7 @@ export const updateDrugOrder = gql`
       }
     }
   }
-`
+`;
 
 export const Login_USER = gql`
   mutation Login($data: LoginUserInput!) {
@@ -32,7 +32,7 @@ export const Login_USER = gql`
       }
     }
   }
-`
+`;
 export const CREATE_MESSAGE = gql`
   mutation createMessage(
     $recipient: String!
@@ -63,7 +63,7 @@ export const CREATE_MESSAGE = gql`
       }
     }
   }
-`
+`;
 export const DELETE_PERMISSION = gql`
   mutation deletePermission($id: String!) {
     deletePermission(data: { id: $id }) {
@@ -75,7 +75,7 @@ export const DELETE_PERMISSION = gql`
       }
     }
   }
-`
+`;
 export const DELETE_PLAN = gql`
   mutation deletePlan($id: String!) {
     deletePlan(data: { id: $id }) {
@@ -87,7 +87,7 @@ export const DELETE_PLAN = gql`
       }
     }
   }
-`
+`;
 export const UPDATE_PLAN = gql`
   mutation updatePlan(
     $id: String
@@ -119,7 +119,7 @@ export const UPDATE_PLAN = gql`
       }
     }
   }
-`
+`;
 export const createDOctorProfile = gql`
   mutation createDoctorProfile(
     $firstName: String!
@@ -171,7 +171,7 @@ export const createDOctorProfile = gql`
       }
     }
   }
-`
+`;
 export const deleteAppointment = gql`
   mutation deleteAppointment($id: String!) {
     deleteAppointment(data: { id: $id }) {
@@ -183,7 +183,7 @@ export const deleteAppointment = gql`
       }
     }
   }
-`
+`;
 export const deleteProfile = gql`
   mutation deleteProfile($id: String!) {
     deleteProfile(data: { id: $id }) {
@@ -194,7 +194,7 @@ export const deleteProfile = gql`
       }
     }
   }
-`
+`;
 export const deleteRole = gql`
   mutation deleteRole($id: String!) {
     deleteRole(data: { id: $id }) {
@@ -206,7 +206,7 @@ export const deleteRole = gql`
       }
     }
   }
-`
+`;
 
 export const deleteDoctor = gql`
   mutation deleteDoctorProfile($id: String!) {
@@ -218,7 +218,7 @@ export const deleteDoctor = gql`
       }
     }
   }
-`
+`;
 export const cancelDiagnosticTest = gql`
   mutation cancelDiagnosticTest($id: String!, $reason: String!) {
     cancelDiagnosticTest(data: { id: $id, reason: $reason }) {
@@ -247,7 +247,7 @@ export const cancelDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const completeDiagnosticTest = gql`
   mutation completeDiagnosticTest($id: String!, $testResults: [JSONObject]) {
     completeDiagnosticTest(data: { id: $id, testResults: $testResults }) {
@@ -276,7 +276,7 @@ export const completeDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const scheduleDiagnosticTest = gql`
   mutation scheduleDiagnosticTest($id: String!, $time: String) {
     scheduleDiagnosticTest(data: { id: $id, time: $time }) {
@@ -305,12 +305,15 @@ export const scheduleDiagnosticTest = gql`
       }
     }
   }
-`
+`;
 export const LOGOUT_USER = gql`
-  mutation logout {
-    logout
+  mutation logout($user: String!, $deviceId: String) {
+    logout(data: { user: $user, deviceId: $deviceId }) {
+      result
+    }
   }
-`
+`;
+
 export const updatePartner = gql`
   mutation updatePartnerProfile(
     $id: String
@@ -343,7 +346,7 @@ export const updatePartner = gql`
       }
     }
   }
-`
+`;
 export const fulfillDrugOrder = gql`
   mutation fulfillDrugOrder($id: String) {
     fulfillDrugOrder(data: { id: $id }) {
@@ -383,7 +386,7 @@ export const fulfillDrugOrder = gql`
       }
     }
   }
-`
+`;
 export const signup = gql`
   mutation signup(
     $authType: String!
@@ -410,7 +413,7 @@ export const signup = gql`
       }
     }
   }
-`
+`;
 export const updateAppointment = gql`
   mutation updateAppointment(
     $id: String!
@@ -443,7 +446,7 @@ export const updateAppointment = gql`
       }
     }
   }
-`
+`;
 export const verifyHCP = gql`
   mutation verifyHCP($id: String) {
     verifyHCP(data: { id: $id }) {
@@ -460,7 +463,7 @@ export const verifyHCP = gql`
       profileId
     }
   }
-`
+`;
 export const requestReferral = gql`
   mutation requestReferral(
     $doctor: String!
@@ -498,7 +501,7 @@ export const requestReferral = gql`
       }
     }
   }
-`
+`;
 export const addRole = gql`
   mutation createRole(
     $name: String!
@@ -529,7 +532,7 @@ export const addRole = gql`
       }
     }
   }
-`
+`;
 export const CREATE_PLAN = gql`
   mutation createPlan(
     $name: String!
@@ -561,7 +564,7 @@ export const CREATE_PLAN = gql`
       }
     }
   }
-`
+`;
 
 // export const DELETE_PLAN = gql`
 //   mutation deletePlan($id: String!) {

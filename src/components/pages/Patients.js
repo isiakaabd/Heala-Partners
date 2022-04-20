@@ -114,8 +114,8 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
   }
 
   const validationSchema = Yup.object({
-    name: Yup.string('Enter your hospital'),
-    bloodGroup: Yup.string('ENter your bloodGroup'),
+    name: Yup.string('Enter your hospital').trim(),
+    bloodGroup: Yup.string('Enter your bloodGroup').trim(),
     gender: Yup.string('Select your gender'),
     phone: Yup.number('Enter your specialization').typeError(
       'Enter a current Number',

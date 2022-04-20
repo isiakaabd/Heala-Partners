@@ -135,7 +135,7 @@ const CancelledOrder = ({
   const { data, loading, error } = useQuery(getDiagnosticTests, {
     variables: { status },
   })
-
+console.log(scheduleState,'our dat')
   useEffect(() => {
     if (data) {
       setScheduleState(data.getDiagnosticTests.data)
@@ -185,7 +185,7 @@ const CancelledOrder = ({
             />
           </Grid>
         </Grid>
-        {scheduleState !== null && scheduleState > 0 ? (
+        {scheduleState.length  > 0 ? (
           <Grid item container style={{ marginTop: '5rem' }} height="100%">
             <EnhancedTable
               headCells={messagesHeadCell}

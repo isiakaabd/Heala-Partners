@@ -29,11 +29,13 @@ export const logout = () => async (dispatch) => {
   try {
     dispatch({
       type: actionTypes.LOGOUT,
-    })
+    });
   } catch (err) {
     dispatch({
       type: actionTypes.LOGOUT_FAILURE,
       payload: err,
-    })
+    });
   }
-}
+};
+// export const alert
+

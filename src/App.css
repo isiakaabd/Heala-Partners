@@ -122,10 +122,6 @@ input::placeholder {
 input::placeholder {
   font-weight: 400 !important;
 }
-body {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    linear-gradient(98.44deg, #3e5ea9 1.92%, #7eedba 122.04%) !important;
-}
 .MuiTablePagination-menuItem {
   font-size: 1.2rem !important;
 }
@@ -133,6 +129,8 @@ body {
 .MuiSelect-select {
   padding: 10px !important;
 }
+/* body {
+ } */
 
 li {
   font-weight: 400;
