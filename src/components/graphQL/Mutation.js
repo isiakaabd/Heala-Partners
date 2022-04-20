@@ -310,7 +310,7 @@ export const LOGOUT_USER = gql`
   mutation logout {
     logout
   }
-`
+`;
 export const updatePartner = gql`
   mutation updatePartnerProfile(
     $id: String

@@ -47,12 +47,14 @@ const App = () => {
         const { exp } = jwtDecode(token);
         const time = Date.now() >= exp * 1000;
         if (token && time) {
-          await logout_user();
           logout();
+          logout_user();
+          setstate(false);
         }
         if (token && time && state) {
-          await logout_user();
-          logout();
+          setstate(false);
+          logout_user();
+          setAccessToken(token);
         }
 
         if (token && isAuthenticated && !time && state) {
@@ -77,7 +79,76 @@ const App = () => {
     })();
 
     // eslint-disable-next-line
+
   }, [logout_user, data, pharmacy, state, isAuthenticated]);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("Pharmacy_token");
+  //   if (token) {
+  //     const { exp } = jwtDecode(token);
+  //     const time = Date.now() >= exp * 1000;
+  //     if (token && time) {
+  //       logout();
+  //       logout_user();
+  //       setstate(false);
+  //     }
+  //     if (!token && isAuthenticated) {
+  //       setstate(false);
+  //       logout_user();
+  //       setAccessToken(token);
+  //     }
+  //     if (token && isAuthenticated && !time && state) {
+  //       setstate(false);
+
+  //       // logout_user();
+  //       setAccessToken(token);
+  //     } else if (token && isAuthenticated && !time && !state) {
+  //       if (data) {
+  //         userDetail({
+  //           data: data?.getPartner.category,
+  //         });
+  //       }
+  //       setAccessToken(token);
+  //       setstate(false);
+  //     }
+  //   }
+  //   // })();
+  // }, [logout_user, data, pharmacy, state, isAuthenticated]);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("Pharmacy_token");
+  //   if (token) {
+  //     const { exp } = jwtDecode(token);
+  //     const time = Date.now() >= exp * 1000;
+  //     if (token && time) {
+  //       logout();
+  //       logout_user();
+  //       setstate(false);
+  //     }
+  //     if (!token && isAuthenticated) {
+  //       setstate(false);
+  //       logout_user();
+  //       setAccessToken(token);
+  //     }
+  //     if (token && isAuthenticated && !time && state) {
+  //       setstate(false);
+
+  //       // logout_user();
+  //       setAccessToken(token);
+  //     } else if (token && isAuthenticated && !time && !state) {
+  //       if (data) {
+  //         userDetail({
+  //           data: data?.getPartner.category,
+  //         });
+  //       }
+  //       setAccessToken(token);
+
+  //       setstate(false);
+  //     }
+  //   }
+  //   // })();
+  // }, [logout_user,logout, data, pharmacy, state, isAuthenticated]);
+
   const [selectedMenu, setSelectedMenu] = useState(0);
 
   const [selectedSubMenu, setSelectedSubMenu] = useState(0);
