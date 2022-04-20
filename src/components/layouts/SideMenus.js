@@ -131,13 +131,17 @@ const SideMenus = (props) => {
 
   const handleLogout = async () => {
     try {
-      await logout_user()
-      logout()
-      setSelectedMenu(13)
+      await logout_user({
+        variables: {
+          user: localStorage.getItem("pharmacyId"),
+        },
+      });
+      logout();
+      setSelectedMenu(13);
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
     }
-  }
+  };
 
   useEffect(() => {
     // eslint-disable-next-line

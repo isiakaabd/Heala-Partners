@@ -35,7 +35,7 @@ const App = () => {
   const [logout_user] = useMutation(LOGOUT_USER);
   const id = localStorage.getItem("pharmacyId");
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
-    variables: { id},
+    variables: { id },
   });
   const { isAuthenticated, role } = useSelector((state) => state.auth);
 

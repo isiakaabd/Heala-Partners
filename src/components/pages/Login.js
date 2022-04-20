@@ -75,7 +75,7 @@ const Login = () => {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
-  const [alert, setAlert] = useState({});
+  const [alert, setAlert] = useState(null);
   const [loginInfo] = useMutation(Login_USER); //{ data, loading, error }
   const { loginUser, loginFailue } = useActions();
 
@@ -153,7 +153,7 @@ const Login = () => {
   };
   useEffect(() => {
     let x = setTimeout(() => {
-      setAlert({});
+      setAlert(null);
     }, 3000);
     return () => clearTimeout(x);
   }, [alert]);
@@ -232,7 +232,7 @@ const Login = () => {
                             LOGIN TO PARTNER ACCOUNT
                           </Typography>
                         </Grid>
-                        {alert && Object.keys(alert).length > 0 && (
+                        {alert && alert !== null && (
                           <Alert
                             sx={{
                               justifyContent: "center",
@@ -251,6 +251,7 @@ const Login = () => {
                             name="email"
                             type="email"
                             id="email"
+                            autoFocus={true}
                             placeholder="Enter your email"
                             hasStartIcon={false}
                           />

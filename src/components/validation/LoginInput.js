@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const LoginInput = (props) => {
-  const { label, name, ...rest } = props
+  const { label, name,autoFocus, ...rest } = props
   const classes = useStyles()
   return (
     <Grid container direction="column">
@@ -31,6 +31,7 @@ const LoginInput = (props) => {
         <Field
           as={Search}
           id={name}
+          autoFocus={autoFocus}
           name={name}
           className={classes.input}
           {...rest}

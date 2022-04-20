@@ -11,6 +11,7 @@ const SearchContainer = ({
   placeholderWidth,
   value,
   onChange,
+  autoFocus,
   hasStartIcon = true,
   ...rest
 }) => {
@@ -27,6 +28,7 @@ const SearchContainer = ({
       <OutlinedInput
         id="input-with-icon-adornment"
         value={value}
+        autoFocus={autoFocus}
         onChange={onChange}
         {...rest}
         sx={{
@@ -48,19 +50,20 @@ const SearchContainer = ({
             </InputAdornment>
           )
         }
-        autoFocus
+        
       />
     </div>
   )
 }
 SearchContainer.propTypes = {
   width: PropTypes.string,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  autoFocus: PropTypes.bool,
   height: PropTypes.string,
   placeholderWidth: PropTypes.string,
   value: PropTypes.string,
   hasStartIcon: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 }
 
 export default SearchContainer
