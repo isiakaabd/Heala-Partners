@@ -120,7 +120,7 @@ const HcpCaseNotes = ({
       <Grid container direction="column" gap={2}>
         <Grid item>
           <PreviousButton
-            path={`/Doctor/${hcpId}/consultations`}
+            path={`/hcps/${hcpId}/consultations`}
             onClick={() => setSelectedHcpMenu(6)}
           />
         </Grid>

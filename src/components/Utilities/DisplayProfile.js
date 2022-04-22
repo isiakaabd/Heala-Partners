@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Typography, Grid, Avatar, Chip } from '@mui/material'
-import CustomButton from './CustomButton'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
-import { MessageOutlined } from '@mui/icons-material'
-// import MessageModal from 'components/pages/MessageModal'
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -27,12 +24,7 @@ const DisplayProfile = (props) => {
     // setChatMediaActive,
   } = props
 
-  const greenButton = {
-    background: theme.palette.success.main,
-    hover: theme.palette.success.light,
-    active: theme.palette.success.dark,
-  }
-  const [setMessage] = useState(false)
+
   return (
     <>
       <Grid
@@ -124,21 +116,7 @@ const DisplayProfile = (props) => {
           </Grid>
         </Grid>
         {/* Action Buttons grid */}
-        <Grid item>
-          <Grid container alignItems="center">
-            <Grid item>
-              <CustomButton
-                startIcon={<MessageOutlined />}
-                title="Message"
-                type={greenButton}
-                variant="contained"
-                // component={Link}
-                onClick={() => setMessage(true)}
-                // onClick={() => setChatMediaActive(true)}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
+        
       </Grid>
       {/* <MessageModal
         isOpen={message}
