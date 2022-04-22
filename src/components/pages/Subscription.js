@@ -227,7 +227,7 @@ const Subscription = () => {
   const [plan, setPlan] = useState([])
   const { loading, data, error, refetch } = useQuery(getPlans, {
     variables: {
-      providerId: localStorage.getItem('partnerProviderId'),
+      provider: localStorage.getItem('partnerProviderId'),
     },
     notifyOnNetworkStatusChange: true,
   })
@@ -260,6 +260,8 @@ const Subscription = () => {
 
   if (error) console.log(error)
   //  return <NoData error={error} />
+
+  console.log(plan,'fff')
   return (
     <>
       <Grid
@@ -325,6 +327,7 @@ const Subscription = () => {
                     amount,
                     description,
                     provider,
+                    providerData,
                     duration,
                     name,
                   } = row
@@ -392,7 +395,7 @@ const Subscription = () => {
                           maxWidth: '20rem',
                         }}
                       >
-                        {provider}
+                        {providerData ? providerData.name : "No Value"}
                       </TableCell>
                       <TableCell
                         align="left"

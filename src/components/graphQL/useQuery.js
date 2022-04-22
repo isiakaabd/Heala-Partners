@@ -564,8 +564,8 @@ export const getEarningStats = gql`
 `;
 
 export const getMyEarningDoc = gql`
-  query getMyEarnings($doc: String) {
-    getMyEarnings(filterBy: { doctor: $doc }, page: 1) {
+  query getMyEarnings($doctor: String) {
+    getMyEarnings(filterBy: { doctor: $doctor }, page: 1) {
       data {
         _id
         doctor
@@ -711,9 +711,9 @@ export const dashboard = gql`
 `;
 export const getPlans = gql`
   ${PageInfo}
-  query getPlans($amount: Float, $providerId: String, $page: Int) {
+  query getPlans($amount: Float, $provider: String, $page: Int) {
     getPlans(
-      filterBy: { amount: $amount, providerId: $providerId }
+      filterBy: { amount: $amount, provider: $provider }
       page: $page
       orderBy: "-createdAt"
     ) {
@@ -722,6 +722,7 @@ export const getPlans = gql`
         name
         amount
         description
+        providerData
         provider
         duration
         createdAt
