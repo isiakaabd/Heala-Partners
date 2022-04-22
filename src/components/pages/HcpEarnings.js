@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import NoData from "components/layouts/NoData";
-import { Loader } from "components/Utilities";
+import { NoData } from "components/layouts";
 import { Grid, Typography } from "@mui/material";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useTheme } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
-import { CircularProgressBar, PreviousButton } from "components/Utilities";
+import {
+  CircularProgressBar,
+  Loader,
+  PreviousButton,
+  FormSelect,
+} from "components/Utilities";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { getEarningStats, getMyEarningDoc } from "components/graphQL/useQuery";
-import { financialPercent, selectOptions, formatNumber } from "components/Utilities/Time";
-import FormSelect from "components/Utilities/FormSelect";
+import {
+  financialPercent,
+  selectOptions,
+  formatNumber,
+} from "components/Utilities/Time";
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -123,10 +130,12 @@ const HcpEarnings = (props) => {
     variables: { q: "365" },
   });
   const { data: datas } = useQuery(getMyEarningDoc, {
-    variables: { doc: hcpId },
+    variables: { doctor: hcpId },
   });
 
-  console.log(datas);
+  console.log(datas, hcpId, "kkk");
+
+  const [x, setX] = useState(0);
 
   const [totalEarning, setTotalEarning] = useState([]);
   const [totalPayouts, setTotalPayouts] = useState([]);
@@ -139,8 +148,13 @@ const HcpEarnings = (props) => {
 
   const theme = useTheme();
   useEffect(() => {
+    if (datas !== undefined) {
+      setX(datas.getMyEarnings.data[0].balance);
+    }
+
     if (data) {
       const { totalEarnings, totalPayout } = data.getEarningStats;
+
       setTotalEarning(totalEarnings);
       setTotalPayouts(totalPayout);
       const value = financialPercent(totalEarnings, totalPayout);
@@ -156,12 +170,16 @@ const HcpEarnings = (props) => {
 
     // eslint-disable-next-line
   }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
+  console.log(x, "jjj");
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
     <Grid container direction="column">
       <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton path={`/hcps/${hcpId}`} onClick={() => setSelectedHcpMenu(0)} />
+        <PreviousButton
+          path={`/hcps/${hcpId}`}
+          onClick={() => setSelectedHcpMenu(0)}
+        />
       </Grid>
       <Grid container component="div" className={classes.mainContainer}>
         <Grid item sm container className={classes.flexContainer}>
@@ -182,7 +200,10 @@ const HcpEarnings = (props) => {
         </Grid>
 
         <Grid item container sx={{ padding: "3rem 4rem" }}>
-          <Grid container sx={{ alignItems: "center", justifyContent: "space-between" }}>
+          <Grid
+            container
+            sx={{ alignItems: "center", justifyContent: "space-between" }}
+          >
             <Grid item xs={4}>
               <CircularProgressBar
                 height="17rem"
@@ -206,7 +227,10 @@ const HcpEarnings = (props) => {
                 sx={{ background: theme.palette.common.lightGreen }}
               >
                 <Grid item>
-                  <TrendingDownIcon color="success" className={classes.cardIcon} />
+                  <TrendingDownIcon
+                    color="success"
+                    className={classes.cardIcon}
+                  />
                 </Grid>
               </Grid>
               <Grid item>
@@ -219,11 +243,14 @@ const HcpEarnings = (props) => {
                   >
                     N{""}
                   </span>
-                  {formatNumber(totalEarning)}
+                  {formatNumber(+x)}
                 </Typography>
                 <Typography
                   variant="body2"
-                  style={{ color: theme.palette.common.lightGrey, fontSize: "2.275rem" }}
+                  style={{
+                    color: theme.palette.common.lightGrey,
+                    fontSize: "2.275rem",
+                  }}
                 >
                   Total earnings
                 </Typography>
@@ -261,7 +288,10 @@ const HcpEarnings = (props) => {
                 </Typography>
                 <Typography
                   variant="body2"
-                  style={{ color: theme.palette.common.lightGrey, fontSize: "2.275rem" }}
+                  style={{
+                    color: theme.palette.common.lightGrey,
+                    fontSize: "2.275rem",
+                  }}
                 >
                   Total withdrawal
                 </Typography>

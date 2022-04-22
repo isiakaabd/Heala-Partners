@@ -445,15 +445,15 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
                       <ul style={{ padding: "2rem", color: "#606060" }}>
                         <Typography variant="h4" gutterBottom>
                           <li>Drugs : {item.drugName}</li>
-                        </Typography>
-                        <Typography variant="h4" gutterBottom>
-                          <li>Dosage : {item.drugName}</li>
-                        </Typography>
+                        </Typography>     
                         <Typography variant="h4" gutterBottom>
                           <li>Dosage Quantity: {item.dosageQuantity}</li>
                         </Typography>
                         <Typography variant="h4" gutterBottom>
                           <li>Drug Price : {item.drugPrice}</li>
+                        </Typography>
+                        <Typography variant="h4" gutterBottom>
+                          <li>Notes : {item.notes}</li>
                         </Typography>
                       </ul>
                     </Grid>
