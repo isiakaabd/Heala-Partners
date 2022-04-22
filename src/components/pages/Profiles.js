@@ -53,7 +53,7 @@ const Profile = ({
         id: profile._id,
         name,
         email,
-        category: "pharmacy",
+        category: "hospital",
         logoImageUrl: image,
       },
       refetchQueries: [

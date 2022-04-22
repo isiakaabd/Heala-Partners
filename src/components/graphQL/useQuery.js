@@ -524,6 +524,7 @@ export const getDoctorsProfile = gql`
     doctorProfiles(
       filterBy: { providerId: $providerId, specialization: $specialization }
       page: $page
+      orderBy: "-createdAt"
     ) {
       profile {
         _id

@@ -282,6 +282,7 @@ console.log(scheduleState,'our dat')
           <EmptyTable
             headCells={messagesHeadCell}
             paginationLabel="Orders  per page"
+            text="No Cancelled Test"
           />
         )}
       </Grid>

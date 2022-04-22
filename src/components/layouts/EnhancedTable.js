@@ -4,10 +4,8 @@ import {
   Box,
   Table,
   Paper,
-  TableRow,
   TablePagination,
   TableBody,
-  TableCell,
   TableContainer,
 } from '@mui/material'
 import EnhancedTableHeader from './EnhancedTableHeader'
@@ -73,9 +71,7 @@ const EnhancedTable = (props) => {
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
-
+ 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -92,16 +88,6 @@ const EnhancedTable = (props) => {
             />
             <TableBody>
               {children}
-
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>

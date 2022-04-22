@@ -303,6 +303,7 @@ const CompletedOrder = ({ setSelectedSubMenu }) => {
           <EmptyTable
             headCells={partnersHeadCells}
             paginationLabel="Orders  per page"
+            text="No Completed Order"
           />
         )}
 

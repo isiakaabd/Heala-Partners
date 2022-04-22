@@ -302,6 +302,7 @@ const ProcessingOrders = () => {
         <EmptyTable
           headCells={hcpsHeadCells}
           paginationLabel="Orders  per page"
+          text="No Processing Order"
         />
       )}
       {/* Filter Modal */}

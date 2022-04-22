@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
-const NoData = ({ error }) => {
+const NoData = ({ error,text }) => {
   return (
     <Grid
       container
@@ -14,7 +14,7 @@ const NoData = ({ error }) => {
         <Typography variant="h1">
           {error
             ? error && error.networkError.result.errors[0].message
-            : 'No Data yet'}
+            : text?text:"No Data Yet"}
         </Typography>
       </Grid>
       <Grid item>

@@ -305,6 +305,7 @@ const CompletedOrders = () => {
           <EmptyTable
             headCells={partnersHeadCells}
             paginationLabel="Orders  per page"
+            text="No Completed Test"
           />
         )}
         <Modals

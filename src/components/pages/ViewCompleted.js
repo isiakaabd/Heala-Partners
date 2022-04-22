@@ -308,51 +308,59 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
           style={{ paddingTop: "5rem" }}
         >
           {/* EMAIL ADDRESS GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ minHeight: "25rem", marginRight: "2rem" }}
-          >
-            <Grid
-              container
-              direction="column"
-              gap={2}
-              justifyContent="space-between"
-              alignItems="center"
-              flexWrap="nowrap"
-            >
-              <Grid item>
-                <Typography variant="h4">1st Prescription</Typography>
-              </Grid>
-              <Grid item container flexWrap="nowrap" gap={3}>
-                {prescriptions && prescriptions.length > 0 ? (
-                  <Grid item container flexWrap="nowrap" gap={3}>
-                    <ul style={{ padding: "2rem", color: "#606060" }}>
-                      <Typography variant="h4" gutterBottom>
-                        <li>
-                          Drugs :{"   "} {prescriptions[0].drugName}
-                        </li>
+          {prescriptions &&
+            prescriptions.map((i, index) => {
+              return (
+                <Grid
+                  item
+                  md
+                  key={index}
+                  className={classes.cardGrid}
+                  style={{
+                    minHeight: "25rem",
+                    marginRight: "2rem",
+                  }}
+                >
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    gap={2}
+                    justifyContent="space-between"
+                    alignItems="center"
+                    flexWrap="nowrap"
+                  >
+                    <Grid item>
+                      <Typography variant="h4">
+                        {index + 1} Prescription
                       </Typography>
-                      <Typography variant="h4" gutterBottom>
-                        <li>Dosage : {prescriptions[0].drugName}</li>
-                      </Typography>
-                      <Typography variant="h4" gutterBottom>
-                        <li>
-                          Dosage Quantity: {prescriptions[0].dosageQuantity}
-                        </li>
-                      </Typography>
-                      <Typography variant="h4" gutterBottom>
-                        <li>Drug Price : {prescriptions[0].drugPrice}</li>
-                      </Typography>
-                    </ul>
+                    </Grid>
+                    <Grid item container flexWrap="nowrap" gap={3}>
+                      {/* {prescriptions && prescriptions.length > 0 ? ( */}
+                      <Grid item container flexWrap="nowrap" gap={3}>
+                        <ul style={{ padding: "2rem", color: "#606060" }}>
+                          <Typography variant="h4" gutterBottom>
+                            <li>Drugs : {i.drugName}</li>
+                          </Typography>
+                          <Typography variant="h4" gutterBottom>
+                            <li>Dosage : {i.drugName}</li>
+                          </Typography>
+                          <Typography variant="h4" gutterBottom>
+                            <li>Dosage Quantity: {i.dosageQuantity}</li>
+                          </Typography>
+                          <Typography variant="h4" gutterBottom>
+                            <li>Drug Price : {i.drugPrice}</li>
+                          </Typography>
+                        </ul>
+                      </Grid>
+                      {/* ) : null} */}
+                    </Grid>
                   </Grid>
-                ) : null}
-              </Grid>
-            </Grid>
-          </Grid>
+                </Grid>
+              );
+            })}
           {/* DATE OF BIRTH GRID */}
-          <Grid
+          {/* <Grid
             item
             md
             className={classes.cardGrid}
@@ -369,7 +377,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
               <Grid item>
                 <Typography variant="h4">2nd Prescription</Typography>
               </Grid>
-              <Grid item container flexWrap="nowrap" gap={3}>
+              {/* <Grid item container flexWrap="nowrap" gap={3}>
                 {prescriptions && prescriptions.length > 0 ? (
                   <Grid item container flexWrap="nowrap" gap={3}>
                     <ul style={{ padding: "2rem", color: "#606060" }}>
@@ -390,9 +398,9 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
                     </ul>
                   </Grid>
                 ) : null}
-              </Grid>
+              </Grid> 
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </>

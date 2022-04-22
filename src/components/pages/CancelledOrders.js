@@ -316,6 +316,7 @@ const CancelledOrders = ({
           <EmptyTable
             headCells={messagesHeadCells}
             paginationLabel="Orders  per page"
+            text="No Cancelled Order"
           />
         )}
       </Grid>

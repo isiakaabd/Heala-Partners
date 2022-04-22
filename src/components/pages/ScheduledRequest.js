@@ -305,6 +305,7 @@ const ScheduledRequest = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
           <EmptyTable
             headCells={partnersHeadCells}
             paginationLabel="Requests  per page"
+            text="No Scheduled Test"
           />
         )}
         <Modals

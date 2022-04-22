@@ -161,7 +161,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       setPageInfo(data.doctorProfiles.pageInfo);
     }
   }, [data]);
-
+console.log(profiles)
   const [searchHcp, setSearchHcp] = useState("");
   const [openHcpFilter, setOpenHcpFilter] = useState(false);
   const [openAddHcp, setOpenAddHcp] = useState(false);

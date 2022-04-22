@@ -102,7 +102,7 @@ const Consultations = (props) => {
   useEffect(() => {
     if (data) {
       setConsultations(data.getConsultations.data)
-      patientConsultation(data)
+      // patientConsultation(data)
       setPageInfo(data.getConsultations.pageInfo)
     }
   }, [data, consultations, patientConsultation])
@@ -127,7 +127,7 @@ const Consultations = (props) => {
   } = pageInfo
   const [rowsPerPage, setRowsPerPage] = useState(0)
   if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  if (error) return <NoData  error={error} />
 
   return (
     <Grid container gap={2} flexWrap="nowrap" direction="column" height="100%">
@@ -294,6 +294,7 @@ const Consultations = (props) => {
         <EmptyTable
           headCells={consultationsHeadCells4}
           paginationLabel="Orders  per page"
+          text="No Consulation"
         />
       )}
     </Grid>

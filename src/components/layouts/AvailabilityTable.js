@@ -14,8 +14,8 @@ import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import displayPhoto from 'assets/images/avatar.svg'
 import { hours } from 'components/Utilities/Time'
-import NoData from 'components/layouts/NoData'
 import PropTypes from 'prop-types'
+import { EmptyTable } from '.'
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -149,7 +149,11 @@ const AvailabilityTable = ({ data }) => {
               })}
           </EnhancedTable>
         ) : (
-          <NoData />
+          <EmptyTable 
+          headCells={availabilityHeadCells}
+          paginationLabel="Availability  per page"
+          text="No Availabity Data"
+       />
         )}
       </Grid>
     </Grid>

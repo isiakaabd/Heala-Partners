@@ -324,6 +324,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
           <EmptyTable
             headCells={patientsHeadCells}
             paginationLabel="Orders  per page"
+            text="No pending Order"
           />
         )}
       </Grid>

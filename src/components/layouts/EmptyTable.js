@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const EmptyCell = (props) => {
   const classes = useStyles();
 
-  const { headCells, paginationLabel, title } = props;
+  const { headCells, paginationLabel, title ,text} = props;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -62,7 +62,7 @@ const EmptyCell = (props) => {
               >
                 <TableCell colSpan={10}>
                   <Grid container justifyContent="center">
-                    <NoData />
+                    <NoData text={text} />
                   </Grid>
                 </TableCell>
               </TableRow>
