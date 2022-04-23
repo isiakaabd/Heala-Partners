@@ -55,7 +55,7 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem('email')
       localStorage.removeItem('pharmacyID')
       localStorage.removeItem('pharmacy_Email')
-      localStorage.removeItem('pharmacyId')
+      localStorage.removeItem('AppId')
       localStorage.removeItem('role')
       localStorage.clear()
       return {

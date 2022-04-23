@@ -33,7 +33,7 @@ const App = () => {
   const [state, setstate] = useState(true);
   const { userDetail, logout } = useActions();
   const [logout_user] = useMutation(LOGOUT_USER);
-  const id = localStorage.getItem("pharmacyId");
+  const id = localStorage.getItem("AppId");
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   });

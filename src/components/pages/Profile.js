@@ -22,7 +22,7 @@ const Profile = ({
   const history = useHistory()
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
-      id: localStorage.getItem('pharmacyId'),
+      id: localStorage.getItem('AppId'),
     },
   })
   const [profile, setProfile] = useState()
@@ -53,14 +53,14 @@ const Profile = ({
         id: profile._id,
         name,
         email,
-        category: 'diagnostics',
+        category: 'pharmacy',
         logoImageUrl: image,
       },
       refetchQueries: [
         {
           query: getPartner,
           variables: {
-            id: localStorage.getItem('pharmacyId'),
+            id: localStorage.getItem('AppId'),
           },
         },
       ],

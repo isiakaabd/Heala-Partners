@@ -42,7 +42,7 @@ export const duration = (value) => {
 
 export const returnpercent = (a, b) => {
   //% Increase/Decrease = (present m(onth total - past month total) / past month total × 100
-  return (((b - a) / a) * 100);
+  return ((b - a) / a) * 100;
 };
 export const financialPercent = (a, b) => {
   return Math.round((a / (b + a)) * 100);
@@ -74,4 +74,17 @@ export const unformat = (amount, locale) => {
       .replace(new RegExp("\\" + decimalSeparator), ",")
   );
 };
-export const monthNames = ["Jan", "Mar", "May", "Jul", "Sept", "Nov", "Jan"];
+export const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];

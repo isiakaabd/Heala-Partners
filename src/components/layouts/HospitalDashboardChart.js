@@ -202,7 +202,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                           }}
                         >
                           {doctorPercentage
-                            ? `${doctorPercentage.toFixed(0)} %`
+                            ? `${Math.abs(doctorPercentage.toFixed(0))} %`
                             : 0}
                         </Typography>
                       </Grid>
@@ -541,7 +541,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                           }}
                         >
                           {patientPercentage
-                            ? `${patientPercentage.toFixed(0)} %`
+                            ? `${Math.abs(patientPercentage.toFixed(0))} %`
                             : 0}
                         </Typography>
                       </Grid>

@@ -38,7 +38,7 @@ const HospitalHeaderProfile = () => {
     }
     return `${count} notifications`;
   }
-  const id = localStorage.getItem("pharmacyId");
+  const id = localStorage.getItem("AppId");
   const [pharmacyData, setPharmacyData] = useState([]);
 
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
