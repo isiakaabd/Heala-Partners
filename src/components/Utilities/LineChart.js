@@ -1,36 +1,36 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Grid, Chip } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Grid } from "@mui/material";
+// import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { Line } from "react-chartjs-2";
 import { monthNames } from "components/Utilities/Time";
 
-const useStyles = makeStyles((theme) => ({
-  intervalButtonsGrid: {
-    background: theme.palette.common.lightGreen,
-    borderRadius: "5rem",
-    padding: ".1rem",
-    flexWrap: "nowrap",
-  },
+// const useStyles = makeStyles((theme) => ({
+//   intervalButtonsGrid: {
+//     background: theme.palette.common.lightGreen,
+//     borderRadius: "5rem",
+//     padding: ".1rem",
+//     flexWrap: "nowrap",
+//   },
 
-  chip: {
-    "&.MuiChip-root": {
-      background: "#fff",
-      fontSize: ".6rem",
-    },
-  },
+//   chip: {
+//     "&.MuiChip-root": {
+//       background: "#fff",
+//       fontSize: ".6rem",
+//     },
+//   },
 
-  active: {
-    "&.MuiChip-root": {
-      background: theme.palette.common.green,
-      color: "#fff",
-    },
-  },
-}));
+//   active: {
+//     "&.MuiChip-root": {
+//       background: theme.palette.common.green,
+//       color: "#fff",
+//     },
+//   },
+// }));
 
 const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const theme = useTheme();
   const [state, setState] = useState([]);
   console.log("from doc");
@@ -47,6 +47,7 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
 
   const data = {
     labels: monthNames,
+    
     datasets: [
       {
         label: "Orders",
@@ -65,16 +66,21 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
 
   const options = {
     locale: "fr",
+    maintainAspectRatio:true,
     scales: {
       y: {
         beginAtZero: true,
         grid: {
-          color: "rgba(0, 0, 0, 0.12)",
+          color: "#ffff",
           borderDash: [2, 3],
         },
       },
       x: {
-        display: false,
+        display: true,
+        grid: {
+          color: "#ffff",
+          borderDash: [2, 3],
+        },
       },
     },
     plugins: {
@@ -117,13 +123,13 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
 
     return tooltipTitleColor;
   }
-
+  console.log(124)
   return (
     <Fragment>
       <Grid item>
-        <Line data={data} options={options} />;
+        <Line data={data}  options={options} />;
       </Grid>
-      <Grid item>
+      {/* <Grid item>
         <Grid
           container
           // justifyContent="space-evenly"
@@ -145,7 +151,7 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
             </Grid>
           ))}
         </Grid>
-      </Grid>
+      </Grid> */}
     </Fragment>
   );
 };
