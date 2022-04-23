@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   overviewGrid: {
     padding: "4rem 2rem 3rem",
+    background: "#fff",
   },
   groupIconGrid: {
     width: "5rem",
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bottomChartGrid: {
     padding: "3rem 0rem",
+    background: "#fff",
   },
 
   dottedCircle: {
@@ -196,7 +198,6 @@ const DashCharts = () => {
               <Grid
                 item
                 container
-                sx={{ overflowX:"scroll" }}
                 direction="column"
                 className={classes.bottomChartGrid}
               >
@@ -254,13 +255,11 @@ const DashCharts = () => {
             container
             direction="column"
             className={classes.bottomChartGrid}
-            sx={{ overflowX:"scroll" }}
           >
             <LineChart
               selectedTimeframe={selectedTimeframe}
               setSelectedTimeframe={setSelectedTimeframe}
               details={completedTestsStats}
-              sx={{ overflowX:"scroll" }}
             />
           </Grid>
         </Grid>
@@ -310,7 +309,6 @@ const DashCharts = () => {
           <Grid
             item
             container
-            sx={{ overflowX:"scroll" }}
             direction="column"
             className={classes.bottomChartGrid}
           >
@@ -364,7 +362,6 @@ const DashCharts = () => {
             container
             direction="column"
             className={classes.bottomChartGrid}
-            sx={{ overflowX:"scroll" }}
           >
             <LineChart
               selectedTimeframe={selectedTimeframe}

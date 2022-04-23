@@ -20,7 +20,7 @@ const Profile = ({
   const [update] = useMutation(updatePartner);
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
-      id: localStorage.getItem("pharmacyId"),
+      id: localStorage.getItem("AppId"),
     },
   });
 

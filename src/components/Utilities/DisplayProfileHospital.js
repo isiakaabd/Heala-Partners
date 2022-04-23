@@ -1,12 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { Typography, Chip, Avatar, Grid } from '@mui/material'
-import CustomButton from './CustomButton'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
-import { HiChat } from 'react-icons/hi'
-import { useParams } from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -31,18 +28,10 @@ const DisplayProfileHospital = ({
   statusId,
   specialization,
   status,
-  setSelectedSubMenu,
-  type,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const { patientId, hcpId } = useParams()
-
-  const greenButton = {
-    background: theme.palette.success.main,
-    hover: theme.palette.success.light,
-    active: theme.palette.success.dark,
-  }
+ 
 
   return (
     <Grid
@@ -126,7 +115,7 @@ const DisplayProfileHospital = ({
         </Grid>
       </Grid>
       {/* Action Buttons grid */}
-      <Grid item>
+      {/* <Grid item>
         <Grid container alignItems="center" rowSpacing={2}>
           <Grid item style={{ marginRight: '2rem' }}>
             <CustomButton
@@ -143,7 +132,7 @@ const DisplayProfileHospital = ({
             />
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }

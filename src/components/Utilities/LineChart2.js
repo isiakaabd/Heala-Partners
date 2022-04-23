@@ -1,40 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Grid, Chip } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Line } from "react-chartjs-2";
 
-const useStyles = makeStyles((theme) => ({
-  intervalButtonsGrid: {
-    background: theme.palette.common.lightGreen,
-    borderRadius: "20rem",
-    padding: ".5rem 0",
-  },
-
-  chip: {
-    "&.MuiChip-root": {
-      background: "#fff",
-      fontSize: ".3rem",
-    },
-  },
-
-  active: {
-    "&.MuiChip-root": {
-      background: theme.palette.common.green,
-      color: "#fff",
-    },
-  },
-}));
-
-const LineChart2 = ({ selectedTimeframe, setSelectedTimeframe, doctorStats, type }) => {
-  const classes = useStyles();
+const LineChart2 = ({ doctorStats, type }) => {
   const theme = useTheme();
   const [actives, setActives] = useState([]);
-  // const [results, setResults] = useState([]);
   const [inActives, setInActives] = useState([]);
-  // const [times, setTimes] = useState([]);
-console.log(doctorStats, "frfrom diag")
   useEffect(() => {
     const doc = doctorStats.oneYear;
     if (doc && doc.inactiveCount) {
@@ -42,8 +15,8 @@ console.log(doctorStats, "frfrom diag")
       setInActives(z);
     }
     if (doc && doc.activeCount) {
-    const z =  doc.activeCount.map((i) => i.count);
-    setActives(z);
+      const z = doc.activeCount.map((i) => i.count);
+      setActives(z);
     }
   }, [doctorStats, type]);
   const data = {
@@ -79,17 +52,23 @@ console.log(doctorStats, "frfrom diag")
 
   const options = {
     locale: "fr",
+    // maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,
         grid: {
-          color: "rgba(0, 0, 0, 0.12)",
+          color: "#ffff",
           borderDash: [5, 8],
-          display: true,
+          display: false,
         },
       },
       x: {
-        display: false,
+        grid: {
+          color: "#ffff",
+          borderDash: [5, 8],
+          display: false,
+        },
+        display: true,
       },
     },
     plugins: {
@@ -123,45 +102,17 @@ console.log(doctorStats, "frfrom diag")
     },
   };
   function hover(event, chartElement) {
-     event.target.style.cursor = chartElement[0] ? "pointer" : "default";
+    event.target.style.cursor = chartElement[0] ? "pointer" : "default";
   }
   function colorItem(tooltipItem) {
-    const tooltipTitleColor = tooltipItem.tooltip.labelColors[0].backgroundColor;
+    const tooltipTitleColor =
+      tooltipItem.tooltip.labelColors[0].backgroundColor;
 
     return tooltipTitleColor;
   }
   return (
     <Grid item container>
-      <Grid item container sx={{ maxWidth: "100%" }}>
-        <Line data={data} options={options} />;
-      </Grid>
-      <Grid item container>
-        <Grid container justifyContent="space-evenly" className={classes.intervalButtonsGrid}>
-          {doctorStats &&
-            Object.keys(doctorStats)
-              .filter((timeFrame) => timeFrame !== "activeDoctors" && timeFrame !== "inactiveDoctors")
-              .filter(
-                (timeFrame) => timeFrame !== "activePatients" && timeFrame !== "inactivePatients",
-              )
-              .filter(
-                (timeFrame) =>
-                  timeFrame !== "totalActiveSubscribers" && timeFrame !== "totalInactiveSubscribers",
-              )
-              .map((timeFrame, index) => (
-                <Grid item key={index}>
-                  <Chip
-                    label={timeFrame}
-                    color={timeFrame === timeFrame.id ? "success" : undefined}
-                    clickable
-                    className={`${classes.chip} ${
-                      selectedTimeframe === timeFrame.id ? classes.active : undefined
-                    }`}
-                    onClick={() => setSelectedTimeframe(timeFrame.id)}
-                  />
-                </Grid>
-              ))}
-        </Grid>
-      </Grid>
+      <Line data={data} options={options} />;
     </Grid>
   );
 };
