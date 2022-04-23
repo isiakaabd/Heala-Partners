@@ -189,7 +189,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                       </Grid>
                       <Grid item style={{ marginRight: "0.5rem" }}>
                         {doctorPercentage < 1 ? (
-                           <ArrowDownwardOutlined sx={{ color: "#f2190a" }} />
+                          <ArrowDownwardOutlined sx={{ color: "#f2190a" }} />
                         ) : (
                           <ArrowUpwardIcon color="success" />
                         )}
@@ -198,7 +198,10 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                         <Typography
                           variant="body2"
                           style={{
-                            color: doctorPercentage < 1 ? "#f2190a" : theme.palette.success.main,
+                            color:
+                              doctorPercentage < 1
+                                ? "#f2190a"
+                                : theme.palette.success.main,
                           }}
                         >
                           {doctorPercentage
@@ -215,6 +218,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                       }}
                     >
                       <Typography
+                        whiteSpace="nowrap"
                         variant="body2"
                         style={{ color: theme.palette.common.lightGrey }}
                       >
@@ -527,7 +531,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                         <Typography variant="h1">{totalPatient}</Typography>
                       </Grid>
                       <Grid item style={{ marginRight: "0.5rem" }}>
-                      {patientPercentage < 1 ? (
+                        {patientPercentage < 1 ? (
                           <ArrowDownwardOutlined sx={{ color: "#f2190a" }} />
                         ) : (
                           <ArrowUpwardIcon color="success" />
@@ -537,7 +541,10 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                         <Typography
                           variant="body2"
                           style={{
-                            color: patientPercentage < 1 ? "#f2190a" : theme.palette.success.main,
+                            color:
+                              patientPercentage < 1
+                                ? "#f2190a"
+                                : theme.palette.success.main,
                           }}
                         >
                           {patientPercentage
@@ -553,6 +560,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                         }}
                       >
                         <Typography
+                          whiteSpace="nowrap"
                           variant="body2"
                           style={{ color: theme.palette.common.lightGrey }}
                         >

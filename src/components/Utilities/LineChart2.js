@@ -52,17 +52,22 @@ const LineChart2 = ({ doctorStats, type }) => {
 
   const options = {
     locale: "fr",
-    maintainAspectRatio: false,
+    // maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,
         grid: {
-          color: "rgba(0, 0, 0, 0.12)",
+          color: "#ffff",
           borderDash: [5, 8],
           display: false,
         },
       },
       x: {
+        grid: {
+          color: "#ffff",
+          borderDash: [5, 8],
+          display: false,
+        },
         display: true,
       },
     },
@@ -107,9 +112,7 @@ const LineChart2 = ({ doctorStats, type }) => {
   }
   return (
     <Grid item container>
-      <Grid item container sx={{ maxWidth: "100%" }}>
-        <Line data={data} options={options} />;
-      </Grid>
+      <Line data={data} options={options} />;
     </Grid>
   );
 };
