@@ -23,7 +23,6 @@ import { useTheme } from '@mui/material/styles'
 import { isSelected } from 'helpers/isSelected'
 import { handleSelectedRows } from 'helpers/selectedRows'
 import displayPhoto from 'assets/images/avatar.svg'
-import { consultationsRows } from 'components/Utilities/tableData'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import PreviousButton from 'components/Utilities/PreviousButton'
 import { useParams } from 'react-router-dom'
@@ -155,7 +154,7 @@ const HcpConsultations = (props) => {
           <Grid item container>
             <EnhancedTable
               headCells={consultationsHeadCells}
-              rows={consultationsRows}
+              rows={consultations}
               paginationLabel="Patients per page"
               page={page}
               limit={limit}
@@ -178,7 +177,6 @@ const HcpConsultations = (props) => {
                     symptoms,
                     status,
                     type,
-                    description,
                     patientData,
 
                     // eslint-disable-next-line
@@ -258,6 +256,7 @@ const HcpConsultations = (props) => {
                             : 'No Value'}
                         </Grid>
                       </TableCell>
+                      
                       <TableCell
                         align="left"
                         className={classes.tableCell}
@@ -266,7 +265,7 @@ const HcpConsultations = (props) => {
                           maxWidth: '20rem',
                         }}
                       >
-                        {description}
+                        {status ? status : 'No Value'}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -277,16 +276,6 @@ const HcpConsultations = (props) => {
                         }}
                       >
                         {type ? type : 'No Value'}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        className={classes.tableCell}
-                        style={{
-                          color: theme.palette.common.grey,
-                          maxWidth: '20rem',
-                        }}
-                      >
-                        {status ? status : 'No Value'}
                       </TableCell>
                       <TableCell align="left">
                         <Button
