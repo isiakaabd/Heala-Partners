@@ -150,7 +150,7 @@ const HcpProfile = (props) => {
           medicalTitle="Medical ID"
           statusId={dociId && dociId.split('-')[1]}
           specialization={specialization ? specialization : 'Not assigned'}
-          chatPath={`/hcps/${hcpId}/profile/chat`}
+          // chatPath={`/hcps/${hcpId}/profile/chat`}
           setChatMediaActive={setChatMediaActive}
           setSelectedSubMenu={setSelectedSubMenu}
           selectedMenu={selectedMenu}

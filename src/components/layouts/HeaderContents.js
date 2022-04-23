@@ -185,7 +185,7 @@ const HeaderText = (props) => {
   } = props
   const classes = useStyles()
   const theme = useTheme()
-  const id = localStorage.getItem('pharmacyId')
+  const id = localStorage.getItem('AppId')
   const [pharmacyData, setPharmacyData] = useState([])
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },

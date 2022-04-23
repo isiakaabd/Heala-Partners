@@ -133,7 +133,7 @@ const SideMenus = (props) => {
     try {
       await logout_user({
         variables: {
-          user: localStorage.getItem("pharmacyId"),
+          user: localStorage.getItem("AppId"),
         },
       });
       logout();

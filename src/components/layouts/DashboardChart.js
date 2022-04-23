@@ -8,7 +8,7 @@ import { LineChart, Loader } from "components/Utilities";
 import { NoData } from "components/layouts";
 import "chartjs-plugin-style";
 import { useQuery } from "@apollo/client";
-import { getDiagnosticDashboard } from "components/graphQL/useQuery";
+import { getPharmacyDashboard } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   parentGrid: {
@@ -105,24 +105,25 @@ const DashboardCharts = () => {
   // const patientPercentage = returnpercent(activePatients, inactivePatients);
   // const doctorPercentage = returnpercent(activeDoctors, inactiveDoctors);
 
-  const { data, loading, error } = useQuery(getDiagnosticDashboard, {
+  const { data, loading, error } = useQuery(getPharmacyDashboard, {
     variables: {
-      partner: localStorage.getItem("pharmacyId"),
+      partner: localStorage.getItem("AppId"),
     },
   });
 
+  console.log(data, "from pharmacy");
   useEffect(() => {
     if (data) {
       const {
-        testRequestsCount,
-        scheduledTestsCount,
-        completedTestsCount,
-        cancelledTestsCount,
-        testRequestsStats,
-        scheduledTestsStats,
-        completedTestsStats,
-        cancelledTestsStats,
-      } = data?.getDiagnosticDashboard;
+        drugOrderRequestsCount: testRequestsCount,
+        processingDrugOrdersCount: scheduledTestsCount,
+        completedDrugOrdersCount: completedTestsCount,
+        cancelledDrugOrdersCount: cancelledTestsCount,
+        drugOrderRequestsStats: testRequestsStats,
+        processingDrugOrdersStats: scheduledTestsStats,
+        completedDrugOrdersStats: completedTestsStats,
+        cancelledDrugOrdersStats: cancelledTestsStats,
+      } = data?.getPharmacyDashboard;
       // setState(data.getDiagnosticTests.data)
       setTestRequest(testRequestsCount);
       setScheduledTests(scheduledTestsCount);
@@ -198,6 +199,7 @@ const DashboardCharts = () => {
                 container
                 direction="column"
                 className={classes.bottomChartGrid}
+                sx={{ overflowX: "scroll" }}
               >
                 <LineChart
                   selectedTimeframe={selectedTimeframe}
@@ -253,6 +255,7 @@ const DashboardCharts = () => {
             container
             direction="column"
             className={classes.bottomChartGrid}
+            sx={{ overflowX: "scroll" }}
           >
             <LineChart
               selectedTimeframe={selectedTimeframe}
@@ -309,6 +312,7 @@ const DashboardCharts = () => {
             container
             direction="column"
             className={classes.bottomChartGrid}
+            sx={{ overflowX: "scroll" }}
           >
             <LineChart
               selectedTimeframe={selectedTimeframe}
@@ -360,6 +364,7 @@ const DashboardCharts = () => {
             container
             direction="column"
             className={classes.bottomChartGrid}
+            sx={{ overflowX: "scroll" }}
           >
             <LineChart
               selectedTimeframe={selectedTimeframe}

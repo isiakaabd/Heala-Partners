@@ -33,7 +33,6 @@ import useFormInput from "components/hooks/useFormInput";
 import { useQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
 import prettyMoney from "pretty-money";
- 
 
 const referralOptions = ["Hello", "World", "Goodbye", "World"];
 
@@ -197,6 +196,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                     doctorData,
                     tests,
                   } = row;
+                  console.log(doctorData);
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   const x = tests.map((i) => {
@@ -238,7 +238,28 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       <TableCell align="left" className={classes.tableCell}>
                         {referralId}
                       </TableCell>
-
+                      <TableCell align="left" className={classes.tableCell}>
+                        <div
+                          style={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <span style={{ marginRight: "1rem" }}>
+                            <Avatar
+                              alt={`Display Photo of ${doctorData.lastName}`}
+                              src={doctorData ? doctorData.picture : displayPhoto}
+                              sx={{ width: 24, height: 24 }}
+                            />
+                          </span>
+                          <span style={{ fontSize: "1.25rem" }}>
+                            {doctorData
+                              ? `${doctorData.firstName} ${doctorData.lastName}`
+                              : " No Doctor"}
+                          </span>
+                        </div>
+                      </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
@@ -253,7 +274,9 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                                 patientData ? patientData.firstName : "user"
                               }`}
                               src={
-                                patientData ? patientData.image : displayPhoto
+                                patientData.image
+                                  ? patientData.image
+                                  : displayPhoto
                               }
                               sx={{ width: 24, height: 24 }}
                             />
@@ -266,28 +289,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           </span>
                         </div>
                       </TableCell>
-                      <TableCell align="left" className={classes.tableCell}>
-                        <div
-                          style={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <span style={{ marginRight: "1rem" }}>
-                            <Avatar
-                              alt={`Display Photo of ${row.patientName}`}
-                              src={displayPhoto}
-                              sx={{ width: 24, height: 24 }}
-                            />
-                          </span>
-                          <span style={{ fontSize: "1.25rem" }}>
-                            {doctorData
-                              ? `${doctorData.firstName} ${doctorData.lastName}`
-                              : " No Doctor"}
-                          </span>
-                        </div>
-                      </TableCell>
+
                       <TableCell align="left" className={classes.tableCell}>
                         {prettyMoney(
                           prettyDollarConfig,
@@ -298,7 +300,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
                         {x.length}
-                      </TableCell> 
+                      </TableCell>
 
                       <TableCell>
                         <Chip

@@ -22,7 +22,7 @@ const HospitalProfile = ({
   const history = useHistory();
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
-      id: localStorage.getItem("pharmacyId"),
+      id: localStorage.getItem("AppId"),
     },
   });
   const [profile, setProfile] = useState();
@@ -60,7 +60,7 @@ const HospitalProfile = ({
         {
           query: getPartner,
           variables: {
-            id: localStorage.getItem("pharmacyId"),
+            id: localStorage.getItem("AppId"),
           },
         },
       ],

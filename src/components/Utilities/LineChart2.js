@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     "&.MuiChip-root": {
       background: "#fff",
-      fontSize: "1.05rem",
+      fontSize: ".3rem",
     },
   },
 
@@ -34,7 +34,7 @@ const LineChart2 = ({ selectedTimeframe, setSelectedTimeframe, doctorStats, type
   // const [results, setResults] = useState([]);
   const [inActives, setInActives] = useState([]);
   // const [times, setTimes] = useState([]);
-console.log(doctorStats)
+console.log(doctorStats, "frfrom diag")
   useEffect(() => {
     const doc = doctorStats.oneYear;
     if (doc && doc.inactiveCount) {
@@ -123,9 +123,7 @@ console.log(doctorStats)
     },
   };
   function hover(event, chartElement) {
-    console.log(event);
-
-    event.target.style.cursor = chartElement[0] ? "pointer" : "default";
+     event.target.style.cursor = chartElement[0] ? "pointer" : "default";
   }
   function colorItem(tooltipItem) {
     const tooltipTitleColor = tooltipItem.tooltip.labelColors[0].backgroundColor;

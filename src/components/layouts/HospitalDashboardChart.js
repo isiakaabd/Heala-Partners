@@ -189,7 +189,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                       </Grid>
                       <Grid item style={{ marginRight: "0.5rem" }}>
                         {doctorPercentage < 1 ? (
-                          <ArrowDownwardOutlined  color="error"/>
+                           <ArrowDownwardOutlined sx={{ color: "#f2190a" }} />
                         ) : (
                           <ArrowUpwardIcon color="success" />
                         )}
@@ -197,10 +197,12 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                       <Grid item>
                         <Typography
                           variant="body2"
-                          style={{ color: theme.palette.success.main }}
+                          style={{
+                            color: doctorPercentage < 1 ? "#f2190a" : theme.palette.success.main,
+                          }}
                         >
                           {doctorPercentage
-                            ? `${doctorPercentage.toFixed(0)} %`
+                            ? `${Math.abs(doctorPercentage.toFixed(0))} %`
                             : 0}
                         </Typography>
                       </Grid>
@@ -526,7 +528,7 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                       </Grid>
                       <Grid item style={{ marginRight: "0.5rem" }}>
                       {patientPercentage < 1 ? (
-                          <ArrowDownwardOutlined  color="error"/>
+                          <ArrowDownwardOutlined sx={{ color: "#f2190a" }} />
                         ) : (
                           <ArrowUpwardIcon color="success" />
                         )}
@@ -534,10 +536,12 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
                       <Grid item>
                         <Typography
                           variant="body2"
-                          style={{ color: theme.palette.success.main }}
+                          style={{
+                            color: patientPercentage < 1 ? "#f2190a" : theme.palette.success.main,
+                          }}
                         >
                           {patientPercentage
-                            ? `${patientPercentage.toFixed(0)} %`
+                            ? `${Math.abs(patientPercentage.toFixed(0))} %`
                             : 0}
                         </Typography>
                       </Grid>

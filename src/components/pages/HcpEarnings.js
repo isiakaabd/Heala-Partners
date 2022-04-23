@@ -160,7 +160,7 @@ const HcpEarnings = (props) => {
       const value = financialPercent(totalEarnings, totalPayout);
       setFinances(value);
     }
-  }, [form, data]);
+  }, [form, data, datas]);
   // const classes = useStyles();
 
   useEffect(() => {

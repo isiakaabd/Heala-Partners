@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Checkbox,
@@ -6,262 +6,256 @@ import {
   Alert,
   TableRow,
   TableCell,
-} from '@mui/material'
-import { Loader, Search, CustomButton, Modals } from 'components/Utilities'
-import { formatNumber } from 'components/Utilities/Time'
-import { EnhancedTable /* NoData*/, EmptyTable } from 'components/layouts'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { subscriptionHeadersss } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
+} from "@mui/material";
+import { Loader, Search, CustomButton, Modals } from "components/Utilities";
+import { formatNumber } from "components/Utilities/Time";
+import { EnhancedTable /* NoData*/, EmptyTable } from "components/layouts";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { subscriptionHeadersss } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
 
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { SubscriptionModal } from 'components/modals/SubscriptionModal'
-import DeleteOrDisable from 'components/modals/DeleteOrDisable'
-import { useQuery, useMutation } from '@apollo/client'
-import { getPlans } from 'components/graphQL/useQuery'
-import { DELETE_PLAN } from 'components/graphQL/Mutation'
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { SubscriptionModal } from "components/modals/SubscriptionModal";
+import DeleteOrDisable from "components/modals/DeleteOrDisable";
+import { useQuery, useMutation } from "@apollo/client";
+import { getPlans } from "components/graphQL/useQuery";
+import { DELETE_PLAN } from "components/graphQL/Mutation";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
     },
   },
 
   FormLabel: {
-    '&.MuiFormLabel-root': {
+    "&.MuiFormLabel-root": {
       ...theme.typography.FormLabel,
     },
   },
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '15rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "15rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.3rem',
-        marginTop: '-.2rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".3rem",
+        marginTop: "-.2rem",
       },
     },
   },
   btn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      width: '100%',
+      width: "100%",
     },
   },
   closeIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '2rem ',
-      cursor: 'pointer',
+    "&.MuiSvgIcon-root": {
+      fontSize: "2rem ",
+      cursor: "pointer",
 
-      '&:hover': {
+      "&:hover": {
         color: theme.palette.common.red,
       },
     },
   },
   tableBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      height: '3rem',
-      fontSize: '1.25rem',
-      borderRadius: '2rem',
-      boxShadow: 'none',
-      width: '12rem',
+      height: "3rem",
+      fontSize: "1.25rem",
+      borderRadius: "2rem",
+      boxShadow: "none",
+      width: "12rem",
 
-      '&:hover': {
-        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-          color: '#fff',
+      "&:hover": {
+        "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          color: "#fff",
         },
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.5rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.5rem",
       },
     },
   },
 
   redBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightRed,
       color: theme.palette.common.red,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.error.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
 
   greenBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightGreen,
       color: theme.palette.common.green,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.success.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
   tableCell: {
-    '&.MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.6rem !important',
-      height: '3rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.6rem !important",
+      height: "3rem",
+      borderRadius: "1.3rem",
     },
     modal: {
-      background: 'red !important',
-      '& > * ': {
-        padding: '2rem 1rem',
+      background: "red !important",
+      "& > * ": {
+        padding: "2rem 1rem",
       },
     },
-    '.MuiGrid-root': {
-      background: 'red',
+    ".MuiGrid-root": {
+      background: "red",
     },
   },
-}))
+}));
 
 const Subscription = () => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [alert, setAlert] = useState(null)
-  const [pageInfo, setPageInfo] = useState([])
-  const [isOpen, setIsOpen] = useState(false)
-  const [deletePlan] = useMutation(DELETE_PLAN)
-  const [id, setId] = useState(null)
-  const [editId, setEditId] = useState(null)
-  const [edit, setEdit] = useState(false)
-  const [singleData, setSingleData] = useState('')
-  const [deleteModal, setdeleteModal] = useState(false)
+  const classes = useStyles();
+  const theme = useTheme();
+  const [alert, setAlert] = useState(null);
+  const [pageInfo, setPageInfo] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [deletePlan] = useMutation(DELETE_PLAN);
+  const [id, setId] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [singleData, setSingleData] = useState("");
+  const [deleteModal, setdeleteModal] = useState(false);
   const handleDialogOpen = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
   const handleEditCloseDialog = () => {
-    setEdit(false)
-  }
+    setEdit(false);
+  };
   const handleDeleteOpenDialog = (id) => {
-    setId(id)
-    setdeleteModal(true)
-  }
+    setId(id);
+    setdeleteModal(true);
+  };
   const handleEditOpenDialog = (id) => {
-    setEdit(true)
-    setEditId(id)
-  }
+    setEdit(true);
+    setEditId(id);
+  };
   const handleDialogClose = async () => {
-    setIsOpen(false)
-    setEditId(null)
-  }
+    setIsOpen(false);
+    setEditId(null);
+  };
   const onConfirm = async () => {
     try {
       const { message } = await deletePlan({
         variables: { id },
         refetchQueries: [{ query: getPlans }],
-      })
+      });
       setAlert({
         message: message,
-        type: 'success',
-      })
+        type: "success",
+      });
     } catch (error) {
       setAlert({
         message: error.message,
-        type: 'danger',
-      })
-      console.log(error.message)
+        type: "danger",
+      });
+      console.log(error.message);
     }
-  }
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  const { selectedRows } = useSelector((state) => state.tables)
+  };
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const { selectedRows } = useSelector((state) => state.tables);
 
-  const { setSelectedRows } = useActions()
+  const { setSelectedRows } = useActions();
 
-  const [searchMail, setSearchMail] = useState('')
+  const [searchMail, setSearchMail] = useState("");
 
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
-  }
-  const [plan, setPlan] = useState([])
+  };
+  const [plan, setPlan] = useState([]);
   const { loading, data, error, refetch } = useQuery(getPlans, {
     variables: {
-      provider: localStorage.getItem('partnerProviderId'),
+      provider: localStorage.getItem("partnerProviderId"),
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
 
   const onChange = async (e) => {
-    setSearchMail(e)
-    if (e === '') {
-      refetch()
-    } else refetch({ amount: Number(e) })
-  }
+    setSearchMail(e);
+    if (e === "") {
+      refetch();
+    } else refetch({ amount: Number(e) });
+  };
   useEffect(() => {
     if (data) {
-      console.log(data)
-      setPlan(data.getPlans.plan)
-      setPageInfo(data.getPlans.pageInfo)
+      console.log(data);
+      setPlan(data.getPlans.plan);
+      setPageInfo(data.getPlans.pageInfo);
     }
-  }, [data])
+  }, [data]);
 
   const initialValues = {
-    name: '',
-    amount: '',
-    description: '',
-    duration: '',
-    provider: '',
-  }
+    name: "",
+    amount: "",
+    description: "",
+    duration: "",
+    provider: "",
+  };
   const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage })
-  }
-  if (loading) return <Loader />
+    refetch({ page: newPage });
+  };
+  if (loading) return <Loader />;
 
-  if (error) console.log(error)
+  if (error) console.log(error);
   //  return <NoData error={error} />
 
-  console.log(plan,'fff')
+  console.log(plan, "fff");
   return (
     <>
       <Grid
@@ -275,7 +269,7 @@ const Subscription = () => {
           <Alert
             variant="filled"
             severity={alert.type}
-            sx={{ justifyContent: 'center', width: '70%', margin: '0 auto' }}
+            sx={{ justifyContent: "center", width: "70%", margin: "0 auto" }}
           >
             {alert.message}
           </Alert>
@@ -326,13 +320,12 @@ const Subscription = () => {
                     _id,
                     amount,
                     description,
-                    provider,
                     providerData,
                     duration,
                     name,
-                  } = row
-                  const isItemSelected = isSelected(_id, selectedRows)
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  } = row;
+                  const isItemSelected = isSelected(_id, selectedRows);
+                  const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
@@ -348,13 +341,13 @@ const Subscription = () => {
                             handleSelectedRows(
                               _id,
                               selectedRows,
-                              setSelectedRows,
+                              setSelectedRows
                             )
                           }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            'aria-labelledby': labelId,
+                            "aria-labelledby": labelId,
                           }}
                         />
                       </TableCell>
@@ -382,7 +375,7 @@ const Subscription = () => {
                         className={classes.tableCell}
                         style={{
                           color: theme.palette.common.black,
-                          maxWidth: '20rem',
+                          maxWidth: "20rem",
                         }}
                       >
                         {description}
@@ -392,7 +385,7 @@ const Subscription = () => {
                         className={classes.tableCell}
                         style={{
                           color: theme.palette.common.black,
-                          maxWidth: '20rem',
+                          maxWidth: "20rem",
                         }}
                       >
                         {providerData ? providerData.name : "No Value"}
@@ -402,7 +395,7 @@ const Subscription = () => {
                         className={classes.tableCell}
                         style={{
                           color: theme.palette.common.black,
-                          maxWidth: '20rem',
+                          maxWidth: "20rem",
                         }}
                       >
                         {duration}
@@ -411,10 +404,10 @@ const Subscription = () => {
                       <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-around",
                           }}
                         >
                           <Button
@@ -439,7 +432,7 @@ const Subscription = () => {
                         </div>
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
             </EnhancedTable>
           </Grid>
@@ -494,7 +487,7 @@ const Subscription = () => {
         btnValue="Delete"
       />
     </>
-  )
-}
+  );
+};
 
-export default Subscription
+export default Subscription;

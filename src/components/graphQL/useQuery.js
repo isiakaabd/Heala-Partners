@@ -25,6 +25,20 @@ export const getDiagnosticDashboard = gql`
     }
   }
 `;
+export const getPharmacyDashboard = gql`
+query getPharmacyDashboard ($partner: String!) {
+  getPharmacyDashboard(partner: $partner) {
+      drugOrderRequestsCount
+      completedDrugOrdersCount
+      processingDrugOrdersCount
+      cancelledDrugOrdersCount
+      drugOrderRequestsStats
+      completedDrugOrdersStats
+      processingDrugOrdersStats
+      cancelledDrugOrdersStats
+  }
+}
+`;
 export const doctor = gql`
   query doctorProfile($id: ID!) {
     doctorProfile(id: $id) {
