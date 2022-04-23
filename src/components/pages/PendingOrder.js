@@ -312,7 +312,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                             className={classes.chip}
                             type="pending"
                             deleteIcon={<ArrowForwardIosIcon />}
-                            onDelete={() => console.log(" ")}
                           />
                         </TableCell>
                       </TableRow>

@@ -106,8 +106,11 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
   const [openDisablePatient, setOpenDisablePatient] = useState(false);
   const [modal, setModal] = useState(false);
   const [cancel, setCancel] = useState(false);
-  const handleDialogClose = () => setModal(false);
-  const handleDialogOpen = async () => {
+  const [openProcess, setOpenProcess] = useState(false);
+  const handleDialogClose = () => setOpenProcess(false);
+  const handleDialogOpen = () => setOpenProcess(true);
+
+  const onConfirm2 = async () => {
     setModal(true);
     await fulfill({
       variables: {
@@ -445,7 +448,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
                       <ul style={{ padding: "2rem", color: "#606060" }}>
                         <Typography variant="h4" gutterBottom>
                           <li>Drugs : {item.drugName}</li>
-                        </Typography>     
+                        </Typography>
                         <Typography variant="h4" gutterBottom>
                           <li>Dosage Quantity: {item.dosageQuantity}</li>
                         </Typography>
@@ -490,6 +493,14 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
               onClick={handleDialogOpen}
             />
           </Grid>
+          <DisablePatient
+            open={openProcess}
+            setOpen={setOpenDisablePatient}
+            title="Process Order"
+            btnValue="process"
+            confirmationMsg="Process Order"
+            onConfirm={onConfirm2}
+          />
 
           <DisablePatient
             open={openDisablePatient}
