@@ -104,7 +104,7 @@ const DashboardCharts = () => {
 
   const { data, loading, error } = useQuery(getPharmacyDashboard, {
     variables: {
-      partner: localStorage.getItem("AppId"),
+      partner: localStorage.getItem("pharmacyID"),
     },
   });
 
