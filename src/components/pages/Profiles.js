@@ -60,7 +60,7 @@ const Profile = ({
         {
           query: getPartner,
           variables: {
-            id: localStorage.getItem("diagnosticId"),
+            id: localStorage.getItem("AppId"),
           },
         },
       ],
@@ -108,7 +108,7 @@ const Profile = ({
                   <Grid item container gap={2} md={4} direction="column">
                     <Grid item md={6}>
                       <FormikControl
-                        control="file" 
+                        control="file"
                         name="image"
                         label="Upload Your Logo"
                         setFieldValue={setFieldValue}

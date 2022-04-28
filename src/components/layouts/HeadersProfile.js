@@ -4,9 +4,9 @@ import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
 import { useActions } from "components/hooks/useActions";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import Notifications from "components/layouts/Notifications";
+import { Notifications } from "components/layouts";
 import { useLazyQuery } from "@apollo/client";
-import { getPartner } from "components/graphQL/useQuery";
+import { getPartner, getNotifications } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   role: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HeadersProfile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [notifications, setNotifications] = useState([]);
   const classes = useStyles();
 
   function notificationsLabel(count) {
@@ -38,13 +38,25 @@ const HeadersProfile = () => {
   }
   const { userDetail } = useActions();
 
-  const id = localStorage.getItem("diagnosticId");
+  const id = localStorage.getItem("AppId");
   const [pharmacyData, setPharmacyData] = useState({});
 
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   });
-
+  const [notify, { data: notData }] = useLazyQuery(getNotifications, {
+    variables: { user: id },
+  });
+  console.log(notData, "from headerprofiles");
+  useEffect(() => {
+    (async () => {
+      setTimeout(notify, 300);
+    })();
+    if (notData) {
+      setNotifications(notData.getNotifications.data);
+    }
+    //eslint-disable-next-line
+  }, [notData]);
   useEffect(() => {
     (async () => {
       setTimeout(pharmacy, 300);
@@ -87,14 +99,24 @@ const HeadersProfile = () => {
         </Grid>
         <Grid item>
           <IconButton
-            aria-label={notificationsLabel(0)}
+            aria-label={notificationsLabel(
+              notifications && notifications.length
+            )}
             onClick={(event) => setAnchorEl(event.currentTarget)}
           >
-            <Badge badgeContent={0} color="error">
+            <Badge
+              badgeContent={notifications && notifications.length}
+              color="error"
+            >
               <NotificationsActiveIcon color="primary" fontSize="large" />
             </Badge>
           </IconButton>
-          <Notifications anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+          <Notifications
+            anchorEl={anchorEl}
+            Notifications={notifications}
+            setNotifications={setNotifications}
+            setAnchorEl={setAnchorEl}
+          />
         </Grid>
       </Grid>
     </header>

@@ -25,9 +25,31 @@ export const getDiagnosticDashboard = gql`
     }
   }
 `;
+export const getNotifications = gql`
+  query getNotifications($user: String) {
+    getNotifications(user: $user) {
+      data {
+        user
+        content
+        itemId
+        ticker
+        title
+        seen
+        tag
+        useSound
+        role
+        saveNotification
+        previewImageUri
+        previewImageUriThumbnail
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 export const getPharmacyDashboard = gql`
-query getPharmacyDashboard ($partner: String!) {
-  getPharmacyDashboard(partner: $partner) {
+  query getPharmacyDashboard($partner: String!) {
+    getPharmacyDashboard(partner: $partner) {
       drugOrderRequestsCount
       completedDrugOrdersCount
       processingDrugOrdersCount
@@ -36,8 +58,8 @@ query getPharmacyDashboard ($partner: String!) {
       completedDrugOrdersStats
       processingDrugOrdersStats
       cancelledDrugOrdersStats
+    }
   }
-}
 `;
 export const doctor = gql`
   query doctorProfile($id: ID!) {

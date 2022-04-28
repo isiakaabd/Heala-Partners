@@ -4,9 +4,10 @@ import { makeStyles } from "@mui/styles";
 // import { useTheme } from "@mui/material/styles";
 import displayPhoto from "assets/images/avatar.png";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import Notifications from "components/layouts/Notifications";
+import { Notifications } from "components/layouts";
 import { useLazyQuery } from "@apollo/client";
-import { getPartner } from "components/graphQL/useQuery";
+import { getPartner, getNotifications } from "components/graphQL/useQuery";
+
 import { useActions } from "components/hooks/useActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +27,12 @@ const useStyles = makeStyles((theme) => ({
 const HospitalHeaderProfile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { userDetail } = useActions();
-
+  const id = localStorage.getItem("AppId");
   const classes = useStyles();
-
+  const [notifications, setNotifications] = useState([]);
+  const [notify, { data: notData }] = useLazyQuery(getNotifications, {
+    variables: { user: id },
+  });
   function notificationsLabel(count) {
     if (count === 0) {
       return "no notifications";
@@ -38,13 +42,22 @@ const HospitalHeaderProfile = () => {
     }
     return `${count} notifications`;
   }
-  const id = localStorage.getItem("AppId");
+
   const [pharmacyData, setPharmacyData] = useState([]);
 
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   });
 
+  useEffect(() => {
+    (async () => {
+      setTimeout(notify, 300);
+    })();
+    if (data) {
+      setNotifications(notData.getNotifications.data);
+    }
+    //eslint-disable-next-line
+  }, [notData]);
   useEffect(() => {
     (async () => {
       setTimeout(pharmacy, 300);
@@ -57,7 +70,7 @@ const HospitalHeaderProfile = () => {
     }
     //eslint-disable-next-line
   }, [pharmacy, data]);
-  console.log(data);
+
   return (
     <header>
       <Grid container alignItems="center">
@@ -91,14 +104,24 @@ const HospitalHeaderProfile = () => {
         </Grid>
         <Grid item>
           <IconButton
-            aria-label={notificationsLabel(0)}
-             onClick={(event) => setAnchorEl(event.currentTarget)}
+            aria-label={notificationsLabel(
+              notifications && notifications.length
+            )}
+            onClick={(event) => setAnchorEl(event.currentTarget)}
           >
-            <Badge badgeContent={0} color="error">
+            <Badge
+              badgeContent={notifications && notifications.length}
+              color="error"
+            >
               <NotificationsActiveIcon color="primary" fontSize="large" />
             </Badge>
           </IconButton>
-          <Notifications anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+          <Notifications
+            anchorEl={anchorEl}
+            Notifications={notifications}
+            setNotifications={setNotifications}
+            setAnchorEl={setAnchorEl}
+          />
         </Grid>
       </Grid>
     </header>
