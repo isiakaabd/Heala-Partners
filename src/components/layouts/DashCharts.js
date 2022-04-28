@@ -109,7 +109,7 @@ const DashCharts = () => {
 
   const { data, loading, error } = useQuery(getDiagnosticDashboard, {
     variables: {
-      partner: localStorage.getItem("AppId"),
+      partner: localStorage.getItem("pharmacyID"),
     },
   });
   console.log(data, "dia");
@@ -159,7 +159,7 @@ const DashCharts = () => {
           >
             <Grid container direction="column">
               <Grid item className={classes.headerGrid}>
-                <Typography variant="h5">Pending Tests</Typography>
+                <Typography variant="h5">Total Tests</Typography>
               </Grid>
               <Divider color={theme.palette.common.lighterGrey} />
               <Grid item>
