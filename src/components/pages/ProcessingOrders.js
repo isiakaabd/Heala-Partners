@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import Success from 'components/modals/Success'
-import { dateMoment, timeMoment } from 'components/Utilities/Time'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from "react";
+import Success from "components/modals/Success";
+import { dateMoment, timeMoment } from "components/Utilities/Time";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { useTheme } from "@mui/material/styles";
+import { FormikControl } from "components/validation";
+import { Formik, Form } from "formik";
+import DisablePatient from "components/modals/DeleteOrDisable";
 import {
   Grid,
   FormControl,
@@ -12,178 +17,274 @@ import {
   Avatar,
   TableCell,
   TableRow,
-} from '@mui/material'
-import { makeStyles } from '@mui/styles'
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import {
   FormSelect,
   Modals,
   Search,
   FilterList,
   Loader,
-} from 'components/Utilities'
-import { EnhancedTable } from 'components/layouts'
-import { hcpsHeadCells } from 'components/Utilities/tableHeaders'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { useHistory } from 'react-router-dom'
-import displayPhoto from 'assets/images/avatar.png'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import useFormInput from 'components/hooks/useFormInput'
-import { useQuery, useMutation } from '@apollo/client'
-import { getDrugOrders } from 'components/graphQL/useQuery'
-import { fulfillDrugOrder } from 'components/graphQL/Mutation'
-import { NoData, EmptyTable } from 'components/layouts'
-const dates = ['Hello', 'World', 'Goodbye', 'World']
-const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
-const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
+  CustomButton,
+} from "components/Utilities";
+import { EnhancedTable } from "components/layouts";
+import { hcpsHeadCells } from "components/Utilities/tableHeaders";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useHistory } from "react-router-dom";
+import displayPhoto from "assets/images/avatar.png";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import useFormInput from "components/hooks/useFormInput";
+import { useQuery, useMutation } from "@apollo/client";
+import { getDrugOrders, cancelDrugOrder } from "components/graphQL/useQuery";
+import { fulfillDrugOrder } from "components/graphQL/Mutation";
+import { NoData, EmptyTable } from "components/layouts";
+const dates = ["Hello", "World", "Goodbye", "World"];
+const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
+const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
 
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0.5rem',
-      maxWidth: '12rem',
-      fontSize: '1rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "0.5rem",
+      maxWidth: "12rem",
+      fontSize: "1rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '.85rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: ".85rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.2rem',
-        marginTop: '-.2rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".2rem",
+        marginTop: "-.2rem",
       },
     },
   },
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem !important',
-      height: '2.7rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem !important",
+      height: "2.7rem",
+      borderRadius: "1.3rem",
     },
   },
 
   searchFilterBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
       background: theme.palette.common.black,
-      width: '100%',
+      width: "100%",
     },
   },
   chip: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem',
-      height: '3rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem",
+      height: "3rem",
+      borderRadius: "1.3rem",
       background: theme.palette.common.white,
       color: theme.palette.common.grey,
-      '& .MuiChip-deleteIcon': {
-        color: 'inherit',
-        fontSize: 'inherit',
+      "& .MuiChip-deleteIcon": {
+        color: "inherit",
+        fontSize: "inherit",
       },
+    },
+  },
+  cancel: {
+    "&.MuiChip-root": {
+      color: "red",
     },
   },
   uploadBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      background: '#f2f2f2',
-      boxShadow: 'none',
+      background: "#f2f2f2",
+      boxShadow: "none",
       color: theme.palette.common.black,
 
-      '&:hover': {
-        background: '#f2f3f3',
-        boxShadow: 'none',
+      "&:hover": {
+        background: "#f2f3f3",
+        boxShadow: "none",
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
     },
   },
-}))
+}));
 
 const ProcessingOrders = () => {
-  const classes = useStyles()
-  const [state, setState] = useState([])
+  const theme = useTheme();
+  const classes = useStyles();
+  const [state, setState] = useState([]);
   const { data, loading, error } = useQuery(getDrugOrders, {
-    variables: { status: 'processing' },
-  })
+    variables: { status: "processing" },
+  });
+  const [cancelTest] = useMutation(cancelDrugOrder);
+
   useEffect(() => {
-    if (data) return setState(data?.getDrugOrders.data)
-  }, [data])
-  const history = useHistory()
-  const [searchHcp, setSearchHcp] = useState('')
-  const [openHcpFilter, setOpenHcpFilter] = useState(false)
-  const [fulfill] = useMutation(fulfillDrugOrder)
-  const [modal, setModal] = useState(false)
-  const handleDialogClose = () => setModal(false)
-  const handleDialogOpen = async (id) => {
-    console.log(id)
-    setModal(true)
-    await fulfill({
+    if (data) return setState(data?.getDrugOrders.data);
+  }, [data]);
+  const history = useHistory();
+  const [searchHcp, setSearchHcp] = useState("");
+  const [cancel, setCancel] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openDisablePatient, setOpenDisablePatient] = useState(false);
+  const [openHcpFilter, setOpenHcpFilter] = useState(false);
+  const [fulfill] = useMutation(fulfillDrugOrder);
+  const [modal, setModal] = useState(false);
+  const handleDialogClose = () => setModal(false);
+  const [ids, setId] = useState(null);
+  const [cancelId, setCancelId] = useState(null);
+  const openCompleteFunc = (id) => {
+    setOpenDisablePatient(true);
+    setId(id);
+  };
+  const cancelCompleteFunc = (id) => {
+    setOpen(true);
+    setCancelId(id);
+  };
+  const onConfirm = () => setCancel(true);
+
+  const onSubmit = async (values) => {
+    const { reason } = values;
+    await cancelTest({
       variables: {
-        id,
+        id: cancelId,
+        reason,
       },
       refetchQueries: [
         {
           query: getDrugOrders,
           variables: {
-            status: 'processing',
+            status: "pending",
           },
         },
         {
           query: getDrugOrders,
           variables: {
-            status: 'completed',
+            status: "processing",
+          },
+        },
+        {
+          query: getDrugOrders,
+          variables: {
+            status: "cancelled",
           },
         },
       ],
-    })
-    history.push('/processing-order')
+    });
+    history.push("/cancelled-order");
+  };
 
-    setModal(false)
-  }
+  const darkButton = {
+    background: theme.palette.primary.main,
+    hover: theme.palette.primary.light,
+    active: theme.palette.primary.dark,
+  };
+
+  const initialValues = {
+    reason: "",
+  };
+  const validationSchema = Yup.object({
+    reason: Yup.string("Enter Reason ").trim().required("Reason is required"),
+  });
+  // const cancelProcess = async () => {
+  //   console.log(cancelId);
+
+  //   await cancelTest({
+  //     variables: {
+  //       id: cancelId,
+  //       reason,
+  //     },
+  //     refetchQueries: [
+  //       {
+  //         query: getDrugOrders,
+  //         variables: {
+  //           status: "pending",
+  //         },
+  //       },
+  //       {
+  //         query: getDrugOrders,
+  //         variables: {
+  //           status: "processing",
+  //         },
+  //       },
+  //       {
+  //         query: getDrugOrders,
+  //         variables: {
+  //           status: "cancelled",
+  //         },
+  //       },
+  //     ],
+  //   });
+  //   history.push("/cencelled-order");
+  // };
+  const onConfirm2 = async () => {
+    await fulfill({
+      variables: {
+        id: ids,
+      },
+      refetchQueries: [
+        {
+          query: getDrugOrders,
+          variables: {
+            status: "processing",
+          },
+        },
+        {
+          query: getDrugOrders,
+          variables: {
+            status: "completed",
+          },
+        },
+      ],
+    });
+
+    history.push("/completed-order");
+    // setModal(false);
+  };
 
   const [selectedInput, handleSelectedInput] = useFormInput({
-    date: '',
-    specialization: '',
-    hospital: '',
-    status: '',
-  })
+    date: "",
+    specialization: "",
+    hospital: "",
+    status: "",
+  });
 
   // Add new HCP modals input state
 
-  const { date, specialization, hospital } = selectedInput
+  const { date, specialization, hospital } = selectedInput;
 
   const { rowsPerPage, selectedRows, page } = useSelector(
-    (state) => state.tables,
-  )
-  const { setSelectedRows } = useActions()
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
-  console.log(data)
+    (state) => state.tables
+  );
+  const { setSelectedRows } = useActions();
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
+
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
       <Grid item container>
@@ -208,7 +309,7 @@ const ProcessingOrders = () => {
           container
           height="100%"
           direction="column"
-          style={{ marginTop: '5rem' }}
+          style={{ marginTop: "5rem" }}
         >
           <EnhancedTable
             headCells={hcpsHeadCells}
@@ -220,11 +321,10 @@ const ProcessingOrders = () => {
             {state
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                console.log(row)
-                const { _id, createdAt, orderId, patientData } = row
-                const isItemSelected = isSelected(_id, selectedRows)
+                const { _id, createdAt, orderId, patientData } = row;
+                const isItemSelected = isSelected(_id, selectedRows);
 
-                const labelId = `enhanced-table-checkbox-${index}`
+                const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
@@ -243,7 +343,7 @@ const ProcessingOrders = () => {
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
-                          'aria-labelledby': labelId,
+                          "aria-labelledby": labelId,
                         }}
                       />
                     </TableCell>
@@ -264,37 +364,46 @@ const ProcessingOrders = () => {
                     <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
-                        <span style={{ marginRight: '1rem' }}>
+                        <span style={{ marginRight: "1rem" }}>
                           <Avatar
                             alt={`Display Photo of ${patientData?.firstName}`}
                             src={patientData?.image || displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
-                        <span style={{ fontSize: '1.25rem' }}>
+                        <span style={{ fontSize: "1.25rem" }}>
                           {patientData
                             ? `${patientData?.firstName} ${patientData?.lastName}`
-                            : 'No Value'}
+                            : "No Value"}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Chip
-                        label="complete order"
-                        variant="outlined"
-                        onClick={() => handleDialogOpen(_id)}
-                        className={classes.chip}
-                        deleteIcon={<ArrowForwardIosIcon />}
-                        onDelete={() => console.log(' ')}
-                      />
+                      <Grid container gap={2}>
+                        <Chip
+                          label="complete order"
+                          variant="outlined"
+                          onClick={() => openCompleteFunc(_id)}
+                          // onClick={() => handleDialogOpen(_id)}
+                          className={classes.chip}
+                          deleteIcon={<ArrowForwardIosIcon />}
+                        />
+                        <Chip
+                          label="cancel order"
+                          variant="outlined"
+                          onClick={() => cancelCompleteFunc(_id)}
+                          className={`${classes.chip} ${classes.cancel}`}
+                          deleteIcon={<ArrowForwardIosIcon />}
+                        />
+                      </Grid>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
           </EnhancedTable>
         </Grid>
@@ -312,6 +421,23 @@ const ProcessingOrders = () => {
         title="SUCCESSFUL"
         btnValue="Done"
         confirmationMsg="Your order has been successful"
+      />
+
+      <DisablePatient
+        open={openDisablePatient}
+        setOpen={setOpenDisablePatient}
+        title="Complete Order"
+        btnValue="complete"
+        confirmationMsg="Complete Order"
+        onConfirm={onConfirm2}
+      />
+      <DisablePatient
+        open={open}
+        setOpen={setOpen}
+        title="Cancel Order"
+        btnValue="cancel"
+        confirmationMsg="Cancel Order"
+        onConfirm={onConfirm}
       />
       <Modals
         isOpen={openHcpFilter}
@@ -364,7 +490,7 @@ const ProcessingOrders = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ marginBottom: '18rem', marginTop: '3rem' }}>
+          <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
             <Grid container spacing={2}>
               <Grid item md>
                 <Grid container direction="column">
@@ -374,7 +500,7 @@ const ProcessingOrders = () => {
                     </FormLabel>
                   </Grid>
                   <Grid item>
-                    <FormControl fullWidth style={{ height: '3rem' }}>
+                    <FormControl fullWidth style={{ height: "3rem" }}>
                       <FormSelect
                         name="Order Number"
                         options={hospitals}
@@ -401,13 +527,54 @@ const ProcessingOrders = () => {
           </Grid>
         </Grid>
       </Modals>
+      <Modals
+        isOpen={cancel}
+        title="Cancel Order"
+        rowSpacing={5}
+        handleClose={() => setCancel(false)}
+      >
+        <Formik
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+          validateOnChange={false}
+          validateOnMount={false}
+          initialValues={initialValues}
+          enableReinitialize
+        >
+          {({ isSubmitting, dirty, isValid }) => {
+            return (
+              <Form style={{ marginTop: "3rem" }}>
+                <Grid container>
+                  <Grid item container>
+                    <FormikControl
+                      control="input"
+                      label="State a Reason"
+                      name="reason"
+                      placeholder="Enter reason"
+                    />
+                  </Grid>
+                  <Grid item container sx={{ flexGrow: 1, marginTop: "10rem" }}>
+                    <CustomButton
+                      title="Cancel Order"
+                      type={darkButton}
+                      width="100%"
+                      isSubmitting={isSubmitting}
+                      disabled={!(dirty || isValid)}
+                    />
+                  </Grid>
+                </Grid>
+              </Form>
+            );
+          }}
+        </Formik>
+      </Modals>
     </Grid>
-  )
-}
+  );
+};
 
 ProcessingOrders.propTypes = {
   setSelectedSubMenu: PropTypes.func.isRequired,
   setSelectedHcpMenu: PropTypes.func.isRequired,
-}
+};
 
-export default ProcessingOrders
+export default ProcessingOrders;

@@ -1,39 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
-// import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { Line } from "react-chartjs-2";
 import { monthNames } from "components/Utilities/Time";
 
-// const useStyles = makeStyles((theme) => ({
-//   intervalButtonsGrid: {
-//     background: theme.palette.common.lightGreen,
-//     borderRadius: "5rem",
-//     padding: ".1rem",
-//     flexWrap: "nowrap",
-//   },
-
-//   chip: {
-//     "&.MuiChip-root": {
-//       background: "#fff",
-//       fontSize: ".6rem",
-//     },
-//   },
-
-//   active: {
-//     "&.MuiChip-root": {
-//       background: theme.palette.common.green,
-//       color: "#fff",
-//     },
-//   },
-// }));
-
-const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
-  // const classes = useStyles();
+const LineChart = ({ details }) => {
   const theme = useTheme();
   const [state, setState] = useState([]);
-  console.log("from doc");
+
   useEffect(() => {
     setState(
       details &&
@@ -47,7 +22,7 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
 
   const data = {
     labels: monthNames,
-    
+
     datasets: [
       {
         label: "Orders",
@@ -66,7 +41,7 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
 
   const options = {
     locale: "fr",
-    maintainAspectRatio:true,
+    maintainAspectRatio: true,
     scales: {
       y: {
         beginAtZero: true,
@@ -123,35 +98,12 @@ const LineChart = ({ selectedTimeframe, setSelectedTimeframe, details }) => {
 
     return tooltipTitleColor;
   }
-  console.log(124)
+
   return (
     <Fragment>
       <Grid item>
-        <Line data={data}  options={options} />;
+        <Line data={data} options={options} />;
       </Grid>
-      {/* <Grid item>
-        <Grid
-          container
-          // justifyContent="space-evenly"
-          className={classes.intervalButtonsGrid}
-        >
-          {monthNames.map((timeFrame, index) => (
-            <Grid item key={index}>
-              <Chip
-                label={timeFrame}
-                color={timeFrame === timeFrame.id ? "success" : undefined}
-                clickable
-                className={`${classes.chip} ${
-                  selectedTimeframe === timeFrame.id
-                    ? classes.active
-                    : undefined
-                }`}
-                onClick={() => setSelectedTimeframe(timeFrame.id)}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Grid> */}
     </Fragment>
   );
 };

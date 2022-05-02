@@ -196,7 +196,6 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                     doctorData,
                     tests,
                   } = row;
-                  console.log(doctorData);
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   const x = tests.map((i) => {
@@ -249,7 +248,9 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           <span style={{ marginRight: "1rem" }}>
                             <Avatar
                               alt={`Display Photo of ${doctorData.lastName}`}
-                              src={doctorData ? doctorData.picture : displayPhoto}
+                              src={
+                                doctorData ? doctorData.picture : displayPhoto
+                              }
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
@@ -314,7 +315,6 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           to={`pending/${_id}/request`}
                           className={classes.chip}
                           deleteIcon={<ArrowForwardIosIcon />}
-                          onDelete={() => console.log(" ")}
                         />
                       </TableCell>
                     </TableRow>

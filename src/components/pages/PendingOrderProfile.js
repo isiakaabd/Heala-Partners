@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import Modals from "components/Utilities/Modal";
 import PropTypes from "prop-types";
-import * as Yup from "yup";
 import { makeStyles } from "@mui/styles";
+import * as Yup from "yup";
 import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
 import {
@@ -10,12 +9,12 @@ import {
   PreviousButton,
   CustomButton,
   Loader,
+  Modals,
 } from "components/Utilities";
 import { NoData } from "components/layouts";
 // import displayPhoto from 'assets/images/avatar.svg'
 import { useTheme } from "@mui/material/styles";
 import DisablePatient from "components/modals/DeleteOrDisable";
-
 import { dateMoment } from "components/Utilities/Time";
 import Success from "components/modals/Success";
 import { useParams, useHistory } from "react-router-dom";
@@ -100,9 +99,8 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
   useEffect(() => {
     if (data) return setState(data?.getDrugOrder);
   }, [data]);
-  const onConfirm = () => {
-    setCancel(true);
-  };
+  const onConfirm = () => setCancel(true);
+
   const [openDisablePatient, setOpenDisablePatient] = useState(false);
   const [modal, setModal] = useState(false);
   const [cancel, setCancel] = useState(false);
@@ -135,9 +133,15 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
             status: "cancelled",
           },
         },
+        {
+          query: getDrugOrders,
+          variables: {
+            status: "processing",
+          },
+        },
       ],
     });
-    history.push("/pending-order");
+    history.push("/processing-order");
 
     setModal(false);
   };
@@ -196,7 +200,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
         },
       ],
     });
-    history.push("/pending-order");
+    history.push("/cancelled-order");
   };
   const {
     createdAt,
@@ -215,7 +219,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
     <>
       <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
         <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton path={"/pending"} />
+          <PreviousButton path={"/pending-order"} />
         </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
@@ -429,7 +433,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
                   item
                   md
                   className={classes.cardGrid}
-                  style={{ minHeight: "25rem", marginLeft: "2rem" }}
+                  style={{ minHeight: "25rem" }}
                 >
                   <Grid
                     container
