@@ -20,13 +20,16 @@ import Hospital from "components/routes/Hospital";
 import jwtDecode from "jwt-decode";
 
 const sectionStyles = {
-  paddingLeft: "39rem",
-  paddingRight: "5rem",
+  "--widthA": "max(25rem,22vw)",
+  "--widthB": "calc(var(--widthA) +5rem)",
+
+  // paddingLeft: "39rem",
+  paddingRight: "min(5rem,8vw)",
   paddingTop: "12rem",
   paddingBottom: "5rem",
+  paddingLeft: "calc(var(--widthA) + min(5rem,8vw))", // max(12rem, calc(100% - 80px))
   minHeight: "100vh",
   width: "100%",
-  backgroundColor: "#fbfbfb",
 };
 
 const App = () => {

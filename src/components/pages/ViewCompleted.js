@@ -66,6 +66,12 @@ const useStyles = makeStyles((theme) => ({
         minHeight: "14.9rem",
         background: "#fff",
       },
+      "@media (max-width:600px)": {
+        gridTemplateColumns: "1fr",
+        "& > *": {
+          minHeight: "12rem",
+        },
+      },
     },
   },
   buttonsGridWrapper: {
@@ -177,7 +183,6 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
           <DisplayProfile
             medicalTitle="User ID"
             patientData={patientData}
-            chatPath={`/patients/${orderId}/profile/chat`}
             setChatMediaActive={setChatMediaActive}
           />
         </Grid>
@@ -208,7 +213,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
               />
             </Grid>
           </Grid>
-          <Grid item md={12} xs={12} container className={classes.card}>
+          <Grid item container className={classes.card}>
             <Grid item>
               <Typography variant="h4">Date </Typography>
             </Grid>
@@ -223,7 +228,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid item container className={classes.card}>
             <Grid item>
               <Typography variant="h4">Order ID</Typography>
             </Grid>
@@ -238,7 +243,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid item container className={classes.card}>
             <Grid item>
               <Typography variant="h4">Doctor Name</Typography>
             </Grid>
@@ -257,7 +262,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid item container className={classes.card}>
             <Grid item>
               <Typography variant="h4">Diagnostics</Typography>
             </Grid>
@@ -272,7 +277,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid item container className={classes.card}>
             <Grid item>
               <Typography variant="h4">Affliation</Typography>
             </Grid>
@@ -290,7 +295,7 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
           {prescriptions &&
             prescriptions.map((i, index) => {
               return (
-                <Grid item container md={12} xs={12} className={classes.card}>
+                <Grid item container className={classes.card}>
                   <Grid item>
                     <Typography variant="h4">
                       {index + 1} Prescription

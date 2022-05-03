@@ -147,7 +147,7 @@ const ViewResult = ({
     tests,
     // eslint-disable-next-line
   } = scheduleState;
-  console.log(testResults);
+
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
@@ -196,7 +196,10 @@ const ViewResult = ({
                       <Chip
                         variant="outlined"
                         label={i.name}
-                        className={classes.infoBadge}
+                        classes={{
+                          root: classes.chipRoot,
+                          label: classes.chipLabel,
+                        }}
                       />
                     </Grid>
                   );
@@ -206,7 +209,10 @@ const ViewResult = ({
                   <Chip
                     variant="outlined"
                     label={"No Test yet"}
-                    className={classes.infoBadge}
+                    classes={{
+                      root: classes.chipRoot,
+                      label: classes.chipLabel,
+                    }}
                   />
                 </Grid>
               )}
@@ -220,7 +226,7 @@ const ViewResult = ({
               <Chip
                 variant="outlined"
                 label={testId ? testId : "No Value"}
-                className={classes.infoBadge}
+                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
               />
             </Grid>
           </Grid>

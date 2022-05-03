@@ -1,19 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Typography, Grid, Avatar, Chip } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
+import React from "react";
+import PropTypes from "prop-types";
+import { Typography, Grid, Avatar, Chip } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
-}))
+}));
 const DisplayProfile = (props) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
   const {
     displayPhoto,
@@ -22,8 +23,7 @@ const DisplayProfile = (props) => {
     status,
     patientData,
     // setChatMediaActive,
-  } = props
-
+  } = props;
 
   return (
     <>
@@ -35,7 +35,7 @@ const DisplayProfile = (props) => {
       >
         <Grid item>
           <Grid container alignItems="center">
-            <Grid item style={{ marginRight: '2rem' }}>
+            <Grid item style={{ marginRight: "2rem" }}>
               <Avatar
                 alt={`Display Photo`}
                 src={patientData ? patientData.image : displayPhoto}
@@ -44,26 +44,26 @@ const DisplayProfile = (props) => {
             </Grid>
             <Grid item>
               <Grid container direction="column">
-                <Grid item style={{ marginBottom: '1rem' }}>
+                <Grid item style={{ marginBottom: "1rem" }}>
                   <Typography variant="h3">
                     {patientData
                       ? `${patientData.firstName} ${patientData.lastName}`
-                      : 'No Patient'}
+                      : "No Patient"}
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Grid container alignItems="center">
-                    <Grid item style={{ marginRight: '3rem' }}>
+                    <Grid item style={{ marginRight: "3rem" }}>
                       <Typography
                         variant="h4"
                         color="success"
                         style={{ fontWeight: 400 }}
                       >
-                        <span>{medicalTitle}:</span>{' '}
-                        <span style={{ color: 'green' }}>
+                        <span>{medicalTitle}:</span>{" "}
+                        <span style={{ color: "green" }}>
                           {patientData
-                            ? patientData?.dociId.split('-')[1]
-                            : 'No Value'}
+                            ? patientData?.dociId.split("-")[1]
+                            : "No Value"}
                         </span>
                       </Typography>
                     </Grid>
@@ -74,7 +74,7 @@ const DisplayProfile = (props) => {
                             style={{ color: theme.palette.common.lightGrey }}
                           >
                             Specialization:
-                          </span>{' '}
+                          </span>{" "}
                           <Chip
                             label="Dentistry"
                             color="success"
@@ -84,24 +84,24 @@ const DisplayProfile = (props) => {
                       </Grid>
                     ) : status ? (
                       <Grid item>
-                        {' '}
+                        {" "}
                         <Typography variant="h4">
                           <span
                             style={{ color: theme.palette.common.lightGrey }}
                           >
                             Status:
-                          </span>{' '}
+                          </span>{" "}
                           <Chip
                             label={status}
-                            color={status === 'Active' ? 'success' : 'error'}
+                            color={status === "Active" ? "success" : "error"}
                             className={classes.badge}
                             style={{
                               background:
-                                status === 'Active'
+                                status === "Active"
                                   ? theme.palette.common.lightGreen
                                   : theme.palette.common.lightRed,
                               color:
-                                status === 'Active'
+                                status === "Active"
                                   ? theme.palette.common.green
                                   : theme.palette.common.red,
                             }}
@@ -116,7 +116,6 @@ const DisplayProfile = (props) => {
           </Grid>
         </Grid>
         {/* Action Buttons grid */}
-        
       </Grid>
       {/* <MessageModal
         isOpen={message}
@@ -125,8 +124,8 @@ const DisplayProfile = (props) => {
         title="Sule Muntari"
       ></MessageModal> */}
     </>
-  )
-}
+  );
+};
 
 DisplayProfile.propTypes = {
   fullName: PropTypes.string.isRequired,
@@ -139,6 +138,6 @@ DisplayProfile.propTypes = {
   callPath: PropTypes.string,
   videoPath: PropTypes.string,
   setChatMediaActive: PropTypes.func,
-}
+};
 
-export default DisplayProfile
+export default DisplayProfile;
