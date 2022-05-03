@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Grid } from '@mui/material'
-import { useMutation, useQuery } from '@apollo/client'
-import { updatePartner } from 'components/graphQL/Mutation'
-import { useTheme } from '@mui/material/styles'
-import { NoData } from 'components/layouts'
-import { CustomButton, PreviousButton, Loader } from 'components/Utilities'
-import { useHistory } from 'react-router-dom'
-import { Formik, Form } from 'formik'
-import FormikControl from 'components/validation/FormikControl'
-import { getPartner } from 'components/graphQL/useQuery'
-import * as Yup from 'yup'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Grid } from "@mui/material";
+import { useMutation, useQuery } from "@apollo/client";
+import { updatePartner } from "components/graphQL/Mutation";
+import { useTheme } from "@mui/material/styles";
+import { NoData } from "components/layouts";
+import { CustomButton, PreviousButton, Loader } from "components/Utilities";
+import { useHistory } from "react-router-dom";
+import { Formik, Form } from "formik";
+import FormikControl from "components/validation/FormikControl";
+import { getPartner } from "components/graphQL/useQuery";
+import * as Yup from "yup";
 
 const Profile = ({
   selectedMenu,
@@ -18,75 +18,75 @@ const Profile = ({
   setSelectedMenu,
   setSelectedSubMenu,
 }) => {
-  const [update] = useMutation(updatePartner)
-  const history = useHistory()
+  const [update] = useMutation(updatePartner);
+  const history = useHistory();
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
-      id: localStorage.getItem('AppId'),
+      id: localStorage.getItem("AppId"),
     },
-  })
-  const [profile, setProfile] = useState()
+  });
+  const [profile, setProfile] = useState();
   useEffect(() => {
-    setProfile(data?.getPartner)
-  }, [data])
+    setProfile(data?.getPartner);
+  }, [data]);
 
-  const theme = useTheme()
+  const theme = useTheme();
   const validationSchema = Yup.object({
-    name: Yup.string('Enter your Name').trim().required('Name is required'),
-    email: Yup.string('Enter your Email').trim().required('Email is required'),
-    category: Yup.string('Select your Category'),
-    image: Yup.string('Upload a single Image'),
-  })
+    name: Yup.string("Enter your Name").trim().required("Name is required"),
+    email: Yup.string("Enter your Email").trim().required("Email is required"),
+    category: Yup.string("Select your Category"),
+    image: Yup.string("Upload a single Image"),
+  });
 
   const trasparentButton = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
     disabled: theme.palette.common.black,
-  }
+  };
 
   const onSubmit = async (values) => {
-    const { email, name, image } = values
+    const { email, name, image } = values;
 
     await update({
       variables: {
         id: profile._id,
         name,
         email,
-        category: 'pharmacy',
+        category: "pharmacy",
         logoImageUrl: image,
       },
       refetchQueries: [
         {
           query: getPartner,
           variables: {
-            id: localStorage.getItem('AppId'),
+            id: localStorage.getItem("AppId"),
           },
         },
       ],
-    })
-    history.push('/settings')
-  }
+    });
+    history.push("/settings");
+  };
   const initialValues = {
-    name: profile?.name || '',
-    email: profile?.email || '',
-    category: profile?.category || '',
-    image: profile?.logoImageUrl || '',
-  }
+    name: profile?.name || "",
+    email: profile?.email || "",
+    category: profile?.category || "",
+    image: profile?.logoImageUrl || "",
+  };
 
   useEffect(() => {
-    setSelectedMenu(11)
-    setSelectedSubMenu(12)
+    setSelectedMenu(11);
+    setSelectedSubMenu(12);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu])
+  }, [selectedMenu, selectedSubMenu]);
 
-  if (loading) return <Loader />
-  if (error) return <NoData />
+  if (loading) return <Loader />;
+  if (error) return <NoData />;
   return (
     <Grid container>
-      <Grid item style={{ marginBottom: '3rem' }}>
-        <PreviousButton path={'/settings'} />
+      <Grid item style={{ marginBottom: "3rem" }}>
+        <PreviousButton path={"/settings"} />
       </Grid>
       <Grid container>
         <Formik
@@ -141,18 +141,18 @@ const Profile = ({
                   </Grid>
                 </Form>
               </Grid>
-            )
+            );
           }}
         </Formik>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 Profile.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
   selectedSubMenu: PropTypes.number.isRequired,
   setSelectedMenu: PropTypes.func.isRequired,
   setSelectedSubMenu: PropTypes.func.isRequired,
-}
+};
 
-export default Profile
+export default Profile;

@@ -1,87 +1,103 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Grid, Typography, Chip } from '@mui/material'
-import { NoData } from 'components/layouts'
-import { ReactComponent as CompleteIcon } from 'assets/images/complete.svg'
-import { Loader, DisplayProfiles, PreviousButton } from 'components/Utilities'
-import { makeStyles } from '@mui/styles'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
-import { getDiagnosticTest } from 'components/graphQL/useQuery'
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import PropTypes from "prop-types";
+import { Grid, Typography, Chip } from "@mui/material";
+import { NoData } from "components/layouts";
+import { ReactComponent as CompleteIcon } from "assets/images/complete.svg";
+import { Loader, DisplayProfiles, PreviousButton } from "components/Utilities";
+import { makeStyles } from "@mui/styles";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { getDiagnosticTest } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
-  infoBadge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem',
-      borderRadius: '1.5rem',
-      color: theme.palette.common.green,
-    },
-  },
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "5rem",
+    gap: "max(2rem, 3vw)",
+    justifyContent: "center",
+    flexWrap: "nowrap",
+    width: "100%",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
-  badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.3rem !important',
-      //   height: "2.7rem",
-      background: theme.palette.common.lightGreen,
-      color: theme.palette.common.green,
-      borderRadius: '1.5rem',
+  cardsWrapper: {
+    "&.MuiGrid-root > *": {
+      flexWrap: "wrap",
+    },
+  },
+  card: {
+    "&.MuiGrid-root": {
+      height: "100%",
+      borderRadius: "1rem",
+      flexDirection: "column",
+      padding: "min(3rem,4vw)",
+      gap: "1rem",
     },
   },
 
-  cardGrid: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem 5rem',
-    height: '16.1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+  chipRoot: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    wordBreak: "break-all",
+    fontSize: "1.3rem !important",
+    color: "#2dd39e !important",
+    border: "1px solid #bdbdbd",
+    padding: ".4rem",
+    maxWidth: "max-content",
+    minHeight: "2rem",
+  },
+  chipLabel: {
+    overflowWrap: "break-word",
+    whiteSpace: "normal",
+    textOverflow: "clip",
+  },
+
+  cardContainer: {
+    "&.MuiGrid-root": {
+      display: "grid",
+      gridTemplateColumns: "repeat(2,minmax(15rem,1fr))",
+      rowGap: "3rem",
+      columnGap: "2rem",
+      "& > *": {
+        flex: 1,
+        boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
+        minHeight: "14.9rem",
+        // justifyContent: "center",
+        background: "#fff",
+      },
+    },
+  },
+  buttonsGridWrapper: {
+    marginTop: "5rem !important",
+  },
+
+  title: {
+    "&.MuiTypography-root": {
+      color: theme.palette.common.grey,
+    },
   },
 
   link: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.25rem',
+    display: "flex",
+    alignItems: "center",
+    fontSize: "1.25rem",
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.lightGrey}`,
-    padding: '.75rem',
-    borderRadius: '1.5rem',
-    textDecoration: 'none',
-  },
-  container: {
-    background: '#EEF0F7',
-    width: '7.2rem',
-    height: '7.6rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: ".75rem",
+    borderRadius: "1.5rem",
+    textDecoration: "none",
   },
 
   notLink: {
-    border: 'none',
-    justifyContent: 'center',
-    fontSize: '1rem',
-    maxWidth: '7.2rem !important',
-    padding: '.75rem 0',
+    border: "none",
+    justifyContent: "center",
+    fontSize: "1rem",
+    maxWidth: "7.2rem !important",
+    padding: ".75rem 0",
   },
-
-  linkIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '1.25rem',
-      color: theme.palette.common.green,
-      marginLeft: '1.2rem',
-    },
-  },
-
-  buttonsGridWrapper: {
-    marginTop: '5rem !important',
-    minHeight: '16.1rem',
-  },
-}))
+}));
 
 const ViewResult = ({
   chatMediaActive,
@@ -89,30 +105,30 @@ const ViewResult = ({
   setSelectedSubMenu,
   type,
 }) => {
-  const classes = useStyles()
-  const { completeId } = useParams()
-  const [scheduleState, setScheduleState] = useState([])
+  const classes = useStyles();
+  const { completeId } = useParams();
+  const [scheduleState, setScheduleState] = useState([]);
 
   const { loading, error, data } = useQuery(getDiagnosticTest, {
     variables: {
       id: completeId,
     },
-  })
+  });
 
   useEffect(() => {
     if (data) {
-      setScheduleState(data?.getDiagnosticTest)
+      setScheduleState(data?.getDiagnosticTest);
     }
-  }, [data])
+  }, [data]);
 
   useLayoutEffect(() => {
-    setChatMediaActive(false)
+    setChatMediaActive(false);
 
     // eslint-disable-next-line
-  }, [chatMediaActive])
+  }, [chatMediaActive]);
 
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   const {
     createdAt,
     gender,
@@ -130,16 +146,16 @@ const ViewResult = ({
     patientData,
     tests,
     // eslint-disable-next-line
-  } = scheduleState
-  console.log(testResults)
+  } = scheduleState;
+  console.log(testResults);
   return (
     <>
-      <Grid container direction="column" style={{ paddingBottom: '2rem' }}>
-        <Grid item style={{ marginBottom: '3rem' }}>
+      <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
+        <Grid item style={{ marginBottom: "3rem" }}>
           <PreviousButton
-            path={'/completed'}
+            path={"/completed"}
             onClick={() => {
-              setSelectedSubMenu(6)
+              setSelectedSubMenu(6);
             }}
           />
         </Grid>
@@ -159,275 +175,152 @@ const ViewResult = ({
           patientData={patientData}
           type="scheduled"
         />
-
         <Grid
           item
           container
-          justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
+          className={classes.cardContainer}
+          ga
+          sx={{ paddingTop: "5rem" }}
         >
-          {/* GENDER GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-            >
-              <Grid item>
-                <Typography variant="body1">
-                  {tests && tests.length > 1 ? 'Tests' : 'Test'}
-                </Typography>
-              </Grid>
-              <Grid item container gap={2}>
-                {tests && tests.length > 0 ? (
-                  tests.map((i) => {
-                    return (
-                      <Grid item>
-                        <Chip
-                          variant="outlined"
-                          label={i.name}
-                          className={classes.infoBadge}
-                        />
-                      </Grid>
-                    )
-                  })
-                ) : (
-                  <Grid item>
-                    <Chip
-                      variant="outlined"
-                      label={'No Test yet'}
-                      className={classes.infoBadge}
-                    />
-                  </Grid>
-                )}
-              </Grid>
+          <Grid item xs={12} md={12} container className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">
+                {tests && tests.length > 1 ? "Tests" : "Test"}
+              </Typography>
+            </Grid>
+            <Grid item container gap={2}>
+              {tests && tests.length > 0 ? (
+                tests.map((i) => {
+                  return (
+                    <Grid item>
+                      <Chip
+                        variant="outlined"
+                        label={i.name}
+                        className={classes.infoBadge}
+                      />
+                    </Grid>
+                  );
+                })
+              ) : (
+                <Grid item>
+                  <Chip
+                    variant="outlined"
+                    label={"No Test yet"}
+                    className={classes.infoBadge}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
-          {/* DATE OF BIRTH GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginLeft: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-            >
-              <Grid item>
-                <Typography variant="body1">Test ID </Typography>
-              </Grid>
-              <Grid item>
-                <Chip
-                  variant="outlined"
-                  label={testId ? testId : 'No Value'}
-                  className={classes.infoBadge}
-                />
-              </Grid>
+          <Grid item md={12} xs={12} container className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">Test ID </Typography>
+            </Grid>
+            <Grid item>
+              <Chip
+                variant="outlined"
+                label={testId ? testId : "No Value"}
+                className={classes.infoBadge}
+              />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
-        >
-          {/* EMAIL ADDRESS GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-            >
-              <Grid item>
-                <Typography variant="body1">Doctor Name</Typography>
-              </Grid>
-              <Grid item>
-                <Chip
-                  variant="outlined"
-                  label={
-                    doctorData
-                      ? `${doctorData.firstName} ${doctorData.lastName}`
-                      : 'No Doctor'
-                  }
-                  className={classes.infoBadge}
-                />
-              </Grid>
+          <Grid item container md={12} xs={12} className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">Doctor Name</Typography>
+            </Grid>
+            <Grid item>
+              <Chip
+                variant="outlined"
+                label={
+                  doctorData
+                    ? `${doctorData.firstName} ${doctorData.lastName}`
+                    : "No Doctor"
+                }
+                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+              />
             </Grid>
           </Grid>
-          {/* DATE OF BIRTH GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginLeft: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-            >
-              <Grid item>
-                <Typography variant="body1">Affliation</Typography>
-              </Grid>
-              <Grid item>
-                <Chip
-                  variant="outlined"
-                  label={affiliation ? affiliation : 'No Affliation'}
-                  className={classes.infoBadge}
-                />
-              </Grid>
+          <Grid item container md={12} xs={12} className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">Affliation</Typography>
+            </Grid>
+            <Grid item>
+              <Chip
+                variant="outlined"
+                label={affiliation ? affiliation : "No Affliation"}
+                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+              />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
-        >
-          {/* EMAIL ADDRESS GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-            >
-              <Grid item>
-                <Typography variant="body1">Test Option</Typography>
-              </Grid>
-              <Grid item>
-                <Chip
-                  variant="outlined"
-                  label={sampleCollection ? sampleCollection : 'No Value'}
-                  className={classes.infoBadge}
-                />
-              </Grid>
+          <Grid item container md={12} xs={12} className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">Test Option</Typography>
+            </Grid>
+            <Grid item>
+              <Chip
+                variant="outlined"
+                label={sampleCollection ? sampleCollection : "No Value"}
+                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+              />
             </Grid>
           </Grid>
-          {/* DATE OF BIRTH GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginLeft: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-              flexWrap="wrap"
-            >
-              <Grid item>
-                <Typography variant="body1">Test Collection Details</Typography>
-              </Grid>
-
+          <Grid item container md={12} xs={12} className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">Test Collection Details</Typography>
+            </Grid>
+            {userLocation ? (
               <Grid item container gap={2}>
                 <Grid item>
                   <Chip
                     variant="outlined"
-                    label={userLocation && userLocation.address}
-                    className={classes.infoBadge}
+                    label={userLocation.address}
+                    classes={{
+                      root: classes.chipRoot,
+                      label: classes.chipLabel,
+                    }}
                   />
                 </Grid>
                 <Grid item>
                   <Chip
                     variant="outlined"
-                    label={userLocation && userLocation.city}
-                    className={classes.infoBadge}
+                    label={userLocation.city}
+                    classes={{
+                      root: classes.chipRoot,
+                      label: classes.chipLabel,
+                    }}
                   />
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          justifyContent="space-between"
-          style={{ paddingTop: '5rem' }}
-        >
-          {/* EMAIL ADDRESS GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginRight: '2rem' }}
-          >
-            <Grid
-              container
-              direction="column"
-              style={{ height: '100%' }}
-              justifyContent="space-between"
-              alignItems="left"
-            >
-              <Grid item>
-                <Typography variant="body1">Reason For Referral</Typography>
-              </Grid>
+            ) : (
               <Grid item>
                 <Chip
                   variant="outlined"
-                  label={reason ? reason : 'No Reason'}
-                  className={classes.infoBadge}
+                  label="No Collection Details"
+                  classes={{ root: classes.chipRoot, label: classes.chipLabel }}
                 />
               </Grid>
+            )}
+          </Grid>
+          <Grid item container md={12} xs={12} className={classes.card}>
+            <Grid item>
+              <Typography variant="body1">Reason For Referral</Typography>
+            </Grid>
+            <Grid item>
+              <Chip
+                variant="outlined"
+                label={reason ? reason : "No Reason"}
+                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+              />
             </Grid>
           </Grid>
-          {/* DATE OF BIRTH GRID */}
-          <Grid
-            item
-            md
-            className={classes.cardGrid}
-            style={{ marginLeft: '2rem', visibility: 'hidden' }}
-          ></Grid>
-        </Grid>
-        <Grid
-          className={`${classes.gridsWrapper} ${classes.buttonsGridWrapper}`}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: '100%' }}
-            // justifyContent="space-between"
-            gap={2}
-            alignItems="left"
-          >
+          <Grid item container md={12} xs={12} className={classes.card}>
             <Grid item>
               <Typography variant="body1">Test Result</Typography>
             </Grid>
             <Grid item container gap={2}>
               {testResults ? (
                 testResults.map((item, index) => {
-                  console.log(item)
+                  console.log(item);
                   return (
                     <Grid item key={index}>
                       <Grid container direction="column">
@@ -444,7 +337,7 @@ const ViewResult = ({
                         </Grid>
                       </Grid>
                     </Grid>
-                  )
+                  );
                 })
               ) : (
                 <Grid item className={classes.link}>
@@ -456,12 +349,12 @@ const ViewResult = ({
         </Grid>
       </Grid>
     </>
-  )
-}
+  );
+};
 
 ViewResult.propTypes = {
   chatMediaActive: PropTypes.bool.isRequired,
   setChatMediaActive: PropTypes.func.isRequired,
-}
+};
 
-export default ViewResult
+export default ViewResult;
