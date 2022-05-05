@@ -1,60 +1,60 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Typography, Toolbar } from '@mui/material'
-import HeaderProfile from './HeaderProfile'
-import { makeStyles } from '@mui/styles'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { Link } from 'react-router-dom'
-import { useTheme } from '@mui/material/styles'
-import { useLazyQuery } from '@apollo/client'
-import { getPartner } from 'components/graphQL/useQuery'
+import React, { useState, useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
+import { Typography, Toolbar } from "@mui/material";
+import HeaderProfile from "./HeaderProfile";
+import { makeStyles } from "@mui/styles";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { Link } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import { useLazyQuery } from "@apollo/client";
+import { getPartner } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    justifyContent: "space-between",
   },
   text: {
     color: theme.palette.common.lightGrey,
-    fontSize: '1.5rem',
+    fontSize: "1.5rem",
     fontWeight: 300,
   },
   name: {
-    fontSize: '2rem',
+    fontSize: "2rem",
     fontWeight: 300,
   },
   titleWrapper: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   link: {
-    textDecoration: 'none',
+    textDecoration: "none",
   },
   title: {
-    fontSize: '2.4rem',
+    fontSize: "2.4rem",
     color: theme.palette.common.green,
-    '&.MuiTypography-root': {
-      marginRight: '.5rem',
+    "&.MuiTypography-root": {
+      marginRight: ".5rem",
     },
   },
   subtitle: {
     color: theme.palette.common.green,
-    '&.MuiTypography-root': {
-      fontSize: '1.25rem',
-      marginLeft: '.5rem',
-      alignSelf: 'flex-end',
+    "&.MuiTypography-root": {
+      fontSize: "1.25rem",
+      marginLeft: ".5rem",
+      alignSelf: "flex-end",
     },
   },
   customSubHeaderWrapper: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
-}))
+}));
 
 const CustomHeaderText = ({ title, path }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.titleWrapper}>
@@ -64,17 +64,17 @@ const CustomHeaderText = ({ title, path }) => {
         </Typography>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 CustomHeaderText.propTypes = {
   title: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   path: PropTypes.string.isRequired,
-}
+};
 
 const CustomHeaderTitle = ({ title, path }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.titleWrapper}>
@@ -84,18 +84,18 @@ const CustomHeaderTitle = ({ title, path }) => {
         </Typography>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 CustomHeaderTitle.propTypes = {
   title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-}
+};
 
 // SUBMENU HEADERS
 const CustomSubHeaderText = (props) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
   const {
     title,
@@ -105,8 +105,8 @@ const CustomSubHeaderText = (props) => {
     scopedMenu,
     scopedSubMenu,
     titleColor = theme.palette.common.green,
-  } = props
-
+  } = props;
+  console.log("from diagnostics");
   return (
     <div className={classes.customSubHeaderWrapper}>
       <Typography variant="h3" style={{ color: theme.palette.common.grey }}>
@@ -114,7 +114,7 @@ const CustomSubHeaderText = (props) => {
       </Typography>
       <KeyboardArrowRightIcon
         style={{
-          fontSize: '2rem',
+          fontSize: "2rem",
           color: theme.palette.common.grey,
         }}
       />
@@ -130,7 +130,7 @@ const CustomSubHeaderText = (props) => {
       {scopedMenu !== 0 && (
         <Fragment>
           <KeyboardArrowRightIcon
-            style={{ fontSize: '2rem', color: theme.palette.common.grey }}
+            style={{ fontSize: "2rem", color: theme.palette.common.grey }}
           />
           <Typography
             variant="h3"
@@ -150,7 +150,7 @@ const CustomSubHeaderText = (props) => {
       {scopedSubMenu !== 0 && (
         <Fragment>
           <KeyboardArrowRightIcon
-            style={{ fontSize: '2rem', color: theme.palette.common.grey }}
+            style={{ fontSize: "2rem", color: theme.palette.common.grey }}
           />
           <Typography
             variant="h3"
@@ -162,8 +162,8 @@ const CustomSubHeaderText = (props) => {
         </Fragment>
       )}
     </div>
-  )
-}
+  );
+};
 
 CustomSubHeaderText.propTypes = {
   title: PropTypes.string.isRequired,
@@ -173,7 +173,7 @@ CustomSubHeaderText.propTypes = {
   titleColor: PropTypes.string,
   scopedMenu: PropTypes.number.isRequired,
   scopedSubMenu: PropTypes.number.isRequired,
-}
+};
 
 // HEADER DYNAMIC RENDERING COMPONENT
 const HeaderText = (props) => {
@@ -182,24 +182,25 @@ const HeaderText = (props) => {
     selectedSubMenu,
     selectedPatientMenu,
     selectedHcpMenu,
-  } = props
-  const classes = useStyles()
-  const theme = useTheme()
-  const id = localStorage.getItem('AppId')
-  const [pharmacyData, setPharmacyData] = useState([])
+  } = props;
+  const classes = useStyles();
+
+  const theme = useTheme();
+  const id = localStorage.getItem("AppId");
+  const [pharmacyData, setPharmacyData] = useState([]);
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
-  })
+  });
 
   useEffect(() => {
-    ;(async () => {
-      setTimeout(pharmacy, 300)
-    })()
+    (async () => {
+      setTimeout(pharmacy, 300);
+    })();
     if (data) {
-      localStorage.setItem('pharmacyID', data.getPartner._id)
-      setPharmacyData(data.getPartner)
+      localStorage.setItem("pharmacyID", data.getPartner._id);
+      setPharmacyData(data.getPartner);
     }
-  }, [pharmacy, data])
+  }, [pharmacy, data]);
 
   switch (selectedMenu) {
     case 0:
@@ -212,7 +213,7 @@ const HeaderText = (props) => {
             {pharmacyData && pharmacyData.name}
           </Typography>
         </div>
-      )
+      );
     case 1:
       if (selectedSubMenu === 2) {
         return (
@@ -228,9 +229,9 @@ const HeaderText = (props) => {
             }
             selectedPatientMenu={selectedPatientMenu}
           />
-        )
+        );
       }
-      return <CustomHeaderText title="Pending Tests" path="pending" />
+      return <CustomHeaderText title="Pending Tests" path="pending" />;
     case 2:
       if (selectedSubMenu === 3) {
         return (
@@ -245,9 +246,9 @@ const HeaderText = (props) => {
                 : theme.palette.common.grey
             }
           />
-        )
+        );
       }
-      return <CustomHeaderText title="Scheduled Tests" path="schedule" />
+      return <CustomHeaderText title="Scheduled Tests" path="schedule" />;
     case 3:
       if (selectedSubMenu === 4) {
         return (
@@ -262,9 +263,9 @@ const HeaderText = (props) => {
                 : theme.palette.common.grey
             }
           />
-        )
+        );
       }
-      return <CustomHeaderText title="Completed Tests" path="completed" />
+      return <CustomHeaderText title="Completed Tests" path="completed" />;
 
     case 5:
       if (selectedSubMenu === 6) {
@@ -274,9 +275,9 @@ const HeaderText = (props) => {
             scopedMenu={0}
             scopedSubMenu={0}
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="Cancelled Tests" path="cancelled" />
+      return <CustomHeaderTitle title="Cancelled Tests" path="cancelled" />;
     case 11:
       if (selectedSubMenu === 12) {
         return (
@@ -292,9 +293,9 @@ const HeaderText = (props) => {
             scopedMenu={0}
             scopedSubMenu={0}
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="Settings" path="setting" />
+      return <CustomHeaderTitle title="Settings" path="setting" />;
 
     default:
       return (
@@ -306,9 +307,9 @@ const HeaderText = (props) => {
             {pharmacyData && pharmacyData.name}
           </Typography>
         </div>
-      )
+      );
   }
-}
+};
 
 HeaderText.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
@@ -318,7 +319,7 @@ HeaderText.propTypes = {
   waitingListMenu: PropTypes.number.isRequired,
   selectedAppointmentMenu: PropTypes.number.isRequired,
   selectedScopedMenu: PropTypes.number.isRequired,
-}
+};
 
 const HeaderContent = (props) => {
   const {
@@ -329,8 +330,8 @@ const HeaderContent = (props) => {
     waitingListMenu,
     selectedAppointmentMenu,
     selectedScopedMenu,
-  } = props
-  const classes = useStyles()
+  } = props;
+  const classes = useStyles();
   return (
     <Toolbar className={classes.toolbar}>
       <HeaderText
@@ -344,8 +345,8 @@ const HeaderContent = (props) => {
       />
       <HeaderProfile />
     </Toolbar>
-  )
-}
+  );
+};
 
 HeaderContent.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
@@ -355,6 +356,6 @@ HeaderContent.propTypes = {
   waitingListMenu: PropTypes.number.isRequired,
   selectedAppointmentMenu: PropTypes.number.isRequired,
   selectedScopedMenu: PropTypes.number.isRequired,
-}
+};
 
-export default HeaderContent
+export default HeaderContent;

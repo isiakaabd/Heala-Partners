@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Chip,
@@ -9,7 +9,7 @@ import {
   TableCell,
   Checkbox,
   TableRow,
-} from '@mui/material'
+} from "@mui/material";
 
 import {
   FormSelect,
@@ -17,162 +17,172 @@ import {
   Modals,
   Search,
   FilterList,
-} from 'components/Utilities'
-import useFormInput from 'components/hooks/useFormInput'
-import { makeStyles } from '@mui/styles'
-import { Link } from 'react-router-dom'
-import { partnersHeadCells } from 'components/Utilities/tableHeaders'
-import displayPhoto from 'assets/images/avatar.svg'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { useQuery } from '@apollo/client'
-import { getDrugOrders } from 'components/graphQL/useQuery'
-import { NoData, EmptyTable, EnhancedTable } from 'components/layouts'
-import { dateMoment, timeMoment } from 'components/Utilities/Time'
+} from "components/Utilities";
+import useFormInput from "components/hooks/useFormInput";
+import { makeStyles } from "@mui/styles";
+import { Link } from "react-router-dom";
+import { partnersHeadCells } from "components/Utilities/tableHeaders";
+import displayPhoto from "assets/images/avatar.svg";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useQuery } from "@apollo/client";
+import { getDrugOrders } from "components/graphQL/useQuery";
+import { NoData, EmptyTable, EnhancedTable } from "components/layouts";
+import { dateMoment, timeMoment } from "components/Utilities/Time";
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
 
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0.5rem',
-      maxWidth: '7rem',
-      fontSize: '.85rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "0.5rem",
+      maxWidth: "7rem",
+      fontSize: ".85rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '0.85rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "0.85rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.2rem',
-        marginTop: '-.2rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".2rem",
+        marginTop: "-.2rem",
       },
     },
   },
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem !important',
-      height: '2.7rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem !important",
+      height: "2.7rem",
+      borderRadius: "1.3rem",
     },
   },
   tableBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      height: '3rem',
-      fontSize: '1.25rem',
-      borderRadius: '2rem',
-      boxShadow: 'none',
+      height: "3rem",
+      fontSize: "1.25rem",
+      borderRadius: "2rem",
+      boxShadow: "none",
 
-      '&:hover': {
-        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-          color: '#fff',
+      "&:hover": {
+        "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          color: "#fff",
         },
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.5rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.5rem",
       },
     },
   },
 
   redBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightRed,
       color: theme.palette.common.red,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.error.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
   FormLabel: {
-    '&.MuiFormLabel-root': {
+    "&.MuiFormLabel-root": {
       ...theme.typography.FormLabel,
     },
   },
   searchFilterBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
       background: theme.palette.common.black,
-      width: '100%',
+      width: "100%",
     },
   },
   chip: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem',
-      height: '3rem',
-      cursor: 'pointer',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem",
+      height: "3rem",
+      cursor: "pointer",
+      borderRadius: "1.3rem",
       background: theme.palette.common.white,
       color: theme.palette.common.grey,
-      '& .MuiChip-deleteIcon': {
-        color: 'inherit',
-        fontSize: 'inherit',
+      "& .MuiChip-deleteIcon": {
+        color: "inherit",
+        fontSize: "inherit",
       },
     },
   },
-}))
+}));
 
-const dates = ['Hello', 'World', 'Goodbye', 'World']
-const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
-const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
+const dates = ["Hello", "World", "Goodbye", "World"];
+const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
+const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
-const CompletedOrders = () => {
-  const classes = useStyles()
-  const [searchPartner, setSearchPartner] = useState('')
-  const [state, setState] = useState([])
+const CompletedOrders = ({
+  setSelectedMenu,
+  setSelectedSubMenu,
+  selectedSubMenu,
+  selectedMenu,
+}) => {
+  const classes = useStyles();
+  const [searchPartner, setSearchPartner] = useState("");
+  const [state, setState] = useState([]);
 
-  const [openFilterPartner, setOpenFilterPartner] = useState(false)
-  const orderState = 'completed'
+  const [openFilterPartner, setOpenFilterPartner] = useState(false);
+  const orderState = "completed";
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: orderState },
-  })
+  });
   useEffect(() => {
-    if (data) return setState(data?.getDrugOrders.data)
-  }, [data])
+    if (data) return setState(data?.getDrugOrders.data);
+  }, [data]);
 
   // FILTER PARTNERS SELECT STATES
   const [filterSelectInput, handleSelectedInput] = useFormInput({
-    hospitalName: '',
-    date: '',
-    categoryName: '',
-  })
+    hospitalName: "",
+    date: "",
+    categoryName: "",
+  });
 
-  const { hospitalName, date, categoryName } = filterSelectInput
+  const { hospitalName, date, categoryName } = filterSelectInput;
 
   const { rowsPerPage, selectedRows, page } = useSelector(
-    (state) => state.tables,
-  )
-  const { setSelectedRows } = useActions()
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+    (state) => state.tables
+  );
+  useEffect(() => {
+    setSelectedMenu(3);
+    setSelectedSubMenu(0);
+    //   eslint-disable-next-line
+  }, [selectedMenu, selectedSubMenu]);
+  const { setSelectedRows } = useActions();
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
 
   return (
     <>
@@ -206,7 +216,7 @@ const CompletedOrders = () => {
             height="100%"
             direction="column"
             tainer
-            style={{ marginTop: '5rem' }}
+            style={{ marginTop: "5rem" }}
           >
             <EnhancedTable
               headCells={partnersHeadCells}
@@ -218,10 +228,10 @@ const CompletedOrders = () => {
               {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { orderId, createdAt, _id, patientData } = row
-                  const isItemSelected = isSelected(_id, selectedRows)
+                  const { orderId, createdAt, _id, patientData } = row;
+                  const isItemSelected = isSelected(_id, selectedRows);
 
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -238,13 +248,13 @@ const CompletedOrders = () => {
                             handleSelectedRows(
                               row.id,
                               selectedRows,
-                              setSelectedRows,
+                              setSelectedRows
                             )
                           }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            'aria-labelledby': labelId,
+                            "aria-labelledby": labelId,
                           }}
                         />
                       </TableCell>
@@ -266,22 +276,22 @@ const CompletedOrders = () => {
                       <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
-                          <span style={{ marginRight: '1rem' }}>
+                          <span style={{ marginRight: "1rem" }}>
                             <Avatar
                               alt={`Display Photo of ${patientData?.firstName}`}
                               src={patientData?.image || displayPhoto}
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
-                          <span style={{ fontSize: '1.25rem' }}>
+                          <span style={{ fontSize: "1.25rem" }}>
                             {patientData
                               ? `${patientData?.firstName} ${patientData?.lastName}`
-                              : 'No Value'}
+                              : "No Value"}
                           </span>
                         </div>
                       </TableCell>
@@ -293,11 +303,11 @@ const CompletedOrders = () => {
                           to={`completed-order/${_id}/order`}
                           className={classes.chip}
                           deleteIcon={<ArrowForwardIosIcon />}
-                          onDelete={() => console.log(' ')}
+                          onDelete={() => console.log(" ")}
                         />
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
             </EnhancedTable>
           </Grid>
@@ -365,7 +375,7 @@ const CompletedOrders = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item style={{ marginBottom: '18rem', marginTop: '3rem' }}>
+            <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
               <Grid container spacing={2}>
                 <Grid item md>
                   <Grid container direction="column">
@@ -378,7 +388,7 @@ const CompletedOrders = () => {
                       </FormLabel>
                     </Grid>
                     <Grid item>
-                      <FormControl fullWidth style={{ height: '3rem' }}>
+                      <FormControl fullWidth style={{ height: "3rem" }}>
                         <FormSelect
                           name="Order Number"
                           options={hospitals}
@@ -407,7 +417,7 @@ const CompletedOrders = () => {
         </Modals>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default CompletedOrders
+export default CompletedOrders;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { dateMoment, timeMoment } from 'components/Utilities/Time'
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { dateMoment, timeMoment } from "components/Utilities/Time";
 import {
   Chip,
   TableRow,
@@ -11,120 +11,120 @@ import {
   FormLabel,
   TableCell,
   Button,
-} from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { useQuery } from '@apollo/client'
-import { getDrugOrders } from 'components/graphQL/useQuery'
-import { NoData, EmptyTable } from 'components/layouts' //
-import useFormInput from 'components/hooks/useFormInput'
-import { useTheme } from '@mui/material/styles'
-import EnhancedTable from 'components/layouts/EnhancedTable'
-import { messagesHeadCells } from 'components/Utilities/tableHeaders'
-import displayPhoto from 'assets/images/avatar.svg'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useQuery } from "@apollo/client";
+import { getDrugOrders } from "components/graphQL/useQuery";
+import { NoData, EmptyTable } from "components/layouts"; //
+import useFormInput from "components/hooks/useFormInput";
+import { useTheme } from "@mui/material/styles";
+import EnhancedTable from "components/layouts/EnhancedTable";
+import { messagesHeadCells } from "components/Utilities/tableHeaders";
+import displayPhoto from "assets/images/avatar.svg";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
 import {
   Modals,
   Loader,
   FormSelect,
   FilterList,
   Search,
-} from 'components/Utilities'
+} from "components/Utilities";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
   actionBtnGrid: {
-    '&.MuiGrid-root': {
-      marginRight: '1.5rem',
+    "&.MuiGrid-root": {
+      marginRight: "1.5rem",
     },
   },
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0.5rem',
-      maxWidth: '10rem',
-      fontSize: '.85rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "0.5rem",
+      maxWidth: "10rem",
+      fontSize: ".85rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '0.85rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "0.85rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.2rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".2rem",
       },
     },
   },
   searchFilterBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
       background: theme.palette.common.black,
-      width: '100%',
+      width: "100%",
     },
   },
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem !important',
-      height: '2.7rem',
-      textAlign: 'left',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem !important",
+      height: "2.7rem",
+      textAlign: "left",
+      borderRadius: "1.3rem",
     },
   },
   tableBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      height: '3rem',
-      fontSize: '1.25rem',
-      borderRadius: '2rem',
-      boxShadow: 'none',
+      height: "3rem",
+      fontSize: "1.25rem",
+      borderRadius: "2rem",
+      boxShadow: "none",
 
-      '&:hover': {
-        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-          color: '#fff',
+      "&:hover": {
+        "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          color: "#fff",
         },
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.5rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.5rem",
       },
     },
   },
 
   redBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightRed,
       color: theme.palette.common.red,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.error.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
-}))
+}));
 
 const CancelledOrders = ({
   selectedMenu,
@@ -132,43 +132,42 @@ const CancelledOrders = ({
   setSelectedMenu,
   setSelectedSubMenu,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [state, setState] = useState([])
-  console.log(state)
-  const orderState = 'cancelled'
+  const classes = useStyles();
+  const theme = useTheme();
+  const [state, setState] = useState([]);
+  const orderState = "cancelled";
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: orderState },
-  })
+  });
   useEffect(() => {
-    if (data) return setState(data?.getDrugOrders.data)
-  }, [data])
-  const specializations = ['Dentistry', 'Pediatry', 'Optometry', 'Pathology']
-  const hospitals = ['General Hospital, Lekki', 'H-Medix', 'X Lab']
-  const dates = ['Hello', 'World', 'Goodbye', 'World']
-  const [openFilterPartner, setOpenFilterPartner] = useState(false)
+    if (data) return setState(data?.getDrugOrders.data);
+  }, [data]);
+  const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
+  const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
+  const dates = ["Hello", "World", "Goodbye", "World"];
+  const [openFilterPartner, setOpenFilterPartner] = useState(false);
   const [filterSelectInput, handleSelectedInput] = useFormInput({
-    hospitalName: '',
-    date: '',
-    categoryName: '',
-  })
-  const { hospitalName, date, categoryName } = filterSelectInput
+    hospitalName: "",
+    date: "",
+    categoryName: "",
+  });
+  const { hospitalName, date, categoryName } = filterSelectInput;
 
-  const [searchMessage, setSearchMessage] = useState('')
+  const [searchMessage, setSearchMessage] = useState("");
 
   const { rowsPerPage, selectedRows, page } = useSelector(
-    (state) => state.tables,
-  )
-  const { setSelectedRows } = useActions()
+    (state) => state.tables
+  );
+  const { setSelectedRows } = useActions();
 
   useEffect(() => {
-    setSelectedMenu(5)
-    setSelectedSubMenu(0)
+    setSelectedMenu(5);
+    setSelectedSubMenu(0);
     //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu])
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
-  console.log(data)
+  }, [selectedMenu, selectedSubMenu]);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
+  console.log(data);
   return (
     <>
       <Grid
@@ -200,7 +199,7 @@ const CancelledOrders = ({
             container
             height="100%"
             direction="column"
-            style={{ marginTop: '5rem' }}
+            style={{ marginTop: "5rem" }}
           >
             <EnhancedTable
               headCells={messagesHeadCells}
@@ -219,10 +218,10 @@ const CancelledOrders = ({
                     patientData,
                     reason,
                     status,
-                  } = row
-                  const isItemSelected = isSelected(_id, selectedRows)
+                  } = row;
+                  const isItemSelected = isSelected(_id, selectedRows);
 
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -239,13 +238,13 @@ const CancelledOrders = ({
                             handleSelectedRows(
                               _id,
                               selectedRows,
-                              setSelectedRows,
+                              setSelectedRows
                             )
                           }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            'aria-labelledby': labelId,
+                            "aria-labelledby": labelId,
                           }}
                         />
                       </TableCell>
@@ -269,12 +268,12 @@ const CancelledOrders = ({
                       <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
-                          <span style={{ marginRight: '1rem' }}>
+                          <span style={{ marginRight: "1rem" }}>
                             <Avatar
                               alt={`Display Photo of ${patientData?.firstName}`}
                               src={
@@ -283,11 +282,11 @@ const CancelledOrders = ({
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
-                          <span style={{ fontSize: '1.25rem' }}>
+                          <span style={{ fontSize: "1.25rem" }}>
                             {patientData
                               ? `${patientData.firstName}
                             ${patientData.lastName}`
-                              : 'No Patient'}
+                              : "No Patient"}
                           </span>
                         </div>
                       </TableCell>
@@ -297,18 +296,18 @@ const CancelledOrders = ({
                           className={classes.badge}
                           style={{
                             background:
-                              row.status === 'completed'
+                              row.status === "completed"
                                 ? theme.palette.common.lightGreen
                                 : theme.palette.common.lightRed,
                             color:
-                              row.status === 'completed'
+                              row.status === "completed"
                                 ? theme.palette.common.green
                                 : theme.palette.common.red,
                           }}
                         />
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
             </EnhancedTable>
           </Grid>
@@ -372,7 +371,7 @@ const CancelledOrders = ({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ marginBottom: '18rem', marginTop: '3rem' }}>
+          <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
             <Grid container spacing={2}>
               <Grid item md>
                 <Grid container direction="column">
@@ -382,7 +381,7 @@ const CancelledOrders = ({
                     </FormLabel>
                   </Grid>
                   <Grid item>
-                    <FormControl fullWidth style={{ height: '3rem' }}>
+                    <FormControl fullWidth style={{ height: "3rem" }}>
                       <FormSelect
                         name="Order Number"
                         options={hospitals}
@@ -410,14 +409,14 @@ const CancelledOrders = ({
         </Grid>
       </Modals>
     </>
-  )
-}
+  );
+};
 
 CancelledOrders.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
   selectedSubMenu: PropTypes.number.isRequired,
   setSelectedMenu: PropTypes.func.isRequired,
   setSelectedSubMenu: PropTypes.func.isRequired,
-}
+};
 
-export default CancelledOrders
+export default CancelledOrders;

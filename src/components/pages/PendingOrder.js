@@ -150,6 +150,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
     spaced: false,
     thousandsDelimiter: ",",
   };
+
   return (
     <>
       <Grid

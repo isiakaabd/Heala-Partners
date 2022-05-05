@@ -153,7 +153,14 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
+const PendingOrderProfile = ({
+  chatMediaActive,
+  setChatMediaActive,
+  setSelectedSubMenu,
+  setSelectedMenu,
+  setSelectedPatientMenu,
+  type,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const { orderId } = useParams();
@@ -188,18 +195,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
             status: "pending",
           },
         },
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "scheduled",
-          },
-        },
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "cancelled",
-          },
-        },
+
         {
           query: getDrugOrders,
           variables: {
@@ -209,7 +205,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
       ],
     });
     history.push("/processing-order");
-
+    setSelectedSubMenu(4);
     setModal(false);
   };
   const [cancelTest] = useMutation(cancelDrugOrder);
@@ -281,12 +277,22 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
+  // useEffect(() => {
+  //   setSelectedMenu(1);
+  //   setSelectedSubMenu(2);
+  //   //   eslint-disable-next-line
+  // }, [selectedMenu, selectedSubMenu]);
 
   return (
     <>
       <Grid container direction="column">
         <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton path={"/pending-order"} />
+          <PreviousButton
+            path={"/pending-order"}
+            onClick={() => {
+              setSelectedSubMenu(4);
+            }}
+          />
         </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
@@ -465,6 +471,7 @@ const PendingOrderProfile = ({ chatMediaActive, setChatMediaActive, type }) => {
           open={modal}
           handleDialogClose={handleDialogClose}
           title="SUCCESSFUL"
+          titleHeader=""
           btnValue="Done"
           confirmationMsg="Your order has been successful"
         />

@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Switch } from 'react-router-dom'
-import PrivateRoute from 'components/routes/PrivateRoute'
+import React from "react";
+import PropTypes from "prop-types";
+import { Switch } from "react-router-dom";
+import PrivateRoute from "components/routes/PrivateRoute";
 import {
   Settings,
   ViewCompleted,
@@ -12,7 +12,7 @@ import {
   CompletedOrders,
   PendingOrderProfile,
   Dashboard,
-} from 'components/pages'
+} from "components/pages";
 
 const Routes = (props) => {
   const {
@@ -22,14 +22,13 @@ const Routes = (props) => {
     selectedPatientMenu,
     setSelectedSubMenu,
     setSelectedPatientMenu,
-    setSelectedHcpMenu,
     chatMediaActive,
     setChatMediaActive,
-  } = props
+  } = props;
   return (
     <Switch>
       <PrivateRoute
-        path={['/', '/dashboard']}
+        path={["/", "/dashboard"]}
         exact
         component={Dashboard}
         chatMediaActive={chatMediaActive}
@@ -42,6 +41,11 @@ const Routes = (props) => {
         component={PendingOrder}
         setSelectedSubMenu={setSelectedSubMenu}
         setSelectedPatientMenu={setSelectedPatientMenu}
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
+        chatMediaActive={chatMediaActive}
+        setChatMediaActive={setChatMediaActive}
       />
 
       <PrivateRoute
@@ -72,11 +76,25 @@ const Routes = (props) => {
         exact
         path="/processing-order"
         component={ProcessingOrders}
-        setSelectedHcpMenu={setSelectedHcpMenu}
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
         setSelectedSubMenu={setSelectedSubMenu}
+        chatMediaActive={chatMediaActive}
+        setChatMediaActive={setChatMediaActive}
       />
 
-      <PrivateRoute exact path="/completed-order" component={CompletedOrders} />
+      <PrivateRoute
+        exact
+        path="/completed-order"
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+        selectedSubMenu={selectedSubMenu}
+        setSelectedSubMenu={setSelectedSubMenu}
+        chatMediaActive={chatMediaActive}
+        setChatMediaActive={setChatMediaActive}
+        component={CompletedOrders}
+      />
       <PrivateRoute
         exact
         path="/completed-order/:orderId/order"
@@ -120,8 +138,8 @@ const Routes = (props) => {
         setSelectedSubMenu={setSelectedSubMenu}
       />
     </Switch>
-  )
-}
+  );
+};
 
 Routes.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
@@ -140,6 +158,6 @@ Routes.propTypes = {
   setSelectedAppointmentMenu: PropTypes.func.isRequired,
   setChatMediaActive: PropTypes.func.isRequired,
   setSelectedScopedMenu: PropTypes.func.isRequired,
-}
+};
 
-export default Routes
+export default Routes;

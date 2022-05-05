@@ -101,6 +101,7 @@ const ScheduledRequestProfile = ({
   chatMediaActive,
   setChatMediaActive,
   setSelectedSubMenu,
+  setSelectedMenu,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -180,18 +181,20 @@ const ScheduledRequestProfile = ({
         {
           query: getDiagnosticTests,
           variables: {
-            status: "completed",
+            status: "cancelled",
           },
         },
       ],
     });
     history.push("/cancelled");
+    setSelectedSubMenu(6);
   };
 
   const darkButton = {
     background: theme.palette.primary.main,
     hover: theme.palette.primary.light,
     active: theme.palette.primary.dark,
+    disabled: "#868686",
   };
 
   const trasparentButton = {
@@ -203,7 +206,7 @@ const ScheduledRequestProfile = ({
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
-    disabled: theme.palette.common.black,
+    disabled: "#868686",
   };
 
   useLayoutEffect(() => {
@@ -244,10 +247,11 @@ const ScheduledRequestProfile = ({
         ],
       });
       history.push("/completed");
+      setSelectedMenu(3);
+      handleDialogClose();
     } catch (err) {
       console.log(err);
     }
-    handleDialogClose();
   };
 
   if (loading) return <Loader />;

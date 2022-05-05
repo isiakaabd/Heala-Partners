@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Switch } from 'react-router-dom'
-import PrivateRoute from 'components/routes/PrivateRoute'
+import React from "react";
+import PropTypes from "prop-types";
+import { Switch } from "react-router-dom";
+import PrivateRoute from "components/routes/PrivateRoute";
 import {
   ViewResult,
   ScheduledRequest,
@@ -13,7 +13,7 @@ import {
   Profiles,
   Setting,
   Dashboards,
-} from 'components/pages'
+} from "components/pages";
 
 const Private = (props) => {
   const {
@@ -26,11 +26,11 @@ const Private = (props) => {
     setSelectedPatientMenu,
     chatMediaActive,
     setChatMediaActive,
-  } = props
+  } = props;
   return (
     <Switch>
       <PrivateRoute
-        path={['/', '/dashboard']}
+        path={["/", "/dashboard"]}
         exact
         component={Dashboards}
         chatMediaActive={chatMediaActive}
@@ -92,13 +92,13 @@ const Private = (props) => {
         path="/completed"
         selectedMenu={selectedMenu}
         setSelectedHcpMenu={setSelectedHcpMenu}
-        selectedHcpMenu={selectedHcpMenu}
         setSelectedMenu={setSelectedMenu}
         selectedSubMenu={selectedSubMenu}
         setSelectedSubMenu={setSelectedSubMenu}
         chatMediaActive={chatMediaActive}
         setChatMediaActive={setChatMediaActive}
         component={CompletedOrder}
+        selectedHcpMenu={selectedHcpMenu}
       />
       <PrivateRoute
         exact
@@ -142,8 +142,8 @@ const Private = (props) => {
         setChatMediaActive={setChatMediaActive}
       />
     </Switch>
-  )
-}
+  );
+};
 
 Private.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
@@ -162,6 +162,6 @@ Private.propTypes = {
   setSelectedAppointmentMenu: PropTypes.func.isRequired,
   setChatMediaActive: PropTypes.func.isRequired,
   setSelectedScopedMenu: PropTypes.func.isRequired,
-}
+};
 
-export default Private
+export default Private;

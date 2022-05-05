@@ -155,6 +155,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
     spaced: false,
     thousandsDelimiter: ",",
   };
+
   return (
     <>
       <Grid container direction="column" height="100%" flexWrap="nowrap">
