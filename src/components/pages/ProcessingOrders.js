@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Success from "components/modals/Success";
+import { Success } from "components/modals";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
@@ -135,7 +135,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProcessingOrders = () => {
+const ProcessingOrders = ({
+  selectedMenu,
+  selectedSubMenu,
+  setSelectedMenu,
+  setSelectedSubMenu,
+}) => {
   const theme = useTheme();
   const classes = useStyles();
   const [state, setState] = useState([]);
@@ -176,12 +181,6 @@ const ProcessingOrders = () => {
         reason,
       },
       refetchQueries: [
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "pending",
-          },
-        },
         {
           query: getDrugOrders,
           variables: {
@@ -274,7 +273,12 @@ const ProcessingOrders = () => {
     status: "",
   });
 
-  // Add new HCP modals input state
+  useEffect(() => {
+    setSelectedMenu(2);
+    setSelectedSubMenu(0);
+    //   eslint-disable-next-line
+    //   eslint-disable-next-line
+  }, [selectedMenu, selectedSubMenu]);
 
   const { date, specialization, hospital } = selectedInput;
 

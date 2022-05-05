@@ -141,7 +141,14 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
+const ViewCompleted = ({
+  chatMediaActive,
+  setSelectedMenu,
+  setSelectedSubMenu,
+  selectedMenu,
+  selectedSubMenu,
+  setChatMediaActive,
+}) => {
   const classes = useStyles();
   const { orderId } = useParams();
 
@@ -159,6 +166,11 @@ const ViewCompleted = ({ chatMediaActive, setChatMediaActive }) => {
 
     // eslint-disable-next-line
   }, [chatMediaActive]);
+  useEffect(() => {
+    setSelectedMenu(3);
+    setSelectedSubMenu(4);
+    //   eslint-disable-next-line
+  }, [selectedMenu, selectedSubMenu]);
 
   const {
     createdAt,

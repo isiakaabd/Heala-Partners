@@ -102,6 +102,7 @@ const PendingProfile = ({
   chatMediaActive,
   setChatMediaActive,
   setSelectedSubMenu,
+  selectedSubMenu,
   setSelectedPatientMenu,
 }) => {
   const initialValues = {
@@ -147,6 +148,7 @@ const PendingProfile = ({
       ],
     });
     history.push("/cancelled");
+    setSelectedSubMenu(6);
   };
 
   const onConfirm = () => setCancel(true);
@@ -182,6 +184,7 @@ const PendingProfile = ({
         ],
       });
       history.push("/schedule");
+      setSelectedSubMenu(2);
     } catch (err) {
       console.log(err);
     }

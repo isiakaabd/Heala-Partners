@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { AppBar } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import {HospitalHeaderContent} from 'components/layouts'
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import { AppBar } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { HospitalHeaderContent } from "components/layouts";
 // import { LOGOUT_USER } from 'components/graphQL/Mutation'
 // import { useMutation } from '@apollo/client'
 // import jwtDecode from 'jwt-decode'
@@ -10,14 +10,14 @@ import {HospitalHeaderContent} from 'components/layouts'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    paddingLeft: '35rem',
-    paddingTop: '2em',
-    paddingBottom: '2em',
+    paddingLeft: "max(35rem,24vw)",
+    paddingTop: "2em",
+    paddingBottom: "2em",
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
   },
-}))
+}));
 
 const HospitalHeader = (props) => {
   // const { logout } = useActions()
@@ -31,8 +31,8 @@ const HospitalHeader = (props) => {
     waitingListMenu,
     selectedAppointmentMenu,
     selectedScopedMenu,
-  } = props
-  const classes = useStyles()
+  } = props;
+  const classes = useStyles();
   // useEffect(() => {
   //   const token = localStorage.getItem('Pharmacy_token')
   //   const { exp } = jwtDecode(token)
@@ -72,8 +72,8 @@ const HospitalHeader = (props) => {
         />
       </AppBar>
     </Fragment>
-  )
-}
+  );
+};
 
 HospitalHeader.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
@@ -83,6 +83,6 @@ HospitalHeader.propTypes = {
   waitingListMenu: PropTypes.number.isRequired,
   selectedAppointmentMenu: PropTypes.number.isRequired,
   selectedScopedMenu: PropTypes.number.isRequired,
-}
+};
 
-export default HospitalHeader
+export default HospitalHeader;

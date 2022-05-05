@@ -1,63 +1,63 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, Typography, Avatar } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
-import { useQuery, useMutation } from '@apollo/client'
-import { NoData } from 'components/layouts'
-import { doctor, getDoctorsProfile } from 'components/graphQL/useQuery'
+import React, { useState, useEffect } from "react";
+import { Grid, Typography, Avatar } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useQuery, useMutation } from "@apollo/client";
+import { NoData } from "components/layouts";
+import { doctor, getDoctorsProfile } from "components/graphQL/useQuery";
 import {
   PreviousButton,
   CustomButton,
   Loader,
   Card,
-} from 'components/Utilities'
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import PaymentsIcon from '@mui/icons-material/Payments'
-import DisablePatient from 'components/modals/DeleteOrDisable'
-import { makeStyles } from '@mui/styles'
-import { ReactComponent as ConsultationIcon } from 'assets/images/consultation.svg'
-import { ReactComponent as UserIcon } from 'assets/images/user.svg'
-import { ReactComponent as CalendarIcon } from 'assets/images/calendar.svg'
-import { Link, useParams, useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { deleteDoctor } from 'components/graphQL/Mutation'
+} from "components/Utilities";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import DisablePatient from "components/modals/DeleteOrDisable";
+import { makeStyles } from "@mui/styles";
+import { ReactComponent as ConsultationIcon } from "assets/images/consultation.svg";
+import { ReactComponent as UserIcon } from "assets/images/user.svg";
+import { ReactComponent as CalendarIcon } from "assets/images/calendar.svg";
+import { Link, useParams, useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+import { deleteDoctor } from "components/graphQL/Mutation";
 //
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
-    paddingBottom: '20rem',
+    paddingBottom: "20rem",
   },
 
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '2rem',
-    padding: '4rem',
+    background: "#fff",
+    borderRadius: "2rem",
+    padding: "4rem",
   },
 
   parentGrid: {
-    textDecoration: 'none',
-    width: '24.7rem',
+    textDecoration: "none",
+    width: "24.7rem",
     color: theme.palette.primary.main,
-    '&.MuiGrid-item': {
+    "&.MuiGrid-item": {
       ...theme.typography.cardParentGrid,
-      minWidth: '20rem',
+      minWidth: "20rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
     },
   },
 
   icon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '4rem',
+    "&.MuiSvgIcon-root": {
+      fontSize: "4rem",
     },
   },
-}))
+}));
 const SingleHCP = (props) => {
   const {
     selectedMenu,
@@ -68,107 +68,107 @@ const SingleHCP = (props) => {
     selectedHcpMenu,
     setSelectedHcpMenu,
     setSelectedScopedMenu,
-  } = props
-  const classes = useStyles()
-  const theme = useTheme()
+  } = props;
+  const classes = useStyles();
+  const theme = useTheme();
 
-  const { hcpId } = useParams()
-  const history = useHistory()
-  const [disableUser] = useMutation(deleteDoctor)
-  const [doctorProfile, setDoctorProfile] = useState('')
-  const [openDisableDoctor, setOpenDisableDoctor] = useState(false)
+  const { hcpId } = useParams();
+  const history = useHistory();
+  const [disableUser] = useMutation(deleteDoctor);
+  const [doctorProfile, setDoctorProfile] = useState("");
+  const [openDisableDoctor, setOpenDisableDoctor] = useState(false);
   const { loading, error, data } = useQuery(doctor, {
     variables: {
       id: hcpId,
     },
-  })
+  });
   const onConfirm = async () => {
     try {
       await disableUser({
         variables: { id: hcpId },
         refetchQueries: [{ query: getDoctorsProfile }],
-      })
-      history.push('/hcps')
+      });
+      history.push("/hcps");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   useEffect(() => {
     if (data) {
-      setDoctorProfile(data.doctorProfile)
+      setDoctorProfile(data.doctorProfile);
     }
-  }, [data, hcpId])
+  }, [data, hcpId]);
 
   const cards1 = [
     {
       id: 1,
-      title: 'Doctor Profile',
+      title: "Doctor Profile",
       background: theme.palette.common.lightRed,
-      path: 'profile',
+      path: "profile",
       icon: UserIcon,
       fill: theme.palette.common.red,
     },
     {
       id: 2,
-      title: 'Appointments',
+      title: "Appointments",
       background: theme.palette.common.lightGreen,
-      path: 'appointments',
+      path: "appointments",
       icon: CalendarIcon,
       fill: theme.palette.common.green,
     },
     {
       id: 3,
-      title: 'Availability',
+      title: "Availability",
       background: theme.palette.common.lightRed,
-      path: 'availability',
+      path: "availability",
       icon: ConsultationIcon,
       fill: theme.palette.common.red,
     },
-  ]
+  ];
 
   const cards2 = [
     {
       id: 4,
-      title: 'Earnings',
+      title: "Earnings",
       background: theme.palette.common.lightGreen,
-      path: 'earnings',
+      path: "earnings",
       icon: PaymentsIcon,
       fill: theme.palette.common.green,
     },
     {
       id: 5,
-      title: 'Patients',
+      title: "Patients",
       background: theme.palette.common.lightRed,
-      path: 'patients',
+      path: "patients",
       icon: UserIcon,
       fill: theme.palette.common.red,
     },
     {
       id: 6,
-      title: 'Consultations',
+      title: "Consultations",
       background: theme.palette.common.lightGreen,
-      path: 'consultations',
+      path: "consultations",
       icon: AssignmentIcon,
       fill: theme.palette.common.red,
     },
-  ]
+  ];
 
   const trasparentButton = {
-    background: 'transparent',
-    hover: '#fafafa',
-    active: '#f4f4f4',
-  }
+    background: "transparent",
+    hover: "#fafafa",
+    active: "#f4f4f4",
+  };
 
   useEffect(() => {
-    setSelectedMenu(2)
-    setSelectedSubMenu(3)
-    setSelectedHcpMenu(0)
-    setSelectedScopedMenu(0)
+    setSelectedMenu(2);
+    setSelectedSubMenu(3);
+    setSelectedHcpMenu(0);
+    setSelectedScopedMenu(0);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu, selectedScopedMenu])
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  }, [selectedMenu, selectedSubMenu, selectedHcpMenu, selectedScopedMenu]);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   return (
     <>
       <Grid
@@ -193,7 +193,7 @@ const SingleHCP = (props) => {
           {/* Display photo and profile name grid */}
           <Grid item>
             <Grid container alignItems="center">
-              <Grid item style={{ marginRight: '2rem' }}>
+              <Grid item style={{ marginRight: "2rem" }}>
                 <Avatar
                   alt={`Display Photo`}
                   src={doctorProfile.picture}
@@ -224,7 +224,7 @@ const SingleHCP = (props) => {
         <Grid
           item
           container
-          style={{ paddingTop: '5rem' }}
+          style={{ paddingTop: "5rem" }}
           justifyContent="space-evenly"
         >
           {cards1.map((card) => (
@@ -247,7 +247,7 @@ const SingleHCP = (props) => {
           item
           container
           justifyContent="space-evenly"
-          style={{ paddingTop: '5rem' }}
+          style={{ paddingTop: "5rem" }}
         >
           {cards2.map((card) => (
             <Grid
@@ -261,8 +261,8 @@ const SingleHCP = (props) => {
               <Card title={card.title} background={card.background} header="h4">
                 {React.createElement(card.icon, {
                   fill: card.fill,
-                  color: card.id === 4 || card.id === 6 ? 'success' : undefined,
-                  style: { fontSize: '4rem' },
+                  color: card.id === 4 || card.id === 6 ? "success" : undefined,
+                  style: { fontSize: "4rem" },
                 })}
               </Card>
             </Grid>
@@ -279,18 +279,18 @@ const SingleHCP = (props) => {
         onConfirm={onConfirm}
       />
     </>
-  )
-}
+  );
+};
 
 SingleHCP.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
-  setSelectedScopedMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
+};
 
-export default SingleHCP
+export default SingleHCP;
