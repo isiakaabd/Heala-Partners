@@ -211,37 +211,6 @@ const ProcessingOrders = ({
   const validationSchema = Yup.object({
     reason: Yup.string("Enter Reason ").trim().required("Reason is required"),
   });
-  // const cancelProcess = async () => {
-  //   console.log(cancelId);
-
-  //   await cancelTest({
-  //     variables: {
-  //       id: cancelId,
-  //       reason,
-  //     },
-  //     refetchQueries: [
-  //       {
-  //         query: getDrugOrders,
-  //         variables: {
-  //           status: "pending",
-  //         },
-  //       },
-  //       {
-  //         query: getDrugOrders,
-  //         variables: {
-  //           status: "processing",
-  //         },
-  //       },
-  //       {
-  //         query: getDrugOrders,
-  //         variables: {
-  //           status: "cancelled",
-  //         },
-  //       },
-  //     ],
-  //   });
-  //   history.push("/cencelled-order");
-  // };
   const onConfirm2 = async () => {
     await fulfill({
       variables: {
