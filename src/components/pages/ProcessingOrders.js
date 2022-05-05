@@ -148,6 +148,7 @@ const ProcessingOrders = ({
     variables: { status: "processing" },
   });
   const [cancelTest] = useMutation(cancelDrugOrder);
+  const handleClose = () => setOpenHcpFilter(false);
 
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data);
@@ -263,7 +264,7 @@ const ProcessingOrders = ({
     });
 
     history.push("/completed-order");
-    // setModal(false);
+    handleClose();
   };
 
   const [selectedInput, handleSelectedInput] = useFormInput({
@@ -447,7 +448,7 @@ const ProcessingOrders = ({
         isOpen={openHcpFilter}
         title="Filter"
         rowSpacing={5}
-        handleClose={() => setOpenHcpFilter(false)}
+        handleClose={handleClose}
       >
         <Grid item container direction="column">
           <Grid item>
