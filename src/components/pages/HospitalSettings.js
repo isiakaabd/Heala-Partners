@@ -1,29 +1,29 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import { ReactComponent as Administrator } from 'assets/images/administrator.svg'
-import Card from 'components/Utilities/Card'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { Link } from 'react-router-dom'
+import React from "react";
+import PropTypes from "prop-types";
+import Grid from "@mui/material/Grid";
+import { ReactComponent as Administrator } from "assets/images/administrator.svg";
+import Card from "components/Utilities/Card";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   containerGrid: {
-    paddingTop: '7em',
+    paddingTop: "7em",
   },
 
   parentGrid: {
-    '&.MuiGrid-item': {
+    "&.MuiGrid-item": {
       ...theme.typography.cardParentGrid,
-      width: '30rem',
+      width: "30rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
-      },
+      // '&:hover': {
+      //   background: '#fcfcfc',
+      // },
 
-      '&:active': {
-        background: '#fafafa',
-      },
+      // '&:active': {
+      //   background: '#fafafa',
+      // },
     },
   },
 
@@ -34,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
   iconWrapper: {
     ...theme.typography.cardIconWrapper,
   },
-}))
+}));
 
 const HospitalSettings = ({ setSelectedSubMenu }) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <>
@@ -52,14 +52,14 @@ const HospitalSettings = ({ setSelectedSubMenu }) => {
         <Grid
           item
           className={classes.parentGrid}
-          style={{ marginRight: '2em' }}
+          style={{ marginRight: "2em" }}
           lg={4}
           md={6}
           sm={12}
         >
           <Link
             to="/hsettings/profile"
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: "none" }}
             onClick={() => setSelectedSubMenu(12)}
           >
             <Card
@@ -73,14 +73,14 @@ const HospitalSettings = ({ setSelectedSubMenu }) => {
         </Grid>
       </Grid>
     </>
-  )
-}
+  );
+};
 
 HospitalSettings.propTypes = {
   selectedMenu: PropTypes.number.isRequired,
   selectedSubMenu: PropTypes.number.isRequired,
   setSelectedMenu: PropTypes.func.isRequired,
   setSelectedSubMenu: PropTypes.func.isRequired,
-}
+};
 
-export default HospitalSettings
+export default HospitalSettings;
