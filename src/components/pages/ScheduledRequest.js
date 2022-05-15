@@ -11,6 +11,7 @@ import {
   TableCell,
 } from "@mui/material";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
+import prettyMoney from "pretty-money";
 import useFormInput from "components/hooks/useFormInput";
 import { makeStyles } from "@mui/styles";
 import {
@@ -178,6 +179,12 @@ const ScheduledRequest = ({
   });
 
   const { hospitalName, date, categoryName } = filterSelectInput;
+  const prettyDollarConfig = {
+    currency: "₦",
+    position: "before",
+    spaced: false,
+    thousandsDelimiter: ",",
+  };
 
   const { rowsPerPage, selectedRows, page } = useSelector(
     (state) => state.tables
@@ -192,7 +199,7 @@ const ScheduledRequest = ({
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column">
+      <Grid container direction="column" flexWrap="nowrap" gap={2}>
         <Grid item container>
           <Grid item className={classes.searchGrid}>
             <Search
@@ -210,7 +217,7 @@ const ScheduledRequest = ({
           </Grid>
         </Grid>
         {scheduleState !== null && scheduleState.length > 0 ? (
-          <Grid item container style={{ marginTop: "5rem" }}>
+          <Grid item container>
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={scheduleState}
@@ -221,11 +228,10 @@ const ScheduledRequest = ({
               {scheduleState
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { _id, patientData, createdAt, testId } = row;
-                  const isItemSelected = isSelected(row._id, selectedRows);
-
+                  const { _id, patientData, tests, createdAt, testId } = row;
+                  const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
+                  const x = tests.map((i) => i.price);
                   return (
                     <TableRow
                       hover
@@ -291,6 +297,17 @@ const ScheduledRequest = ({
                           </span>
                         </div>
                       </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {prettyMoney(
+                          prettyDollarConfig,
+                          x.reduce(function (accumulator, currentValue) {
+                            return accumulator + currentValue;
+                          }, 0)
+                        )}
+                      </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {x.length}
+                      </TableCell>
                       <TableCell>
                         <Chip
                           label="View schedule"
@@ -304,7 +321,6 @@ const ScheduledRequest = ({
                             // setSelectedPatientMenu(0)
                           }}
                           deleteIcon={<ArrowForwardIosIcon />}
-                          onDelete={() => console.log(" ")}
                         />
                       </TableCell>
                     </TableRow>

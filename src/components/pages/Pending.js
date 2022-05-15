@@ -158,8 +158,14 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
 
   return (
     <>
-      <Grid container direction="column" height="100%" flexWrap="nowrap">
-        <Grid item container style={{ paddingBottom: "5rem" }}>
+      <Grid
+        container
+        direction="column"
+        height="100%"
+        gap={2}
+        flexWrap="nowrap"
+      >
+        <Grid item container>
           <Grid item className={classes.searchGrid}>
             <Search
               value={searchPatient}
@@ -199,9 +205,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                   } = row;
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
-                  const x = tests.map((i) => {
-                    return i.price;
-                  });
+                  const x = tests.map((i) => i.price);
                   return (
                     <TableRow
                       hover
@@ -248,7 +252,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         >
                           <span style={{ marginRight: "1rem" }}>
                             <Avatar
-                              alt={`Display Photo of ${doctorData.lastName}`}
+                              alt={`Display Photo of ${doctorData?.lastName}`}
                               src={
                                 doctorData ? doctorData.picture : displayPhoto
                               }
@@ -276,7 +280,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                                 patientData ? patientData.firstName : "user"
                               }`}
                               src={
-                                patientData.image
+                                patientData?.image
                                   ? patientData.image
                                   : displayPhoto
                               }
