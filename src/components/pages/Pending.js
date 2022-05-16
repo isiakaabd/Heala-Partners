@@ -155,7 +155,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
     spaced: false,
     thousandsDelimiter: ",",
   };
-
+  console.log(1);
   return (
     <>
       <Grid

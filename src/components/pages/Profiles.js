@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { getErrors } from "components/Utilities/Time";
+import { useSnackbar } from "notistack";
 import { Grid } from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 import { updatePartner } from "components/graphQL/Mutation";
@@ -18,6 +20,7 @@ const Profile = ({
   setSelectedSubMenu,
 }) => {
   const [update] = useMutation(updatePartner);
+  const { enqueueSnackbar } = useSnackbar();
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
       id: localStorage.getItem("AppId"),
@@ -47,24 +50,33 @@ const Profile = ({
 
   const onSubmit = async (values) => {
     const { email, name, image } = values;
-
-    await update({
-      variables: {
-        id: profile._id,
-        name,
-        email,
-        category: "diagnostics",
-        logoImageUrl: image,
-      },
-      refetchQueries: [
-        {
-          query: getPartner,
-          variables: {
-            id: localStorage.getItem("AppId"),
-          },
+    try {
+      await update({
+        variables: {
+          id: profile._id,
+          name,
+          email,
+          category: "diagnostics",
+          logoImageUrl: image,
         },
-      ],
-    });
+        refetchQueries: [
+          {
+            query: getPartner,
+            variables: {
+              id: localStorage.getItem("AppId"),
+            },
+          },
+        ],
+      });
+      enqueueSnackbar("profile updated", {
+        variant: "success",
+      });
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
+    }
   };
   const initialValues = {
     name: profile?.name,

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 import { updatePartner } from "components/graphQL/Mutation";
+import { getErrors } from "components/Utilities/Time";
+import { useSnackbar } from "notistack";
 import { useTheme } from "@mui/material/styles";
 import { NoData } from "components/layouts";
 import { CustomButton, PreviousButton, Loader } from "components/Utilities";
@@ -20,6 +22,7 @@ const Profile = ({
 }) => {
   const [update] = useMutation(updatePartner);
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
       id: localStorage.getItem("AppId"),
@@ -47,25 +50,34 @@ const Profile = ({
 
   const onSubmit = async (values) => {
     const { email, name, image } = values;
-
-    await update({
-      variables: {
-        id: profile._id,
-        name,
-        email,
-        category: "pharmacy",
-        logoImageUrl: image,
-      },
-      refetchQueries: [
-        {
-          query: getPartner,
-          variables: {
-            id: localStorage.getItem("AppId"),
-          },
+    try {
+      await update({
+        variables: {
+          id: profile._id,
+          name,
+          email,
+          category: "pharmacy",
+          logoImageUrl: image,
         },
-      ],
-    });
-    history.push("/settings");
+        refetchQueries: [
+          {
+            query: getPartner,
+            variables: {
+              id: localStorage.getItem("AppId"),
+            },
+          },
+        ],
+      });
+      history.push("/settings");
+      enqueueSnackbar("profile updated", {
+        variant: "success",
+      });
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
+    }
   };
   const initialValues = {
     name: profile?.name || "",

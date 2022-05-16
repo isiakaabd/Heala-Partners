@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
+import { getErrors } from "components/Utilities/Time";
+import { useSnackbar } from "notistack";
 import * as Yup from "yup";
 import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
@@ -157,10 +159,8 @@ const PendingOrderProfile = ({
   chatMediaActive,
   setChatMediaActive,
   setSelectedSubMenu,
-  setSelectedMenu,
-  setSelectedPatientMenu,
-  type,
 }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const theme = useTheme();
   const { orderId } = useParams();
@@ -184,28 +184,39 @@ const PendingOrderProfile = ({
 
   const onConfirm2 = async () => {
     setModal(true);
-    await fulfill({
-      variables: {
-        id: orderId,
-      },
-      refetchQueries: [
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "pending",
-          },
+    try {
+      await fulfill({
+        variables: {
+          id: orderId,
         },
+        refetchQueries: [
+          {
+            query: getDrugOrders,
+            variables: {
+              status: "pending",
+            },
+          },
 
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "processing",
+          {
+            query: getDrugOrders,
+            variables: {
+              status: "processing",
+            },
           },
-        },
-      ],
-    });
-    history.push("/processing-order");
-    setSelectedSubMenu(4);
+        ],
+      });
+      enqueueSnackbar("Test scheduled", {
+        variant: "success",
+      });
+      history.push("/processing-order");
+      setSelectedSubMenu(4);
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
+    }
+
     setModal(false);
   };
   const [cancelTest] = useMutation(cancelDrugOrder);
@@ -237,33 +248,43 @@ const PendingOrderProfile = ({
   });
   const onSubmit = async (values) => {
     const { reason } = values;
-    await cancelTest({
-      variables: {
-        id: orderId,
-        reason,
-      },
-      refetchQueries: [
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "pending",
-          },
+    try {
+      await cancelTest({
+        variables: {
+          id: orderId,
+          reason,
         },
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "processing",
+        refetchQueries: [
+          {
+            query: getDrugOrders,
+            variables: {
+              status: "pending",
+            },
           },
-        },
-        {
-          query: getDrugOrders,
-          variables: {
-            status: "cancelled",
+          {
+            query: getDrugOrders,
+            variables: {
+              status: "processing",
+            },
           },
-        },
-      ],
-    });
-    history.push("/cancelled-order");
+          {
+            query: getDrugOrders,
+            variables: {
+              status: "cancelled",
+            },
+          },
+        ],
+      });
+      history.push("/cancelled-order");
+      enqueueSnackbar("Test cancelled", {
+        variant: "success",
+      });
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
+    }
   };
   const {
     createdAt,
