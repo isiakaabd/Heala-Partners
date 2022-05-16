@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Grid, Alert, Typography } from "@mui/material";
-import Modals from "components/Utilities/Modal";
+import { Grid, Alert, Divider, Avatar, Typography } from "@mui/material";
+import {
+  Modals,
+  CustomButton,
+  Loader,
+  PreviousButton,
+} from "components/Utilities";
 import { timeConverter, timeMoment } from "components/Utilities/Time";
 import * as Yup from "yup";
 import { updateAppointment } from "components/graphQL/Mutation";
-import DeleteOrDisable from "components/modals/DeleteOrDisable";
+import { DeleteOrDisable } from "components/modals";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
 import { useQuery, useMutation } from "@apollo/client";
 import { getAppoint, getDOCAppoint } from "components/graphQL/useQuery";
 import { deleteAppointment } from "components/graphQL/Mutation";
-import Divider from "@mui/material/Divider";
-import CustomButton from "components/Utilities/CustomButton";
-import Avatar from "@mui/material/Avatar";
 import displayPhoto from "assets/images/avatar.svg";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { ReactComponent as CalendarIcon } from "assets/images/calendar.svg";
 import { ReactComponent as TimerIcon } from "assets/images/timer.svg";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useParams } from "react-router-dom";
-import Loader from "components/Utilities/Loader";
-import NoData from "components/layouts/NoData";
+import { NoData } from "components/layouts";
 
 const useStyles = makeStyles((theme) => ({
   parentGridWrapper: {
@@ -150,7 +150,9 @@ const HcpAppointments = (props) => {
     date: "",
   };
   const validationSchema1 = Yup.object({
-    date: Yup.string("select date and time ").required("Date  and time is required"),
+    date: Yup.string("select date and time ").required(
+      "Date  and time is required"
+    ),
   });
   const onSubmit1 = async (values) => {
     const { date } = values;
@@ -188,7 +190,6 @@ const HcpAppointments = (props) => {
     setSelectedMenu(2);
     setSelectedSubMenu(3);
     setSelectedHcpMenu(2);
-
     // eslint-disable-next-line
   }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
 
@@ -196,7 +197,13 @@ const HcpAppointments = (props) => {
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" flexWrap="nowrap" height="100%" gap={2}>
+      <Grid
+        container
+        gap={2}
+        flexWrap="nowrap"
+        direction="column"
+        height="100%"
+      >
         {alert && Object.keys(alert).length > 0 && (
           <Alert
             variant="filled"
@@ -207,7 +214,10 @@ const HcpAppointments = (props) => {
           </Alert>
         )}
         <Grid item>
-          <PreviousButton path={`/hcps/${hcpId}`} onClick={() => setSelectedHcpMenu(0)} />
+          <PreviousButton
+            path={`/hcps/${hcpId}`}
+            onClick={() => setSelectedHcpMenu(0)}
+          />
         </Grid>
         <Grid item style={{ marginBottom: "3rem", padding: "2rem" }}>
           <Typography variant="h2">Doctor Appointments</Typography>
@@ -221,8 +231,17 @@ const HcpAppointments = (props) => {
               key={appoint._id}
               className={classes.parentGridWrapper}
             >
-              <Grid item container style={{ maxWidth: "60rem", padding: "4rem 5rem" }}>
-                <Grid item container alignItems="center" justifyContent="space-between">
+              <Grid
+                item
+                container
+                style={{ maxWidth: "60rem", padding: "4rem 5rem" }}
+              >
+                <Grid
+                  item
+                  container
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Grid item>
                     <Typography variant="body1" className={classes.title}>
                       Consultation Date:
@@ -264,7 +283,11 @@ const HcpAppointments = (props) => {
                   </Grid>
                   <Grid item>
                     <Avatar
-                      src={appoint.patientData.image ? appoint.patientData.image : displayPhoto}
+                      src={
+                        appoint.patientData.picture
+                          ? appoint.patientData.picture
+                          : displayPhoto
+                      }
                       alt="Display Photo of the patient"
                     />
                   </Grid>
@@ -290,14 +313,20 @@ const HcpAppointments = (props) => {
               </Grid>
               <Divider color={theme.palette.common.lighterGrey} />
               <Grid item>
-                <Grid container justifyContent="flex-end" style={{ padding: "2rem 5rem" }}>
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  style={{ padding: "2rem 5rem" }}
+                >
                   <Grid item style={{ marginRight: "3rem" }}>
                     <CustomButton
                       title="Reschedule"
                       type={greenButton}
                       height="3.5rem"
                       textColorOnHover="#fff"
-                      onClick={() => handleSchedule(appoint._id, appoint.patient)}
+                      onClick={() =>
+                        handleSchedule(appoint._id, appoint.patient)
+                      }
                       textColor={theme.palette.common.green}
                       endIcon={<AssignmentIcon color="success" />}
                       borderRadius="3rem"
@@ -365,7 +394,13 @@ const HcpAppointments = (props) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item container alignItems="flex-end" marginTop={5} xs={12}>
+                  <Grid
+                    item
+                    container
+                    alignItems="flex-end"
+                    marginTop={5}
+                    xs={12}
+                  >
                     <CustomButton
                       title="Reschedule Appointment"
                       width="100%"

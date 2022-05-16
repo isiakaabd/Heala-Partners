@@ -89,13 +89,22 @@ const Prescriptions = (props) => {
   return (
     <Grid container direction="column" flexWrap="nowrap" height="100%" gap={2}>
       <Grid item>
-        <PreviousButton path={`/patients/${patientId}`} onClick={() => setSelectedPatientMenu(0)} />
+        <PreviousButton
+          path={`/patients/${patientId}`}
+          onClick={() => setSelectedPatientMenu(0)}
+        />
       </Grid>
       <Grid item>
         <Typography variant="h2">Prescriptions</Typography>
       </Grid>
       {Object.entries(consultations).length > 0 ? (
-        <Grid item container direction="column" width="100%" className={classes.parentGrid}>
+        <Grid
+          item
+          container
+          direction="column"
+          width="100%"
+          className={classes.parentGrid}
+        >
           <Grid
             item
             container
@@ -116,14 +125,20 @@ const Prescriptions = (props) => {
                 </Grid>
                 <Grid item>
                   <Avatar
-                    src={consultations && doc && doc.picture ? doc.picture : displayPhoto}
+                    src={
+                      consultations && doc && doc.picture
+                        ? doc.picture
+                        : displayPhoto
+                    }
                     alt="Display photo of the sender"
                   />
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">{`${doc && doc.firstName} ${
-                    doc && doc.lastName
-                  }`}</Typography>
+                  <Typography variant="h5">
+                    {doc.firstName
+                      ? `${doc && doc.firstName} ${doc && doc.lastName}`
+                      : "no doctor"}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -135,7 +150,9 @@ const Prescriptions = (props) => {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">{dateMoment(consultations.updatedAt)}</Typography>
+                  <Typography variant="h5">
+                    {dateMoment(consultations.updatedAt)}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -255,13 +272,15 @@ const Prescriptions = (props) => {
             </Grid>
             <Grid item>
               <Typography variant="body1" style={{ lineHeight: 1.85 }}>
-                {consultations.doctorNote ? consultations.doctorNote : "No Note"}
+                {consultations.doctorNote
+                  ? consultations.doctorNote
+                  : "No Note"}
               </Typography>
             </Grid>
           </Grid>
         </Grid>
       ) : (
-        <NoData text="No Presciption" />
+        <NoData />
       )}
     </Grid>
   );

@@ -7,6 +7,7 @@ import { Formik, Form } from "formik";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { DeleteOrDisable } from "components/modals";
+import { useSnackbar } from "notistack";
 import { useParams, useHistory } from "react-router-dom";
 import { time } from "components/Utilities/Time";
 import { useQuery, useMutation } from "@apollo/client";
@@ -20,6 +21,7 @@ import {
 } from "components/graphQL/Mutation";
 
 import { Typography, Grid, Chip } from "@mui/material";
+import { getErrors } from "components/Utilities/Time";
 import {
   DisplayProfile2,
   CustomButton,
@@ -102,9 +104,8 @@ const PendingProfile = ({
   chatMediaActive,
   setChatMediaActive,
   setSelectedSubMenu,
-  selectedSubMenu,
-  setSelectedPatientMenu,
 }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const initialValues = {
     reason: "",
   };
@@ -127,27 +128,37 @@ const PendingProfile = ({
   const [cancelTest] = useMutation(cancelDiagnosticTest);
   const onSubmit = async (values) => {
     const { reason } = values;
-    await cancelTest({
-      variables: {
-        id: requestId,
-        reason,
-      },
-      refetchQueries: [
-        {
-          query: getDiagnosticTests,
-          variables: {
-            status: "pending",
-          },
+    try {
+      await cancelTest({
+        variables: {
+          id: requestId,
+          reason,
         },
-        {
-          query: getDiagnosticTests,
-          variables: {
-            status: "cancelled",
+        refetchQueries: [
+          {
+            query: getDiagnosticTests,
+            variables: {
+              status: "pending",
+            },
           },
-        },
-      ],
-    });
-    history.push("/cancelled");
+          {
+            query: getDiagnosticTests,
+            variables: {
+              status: "cancelled",
+            },
+          },
+        ],
+      });
+      history.push("/cancelled");
+      enqueueSnackbar("Test cancelled successfully", {
+        variant: "success",
+      });
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
+    }
     setSelectedSubMenu(6);
   };
 
@@ -162,6 +173,8 @@ const PendingProfile = ({
       setPendingProfile(data?.getDiagnosticTest);
     }
   }, [data]);
+
+  // <NotistackAlert variant="success" message="order has been scheduled" />;
   const onSubmit1 = async (values) => {
     const { date } = values;
     const timeValue = time(date);
@@ -183,10 +196,16 @@ const PendingProfile = ({
           },
         ],
       });
+      enqueueSnackbar("Test Schedule successful", {
+        variant: "success",
+      });
       history.push("/schedule");
       setSelectedSubMenu(2);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
     }
     handlePatientCloses();
   };
@@ -271,7 +290,6 @@ const PendingProfile = ({
           item
           container
           className={classes.cardContainer}
-          ga
           sx={{ paddingTop: "5rem" }}
         >
           <Grid item xs={12} md={12} container className={classes.card}>
@@ -544,8 +562,8 @@ const PendingProfile = ({
 };
 
 PendingProfile.propTypes = {
-  chatMediaActive: PropTypes.bool.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
+  chatMediaActive: PropTypes.bool,
+  setChatMediaActive: PropTypes.func,
 };
 
 export default PendingProfile;

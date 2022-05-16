@@ -41,6 +41,8 @@ import { useQuery, useMutation } from "@apollo/client";
 import { getDrugOrders, cancelDrugOrder } from "components/graphQL/useQuery";
 import { fulfillDrugOrder } from "components/graphQL/Mutation";
 import { NoData, EmptyTable } from "components/layouts";
+import prettyMoney from "pretty-money";
+
 const dates = ["Hello", "World", "Goodbye", "World"];
 const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
@@ -153,6 +155,12 @@ const ProcessingOrders = ({
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data);
   }, [data]);
+  const prettyDollarConfig = {
+    currency: "₦",
+    position: "before",
+    spaced: false,
+    thousandsDelimiter: ",",
+  };
   const history = useHistory();
   const [searchHcp, setSearchHcp] = useState("");
   const [cancel, setCancel] = useState(false);
@@ -211,37 +219,6 @@ const ProcessingOrders = ({
   const validationSchema = Yup.object({
     reason: Yup.string("Enter Reason ").trim().required("Reason is required"),
   });
-  // const cancelProcess = async () => {
-  //   console.log(cancelId);
-
-  //   await cancelTest({
-  //     variables: {
-  //       id: cancelId,
-  //       reason,
-  //     },
-  //     refetchQueries: [
-  //       {
-  //         query: getDrugOrders,
-  //         variables: {
-  //           status: "pending",
-  //         },
-  //       },
-  //       {
-  //         query: getDrugOrders,
-  //         variables: {
-  //           status: "processing",
-  //         },
-  //       },
-  //       {
-  //         query: getDrugOrders,
-  //         variables: {
-  //           status: "cancelled",
-  //         },
-  //       },
-  //     ],
-  //   });
-  //   history.push("/cencelled-order");
-  // };
   const onConfirm2 = async () => {
     await fulfill({
       variables: {
@@ -277,7 +254,6 @@ const ProcessingOrders = ({
   useEffect(() => {
     setSelectedMenu(2);
     setSelectedSubMenu(0);
-    //   eslint-disable-next-line
     //   eslint-disable-next-line
   }, [selectedMenu, selectedSubMenu]);
 
@@ -326,11 +302,11 @@ const ProcessingOrders = ({
             {state
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { _id, createdAt, orderId, patientData } = row;
+                const { _id, createdAt, prescriptions, orderId, patientData } =
+                  row;
                 const isItemSelected = isSelected(_id, selectedRows);
-
+                const x = prescriptions.map((i) => i.drugPrice);
                 const labelId = `enhanced-table-checkbox-${index}`;
-
                 return (
                   <TableRow
                     hover
@@ -388,6 +364,18 @@ const ProcessingOrders = ({
                         </span>
                       </div>
                     </TableCell>
+                    <TableCell align="left" className={classes.tableCell}>
+                      {prettyMoney(
+                        prettyDollarConfig,
+                        x.reduce(function (accumulator, currentValue) {
+                          return accumulator + currentValue;
+                        }, 0)
+                      )}
+                    </TableCell>
+                    <TableCell align="left" className={classes.tableCell}>
+                      {x.length}
+                    </TableCell>
+
                     <TableCell>
                       <Grid container gap={2}>
                         <Chip

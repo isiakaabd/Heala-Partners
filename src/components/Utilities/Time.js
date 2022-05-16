@@ -88,3 +88,7 @@ export const monthNames = [
   "Nov",
   "Dec",
 ];
+
+export const getErrors = (error) => {
+  return error?.networkError?.result?.errors[0].message;
+};

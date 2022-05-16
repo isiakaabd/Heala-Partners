@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
+import { getErrors } from "components/Utilities/Time";
+import { useSnackbar } from "notistack";
 import {
   Modals,
   Loader,
@@ -103,6 +105,7 @@ const ScheduledRequestProfile = ({
   setSelectedSubMenu,
   setSelectedMenu,
 }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -166,27 +169,38 @@ const ScheduledRequestProfile = ({
   const [cancelTest] = useMutation(cancelDiagnosticTest);
   const onSubmit = async (values) => {
     const { reason } = values;
-    await cancelTest({
-      variables: {
-        id: scheduleId,
-        reason,
-      },
-      refetchQueries: [
-        {
-          query: getDiagnosticTests,
-          variables: {
-            status: "scheduled",
-          },
+    try {
+      await cancelTest({
+        variables: {
+          id: scheduleId,
+          reason,
         },
-        {
-          query: getDiagnosticTests,
-          variables: {
-            status: "cancelled",
+        refetchQueries: [
+          {
+            query: getDiagnosticTests,
+            variables: {
+              status: "scheduled",
+            },
           },
-        },
-      ],
-    });
-    history.push("/cancelled");
+          {
+            query: getDiagnosticTests,
+            variables: {
+              status: "cancelled",
+            },
+          },
+        ],
+      });
+      history.push("/cancelled");
+      enqueueSnackbar("Test cancelled", {
+        variant: "success",
+      });
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
+    }
+
     setSelectedSubMenu(6);
   };
 
@@ -224,7 +238,7 @@ const ScheduledRequestProfile = ({
     image: Yup.string("Upload a single Image"),
   });
   const [completeTest] = useMutation(completeDiagnosticTest);
-  const onSubmit1 = async (values) => {
+  const onSubmit1 = async () => {
     try {
       await completeTest({
         variables: {
@@ -246,11 +260,17 @@ const ScheduledRequestProfile = ({
           },
         ],
       });
+      enqueueSnackbar("Test completed", {
+        variant: "success",
+      });
       history.push("/completed");
       setSelectedMenu(3);
       handleDialogClose();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      enqueueSnackbar(getErrors(error), {
+        variant: "error",
+      });
+      console.error(error);
     }
   };
 
