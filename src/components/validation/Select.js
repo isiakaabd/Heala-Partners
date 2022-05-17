@@ -1,13 +1,13 @@
-import React from 'react'
-import { Field, ErrorMessage } from 'formik'
-import { TextError } from 'components/Utilities'
-import { FormControl, FormLabel, Select, MenuItem, Grid } from '@mui/material'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@mui/styles'
+import React from "react";
+import { Field, ErrorMessage } from "formik";
+import { TextError } from "components/Utilities";
+import { FormControl, FormLabel, Select, MenuItem, Grid } from "@mui/material";
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   FormLabel: {
-    '&.MuiFormLabel-root': {
+    "&.MuiFormLabel-root": {
       ...theme.typography.FormLabel,
     },
   },
@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 200,
     color: theme.palette.common.lightGrey,
     minHeight: 50,
-    fontSize: '1.6rem !important',
+    fontSize: "1.6rem !important",
   },
-}))
+}));
 
 export const Formiks = ({ value, name, onChange, onBlur, children }) => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <FormControl fullWidth>
       <Select
@@ -34,21 +34,21 @@ export const Formiks = ({ value, name, onChange, onBlur, children }) => {
         {children}
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
 Formiks.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
-  children: PropTypes.node.isRequired,
-  name: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  name: PropTypes.string,
   onBlur: PropTypes.func,
-}
+};
 
 const Selects = (props) => {
-  const { name, label, options, placeholder } = props
-  const classes = useStyles()
+  const { name, label, options, placeholder } = props;
+  const classes = useStyles();
   return (
     <Grid container direction="column" gap={1}>
       <FormLabel className={classes.FormLabel}>{label}</FormLabel>
@@ -62,14 +62,14 @@ const Selects = (props) => {
       </Field>
       <ErrorMessage name={name} component={TextError} />
     </Grid>
-  )
-}
+  );
+};
 
 Selects.propTypes = {
   label: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
+  name: PropTypes.string,
+  options: PropTypes.array,
   placeholder: PropTypes.string,
-}
+};
 
-export default Selects
+export default Selects;

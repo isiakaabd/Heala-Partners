@@ -1,16 +1,16 @@
-import React from 'react'
-import { Field, ErrorMessage } from 'formik'
-import { TextError } from 'components/Utilities'
-import { FormLabel, FormControl, Box, Grid } from '@mui/material'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@mui/styles'
+import React from "react";
+import { Field, ErrorMessage } from "formik";
+import { TextError } from "components/Utilities";
+import { FormLabel, FormControl, Box, Grid } from "@mui/material";
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   checkboxContainer: {
-    '&.MuiBox-root': {
-      padding: '2rem 0',
-      border: '1px solid #E0E0E0',
-      borderRadius: '.4rem',
+    "&.MuiBox-root": {
+      padding: "2rem 0",
+      border: "1px solid #E0E0E0",
+      borderRadius: ".4rem",
       // "&:active": {
       //   border: "2px solid black",
       // },
@@ -20,16 +20,16 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.FormLabel,
   },
   checkbox: {
-    height: '2rem',
-    width: '2rem',
-    '&:checked': {
-      color: 'green !important',
+    height: "2rem",
+    width: "2rem",
+    "&:checked": {
+      color: "green !important",
     },
   },
-}))
+}));
 const Checkbox = (props) => {
-  const classes = useStyles()
-  const { label, name, options, ...rest } = props
+  const classes = useStyles();
+  const { label, name, options, ...rest } = props;
   return (
     <Grid container direction="column" gap={1}>
       <FormLabel component="legend" className={classes.checkboxContainer}>
@@ -54,8 +54,8 @@ const Checkbox = (props) => {
                         {option.key}
                       </label>
                     </Grid>
-                  )
-                })
+                  );
+                });
               }}
             </Field>
           </Grid>
@@ -63,12 +63,12 @@ const Checkbox = (props) => {
       </Box>
       <ErrorMessage name={name} component={TextError} />
     </Grid>
-  )
-}
+  );
+};
 
 Checkbox.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-}
-export default Checkbox
+  label: PropTypes.string,
+  name: PropTypes.string,
+  options: PropTypes.array,
+};
+export default Checkbox;

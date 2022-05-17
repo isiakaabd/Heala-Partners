@@ -91,7 +91,7 @@ CustomButton.defaultProps = {
 
 CustomButton.propTypes = {
   endIcon: PropTypes.node,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   type: PropTypes.object,
   textColor: PropTypes.string,
   width: PropTypes.string,

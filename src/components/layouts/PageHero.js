@@ -14,7 +14,9 @@ const PageHero = ({ title, description, className, back, goBackText }) => {
   let history = useHistory();
 
   return (
-    <PageHeroStyle className={`pt-16 pb-12 container ${className ? className : ""}`}>
+    <PageHeroStyle
+      className={`pt-16 pb-12 container ${className ? className : ""}`}
+    >
       <H1 fontSize="26px" color="#22202D" className="mb-4">
         {title}
       </H1>
@@ -38,7 +40,7 @@ const PageHero = ({ title, description, className, back, goBackText }) => {
 };
 
 PageHero.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   description: PropTypes.description,
   className: PropTypes.className,
   back: PropTypes.back,

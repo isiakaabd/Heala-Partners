@@ -22,7 +22,6 @@ const HospitalProfile = ({
 }) => {
   const [update] = useMutation(updatePartner);
   const history = useHistory();
-
   const { enqueueSnackbar } = useSnackbar();
   const { loading, error, data } = useQuery(getPartner, {
     variables: {
@@ -78,6 +77,7 @@ const HospitalProfile = ({
         variant: "error",
       });
     }
+    console.error(error);
   };
   const initialValues = {
     name: profile?.name || "",
@@ -161,10 +161,10 @@ const HospitalProfile = ({
   );
 };
 HospitalProfile.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
 };
 
 export default HospitalProfile;

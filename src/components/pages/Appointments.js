@@ -34,7 +34,11 @@ const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
   const theme = useTheme();
 
   return (
-    <Grid container justifyContent="space-between" className={classes.containerGrid}>
+    <Grid
+      container
+      justifyContent="space-between"
+      className={classes.containerGrid}
+    >
       <Grid
         item
         className={classes.parentGrid}
@@ -58,7 +62,11 @@ const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
         className={classes.parentGrid}
         component={Link}
         to="/appointments/consultation"
-        style={{ marginLeft: "2em", textDecoration: "none", visibility: "hidden" }}
+        style={{
+          marginLeft: "2em",
+          textDecoration: "none",
+          visibility: "hidden",
+        }}
         lg
         md={6}
         sm={12}
@@ -76,8 +84,8 @@ const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
 };
 
 Appointments.propTypes = {
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedAppointmentMenu: PropTypes.func.isRequired,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedAppointmentMenu: PropTypes.func,
 };
 
 export default Appointments;

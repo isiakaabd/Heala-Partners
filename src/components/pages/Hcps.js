@@ -161,7 +161,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       setPageInfo(data.doctorProfiles.pageInfo);
     }
   }, [data]);
-console.log(profiles)
+  console.log(profiles);
   const [searchHcp, setSearchHcp] = useState("");
   const [openHcpFilter, setOpenHcpFilter] = useState(false);
   const [openAddHcp, setOpenAddHcp] = useState(false);
@@ -674,8 +674,8 @@ console.log(profiles)
 };
 
 Hcps.propTypes = {
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default Hcps;

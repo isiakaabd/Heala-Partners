@@ -68,9 +68,9 @@ const CustomHeaderText = ({ title, path }) => {
 };
 
 CustomHeaderText.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   total: PropTypes.number,
-  path: PropTypes.string.isRequired,
+  path: PropTypes.string,
 };
 
 const CustomHeaderTitle = ({ title, path }) => {
@@ -88,8 +88,8 @@ const CustomHeaderTitle = ({ title, path }) => {
 };
 
 CustomHeaderTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  path: PropTypes.string,
 };
 
 // SUBMENU HEADERS
@@ -166,13 +166,13 @@ const CustomSubHeaderText = (props) => {
 };
 
 CustomSubHeaderText.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
   subSubTitle: PropTypes.string,
   scopedSubTitle: PropTypes.string,
   titleColor: PropTypes.string,
-  scopedMenu: PropTypes.number.isRequired,
-  scopedSubMenu: PropTypes.number.isRequired,
+  scopedMenu: PropTypes.number,
+  scopedSubMenu: PropTypes.number,
 };
 
 // HEADER DYNAMIC RENDERING COMPONENT
@@ -349,13 +349,13 @@ const HeaderText = (props) => {
 };
 
 HeaderText.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
 };
 
 const HeaderContents = (props) => {
@@ -387,13 +387,13 @@ const HeaderContents = (props) => {
 };
 
 HeaderContents.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
 };
 
 export default HeaderContents;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import Loader from 'components/Utilities/Loader'
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Loader from "components/Utilities/Loader";
 import {
   Grid,
   TableRow,
@@ -8,59 +8,59 @@ import {
   TableCell,
   Button,
   Checkbox,
-} from '@mui/material'
-import { NoData, EnhancedTable, EmptyTable } from 'components/layouts'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+} from "@mui/material";
+import { NoData, EnhancedTable, EmptyTable } from "components/layouts";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import { hcpPatientsHeadCells } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { isSelected } from 'helpers/isSelected'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { Link, useParams } from 'react-router-dom'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import { getDoctorPatients } from 'components/graphQL/useQuery'
-import { useQuery } from '@apollo/client'
+import { hcpPatientsHeadCells } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { isSelected } from "helpers/isSelected";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { Link, useParams } from "react-router-dom";
+import { handleSelectedRows } from "helpers/selectedRows";
+import PreviousButton from "components/Utilities/PreviousButton";
+import { getDoctorPatients } from "components/graphQL/useQuery";
+import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
-    '&.MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
 
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '12rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "12rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
     },
   },
-}))
+}));
 
 const HcpPatients = (props) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [pageInfo, setPageInfo] = useState([])
+  const classes = useStyles();
+  const theme = useTheme();
+  const [pageInfo, setPageInfo] = useState([]);
   const {
     selectedMenu,
     selectedSubMenu,
@@ -68,45 +68,39 @@ const HcpPatients = (props) => {
     setSelectedMenu,
     setSelectedSubMenu,
     setSelectedHcpMenu,
-  } = props
+  } = props;
 
-  const { hcpId } = useParams()
+  const { hcpId } = useParams();
 
-  const { setSelectedRows } = useActions()
-  const { selectedRows } = useSelector((state) => state.tables)
+  const { setSelectedRows } = useActions();
+  const { selectedRows } = useSelector((state) => state.tables);
 
   useEffect(() => {
-    setSelectedMenu(2)
-    setSelectedSubMenu(3)
-    setSelectedHcpMenu(5)
+    setSelectedMenu(2);
+    setSelectedSubMenu(3);
+    setSelectedHcpMenu(5);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu])
+  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
   const { loading, error, data, refetch } = useQuery(getDoctorPatients, {
     variables: { id: hcpId },
     notifyOnNetworkStatusChange: true,
-  })
-  const [profiles, setProfiles] = useState([])
+  });
+  const [profiles, setProfiles] = useState([]);
   useEffect(() => {
     if (data) {
-      setProfiles(data.getDoctorPatients.data)
-      setPageInfo(data.getDoctorPatients.pageInfo)
+      setProfiles(data.getDoctorPatients.data);
+      setPageInfo(data.getDoctorPatients.pageInfo);
     }
-  }, [data])
+  }, [data]);
   const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage })
-  }
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+    refetch({ page: newPage });
+  };
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
       <Grid item>
@@ -136,9 +130,9 @@ const HcpPatients = (props) => {
             hasCheckbox={true}
           >
             {profiles.map((row, index) => {
-              const isItemSelected = isSelected(row.id, selectedRows)
+              const isItemSelected = isSelected(row.id, selectedRows);
 
-              const labelId = `enhanced-table-checkbox-${index}`
+              const labelId = `enhanced-table-checkbox-${index}`;
 
               return (
                 <TableRow
@@ -155,13 +149,13 @@ const HcpPatients = (props) => {
                         handleSelectedRows(
                           row.id,
                           selectedRows,
-                          setSelectedRows,
+                          setSelectedRows
                         )
                       }
                       color="primary"
                       checked={isItemSelected}
                       inputProps={{
-                        'aria-labelledby': labelId,
+                        "aria-labelledby": labelId,
                       }}
                     />
                   </TableCell>
@@ -209,7 +203,7 @@ const HcpPatients = (props) => {
                     </Button>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </EnhancedTable>
         </Grid>
@@ -220,16 +214,16 @@ const HcpPatients = (props) => {
         />
       )}
     </Grid>
-  )
-}
+  );
+};
 
 HcpPatients.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
+};
 
-export default HcpPatients
+export default HcpPatients;

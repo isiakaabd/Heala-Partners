@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Files,
   Textarea,
@@ -9,34 +9,34 @@ import {
   Selects,
   FormRadio,
   Checkbox,
-} from '.'
+} from ".";
 
 const FormikControl = (props) => {
-  const { control, ...rest } = props
+  const { control, ...rest } = props;
   switch (control) {
-    case 'input':
-      return <Input {...rest} />
-    case 'textarea':
-      return <Textarea {...rest} />
+    case "input":
+      return <Input {...rest} />;
+    case "textarea":
+      return <Textarea {...rest} />;
 
-    case 'select':
-      return <Selects {...rest} />
-    case 'checkbox':
-      return <Checkbox {...rest} />
-    case 'radio':
-      return <FormRadio {...rest} />
-    case 'time':
-      return <DateTimePicker {...rest} />
-    case 'file':
-      return <Files {...rest} />
-    case 'date':
-      return <DateComponent {...rest} />
+    case "select":
+      return <Selects {...rest} />;
+    case "checkbox":
+      return <Checkbox {...rest} />;
+    case "radio":
+      return <FormRadio {...rest} />;
+    case "time":
+      return <DateTimePicker {...rest} />;
+    case "file":
+      return <Files {...rest} />;
+    case "date":
+      return <DateComponent {...rest} />;
 
     default:
-      return null
+      return null;
   }
-}
+};
 FormikControl.propTypes = {
-  control: PropTypes.string.isRequired,
-}
-export default FormikControl
+  control: PropTypes.string,
+};
+export default FormikControl;

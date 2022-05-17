@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Switch } from 'react-router-dom'
-import PrivateRoute from 'components/routes/PrivateRoute'
-import { CircularChart } from 'components/Utilities'
+import React from "react";
+import PropTypes from "prop-types";
+import { Switch } from "react-router-dom";
+import PrivateRoute from "components/routes/PrivateRoute";
+import { CircularChart } from "components/Utilities";
 import {
   Chat,
   Patients,
@@ -42,7 +42,7 @@ import {
   ViewMail,
   Financetable,
   HospitalSettings,
-} from 'components/pages'
+} from "components/pages";
 
 const Hospital = (props) => {
   const {
@@ -62,12 +62,12 @@ const Hospital = (props) => {
     setChatMediaActive,
     selectedScopedMenu,
     setSelectedScopedMenu,
-  } = props
+  } = props;
 
   return (
     <Switch>
       <PrivateRoute
-        path={['/', '/dashboard']}
+        path={["/", "/dashboard"]}
         exact
         component={HospitalDashboard}
         chatMediaActive={chatMediaActive}
@@ -301,10 +301,11 @@ const Hospital = (props) => {
         path="/hcps/:hcpId/consultations"
         component={HcpConsultations}
         selectedMenu={selectedMenu}
-        setSelectedMenu={setSelectedMenu}
         selectedHcpMenu={selectedHcpMenu}
         selectedSubMenu={selectedSubMenu}
+        setSelectedMenu={setSelectedMenu}
         setSelectedHcpMenu={setSelectedHcpMenu}
+        setSelectedPatientMenu={setSelectedPatientMenu}
         setSelectedSubMenu={setSelectedSubMenu}
         selectedScopedMenu={selectedScopedMenu}
         setSelectedScopedMenu={setSelectedScopedMenu}
@@ -320,6 +321,7 @@ const Hospital = (props) => {
         setSelectedHcpMenu={setSelectedHcpMenu}
         setSelectedSubMenu={setSelectedSubMenu}
         selectedScopedMenu={selectedScopedMenu}
+        setSelectedPatientMenu={setSelectedPatientMenu}
         setSelectedScopedMenu={setSelectedScopedMenu}
       />
 
@@ -480,28 +482,28 @@ const Hospital = (props) => {
         setSelectedSubMenu={setSelectedSubMenu}
       />
     </Switch>
-  )
+  );
   // }
-}
+};
 
 Hospital.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-  chatMediaActive: PropTypes.bool.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
-  setWaitingListMenu: PropTypes.func.isRequired,
-  setSelectedAppointmentMenu: PropTypes.func.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
-  setSelectedScopedMenu: PropTypes.func.isRequired,
-  setSelectedManagementMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+  chatMediaActive: PropTypes.bool,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
+  setWaitingListMenu: PropTypes.func,
+  setSelectedAppointmentMenu: PropTypes.func,
+  setChatMediaActive: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
+  setSelectedManagementMenu: PropTypes.func,
+};
 
-export default Hospital
+export default Hospital;

@@ -222,10 +222,10 @@ const SideMenu = (props) => {
 };
 
 SideMenu.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setWaitingListMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setWaitingListMenu: PropTypes.func,
 };
 
 export default SideMenu;

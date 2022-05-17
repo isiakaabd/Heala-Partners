@@ -437,8 +437,8 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
 };
 
 PendingOrder.propTypes = {
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default PendingOrder;

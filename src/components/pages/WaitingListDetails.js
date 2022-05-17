@@ -50,7 +50,10 @@ const WaitingListDetails = (props) => {
   return (
     <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
       <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton path="/appointments/waiting-list" onClick={() => setWaitingListMenu(0)} />
+        <PreviousButton
+          path="/appointments/waiting-list"
+          onClick={() => setWaitingListMenu(0)}
+        />
       </Grid>
       <Grid item>
         <DisplayProfile
@@ -60,9 +63,19 @@ const WaitingListDetails = (props) => {
           statusId={132467}
         />
       </Grid>
-      <Grid item container justifyContent="space-between" style={{ paddingTop: "5rem" }}>
+      <Grid
+        item
+        container
+        justifyContent="space-between"
+        style={{ paddingTop: "5rem" }}
+      >
         {/* SYMPTOMS GRID */}
-        <Grid item md className={classes.cardGrid} style={{ marginRight: "2rem" }}>
+        <Grid
+          item
+          md
+          className={classes.cardGrid}
+          style={{ marginRight: "2rem" }}
+        >
           <Grid
             container
             direction="column"
@@ -77,14 +90,23 @@ const WaitingListDetails = (props) => {
             <Grid item container justifyContent="space-evenly">
               {symptoms.map((symptom) => (
                 <Grid item key={symptom}>
-                  <Chip variant="outlined" label={symptom} className={classes.infoBadge} />
+                  <Chip
+                    variant="outlined"
+                    label={symptom}
+                    className={classes.infoBadge}
+                  />
                 </Grid>
               ))}
             </Grid>
           </Grid>
         </Grid>
         {/* CONSULTATION TYPE GRID */}
-        <Grid item md className={classes.cardGrid} style={{ marginLeft: "2rem" }}>
+        <Grid
+          item
+          md
+          className={classes.cardGrid}
+          style={{ marginLeft: "2rem" }}
+        >
           <Grid
             container
             direction="column"
@@ -96,14 +118,28 @@ const WaitingListDetails = (props) => {
               <Typography variant="h4">Consultation Type</Typography>
             </Grid>
             <Grid item>
-              <Chip variant="outlined" label="Type 1" className={classes.infoBadge} />
+              <Chip
+                variant="outlined"
+                label="Type 1"
+                className={classes.infoBadge}
+              />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item container justifyContent="space-between" style={{ paddingTop: "5rem" }}>
+      <Grid
+        item
+        container
+        justifyContent="space-between"
+        style={{ paddingTop: "5rem" }}
+      >
         {/* SCALE OF DISCOMFORT GRID */}
-        <Grid item md className={classes.cardGrid} style={{ marginRight: "2rem" }}>
+        <Grid
+          item
+          md
+          className={classes.cardGrid}
+          style={{ marginRight: "2rem" }}
+        >
           <Grid
             container
             direction="column"
@@ -115,12 +151,21 @@ const WaitingListDetails = (props) => {
               <Typography variant="h4">Scale of discomfort: </Typography>
             </Grid>
             <Grid item>
-              <Chip variant="outlined" label="Once" className={classes.infoBadge} />
+              <Chip
+                variant="outlined"
+                label="Once"
+                className={classes.infoBadge}
+              />
             </Grid>
           </Grid>
         </Grid>
         {/* DATE OF FIRST NOTICE GRID */}
-        <Grid item md className={classes.cardGrid} style={{ marginLeft: "2rem" }}>
+        <Grid
+          item
+          md
+          className={classes.cardGrid}
+          style={{ marginLeft: "2rem" }}
+        >
           <Grid
             container
             direction="column"
@@ -132,7 +177,11 @@ const WaitingListDetails = (props) => {
               <Typography variant="h4">Date of first notice</Typography>
             </Grid>
             <Grid item>
-              <Chip variant="outlined" label="01-10-2021" className={classes.infoBadge} />
+              <Chip
+                variant="outlined"
+                label="01-10-2021"
+                className={classes.infoBadge}
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -142,14 +191,14 @@ const WaitingListDetails = (props) => {
 };
 
 WaitingListDetails.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setWaitingListMenu: PropTypes.func.isRequired,
-  setSelectedAppointmentMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setWaitingListMenu: PropTypes.func,
+  setSelectedAppointmentMenu: PropTypes.func,
 };
 
 export default WaitingListDetails;

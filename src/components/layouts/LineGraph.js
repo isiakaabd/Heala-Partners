@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
-import t from 'prop-types'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import t from "prop-types";
+import styled from "styled-components";
 
 const DataToggleHolder = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const DataToggleHolder = styled.div`
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
-  font-family: 'Graphik-Regular', sans-serif;
+  font-family: "Graphik-Regular", sans-serif;
   font-size: 12px;
   color: #44a798;
   background: #ecf6f3;
@@ -36,15 +36,15 @@ const DataToggleHolder = styled.div`
       background: #3e5ea9;
     }
   }
-`
+`;
 
 const ResponsiveHolder = styled.div`
   width: 100%;
   height: 217px;
-`
+`;
 
 const LineGraph = ({ data }) => {
-  const [chartMode, setChartMode] = useState('FIVE_DAYS')
+  const [chartMode, setChartMode] = useState("FIVE_DAYS");
   return (
     <ResponsiveHolder>
       <LineChart
@@ -63,42 +63,42 @@ const LineGraph = ({ data }) => {
       </LineChart>
       <DataToggleHolder>
         <p
-          className={chartMode === 'ONE_DAY' ? 'selected' : ''}
-          onClick={() => setChartMode('ONE_DAY')}
+          className={chartMode === "ONE_DAY" ? "selected" : ""}
+          onClick={() => setChartMode("ONE_DAY")}
         >
           One Day
         </p>
         <p
-          className={chartMode === 'FIVE_DAYS' ? 'selected' : ''}
-          onClick={() => setChartMode('FIVE_DAYS')}
+          className={chartMode === "FIVE_DAYS" ? "selected" : ""}
+          onClick={() => setChartMode("FIVE_DAYS")}
         >
           Five Days
         </p>
         <p
-          className={chartMode === 'ONE_MONTH' ? 'selected' : ''}
-          onClick={() => setChartMode('ONE_MONTH')}
+          className={chartMode === "ONE_MONTH" ? "selected" : ""}
+          onClick={() => setChartMode("ONE_MONTH")}
         >
           One Month
         </p>
         <p
-          className={chartMode === 'THREE_MONTHS' ? 'selected' : ''}
-          onClick={() => setChartMode('THREE_MONTHS')}
+          className={chartMode === "THREE_MONTHS" ? "selected" : ""}
+          onClick={() => setChartMode("THREE_MONTHS")}
         >
           Three Months
         </p>
         <p
-          className={chartMode === 'ONE_YEAR' ? 'selected' : ''}
-          onClick={() => setChartMode('ONE_YEAR')}
+          className={chartMode === "ONE_YEAR" ? "selected" : ""}
+          onClick={() => setChartMode("ONE_YEAR")}
         >
           One Year
         </p>
       </DataToggleHolder>
     </ResponsiveHolder>
-  )
-}
+  );
+};
 
 LineGraph.propTypes = {
-  data: t.object.isRequired,
-}
+  data: t.object,
+};
 
-export default LineGraph
+export default LineGraph;

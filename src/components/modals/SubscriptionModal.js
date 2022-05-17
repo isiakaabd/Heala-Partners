@@ -6,7 +6,11 @@ import { formatNumber } from "components/Utilities/Time";
 import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { CREATE_PLAN, UPDATE_PLAN } from "components/graphQL/Mutation";
-import { getSinglePlan, getPlans, getUsertypess } from "components/graphQL/useQuery";
+import {
+  getSinglePlan,
+  getPlans,
+  getUsertypess,
+} from "components/graphQL/useQuery";
 import { useMutation, useQuery } from "@apollo/client";
 import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
@@ -39,7 +43,9 @@ export const SubscriptionModal = ({
       .typeError(" Enter a valid amount")
       .min(0, "Min value is  1")
       .required("Amount is required"),
-    description: Yup.string("Enter Description").trim().required("Description is required"),
+    description: Yup.string("Enter Description")
+      .trim()
+      .required("Description is required"),
     provider: Yup.string("Enter Provider").required("Provider is required"),
     duration: Yup.string("Enter Duration").required("Duration is required"),
   });
@@ -69,7 +75,7 @@ export const SubscriptionModal = ({
         datas &&
           datas.map((i) => {
             return { key: i.name, value: i._id };
-          }),
+          })
       );
     }
   }, [data]);
@@ -217,10 +223,10 @@ export const SubscriptionModal = ({
 };
 
 SubscriptionModal.propTypes = {
-  handleDialogClose: PropTypes.func.isRequired,
+  handleDialogClose: PropTypes.func,
   setAlert: PropTypes.func,
   editId: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   edit: PropTypes.bool,
   initialValues: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   validationSchema: PropTypes.object,

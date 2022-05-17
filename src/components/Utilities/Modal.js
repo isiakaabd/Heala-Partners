@@ -1,21 +1,21 @@
-import React from 'react'
-import { Modal, Stack, Box, Typography, Grid } from '@mui/material'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@mui/styles'
-import CloseIcon from '@mui/icons-material/Close'
+import React from "react";
+import { Modal, Stack, Box, Typography, Grid } from "@mui/material";
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
+import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
   closeIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '2rem',
-      cursor: 'pointer',
+    "&.MuiSvgIcon-root": {
+      fontSize: "2rem",
+      cursor: "pointer",
 
-      '&:hover': {
-        color: 'red',
+      "&:hover": {
+        color: "red",
       },
     },
   },
-}))
+}));
 
 const Modals = ({
   isOpen,
@@ -29,18 +29,18 @@ const Modals = ({
   height,
 }) => {
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: width ? width : 500,
-    height: 'auto',
-    bgcolor: 'background.paper',
-    borderRadius: '2rem',
+    height: "auto",
+    bgcolor: "background.paper",
+    borderRadius: "2rem",
     p: 4,
-  }
+  };
 
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <Stack>
       <Modal
@@ -69,7 +69,7 @@ const Modals = ({
               <Grid item>
                 {!isClose ? (
                   <CloseIcon
-                    color={color ? color : 'secondary'}
+                    color={color ? color : "secondary"}
                     className={classes.closeIcon}
                     onClick={handleClose}
                   />
@@ -81,22 +81,22 @@ const Modals = ({
         </Box>
       </Modal>
     </Stack>
-  )
-}
+  );
+};
 Modals.propTypes = {
   isOpen: PropTypes.bool,
   isClose: PropTypes.bool,
-  handleClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  handleClose: PropTypes.func,
+  children: PropTypes.node,
   title: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.string,
   width: PropTypes.string,
   rowSpacing: PropTypes.number,
-}
+};
 
 Modals.defaultProps = {
-  height: 'auto',
-}
+  height: "auto",
+};
 
-export default Modals
+export default Modals;

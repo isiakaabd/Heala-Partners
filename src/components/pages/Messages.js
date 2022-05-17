@@ -1,112 +1,112 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import NoData from 'components/layouts/NoData'
-import { Link } from 'react-router-dom'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import Loader from 'components/Utilities/Loader'
-import { makeStyles } from '@mui/styles'
-import { dateMoment, timeMoment } from 'components/Utilities/Time'
-import Search from 'components/Utilities/Search'
-import CustomButton from 'components/Utilities/CustomButton'
-import AddIcon from '@mui/icons-material/Add'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { useTheme } from '@mui/material/styles'
-import { EnhancedTable, EmptyTable } from 'components/layouts'
-import { messagesHeadCells3 } from 'components/Utilities/tableHeaders'
-import { Avatar, Button, Checkbox, Grid } from '@mui/material'
-import displayPhoto from 'assets/images/avatar.svg'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import { useQuery } from '@apollo/client'
-import { getMessage } from 'components/graphQL/useQuery'
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import NoData from "components/layouts/NoData";
+import { Link } from "react-router-dom";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Loader from "components/Utilities/Loader";
+import { makeStyles } from "@mui/styles";
+import { dateMoment, timeMoment } from "components/Utilities/Time";
+import Search from "components/Utilities/Search";
+import CustomButton from "components/Utilities/CustomButton";
+import AddIcon from "@mui/icons-material/Add";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useTheme } from "@mui/material/styles";
+import { EnhancedTable, EmptyTable } from "components/layouts";
+import { messagesHeadCells3 } from "components/Utilities/tableHeaders";
+import { Avatar, Button, Checkbox, Grid } from "@mui/material";
+import displayPhoto from "assets/images/avatar.svg";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import { useQuery } from "@apollo/client";
+import { getMessage } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
   actionBtnGrid: {
-    '&.MuiGrid-root': {
-      marginRight: '1.5rem',
+    "&.MuiGrid-root": {
+      marginRight: "1.5rem",
     },
   },
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0.5rem',
-      maxWidth: '10rem',
-      fontSize: '.85rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "0.5rem",
+      maxWidth: "10rem",
+      fontSize: ".85rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '0.85rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "0.85rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.2rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".2rem",
       },
     },
   },
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem !important',
-      height: '2.7rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem !important",
+      height: "2.7rem",
+      borderRadius: "1.3rem",
     },
   },
   tableBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      height: '3rem',
-      fontSize: '1.25rem',
-      borderRadius: '2rem',
-      boxShadow: 'none',
+      height: "3rem",
+      fontSize: "1.25rem",
+      borderRadius: "2rem",
+      boxShadow: "none",
 
-      '&:hover': {
-        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-          color: '#fff',
+      "&:hover": {
+        "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          color: "#fff",
         },
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.5rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.5rem",
       },
     },
   },
 
   redBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightRed,
       color: theme.palette.common.red,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.error.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
-}))
+}));
 
 const Messages = ({
   selectedMenu,
@@ -114,63 +114,57 @@ const Messages = ({
   setSelectedMenu,
   setSelectedSubMenu,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [pageInfo, setPageInfo] = useState([])
+  const classes = useStyles();
+  const theme = useTheme();
+  const [pageInfo, setPageInfo] = useState([]);
   const greenButtonType = {
     background: theme.palette.primary.main,
     hover: theme.palette.primary.light,
     active: theme.palette.primary.dark,
-  }
+  };
 
-  const [searchMessage, setSearchMessage] = useState('')
-  const [message, setMessage] = useState([])
+  const [searchMessage, setSearchMessage] = useState("");
+  const [message, setMessage] = useState([]);
   const { loading, data, error, refetch } = useQuery(getMessage, {
     variables: {
-      providerId: localStorage.getItem('partnerProviderId'),
+      providerId: localStorage.getItem("partnerProviderId"),
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
   const onChange = async (e) => {
-    setSearchMessage(e)
-    if (e === '') {
-      refetch()
-    } else refetch({ recipient: e })
-  }
+    setSearchMessage(e);
+    if (e === "") {
+      refetch();
+    } else refetch({ recipient: e });
+  };
 
   useEffect(() => {
     if (data) {
-      setMessage(data.getMessages.messages)
-      setPageInfo(data.getMessages.pageInfo)
+      setMessage(data.getMessages.messages);
+      setPageInfo(data.getMessages.pageInfo);
     }
-  }, [message, data])
+  }, [message, data]);
   const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage })
-  }
+    refetch({ page: newPage });
+  };
 
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
 
   useEffect(() => {
-    setSelectedMenu(5)
-    setSelectedSubMenu(0)
+    setSelectedMenu(5);
+    setSelectedSubMenu(0);
     //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu])
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  }, [selectedMenu, selectedSubMenu]);
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   else {
     return (
       <Grid containerdirection="column" gap={2} flexWrap="nowrap" height="100%">
-        <Grid item container style={{ paddingBottom: '5rem' }}>
+        <Grid item container style={{ paddingBottom: "5rem" }}>
           <Grid item className={classes.searchGrid}>
             <Search
               value={searchMessage}
@@ -210,10 +204,10 @@ const Messages = ({
               {message
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { recipient, subject, createdAt, _id } = row
-                  const isItemSelected = isSelected(_id, selectedRows)
+                  const { recipient, subject, createdAt, _id } = row;
+                  const isItemSelected = isSelected(_id, selectedRows);
 
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
@@ -229,37 +223,37 @@ const Messages = ({
                             handleSelectedRows(
                               _id,
                               selectedRows,
-                              setSelectedRows,
+                              setSelectedRows
                             )
                           }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            'aria-labelledby': labelId,
+                            "aria-labelledby": labelId,
                           }}
                         />
                       </TableCell>
                       <TableCell
                         align="left"
                         className={classes.tableCell}
-                        style={{ maxWidth: '20rem' }}
+                        style={{ maxWidth: "20rem" }}
                       >
                         <div
                           style={{
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'flex-start',
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "flex-start",
                           }}
                         >
-                          <span style={{ marginRight: '1rem' }}>
+                          <span style={{ marginRight: "1rem" }}>
                             <Avatar
                               alt={`Display Photo of ${recipient}`}
                               src={displayPhoto}
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
-                          <span style={{ fontSize: '1.25rem' }}>
+                          <span style={{ fontSize: "1.25rem" }}>
                             {recipient}
                           </span>
                         </div>
@@ -267,7 +261,7 @@ const Messages = ({
                       <TableCell
                         align="left"
                         className={classes.tableCell}
-                        style={{ maxWidth: '15rem' }}
+                        style={{ maxWidth: "15rem" }}
                       >
                         {subject}
                       </TableCell>
@@ -298,7 +292,7 @@ const Messages = ({
                         </Button>
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
             </EnhancedTable>
           </Grid>
@@ -309,15 +303,15 @@ const Messages = ({
           />
         )}
       </Grid>
-    )
+    );
   }
-}
+};
 
 Messages.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+};
 
-export default Messages
+export default Messages;

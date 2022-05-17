@@ -1,57 +1,57 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import PropTypes from 'prop-types'
-import { Grid, Typography, Divider } from '@mui/material'
-import ChipInput from 'material-ui-chip-input'
-import { CustomButton, TextError, PreviousButton } from 'components/Utilities'
-import { useTheme } from '@mui/material/styles'
-import { makeStyles } from '@mui/styles'
-import { useActions } from 'components/hooks/useActions'
-import { Formik, Field, ErrorMessage, Form } from 'formik'
-import * as Yup from 'yup'
-import { useHistory } from 'react-router'
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import PropTypes from "prop-types";
+import { Grid, Typography, Divider } from "@mui/material";
+import ChipInput from "material-ui-chip-input";
+import { CustomButton, TextError, PreviousButton } from "components/Utilities";
+import { useTheme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
+import { useActions } from "components/hooks/useActions";
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import * as Yup from "yup";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   gridWrapper: {
-    '&.MuiGrid-item': {
-      borderRadius: '1rem',
-      background: '#fff',
-      padding: '2rem 4rem',
-      maxWidth: '70rem !important',
-      boxShadow: '-1px 0px 10px -2px rgba(0,0,0,0.1)',
-      '& .MuiFormControl-root': {
-        '& .WAMuiChipInput-standard-6 ': {
-          display: 'flex',
-          alignItems: 'center',
-          fontSize: '1.5rem',
+    "&.MuiGrid-item": {
+      borderRadius: "1rem",
+      background: "#fff",
+      padding: "2rem 4rem",
+      maxWidth: "70rem !important",
+      boxShadow: "-1px 0px 10px -2px rgba(0,0,0,0.1)",
+      "& .MuiFormControl-root": {
+        "& .WAMuiChipInput-standard-6 ": {
+          display: "flex",
+          alignItems: "center",
+          fontSize: "1.5rem",
         },
-        '& .WAMuiChipInput-chip-16': {
-          padding: '.6rem',
-          fontSize: '1.5rem',
+        "& .WAMuiChipInput-chip-16": {
+          padding: ".6rem",
+          fontSize: "1.5rem",
         },
       },
     },
   },
   formInput: {
-    width: '100%',
-    height: '100%',
-    fontSize: '1.5rem',
-    padding: '.5rem 1rem',
-    border: 'none',
-    background: 'transparent',
+    width: "100%",
+    height: "100%",
+    fontSize: "1.5rem",
+    padding: ".5rem 1rem",
+    border: "none",
+    background: "transparent",
     color: theme.palette.common.grey,
-    '& .MuiChipInput-chipContainer': {
-      position: 'relative',
-      display: 'none',
+    "& .MuiChipInput-chipContainer": {
+      position: "relative",
+      display: "none",
       marginTop: 0,
-      border: 'none !important',
+      border: "none !important",
     },
 
-    '&:focus': {
-      outline: 'none',
-      borderBottom: 'none !important',
+    "&:focus": {
+      outline: "none",
+      borderBottom: "none !important",
     },
   },
   inputGrid: {
@@ -59,27 +59,27 @@ const useStyles = makeStyles((theme) => ({
   },
   btns: {
     ...theme.typography.btn,
-    padding: '2rem 3rem',
+    padding: "2rem 3rem",
   },
   heading: {
-    '&.MuiTypography-root': {
+    "&.MuiTypography-root": {
       color: theme.palette.common.grey,
     },
   },
 
   textArea: {
-    border: '1px solid rgba(0, 0, 0, 0.03)',
-    resize: 'none',
-    fontSize: '30px',
+    border: "1px solid rgba(0, 0, 0, 0.03)",
+    resize: "none",
+    fontSize: "30px",
     height: 300,
-    borderRadius: '0.5rem',
+    borderRadius: "0.5rem",
   },
   divider: {
-    '&.MuiDivider-root': {
-      borderColor: 'rgba(0, 0, 0, 0.03)',
+    "&.MuiDivider-root": {
+      borderColor: "rgba(0, 0, 0, 0.03)",
     },
   },
-}))
+}));
 
 const CreateEmail = ({
   selectedMenu,
@@ -88,49 +88,56 @@ const CreateEmail = ({
   setSelectedSubMenu,
 }) => {
   const isEvent = (event) =>
-    event && (event instanceof Event || event.nativeEvent instanceof Event)
-  const history = useHistory()
-  const classes = useStyles()
-  const theme = useTheme()
+    event && (event instanceof Event || event.nativeEvent instanceof Event);
+  const history = useHistory();
+  const classes = useStyles();
+  const theme = useTheme();
 
-  const { emailData } = useActions()
+  const { emailData } = useActions();
 
   useEffect(() => {
-    setSelectedMenu(6)
-    setSelectedSubMenu(7)
+    setSelectedMenu(6);
+    setSelectedSubMenu(7);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu])
+  }, [selectedMenu, selectedSubMenu]);
 
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
     disabled: theme.palette.common.black,
-  }
+  };
 
   const onSubmit = (values, onSubmitProps) => {
-    onSubmitProps.setSubmitting(false)
-    emailData(values)
-    onSubmitProps.resetForm()
-    history.push('/email')
-  }
+    onSubmitProps.setSubmitting(false);
+    emailData(values);
+    onSubmitProps.resetForm();
+    history.push("/email");
+  };
   const initialValues = {
     id: Math.floor(Math.random() * 100 + 1),
     name: [],
-    message: '',
-    textarea: '',
-    entryData: 'July 17, 2021',
-    plan: 'HCP',
-    email: 'Sule@gmail.com',
-  }
+    message: "",
+    textarea: "",
+    entryData: "July 17, 2021",
+    plan: "HCP",
+    email: "Sule@gmail.com",
+  };
   const validationSchema = Yup.object({
     name: Yup.array().of(
-      Yup.string().trim().email('Enter a valid email').required('Email is required'),
+      Yup.string()
+        .trim()
+        .email("Enter a valid email")
+        .required("Email is required")
     ),
-    message: Yup.string('Enter your subject').trim().required('Subject is required'),
-    textarea: Yup.string('Enter your message').trim().required('Message is required'),
-  })
+    message: Yup.string("Enter your subject")
+      .trim()
+      .required("Subject is required"),
+    textarea: Yup.string("Enter your message")
+      .trim()
+      .required("Message is required"),
+  });
 
   return (
     <Formik
@@ -145,12 +152,12 @@ const CreateEmail = ({
         return (
           <Form>
             <Grid container direction="column">
-              <Grid item style={{ marginBottom: '3rem' }}>
+              <Grid item style={{ marginBottom: "3rem" }}>
                 <PreviousButton path={`/email`} />
               </Grid>
               <Grid item container direction="column" alignItems="center">
                 <Grid item>
-                  <Typography variant="h4" style={{ marginBottom: '3rem' }}>
+                  <Typography variant="h4" style={{ marginBottom: "3rem" }}>
                     Create new Email
                   </Typography>
                 </Grid>
@@ -161,7 +168,7 @@ const CreateEmail = ({
                   direction="column"
                   className={classes.gridWrapper}
                 >
-                  <Grid item style={{ marginBottom: '3rem' }}>
+                  <Grid item style={{ marginBottom: "3rem" }}>
                     <Grid container alignItems="center">
                       <Grid item>
                         <Typography variant="body2" className={classes.heading}>
@@ -171,8 +178,8 @@ const CreateEmail = ({
                       <Grid item className={classes.inputGrid}>
                         <Field name="name">
                           {({ field, form }) => {
-                            const { value, name, onChange } = field
-                            const { setFieldValue } = form
+                            const { value, name, onChange } = field;
+                            const { setFieldValue } = form;
                             return (
                               <ChipWrapper>
                                 <ChipInput
@@ -182,30 +189,30 @@ const CreateEmail = ({
                                   id="name"
                                   value={value}
                                   style={{
-                                    padding: '1.2rem',
+                                    padding: "1.2rem",
                                   }}
                                   disableUnderline
                                   onAdd={(newVal) => {
-                                    const newArr = [...value, newVal]
+                                    const newArr = [...value, newVal];
                                     if (isEvent(newArr)) {
-                                      onChange(newArr)
+                                      onChange(newArr);
                                     } else {
-                                      setFieldValue(name, newArr)
+                                      setFieldValue(name, newArr);
                                     }
                                   }}
                                   onDelete={(deletedVal) => {
                                     const newArr = value.filter(
-                                      (state) => state !== deletedVal,
-                                    )
+                                      (state) => state !== deletedVal
+                                    );
                                     if (isEvent(newArr)) {
-                                      onChange(newArr)
+                                      onChange(newArr);
                                     } else {
-                                      setFieldValue(name, newArr)
+                                      setFieldValue(name, newArr);
                                     }
                                   }}
                                 />
                               </ChipWrapper>
-                            )
+                            );
                           }}
                         </Field>
                       </Grid>
@@ -213,7 +220,7 @@ const CreateEmail = ({
                     <ErrorMessage name="name" component={TextError} />
                     <Divider className={classes.divider} />
                   </Grid>
-                  <Grid item style={{ marginBottom: '3rem' }}>
+                  <Grid item style={{ marginBottom: "3rem" }}>
                     <Grid container alignItems="center">
                       <Grid item>
                         <Typography variant="body2" className={classes.heading}>
@@ -236,13 +243,13 @@ const CreateEmail = ({
                     <Grid item container direction="column" maxWidth="100%">
                       <Grid item>
                         <Typography variant="body2" className={classes.heading}>
-                          Message:{' '}
+                          Message:{" "}
                         </Typography>
                       </Grid>
                       <Grid
                         item
                         container
-                        sx={{ marginBottom: '2rem' }}
+                        sx={{ marginBottom: "2rem" }}
                         maxWidth="100%"
                       >
                         <Field name="textarea">
@@ -257,13 +264,13 @@ const CreateEmail = ({
                                   editor={ClassicEditor}
                                   onChange={(e, editor) => {
                                     form.setFieldValue(
-                                      'textarea',
-                                      editor.getData('text'),
-                                    )
+                                      "textarea",
+                                      editor.getData("text")
+                                    );
                                   }}
                                 />
                               </Wrapper>
-                            )
+                            );
                           }}
                         </Field>
                       </Grid>
@@ -273,7 +280,7 @@ const CreateEmail = ({
                   </Grid>
                   <Grid
                     item
-                    style={{ alignSelf: 'flex-end', marginTop: '2rem' }}
+                    style={{ alignSelf: "flex-end", marginTop: "2rem" }}
                   >
                     <CustomButton
                       title="Send Mail"
@@ -287,11 +294,11 @@ const CreateEmail = ({
               </Grid>
             </Grid>
           </Form>
-        )
+        );
       }}
     </Formik>
-  )
-}
+  );
+};
 const Wrapper = styled.div`
   display: inline-block;
   max-width: 100%;
@@ -303,15 +310,15 @@ const Wrapper = styled.div`
     max-height: 200px;
     overflow: scroll;
   }
-`
+`;
 const ChipWrapper = styled.div`
   font-size: 1.4rem;
-`
+`;
 CreateEmail.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+};
 
-export default CreateEmail
+export default CreateEmail;

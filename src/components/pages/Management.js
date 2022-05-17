@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Button,
@@ -6,217 +6,211 @@ import {
   TableCell,
   Checkbox,
   Chip,
-} from '@mui/material'
-import PropTypes from 'prop-types'
-import { Search, Loader } from 'components/Utilities'
-import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { roleHeader } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import CustomButton from 'components/Utilities/CustomButton'
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import Modals from 'components/Utilities/Modal'
-import { RoleModal } from 'components/modals/RoleModal'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import DeleteOrDisable from 'components/modals/DeleteOrDisable'
-import { useQuery, useMutation } from '@apollo/client'
-import { getRoles } from 'components/graphQL/useQuery'
-import { deleteRole } from 'components/graphQL/Mutation'
-import { Link } from 'react-router-dom'
+} from "@mui/material";
+import PropTypes from "prop-types";
+import { Search, Loader } from "components/Utilities";
+import { EnhancedTable, NoData, EmptyTable } from "components/layouts";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { roleHeader } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import CustomButton from "components/Utilities/CustomButton";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Modals from "components/Utilities/Modal";
+import { RoleModal } from "components/modals/RoleModal";
+import PreviousButton from "components/Utilities/PreviousButton";
+import DeleteOrDisable from "components/modals/DeleteOrDisable";
+import { useQuery, useMutation } from "@apollo/client";
+import { getRoles } from "components/graphQL/useQuery";
+import { deleteRole } from "components/graphQL/Mutation";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
-  '&.makeStyles-tableHeaderCell-27.MuiTableCell-root': {
-    background: 'red !important',
-    textAlign: 'center',
+  "&.makeStyles-tableHeaderCell-27.MuiTableCell-root": {
+    background: "red !important",
+    textAlign: "center",
   },
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      width: '100%',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '15rem',
-      fontSize: '1.3rem',
-      '&:hover': {
-        background: '#fcfcfc',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      width: "100%",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "15rem",
+      fontSize: "1.3rem",
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .css-9tj150-MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .css-9tj150-MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
 
-      '& .css-9tj150-MuiButton-endIcon': {
-        marginLeft: '.3rem',
-        marginTop: '-.2rem',
+      "& .css-9tj150-MuiButton-endIcon": {
+        marginLeft: ".3rem",
+        marginTop: "-.2rem",
       },
     },
   },
   tableBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      height: '3rem',
-      width: '100% !important',
-      fontSize: '1.25rem',
-      borderRadius: '2rem',
-      boxShadow: 'none',
+      height: "3rem",
+      width: "100% !important",
+      fontSize: "1.25rem",
+      borderRadius: "2rem",
+      boxShadow: "none",
 
-      '&:hover': {
-        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-          color: '#fff',
+      "&:hover": {
+        "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          color: "#fff",
         },
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.5rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.5rem",
       },
     },
   },
   redBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightRed,
       color: theme.palette.common.red,
-      width: '100%',
+      width: "100%",
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.error.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
   greenBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightGreen,
       color: theme.palette.common.green,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.success.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
   tableCell: {
-    '&.css-1tykg82-MuiTableCell-root': {
-      fontSize: '1.25rem',
-      textAlign: 'center !important',
-      width: '100%',
+    "&.css-1tykg82-MuiTableCell-root": {
+      fontSize: "1.25rem",
+      textAlign: "center !important",
+      width: "100%",
     },
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.6rem !important',
-      height: '3rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.6rem !important",
+      height: "3rem",
+      borderRadius: "1.3rem",
     },
     modal: {
-      background: 'red !important',
-      '& > * ': {
-        padding: '2rem 1rem',
+      background: "red !important",
+      "& > * ": {
+        padding: "2rem 1rem",
       },
     },
-    '.css-11lq3yg-MuiGrid-root': {
-      background: 'red',
+    ".css-11lq3yg-MuiGrid-root": {
+      background: "red",
     },
   },
-}))
+}));
 
 const Management = ({
   setSelectedSubMenu,
   setSelectedManagementMenu,
   setSelectedScopedMenu,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [pageInfo, setPageInfo] = useState([])
-  const [deleteRoles] = useMutation(deleteRole)
-  const [isOpen, setIsOpen] = useState(false)
-  const [deleteModal, setdeleteModal] = useState(false)
-  const [searchMail, setSearchMail] = useState('')
+  const classes = useStyles();
+  const theme = useTheme();
+  const [pageInfo, setPageInfo] = useState([]);
+  const [deleteRoles] = useMutation(deleteRole);
+  const [isOpen, setIsOpen] = useState(false);
+  const [deleteModal, setdeleteModal] = useState(false);
+  const [searchMail, setSearchMail] = useState("");
   // const [edit, setEdit] = useState(false);
-  const [id, setId] = useState(false)
+  const [id, setId] = useState(false);
 
   const handleDialogOpen = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
   const handleDialogClose = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
   const handleDeleteOpenDialog = (id) => {
-    setdeleteModal(true)
-    setId(id)
-  }
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
+    setdeleteModal(true);
+    setId(id);
+  };
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
 
   const onConfirm = async () => {
-    deleteRoles({ variables: { id }, refetchQueries: [{ query: getRoles }] })
-  }
+    deleteRoles({ variables: { id }, refetchQueries: [{ query: getRoles }] });
+  };
 
-  const [rolesManagements, setRolesManagements] = useState([])
+  const [rolesManagements, setRolesManagements] = useState([]);
   const { loading, data, error, refetch } = useQuery(getRoles, {
     notifyOnNetworkStatusChange: true,
-  })
+  });
   const onChange = async (e) => {
-    setSearchMail(e)
-    if (e === '') {
-      refetch()
-    } else refetch({ name: e })
-  }
+    setSearchMail(e);
+    if (e === "") {
+      refetch();
+    } else refetch({ name: e });
+  };
   useEffect(() => {
     if (data) {
-      setRolesManagements(data.getRoles.role)
-      setPageInfo(data.getRoles.pageInfo)
+      setRolesManagements(data.getRoles.role);
+      setPageInfo(data.getRoles.pageInfo);
     }
-  }, [data, rolesManagements])
+  }, [data, rolesManagements]);
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
-  }
+  };
   const checkbox = {
-    'permission 1': true,
-    'permission 2': true,
-    'permission 3': false,
-    'permission 4': true,
-  }
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
+    "permission 1": true,
+    "permission 2": true,
+    "permission 3": false,
+    "permission 4": true,
+  };
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
   const fetchMoreFunc = (_, newPage) => {
-    refetch({ page: newPage })
-  }
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+    refetch({ page: newPage });
+  };
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   return (
     <>
       <Grid container direction="column" gap={2}>
@@ -224,8 +218,8 @@ const Management = ({
           <PreviousButton
             path="/settings"
             onClick={() => {
-              setSelectedSubMenu(12)
-              setSelectedManagementMenu(0)
+              setSelectedSubMenu(12);
+              setSelectedManagementMenu(0);
             }}
           />
         </Grid>
@@ -270,18 +264,18 @@ const Management = ({
                 {rolesManagements
                   // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row._id, selectedRows)
-                    const labelId = `enhanced-table-checkbox-${index}`
-                    let newData
+                    const isItemSelected = isSelected(row._id, selectedRows);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    let newData;
                     if (row.permissions) {
                       const data = [
-                        ...new Set(row.permissions.map((i) => i.split(':')[0])),
-                      ]
-                      const dataLength = data.length - 5
+                        ...new Set(row.permissions.map((i) => i.split(":")[0])),
+                      ];
+                      const dataLength = data.length - 5;
                       newData = [
                         ...data.slice(0, 5),
                         dataLength ? `+${dataLength}` : null,
-                      ].filter((i) => i !== null)
+                      ].filter((i) => i !== null);
                     }
                     return (
                       <TableRow
@@ -298,13 +292,13 @@ const Management = ({
                               handleSelectedRows(
                                 row.id,
                                 selectedRows,
-                                setSelectedRows,
+                                setSelectedRows
                               )
                             }
                             color="primary"
                             checked={isItemSelected}
                             inputProps={{
-                              'aria-labelledby': labelId,
+                              "aria-labelledby": labelId,
                             }}
                           />
                         </TableCell>
@@ -315,7 +309,7 @@ const Management = ({
                           className={classes.tableCell}
                           style={{
                             color: theme.palette.common.black,
-                            minWidth: '10rem',
+                            minWidth: "10rem",
                           }}
                         >
                           {row.name}
@@ -341,19 +335,19 @@ const Management = ({
                                     key={i}
                                     className={classes.badge}
                                   />
-                                )
+                                );
                               })}
                           </Grid>
                         </TableCell>
                         <TableCell align="left" className={classes.tableCell}>
                           <div
                             style={{
-                              height: '100%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              minWidth: '25rem',
-                              gap: '1rem',
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              minWidth: "25rem",
+                              gap: "1rem",
                             }}
                           >
                             <Button
@@ -363,8 +357,8 @@ const Management = ({
                               to={`/settings/management/${row._id}`}
                               endIcon={<EditIcon color="success" />}
                               onClick={() => {
-                                setSelectedSubMenu(12)
-                                setSelectedManagementMenu(1)
+                                setSelectedSubMenu(12);
+                                setSelectedManagementMenu(1);
                               }}
                             >
                               Edit role
@@ -381,7 +375,7 @@ const Management = ({
                           </div>
                         </TableCell>
                       </TableRow>
-                    )
+                    );
                   })}
               </EnhancedTable>
             </Grid>
@@ -420,13 +414,13 @@ const Management = ({
         btnValue="Delete"
       />
     </>
-  )
-}
+  );
+};
 
-export default Management
+export default Management;
 
 Management.propTypes = {
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedManagementMenu: PropTypes.func.isRequired,
-  setSelectedScopedMenu: PropTypes.func.isRequired,
-}
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedManagementMenu: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
+};

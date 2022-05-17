@@ -359,8 +359,8 @@ const ViewResult = ({
 };
 
 ViewResult.propTypes = {
-  chatMediaActive: PropTypes.bool.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
+  chatMediaActive: PropTypes.bool,
+  setChatMediaActive: PropTypes.func,
 };
 
 export default ViewResult;

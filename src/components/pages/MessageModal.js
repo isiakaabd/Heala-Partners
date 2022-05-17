@@ -164,10 +164,10 @@ const MessageModal = ({
   );
 };
 MessageModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
+  handleClose: PropTypes.func,
   children: PropTypes.node,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.string,
   minHeight: PropTypes.string,

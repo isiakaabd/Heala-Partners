@@ -29,7 +29,9 @@ export const RoleModal = ({ handleDialogClose, type }) => {
 
   const validationSchema = Yup.object({
     name: Yup.string("Enter your Name").trim().required("Name is required"),
-    description: Yup.string("Enter your description").trim().required("Description is required"),
+    description: Yup.string("Enter your description")
+      .trim()
+      .required("Description is required"),
   });
   const onSubmit = async (values) => {
     const { name, description } = values;
@@ -97,7 +99,7 @@ export const RoleModal = ({ handleDialogClose, type }) => {
 };
 
 RoleModal.propTypes = {
-  handleDialogClose: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
-  checkbox: PropTypes.object.isRequired,
+  handleDialogClose: PropTypes.func,
+  type: PropTypes.string,
+  checkbox: PropTypes.object,
 };

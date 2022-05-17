@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid, Chip, Avatar, Typography, Divider } from "@mui/material";
-import Modals from "components/Utilities/Modal";
-import NoData from "components/layouts/NoData";
-import Loader from "components/Utilities/Loader";
-import CustomButton from "components/Utilities/CustomButton";
+import { Modals } from "components/Utilities";
+import { NoData } from "components/layouts";
+import { Loader, CustomButton } from "components/Utilities";
 import { useQuery } from "@apollo/client";
 import { getConsult } from "components/graphQL/useQuery";
 import { dateMoment, duration, daily } from "components/Utilities/Time";
@@ -152,7 +151,9 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5">{dateMoment(createdAt)}</Typography>
+                    <Typography variant="h5">
+                      {dateMoment(createdAt)}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -164,7 +165,9 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="body1">{referralId ? referralId : "No Value"}</Typography>
+                    <Typography variant="body1">
+                      {referralId ? referralId : "No Value"}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -176,7 +179,9 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="body1">{referralId ? referralId : "No Value"}</Typography>
+                    <Typography variant="body1">
+                      {referralId ? referralId : "No Value"}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -188,7 +193,11 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Chip variant="contained" label={status} className={classes.infoBadge} />
+                    <Chip
+                      variant="contained"
+                      label={status}
+                      className={classes.infoBadge}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
@@ -211,7 +220,10 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Avatar src={displayPhoto} alt="Display photo of the sender" />
+                    <Avatar
+                      src={displayPhoto}
+                      alt="Display photo of the sender"
+                    />
                   </Grid>
                   <Grid item>
                     <Typography variant="h5">{patient}</Typography>
@@ -254,7 +266,9 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="body1">{type ? type : "No Value"}</Typography>
+                    <Typography variant="body1">
+                      {type ? type : "No Value"}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -312,7 +326,10 @@ const HcpCaseNotes = ({
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body1"> {firstNotice ? firstNotice : "No value"}</Typography>
+                  <Typography variant="body1">
+                    {" "}
+                    {firstNotice ? firstNotice : "No value"}
+                  </Typography>
                 </Grid>
               </Grid>
               <Grid item container gap={2}>
@@ -427,7 +444,10 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Avatar src={displayPhoto} alt="Display photo of the sender" />
+                    <Avatar
+                      src={displayPhoto}
+                      alt="Display photo of the sender"
+                    />
                   </Grid>
                   <Grid item>
                     <Typography variant="h5">{patient}</Typography>
@@ -442,7 +462,9 @@ const HcpCaseNotes = ({
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="body1">{dateMoment(createdAt)}</Typography>
+                    <Typography variant="body1">
+                      {dateMoment(createdAt)}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -532,7 +554,8 @@ const HcpCaseNotes = ({
 
                       <Grid item>
                         <Typography variant="body1" className={classes.title}>
-                          {duration(i.dosageFrequency.duration)} {daily(i.dosageFrequency.day)}
+                          {duration(i.dosageFrequency.duration)}{" "}
+                          {daily(i.dosageFrequency.day)}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -574,14 +597,14 @@ const HcpCaseNotes = ({
 };
 
 HcpCaseNotes.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
-  setSelectedScopedMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default HcpCaseNotes;

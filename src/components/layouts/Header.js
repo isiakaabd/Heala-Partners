@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { AppBar } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import HeaderContents from 'components/layouts/HeaderContents'
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import { AppBar } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import HeaderContents from "components/layouts/HeaderContents";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    paddingLeft: '35rem',
-    paddingTop: '2em',
-    paddingBottom: '2em',
+    paddingLeft: "35rem",
+    paddingTop: "2em",
+    paddingBottom: "2em",
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
   },
-}))
+}));
 
 const Header = (props) => {
   const {
@@ -24,8 +24,8 @@ const Header = (props) => {
     waitingListMenu,
     selectedAppointmentMenu,
     selectedScopedMenu,
-  } = props
-  const classes = useStyles()
+  } = props;
+  const classes = useStyles();
   return (
     <Fragment>
       <AppBar
@@ -44,17 +44,17 @@ const Header = (props) => {
         />
       </AppBar>
     </Fragment>
-  )
-}
+  );
+};
 
 Header.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+};
 
-export default Header
+export default Header;

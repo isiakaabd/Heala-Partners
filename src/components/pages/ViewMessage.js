@@ -30,10 +30,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewMessage = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelectedSubMenu }) => {
+const ViewMessage = ({
+  selectedMenu,
+  setSelectedMenu,
+  selectedSubMenu,
+  setSelectedSubMenu,
+}) => {
   const classes = useStyles();
   const { messageId } = useParams();
-  const { loading, data, error } = useQuery(getAMessage, { variables: { id: messageId } });
+  const { loading, data, error } = useQuery(getAMessage, {
+    variables: { id: messageId },
+  });
 
   useEffect(() => {
     setSelectedMenu(5);
@@ -71,7 +78,11 @@ const ViewMessage = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelect
               <Typography variant="h5">{sender}</Typography>
             </Grid>
             <Grid item>
-              <Chip variant="outlined" label={recipient} className={classes.badge} />
+              <Chip
+                variant="outlined"
+                label={recipient}
+                className={classes.badge}
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -87,10 +98,10 @@ const ViewMessage = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelect
 };
 
 ViewMessage.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
 };
 
 export default ViewMessage;
