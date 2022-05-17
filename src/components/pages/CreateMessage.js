@@ -11,7 +11,11 @@ import { CREATE_MESSAGE } from "components/graphQL/Mutation";
 import { useMutation, useQuery } from "@apollo/client";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { getMessage, getProfileByDociId, getDoctorByDociId } from "components/graphQL/useQuery";
+import {
+  getMessage,
+  getProfileByDociId,
+  getDoctorByDociId,
+} from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   gridWrapper: {
@@ -57,7 +61,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSelectedSubMenu }) => {
+const CreateMessage = ({
+  selectedMenu,
+  selectedSubMenu,
+  setSelectedMenu,
+  setSelectedSubMenu,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   let history = useHistory();
@@ -69,10 +78,13 @@ const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSele
     fetchPolicy: "network-only",
     nextFetchPolicy: "network-only",
   });
-  const { data: doctorProfile, refetch: refetch2 } = useQuery(getDoctorByDociId, {
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "network-only",
-  });
+  const { data: doctorProfile, refetch: refetch2 } = useQuery(
+    getDoctorByDociId,
+    {
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "network-only",
+    }
+  );
 
   const buttonType = {
     background: theme.palette.common.black,
@@ -82,9 +94,15 @@ const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSele
   };
 
   const validationSchema = Yup.object({
-    subject: Yup.string("Enter your subject").trim().required("Subject is required"),
-    textarea: Yup.string("Enter your message").trim().required("Message is required"),
-    recipient: Yup.string("Enter your recipient").trim().required("recipients is required"),
+    subject: Yup.string("Enter your subject")
+      .trim()
+      .required("Subject is required"),
+    textarea: Yup.string("Enter your message")
+      .trim()
+      .required("Message is required"),
+    recipient: Yup.string("Enter your recipient")
+      .trim()
+      .required("recipients is required"),
   });
 
   const [recipient, setRecipient] = useState("");
@@ -120,7 +138,7 @@ const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSele
         await refetch2({ dociId: `HEALA-${e.toUpperCase()}` });
       }
     },
-    [refetch, refetch2, data, error],
+    [refetch, refetch2, data, error]
   );
 
   useEffect(() => {
@@ -174,7 +192,12 @@ const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSele
                     Create New Message
                   </Typography>
                 </Grid>
-                <Grid item container direction="column" className={classes.gridWrapper}>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.gridWrapper}
+                >
                   <Grid item style={{ marginBottom: "3rem" }}>
                     <Grid container alignItems="center">
                       <Grid item>
@@ -233,7 +256,10 @@ const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSele
                     </Grid>
                     {/* <Divider className={classes.divider} /> */}
                   </Grid>
-                  <Grid item style={{ alignSelf: "flex-end", marginTop: "2rem" }}>
+                  <Grid
+                    item
+                    style={{ alignSelf: "flex-end", marginTop: "2rem" }}
+                  >
                     <CustomButton
                       title="Send Message"
                       width="100%"
@@ -256,10 +282,10 @@ const CreateMessage = ({ selectedMenu, selectedSubMenu, setSelectedMenu, setSele
 };
 
 CreateMessage.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
 };
 
 export default CreateMessage;

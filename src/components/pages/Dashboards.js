@@ -1,27 +1,27 @@
-import React, { useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Grid } from '@mui/material'
-import { DashCharts } from 'components/layouts'
+import React, { useLayoutEffect } from "react";
+import PropTypes from "prop-types";
+import { Grid } from "@mui/material";
+import { DashCharts } from "components/layouts";
 // import AvailabilityTable from 'components/layouts/AvailabilityTable'
 
 const Dashboards = ({ chatMediaActive, setChatMediaActive }) => {
   useLayoutEffect(() => {
-    setChatMediaActive(false)
+    setChatMediaActive(false);
 
     // eslint-disable-next-line
-  }, [chatMediaActive])
+  }, [chatMediaActive]);
   return (
     <Grid container direction="column">
       <Grid item>
         <DashCharts />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 Dashboards.propTypes = {
-  chatMediaActive: PropTypes.bool.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
-}
+  chatMediaActive: PropTypes.bool,
+  setChatMediaActive: PropTypes.func,
+};
 
-export default Dashboards
+export default Dashboards;

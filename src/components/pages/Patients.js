@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import FormikControl from 'components/validation/FormikControl'
-import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
-import PropTypes from 'prop-types'
-import { NoData, EmptyTable } from 'components/layouts'
-import { debounce } from 'lodash'
+import React, { useState, useEffect, useCallback } from "react";
+import FormikControl from "components/validation/FormikControl";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import PropTypes from "prop-types";
+import { NoData, EmptyTable } from "components/layouts";
+import { debounce } from "lodash";
 import {
   Button,
   Avatar,
@@ -13,186 +13,180 @@ import {
   TableCell,
   TableRow,
   Grid,
-} from '@mui/material'
+} from "@mui/material";
 import {
   Modals,
   FilterList,
   Loader,
   Search,
   CustomButton,
-} from 'components/Utilities'
-import EnhancedTable from 'components/layouts/EnhancedTable'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { patientsHeadCells1 } from 'components/Utilities/tableHeaders'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import displayPhoto from 'assets/images/avatar.svg'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import { useLazyQuery } from '@apollo/client'
-import { getPatients } from 'components/graphQL/useQuery'
+} from "components/Utilities";
+import EnhancedTable from "components/layouts/EnhancedTable";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { patientsHeadCells1 } from "components/Utilities/tableHeaders";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import displayPhoto from "assets/images/avatar.svg";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import { useLazyQuery } from "@apollo/client";
+import { getPatients } from "components/graphQL/useQuery";
 
 const genderType = [
-  { key: 'Male', value: '0' },
-  { key: 'Female', value: '1' },
-]
+  { key: "Male", value: "0" },
+  { key: "Female", value: "1" },
+];
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.MuiGrid-root': {
+    "&.MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '10rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "10rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.3rem',
-        marginTop: '-.2rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".3rem",
+        marginTop: "-.2rem",
       },
     },
   },
 
   tableCell: {
-    '&.MuiTableCell-root': {
-      fontSize: '1.25rem',
-      textAlign: 'left',
+    "&.MuiTableCell-root": {
+      fontSize: "1.25rem",
+      textAlign: "left",
     },
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem !important',
-      height: '2.7rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem !important",
+      height: "2.7rem",
 
-      borderRadius: '1.3rem',
+      borderRadius: "1.3rem",
     },
   },
   searchFilterBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
       background: theme.palette.common.black,
-      width: '100%',
+      width: "100%",
     },
   },
-}))
+}));
 
 const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
   // const inputRef = createRef();
 
   const initialValues = {
-    name: '',
-    bloodGroup: '',
-    phone: '',
-    gender: '',
-  }
+    name: "",
+    bloodGroup: "",
+    phone: "",
+    gender: "",
+  };
 
   const validationSchema = Yup.object({
-    name: Yup.string('Enter your hospital').trim(),
-    bloodGroup: Yup.string('Enter your bloodGroup').trim(),
-    gender: Yup.string('Select your gender'),
-    phone: Yup.number('Enter your specialization').typeError(
-      'Enter a current Number',
+    name: Yup.string("Enter your hospital").trim(),
+    bloodGroup: Yup.string("Enter your bloodGroup").trim(),
+    gender: Yup.string("Select your gender"),
+    phone: Yup.number("Enter your specialization").typeError(
+      "Enter a current Number"
     ),
-  })
+  });
   const [fetchpatient, { loading, error, data }] = useLazyQuery(getPatients, {
     variables: {
-      providerId: localStorage.getItem('partnerProviderId'),
+      providerId: localStorage.getItem("partnerProviderId"),
     },
-  })
+  });
 
   // ), {
   //   notifyOnNetworkStatusChange: true,
   // });
   useEffect(() => {
-    ;(async () => {
-      fetchpatient()
-    })()
-  }, [fetchpatient])
+    (async () => {
+      fetchpatient();
+    })();
+  }, [fetchpatient]);
   // const [fetchUser] = useLazyQuery(getPatients);
-  const [profiles, setProfiles] = useState([])
+  const [profiles, setProfiles] = useState([]);
   const onSubmit = async (values) => {
-    const { gender } = values
+    const { gender } = values;
     // if (!gender) return;
 
     await fetchpatient({
       variables: {
         gender,
       },
-    })
-    handleDialogClose()
-  }
-  const [pageInfo, setPageInfo] = useState([])
+    });
+    handleDialogClose();
+  };
+  const [pageInfo, setPageInfo] = useState([]);
   useEffect(() => {
     if (data) {
-      setPageInfo(data.profiles.pageInfo)
-      setProfiles(data.profiles.data)
+      setPageInfo(data.profiles.pageInfo);
+      setProfiles(data.profiles.data);
     }
-  }, [data])
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  const { selectedRows } = useSelector((state) => state.tables)
+  }, [data]);
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  const { selectedRows } = useSelector((state) => state.tables);
 
-  const { setSelectedRows } = useActions()
+  const { setSelectedRows } = useActions();
 
   const debouncer = useCallback(() => {
-    debounce(fetchpatient, 3000)
-  }, [fetchpatient])
+    debounce(fetchpatient, 3000);
+  }, [fetchpatient]);
 
   const fetchMoreFunc = async (e, newPage) => {
     fetchpatient({
       variables: {
         page: newPage,
       },
-    })
+    });
     //refetch({ page: newPage });
-  }
+  };
 
-  const [isOpen, setIsOpen] = useState(false)
-  const handleDialogOpen = () => setIsOpen(true)
-  const handleDialogClose = () => setIsOpen(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const handleDialogOpen = () => setIsOpen(true);
+  const handleDialogClose = () => setIsOpen(false);
 
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
     disabled: theme.palette.common.black,
-  }
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  };
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
 
   return (
     <>
@@ -208,10 +202,10 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
             <Search
               // value={searchPatient}
               onChange={(e) => {
-                let value = ''
-                if (value !== '') value = `HEALA-${value.toUpperCase()}`
-                else value = ''
-                return debouncer({ variables: { dociId: value } })
+                let value = "";
+                if (value !== "") value = `HEALA-${value.toUpperCase()}`;
+                else value = "";
+                return debouncer({ variables: { dociId: value } });
               }}
               // onChange={debouncedChangeHandler}
               placeholder="Type to search patients by Heala ID e.g 7NE6ELLO "
@@ -248,7 +242,7 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
               {(rowsPerPage > 0
                 ? profiles.slice(
                     page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
                   )
                 : profiles
               ).map((row, index) => {
@@ -262,9 +256,9 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                   consultations,
                   _id,
                   status,
-                } = row
-                const isItemSelected = isSelected(_id, selectedRows)
-                const labelId = `enhanced-table-checkbox-${index}`
+                } = row;
+                const isItemSelected = isSelected(_id, selectedRows);
+                const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
                     hover
@@ -282,7 +276,7 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
-                          'aria-labelledby': labelId,
+                          "aria-labelledby": labelId,
                         }}
                       />
                     </TableCell>
@@ -293,20 +287,20 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        textAlign: 'left',
+                        textAlign: "left",
                       }}
                     >
-                      {dociId && dociId.split('-')[1]}
+                      {dociId && dociId.split("-")[1]}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'left',
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "left",
                         }}
                       >
-                        <span style={{ marginRight: '1rem' }}>
+                        <span style={{ marginRight: "1rem" }}>
                           <Avatar
                             alt={`Display Photo of ${firstName}`}
                             src={image ? image : displayPhoto}
@@ -314,30 +308,30 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           />
                         </span>
                         <span
-                          style={{ fontSize: '1.25rem' }}
+                          style={{ fontSize: "1.25rem" }}
                         >{`${firstName} ${lastName}`}</span>
                       </div>
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
-                      {plan ? plan : 'No Plan'}
+                      {plan ? plan : "No Plan"}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
-                      {provider ? provider : 'No Provider'}
+                      {provider ? provider : "No Provider"}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       {consultations ? consultations : 0}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <Chip
-                        label={status ? status : 'No Status'}
+                        label={status ? status : "No Status"}
                         className={classes.badge}
                         style={{
                           background:
-                            status === 'Active'
+                            status === "Active"
                               ? theme.palette.common.lightGreen
                               : theme.palette.common.lightRed,
                           color:
-                            status === 'Active'
+                            status === "Active"
                               ? theme.palette.common.green
                               : theme.palette.common.red,
                         }}
@@ -351,15 +345,15 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         to={`patients/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
                         onClick={() => {
-                          setSelectedSubMenu(2)
-                          setSelectedPatientMenu(0)
+                          setSelectedSubMenu(2);
+                          setSelectedPatientMenu(0);
                         }}
                       >
                         View Profile
                       </Button>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </EnhancedTable>
           </Grid>
@@ -386,7 +380,7 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         >
           {({ isSubmitting, isValid, dirty }) => {
             return (
-              <Form style={{ marginTop: '3rem' }}>
+              <Form style={{ marginTop: "3rem" }}>
                 <Grid item container direction="column">
                   <Grid item>
                     <FormikControl
@@ -412,17 +406,17 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                   </Grid>
                 </Grid>
               </Form>
-            )
+            );
           }}
         </Formik>
       </Modals>
     </>
-  )
-}
+  );
+};
 
 Patients.propTypes = {
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-}
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+};
 
-export default Patients
+export default Patients;

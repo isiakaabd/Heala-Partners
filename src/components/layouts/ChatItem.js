@@ -94,7 +94,7 @@ const ChatItem = ({ chatList: { name, photo, message, time } }) => {
 };
 
 ChatItem.propTypes = {
-  chatList: PropTypes.object.isRequired,
+  chatList: PropTypes.object,
 };
 
 export default ChatItem;

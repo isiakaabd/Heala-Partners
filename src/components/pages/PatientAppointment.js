@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import Modals from 'components/Utilities/Modal'
-import NoData from 'components/layouts/NoData'
-import CustomButton from 'components/Utilities/CustomButton'
-import { Formik, Form } from 'formik'
-import FormikControl from 'components/validation/FormikControl'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from "react";
+import Modals from "components/Utilities/Modal";
+import NoData from "components/layouts/NoData";
+import CustomButton from "components/Utilities/CustomButton";
+import { Formik, Form } from "formik";
+import FormikControl from "components/validation/FormikControl";
+import PropTypes from "prop-types";
 import {
   Grid,
   Alert,
@@ -14,99 +14,99 @@ import {
   Checkbox,
   Button,
   Avatar,
-} from '@mui/material'
-import { deleteAppointment } from 'components/graphQL/Mutation'
-import FilterList from 'components/Utilities/FilterList'
-import { EnhancedTable, EmptyTable } from 'components/layouts'
-import { useQuery, useMutation } from '@apollo/client'
-import { getAppoint, getDOCAppoint } from 'components/graphQL/useQuery'
-import DeleteOrDisable from 'components/modals/DeleteOrDisable'
-import { consultationsHeadCells2 } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { isSelected } from 'helpers/isSelected'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import displayPhoto from 'assets/images/avatar.svg'
-import DeleteIcon from '@mui/icons-material/Delete'
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import { useParams } from 'react-router-dom'
-import Loader from 'components/Utilities/Loader'
-import { timeConverter, timeMoment } from 'components/Utilities/Time'
-import * as Yup from 'yup'
-import { updateAppointment } from 'components/graphQL/Mutation'
+} from "@mui/material";
+import { deleteAppointment } from "components/graphQL/Mutation";
+import FilterList from "components/Utilities/FilterList";
+import { EnhancedTable, EmptyTable } from "components/layouts";
+import { useQuery, useMutation } from "@apollo/client";
+import { getAppoint, getDOCAppoint } from "components/graphQL/useQuery";
+import DeleteOrDisable from "components/modals/DeleteOrDisable";
+import { consultationsHeadCells2 } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { isSelected } from "helpers/isSelected";
+import { handleSelectedRows } from "helpers/selectedRows";
+import displayPhoto from "assets/images/avatar.svg";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import PreviousButton from "components/Utilities/PreviousButton";
+import { useParams } from "react-router-dom";
+import Loader from "components/Utilities/Loader";
+import { timeConverter, timeMoment } from "components/Utilities/Time";
+import * as Yup from "yup";
+import { updateAppointment } from "components/graphQL/Mutation";
 const useStyles = makeStyles((theme) => ({
   tableCell: {
-    '&.css-1jilxo7-MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.css-1jilxo7-MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
   btn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      width: '100%',
+      width: "100%",
     },
   },
 
   tableBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.btn,
-      height: '3rem',
-      fontSize: '1.25rem',
-      borderRadius: '2rem',
-      boxShadow: 'none',
+      height: "3rem",
+      fontSize: "1.25rem",
+      borderRadius: "2rem",
+      boxShadow: "none",
 
-      '&:hover': {
-        '& .MuiButton-endIcon>*:nth-of-type(1)': {
-          color: '#fff',
+      "&:hover": {
+        "& .MuiButton-endIcon>*:nth-of-type(1)": {
+          color: "#fff",
         },
       },
 
-      '&:active': {
-        boxShadow: 'none',
+      "&:active": {
+        boxShadow: "none",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.5rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.5rem",
       },
     },
   },
 
   redBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightRed,
       color: theme.palette.common.red,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.error.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
 
   greenBtn: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       background: theme.palette.common.lightGreen,
       color: theme.palette.common.green,
 
-      '&:hover': {
+      "&:hover": {
         background: theme.palette.success.light,
-        color: '#fff',
+        color: "#fff",
       },
     },
   },
-}))
+}));
 
 const filterOptions = [
-  { id: 0, value: 'Name' },
-  { id: 1, value: 'Date' },
-  { id: 2, value: 'Description' },
-]
+  { id: 0, value: "Name" },
+  { id: 1, value: "Date" },
+  { id: 2, value: "Description" },
+];
 
 const PatientAppointment = (props) => {
-  const [updateAppoint] = useMutation(updateAppointment)
+  const [updateAppoint] = useMutation(updateAppointment);
   const {
     selectedMenu,
     selectedSubMenu,
@@ -114,22 +114,22 @@ const PatientAppointment = (props) => {
     setSelectedSubMenu,
     selectedPatientMenu,
     setSelectedPatientMenu,
-  } = props
-  const [deleteAppointments] = useMutation(deleteAppointment)
-  const [pageInfo, setPageInfo] = useState([])
-  const [alert, setAlert] = useState(null)
-  const [editId, setEditid] = useState(null)
-  const [doctorId, setDoctorId] = useState(null)
+  } = props;
+  const [deleteAppointments] = useMutation(deleteAppointment);
+  const [pageInfo, setPageInfo] = useState([]);
+  const [alert, setAlert] = useState(null);
+  const [editId, setEditid] = useState(null);
+  const [doctorId, setDoctorId] = useState(null);
   const handleDelete = (id) => {
-    setId(id)
-    setdeleteModal(true)
-  }
+    setId(id);
+    setdeleteModal(true);
+  };
 
   const handleSchedule = (id, doctor) => {
-    setIsPatients(true)
-    setEditid(id)
-    setDoctorId(doctor)
-  }
+    setIsPatients(true);
+    setEditid(id);
+    setDoctorId(doctor);
+  };
   const onConfirm = async () => {
     try {
       await deleteAppointments({
@@ -139,65 +139,65 @@ const PatientAppointment = (props) => {
             query: getAppoint,
             variables: {
               id: patientId,
-              orderBy: '-createdAt',
+              orderBy: "-createdAt",
             },
           },
         ],
-      })
+      });
       setAlert({
-        message: 'appointment deleted successfully',
-        type: 'success',
-      })
+        message: "appointment deleted successfully",
+        type: "success",
+      });
       setTimeout(() => {
-        setAlert(null)
-      }, 5000)
+        setAlert(null);
+      }, 5000);
     } catch (error) {
       setAlert({
-        message: 'appointment  not successfully deleted',
-        type: 'danger',
-      })
+        message: "appointment  not successfully deleted",
+        type: "danger",
+      });
       setTimeout(() => {
-        setAlert(null)
-      }, 5000)
-      console.log(error)
+        setAlert(null);
+      }, 5000);
+      console.log(error);
     }
-  }
-  const [deleteModal, setdeleteModal] = useState(false)
-  const classes = useStyles()
-  const theme = useTheme()
-  const [isPatient, setIsPatient] = useState(false)
-  const [isPatients, setIsPatients] = useState(false)
-  const [id, setId] = useState(null)
-  const handlePatientOpen = () => setIsPatient(true)
-  const handlePatientClose = () => setIsPatient(false)
-  const handlePatientCloses = () => setIsPatients(false)
-  const { patientId } = useParams()
-  const [patientAppointment, setPatientAppointment] = useState([])
+  };
+  const [deleteModal, setdeleteModal] = useState(false);
+  const classes = useStyles();
+  const theme = useTheme();
+  const [isPatient, setIsPatient] = useState(false);
+  const [isPatients, setIsPatients] = useState(false);
+  const [id, setId] = useState(null);
+  const handlePatientOpen = () => setIsPatient(true);
+  const handlePatientClose = () => setIsPatient(false);
+  const handlePatientCloses = () => setIsPatients(false);
+  const { patientId } = useParams();
+  const [patientAppointment, setPatientAppointment] = useState([]);
   const initialValues = {
-    status: '',
-    gender: '',
-    date: '',
-    plan: '',
-  }
+    status: "",
+    gender: "",
+    date: "",
+    plan: "",
+  };
   const initialValues1 = {
-    date: '',
-  }
+    date: "",
+  };
 
   const validationSchema = Yup.object({
-    date: Yup.string('Enter your affliate').required('Date is required'),
-    plan: Yup.string('Select your plan').required('Plan is required'),
-    gender: Yup.string('Select your gender').required('Gender is required'),
-    status: Yup.string('Select your status').required('Status is required'),
-  })
+    date: Yup.string("Enter your affliate").required("Date is required"),
+    plan: Yup.string("Select your plan").required("Plan is required"),
+    gender: Yup.string("Select your gender").required("Gender is required"),
+    status: Yup.string("Select your status").required("Status is required"),
+  });
   const validationSchema1 = Yup.object({
-    date: Yup.string('select date and time').required(
-      'Date  and time is required',
+    date: Yup.string("select date and time").required(
+      "Date  and time is required"
     ),
-  })
+  });
   const onSubmit1 = async (values) => {
-    const { date } = values
-    const timeValue = timeMoment(date)
-    const dateValue = timeConverter(date)
+    const { date } = values;
+    const timeValue = timeMoment(date);
+    const dateValue = timeConverter(date);
     await updateAppoint({
       variables: {
         id: editId,
@@ -210,102 +210,96 @@ const PatientAppointment = (props) => {
           query: getAppoint,
           variables: {
             id: patientId,
-            orderBy: '-createdAt',
+            orderBy: "-createdAt",
           },
         },
         {
           query: getDOCAppoint,
           variables: {
             id: doctorId,
-            orderBy: '-createdAt',
+            orderBy: "-createdAt",
           },
         },
       ],
-    })
-    handlePatientCloses()
-  }
+    });
+    handlePatientCloses();
+  };
   const onSubmit = (values) => {
     // const { date } = values;
     // let d = timeConverter(date);
 
-    console.log(values)
-  }
+    console.log(values);
+  };
 
   const { loading, data, error, refetch } = useQuery(getAppoint, {
     variables: {
       id: patientId,
-      orderBy: '-createdAt',
+      orderBy: "-createdAt",
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
 
   useEffect(() => {
     if (data) {
-      setPatientAppointment(data.getAppointments.data)
-      setPageInfo(data.getAppointments.pageInfo)
+      setPatientAppointment(data.getAppointments.data);
+      setPageInfo(data.getAppointments.pageInfo);
     }
-  }, [data, patientId])
+  }, [data, patientId]);
 
   const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage })
-  }
+    refetch({ page: newPage });
+  };
 
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
 
   useEffect(() => {
-    setSelectedMenu(1)
-    setSelectedSubMenu(2)
-    setSelectedPatientMenu(2)
+    setSelectedMenu(1);
+    setSelectedSubMenu(2);
+    setSelectedPatientMenu(2);
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu])
+  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
 
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
     active: theme.palette.primary.dark,
     disabled: theme.palette.common.black,
-  }
+  };
 
   const genderType = [
-    { key: 'Male', value: 'Male' },
-    { key: 'Female', value: 'Female' },
-    { key: 'Prefer not to say', value: 'Prefer not to say' },
-  ]
+    { key: "Male", value: "Male" },
+    { key: "Female", value: "Female" },
+    { key: "Prefer not to say", value: "Prefer not to say" },
+  ];
   const plans = [
-    { key: 'Plan 1', value: 'Plan 1' },
-    { key: 'Plan 2', value: 'Plan 2' },
-    { key: 'Plan 3', value: 'Plan 3' },
-    { key: 'Plan 4', value: 'Plan 4' },
-  ]
+    { key: "Plan 1", value: "Plan 1" },
+    { key: "Plan 2", value: "Plan 2" },
+    { key: "Plan 3", value: "Plan 3" },
+    { key: "Plan 4", value: "Plan 4" },
+  ];
   const plans1 = [
-    { key: 'Plan 1', value: 'Plan 1' },
-    { key: 'Plan 2', value: 'Plan 2' },
-    { key: 'Plan 3', value: 'Plan 3' },
-    { key: 'Plan 4', value: 'Plan 4' },
-  ]
+    { key: "Plan 1", value: "Plan 1" },
+    { key: "Plan 2", value: "Plan 2" },
+    { key: "Plan 3", value: "Plan 3" },
+    { key: "Plan 4", value: "Plan 4" },
+  ];
   const statusType = [
-    { key: 'Active', value: 'Active' },
-    { key: 'Blocked', value: 'Blocked' },
-  ]
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (error) return <NoData error={error} />
-  if (loading) return <Loader />
+    { key: "Active", value: "Active" },
+    { key: "Blocked", value: "Blocked" },
+  ];
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (error) return <NoData error={error} />;
+  if (loading) return <Loader />;
   return (
     <>
       {alert && Object.keys(alert).length > 0 && (
         <Alert
           variant="filled"
           severity={alert.type}
-          sx={{ justifyContent: 'center', width: '70%', margin: '0 auto' }}
+          sx={{ justifyContent: "center", width: "70%", margin: "0 auto" }}
         >
           {alert.message}
         </Alert>
@@ -363,8 +357,8 @@ const PatientAppointment = (props) => {
                 {patientAppointment
                   // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row._id, selectedRows)
-                    const labelId = `enhanced-table-checkbox-${index}`
+                    const isItemSelected = isSelected(row._id, selectedRows);
+                    const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
                         hover
@@ -380,29 +374,29 @@ const PatientAppointment = (props) => {
                               handleSelectedRows(
                                 row.id,
                                 selectedRows,
-                                setSelectedRows,
+                                setSelectedRows
                               )
                             }
                             color="primary"
                             checked={isItemSelected}
                             inputProps={{
-                              'aria-labelledby': labelId,
+                              "aria-labelledby": labelId,
                             }}
                           />
                         </TableCell>
                         <TableCell
                           align="left"
                           className={classes.tableCell}
-                          style={{ maxWidth: '20rem' }}
+                          style={{ maxWidth: "20rem" }}
                         >
                           <div
                             style={{
-                              height: '100%',
-                              display: 'flex',
-                              alignItems: 'center',
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
                             }}
                           >
-                            <span style={{ marginRight: '1rem' }}>
+                            <span style={{ marginRight: "1rem" }}>
                               <Avatar
                                 alt={`Display Photo of ${row.doctorData.firstName}`}
                                 src={
@@ -413,7 +407,7 @@ const PatientAppointment = (props) => {
                                 sx={{ width: 24, height: 24 }}
                               />
                             </span>
-                            <span style={{ fontSize: '1.25rem' }}>
+                            <span style={{ fontSize: "1.25rem" }}>
                               {`${row.doctorData.firstName} 
                              ${row.doctorData.lastName}`}
                             </span>
@@ -427,7 +421,7 @@ const PatientAppointment = (props) => {
                           className={classes.tableCell}
                           style={{
                             color: theme.palette.common.grey,
-                            maxWidth: '20rem',
+                            maxWidth: "20rem",
                           }}
                         >
                           {/* {hours(}row.time) */} {row.time}
@@ -455,7 +449,7 @@ const PatientAppointment = (props) => {
                           </Button>
                         </TableCell>
                       </TableRow>
-                    )
+                    );
                   })}
               </EnhancedTable>
             </Grid>
@@ -485,7 +479,7 @@ const PatientAppointment = (props) => {
         >
           {({ isSubmitting, dirty, isValid, setFieldValue }) => {
             return (
-              <Form style={{ marginTop: '3rem' }}>
+              <Form style={{ marginTop: "3rem" }}>
                 <Grid item container direction="column" gap={2}>
                   <Grid item container>
                     <Grid container spacing={2}>
@@ -517,7 +511,7 @@ const PatientAppointment = (props) => {
                   </Grid>
                 </Grid>
               </Form>
-            )
+            );
           }}
         </Formik>
       </Modals>
@@ -539,7 +533,7 @@ const PatientAppointment = (props) => {
         >
           {({ isSubmitting, dirty, isValid }) => {
             return (
-              <Form style={{ marginTop: '3rem' }}>
+              <Form style={{ marginTop: "3rem" }}>
                 <Grid item container direction="column" gap={2}>
                   <Grid item container>
                     <Grid container spacing={2}>
@@ -602,14 +596,14 @@ const PatientAppointment = (props) => {
                   </Grid>
                 </Grid>
               </Form>
-            )
+            );
           }}
         </Formik>
       </Modals>
       {/* delete modal */}
       <DeleteOrDisable
         open={deleteModal}
-        onConfirm={() => console.log('confrimed')}
+        onConfirm={() => console.log("confrimed")}
         setOpen={setdeleteModal}
         title="Cancel Consultation"
         confirmationMsg="cancel appointment"
@@ -625,16 +619,16 @@ const PatientAppointment = (props) => {
         btnValue="Delete"
       />
     </>
-  )
-}
+  );
+};
 
 PatientAppointment.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+};
 
-export default PatientAppointment
+export default PatientAppointment;

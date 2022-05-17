@@ -29,5 +29,5 @@ export default DateComponent;
 DateComponent.propTypes = {
   label: PropTypes.string,
 
-  // .isRequired,
+  // ,
 };

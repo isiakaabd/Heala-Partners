@@ -1,298 +1,315 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Typography, Grid, Avatar, Divider } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
+import { getDocConsult } from "components/graphQL/useQuery";
+import {
+  Avatar,
+  Typography,
+  TableRow,
+  Button,
+  TableCell,
+  Checkbox,
+  Grid,
+} from "@mui/material";
+import { consultationsHeadCells } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { NoData, EnhancedTable, EmptyTable } from "components/layouts";
+import { useActions } from "components/hooks/useActions";
 import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { isSelected } from "helpers/isSelected";
+import { handleSelectedRows } from "helpers/selectedRows";
 import displayPhoto from "assets/images/avatar.svg";
-import { dateMoment } from "components/Utilities/Time";
-import { getConsultations } from "components/graphQL/useQuery";
-import { useQuery } from "@apollo/client";
-import { PreviousButton, Loader } from "components/Utilities";
-import { NoData } from "components/layouts";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { PreviousButton, FilterList, Loader } from "components/Utilities";
 import { useParams } from "react-router-dom";
+import { dateMoment } from "components/Utilities/Time";
+import { changeTableLimit } from "helpers/filterHelperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
-    "&.MuiTableCell-root": {
+    "&.css-1jilxo7-MuiTableCell-root": {
       fontSize: "1.25rem",
     },
   },
-  item: {
-    "&.MuiGrid-root > *": {
-      flex: 1,
-    },
-  },
-  parentGrid: {
-    background: "#fff",
-    borderRadius: "1rem",
-    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.1)",
-  },
-  infoBadge: {
-    "&.MuiChip-root": {
-      fontSize: "1.5rem",
-      borderRadius: "1.5rem",
-      background: theme.palette.common.lightGreen,
-      color: theme.palette.common.green,
-    },
-  },
-  title: {
-    "&.MuiTypography-root": {
+
+  button: {
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      marginRight: "2rem",
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "12rem",
+
+      "&:hover": {
+        background: "#fcfcfc",
+      },
+
+      "&:active": {
+        background: "#fafafa",
+      },
+
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
+      },
+
+      "& .MuiButton-endIcon": {
+        marginLeft: ".3rem",
+      },
     },
   },
 }));
 
-const Prescriptions = (props) => {
+const filterOptions = [
+  { id: 0, value: "Name" },
+  { id: 1, value: "Date" },
+  { id: 2, value: "Description" },
+];
+
+const HcpConsultations = (props) => {
   const {
     selectedMenu,
     selectedSubMenu,
+    selectedHcpMenu,
+    // selectedScopedMenu,
     setSelectedMenu,
     setSelectedSubMenu,
-    selectedPatientMenu,
-    setSelectedPatientMenu,
+    setSelectedHcpMenu,
+    setSelectedScopedMenu,
   } = props;
   const classes = useStyles();
+  const theme = useTheme();
+  const [pageInfo, setPageInfo] = useState([]);
+  const { hcpId } = useParams();
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
+  const [consultations, setConsultations] = useState([]);
 
-  const { patientId } = useParams();
+  const [fetchDocConsultations, { loading, data, error, refetch }] =
+    useLazyQuery(getDocConsult);
 
   useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(3);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
+    fetchDocConsultations({
+      variables: {
+        id: hcpId,
+        orderBy: "-createdAt",
+      },
+      notifyOnNetworkStatusChange: true,
+    });
+  }, [fetchDocConsultations, hcpId]);
 
-  const { loading, error, data } = useQuery(getConsultations, {
-    variables: {
-      id: patientId,
-      orderBy: "-createdAt",
-    },
-  });
-
-  const [consultations, setConsultations] = useState({});
-  const [pre, setPre] = useState([]);
-  const [doc, setDoc] = useState(null);
   useEffect(() => {
-    if (data && data.getConsultations.data) {
-      const datas = data.getConsultations.data[0];
-      if (datas) {
-        setConsultations(datas);
-        setPre(datas.prescription);
-        setDoc(datas.doctorData);
-      }
+    if (data?.getConsultations.data) {
+      setConsultations(data.getConsultations.data);
+      setPageInfo(data.getConsultations.pageInfo);
     }
-  }, [data, consultations, pre, doc]);
+  }, [data, hcpId]);
+  const fetchMoreFunc = (e, newPage) => {
+    refetch({ page: newPage });
+  };
 
-  if (loading) return <Loader />;
+  useEffect(() => {
+    setSelectedMenu(2);
+    setSelectedSubMenu(3);
+    setSelectedHcpMenu(6);
+    // eslint-disable-next-line
+  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
+
   if (error) return <NoData error={error} />;
-
+  if (loading) return <Loader />;
   return (
-    <Grid container direction="column" flexWrap="nowrap" height="100%" gap={2}>
+    <Grid container direction="column" height="100%" gap={2}>
       <Grid item>
         <PreviousButton
-          path={`/patients/${patientId}`}
-          onClick={() => setSelectedPatientMenu(0)}
+          path={`/hcps/${hcpId}`}
+          onClick={() => setSelectedHcpMenu(0)}
         />
       </Grid>
-      <Grid item>
-        <Typography variant="h2">Prescriptions</Typography>
-      </Grid>
-      {Object.entries(consultations).length > 0 ? (
-        <Grid
-          item
-          container
-          direction="column"
-          width="100%"
-          className={classes.parentGrid}
-        >
-          <Grid
-            item
-            container
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-            flexWrap="no-wrap"
-            padding=" 2rem 0"
-            width="90%"
-            margin="auto"
-          >
-            <Grid item>
-              <Grid item container gap={2} alignItems="center">
-                <Grid item>
-                  <Typography variant="body1" className={classes.title}>
-                    Doctor:
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Avatar
-                    src={
-                      consultations && doc && doc.picture
-                        ? doc.picture
-                        : displayPhoto
-                    }
-                    alt="Display photo of the sender"
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography variant="h5">
-                    {doc.firstName
-                      ? `${doc && doc.firstName} ${doc && doc.lastName}`
-                      : "no doctor"}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid item container gap={2} alignItems="center">
-                <Grid item>
-                  <Typography variant="body1" className={classes.title}>
-                    Prescription Date:
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography variant="h5">
-                    {dateMoment(consultations.updatedAt)}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item alignItems="center">
-              <Grid item container gap={2} alignItems="center">
-                <Grid item>
-                  <Typography variant="body1" className={classes.title}>
-                    Symptoms:
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography variant="h5">
-                    {consultations.symptoms
-                      ? consultations.symptoms.map((i) => `${i.name}, `)
-                      : "No Symptom"}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Divider />
 
-          {pre && pre.length > 0 && (
-            <>
-              <Grid
-                container
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
-                flexWrap="no-wrap"
-                padding=" 2rem 0"
-                width="90%"
-                margin="auto"
-              >
-                <Grid
-                  item
-                  container
-                  alignItems="center"
-                  className={classes.item}
-                  justifyContent="space-between"
-                  gap={2}
-                >
-                  <Grid item>
-                    <Typography variant="h5">Drugs</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="h5">Dosage</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="h5">Frequency</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="h5">Mode</Typography>
-                  </Grid>
-                  {/* );
-            })} */}
-                </Grid>
-              </Grid>
-              <Divider />
-            </>
-          )}
-          {pre &&
-            pre.length > 0 &&
-            pre.map((i, index) => {
-              return (
-                <>
-                  <Grid
-                    container
-                    flexDirection="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    flexWrap="no-wrap"
-                    padding=" 2rem 0"
-                    width="90%"
-                    margin="auto"
-                    key={index}
-                  >
-                    <Grid
-                      item
-                      container
-                      className={classes.item}
-                      alignItems="center"
-                      justifyContent="space-between"
-                      gap={2}
-                    >
-                      <Grid item>
-                        <Typography variant="body1">{i.drugName}</Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="body1">{i.dosage}</Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="body1">{`${i.dosageFrequency.day}day / ${i.dosageFrequency.duration}duration`}</Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="body1">{i.mode}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Divider />
-                </>
-              );
-            })}
-          <Grid
-            item
-            container
-            rowSpacing={2}
-            flexDirection="column"
-            padding=" 2rem 0"
-            width="90%"
-            margin="auto"
+      <Grid item container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Typography variant="h2">Consultations</Typography>
+        </Grid>
+        <Grid item>
+          <FilterList
+            options={filterOptions}
+            title="Filter consultations"
+            width="18.7rem"
+          />
+        </Grid>
+      </Grid>
+      {consultations.length > 0 ? (
+        <Grid item>
+          <EnhancedTable
+            headCells={consultationsHeadCells}
+            rows={consultations}
+            paginationLabel="Consultations per page"
+            handleChangePage={fetchMoreFunc}
+            hasCheckbox={true}
+            changeLimit={changeTableLimit}
+            fetchData={fetchDocConsultations}
+            dataPageInfo={pageInfo}
           >
-            <Grid item>
-              <Typography variant="body1" className={classes.title}>
-                Doctor Notes:
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body1" style={{ lineHeight: 1.85 }}>
-                {consultations.doctorNote
-                  ? consultations.doctorNote
-                  : "No Note"}
-              </Typography>
-            </Grid>
-          </Grid>
+            {consultations
+              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                // eslint-disable-next-line
+                const {
+                  _id,
+                  createdAt,
+                  symptoms,
+                  status,
+                  type,
+                  contactMedium,
+                  patientData,
+
+                  // eslint-disable-next-line
+                } = row;
+                const isItemSelected = isSelected(_id, selectedRows);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={_id}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        onClick={() =>
+                          handleSelectedRows(_id, selectedRows, setSelectedRows)
+                        }
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </TableCell>
+
+                    <TableCell align="left" className={classes.tableCell}>
+                      {dateMoment(createdAt)}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      className={classes.tableCell}
+                      style={{ maxWidth: "20rem" }}
+                    >
+                      <div
+                        style={{
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "left",
+                        }}
+                      >
+                        <span style={{ marginRight: "1rem" }}>
+                          <Avatar
+                            alt={`Display Photo of ${patientData.firstName}`}
+                            src={
+                              patientData.picture
+                                ? patientData.picture
+                                : displayPhoto
+                            }
+                            sx={{ width: 24, height: 24 }}
+                          />
+                        </span>
+                        <span
+                          style={{ fontSize: "1.25rem" }}
+                        >{`${patientData.firstName} ${patientData.lastName}`}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      className={classes.tableCell}
+                      style={{
+                        color: theme.palette.common.grey,
+                        maxWidth: "20rem",
+                      }}
+                    >
+                      <Grid container gap={1}>
+                        {symptoms
+                          ? symptoms.map((i) => {
+                              return <p key={i.name}>{i.name}</p>;
+                            })
+                          : "No Value"}
+                      </Grid>
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      className={classes.tableCell}
+                      style={{
+                        color: theme.palette.common.grey,
+                        maxWidth: "20rem",
+                      }}
+                    >
+                      {contactMedium}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      className={classes.tableCell}
+                      style={{
+                        color: theme.palette.common.grey,
+                        maxWidth: "20rem",
+                      }}
+                    >
+                      {type ? type : "No Value"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      className={classes.tableCell}
+                      style={{
+                        color: theme.palette.common.grey,
+                        maxWidth: "20rem",
+                      }}
+                    >
+                      {status ? status : "No Value"}
+                    </TableCell>
+                    <TableCell align="left">
+                      <Button
+                        variant="contained"
+                        className={classes.button}
+                        component={Link}
+                        to={`/hcps/${hcpId}/consultations/case-notes/${_id}`}
+                        endIcon={<ArrowForwardIosIcon />}
+                        onClick={() => {
+                          setSelectedSubMenu(2);
+                          setSelectedHcpMenu(0);
+                          setSelectedScopedMenu(2);
+                        }}
+                      >
+                        View Details
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+          </EnhancedTable>
         </Grid>
       ) : (
-        <NoData />
+        <EmptyTable
+          headCells={consultationsHeadCells}
+          paginationLabel="Consultation  per page"
+        />
       )}
     </Grid>
   );
 };
 
-Prescriptions.propTypes = {
+HcpConsultations.propTypes = {
   selectedMenu: PropTypes.number,
   selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
   setSelectedMenu: PropTypes.func,
   setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
 };
 
-export default Prescriptions;
+export default HcpConsultations;

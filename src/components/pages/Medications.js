@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import Checkbox from '@mui/material/Checkbox'
-import Avatar from '@mui/material/Avatar'
-import EnhancedTable from 'components/layouts/EnhancedTable'
-import { medicationsHeadCells } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { isSelected } from 'helpers/isSelected'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import displayPhoto from 'assets/images/avatar.svg'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
-import { myMedic } from 'components/graphQL/useQuery'
-import { dateMoment } from 'components/Utilities/Time'
-import Loader from 'components/Utilities/Loader'
-import { NoData, EmptyTable } from 'components/layouts'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Checkbox from "@mui/material/Checkbox";
+import Avatar from "@mui/material/Avatar";
+import EnhancedTable from "components/layouts/EnhancedTable";
+import { medicationsHeadCells } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { isSelected } from "helpers/isSelected";
+import { handleSelectedRows } from "helpers/selectedRows";
+import PreviousButton from "components/Utilities/PreviousButton";
+import displayPhoto from "assets/images/avatar.svg";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { myMedic } from "components/graphQL/useQuery";
+import { dateMoment } from "components/Utilities/Time";
+import Loader from "components/Utilities/Loader";
+import { NoData, EmptyTable } from "components/layouts";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
-    '&.MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
-}))
+}));
 
 const Medications = (props) => {
   const {
@@ -39,50 +39,44 @@ const Medications = (props) => {
     setSelectedMenu,
     setSelectedSubMenu,
     setSelectedPatientMenu,
-  } = props
-  const classes = useStyles()
-  const theme = useTheme()
-  const [pageInfo, setPageInfo] = useState([])
-  const { patientId } = useParams()
+  } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [pageInfo, setPageInfo] = useState([]);
+  const { patientId } = useParams();
 
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
-  const [medications, setMedications] = useState([])
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
+  const [medications, setMedications] = useState([]);
   const { loading, error, data, refetch } = useQuery(myMedic, {
     variables: {
       id: patientId,
-      orderBy: '-createdAt',
+      orderBy: "-createdAt",
     },
     notifyOnNetworkStatusChange: true,
-  })
+  });
   const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage })
-  }
+    refetch({ page: newPage });
+  };
   useEffect(() => {
     if (data) {
-      setMedications(data.getMedications.medication)
-      setPageInfo(data.getMedications.pageInfo)
+      setMedications(data.getMedications.medication);
+      setPageInfo(data.getMedications.pageInfo);
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    setSelectedMenu(1)
-    setSelectedSubMenu(2)
-    setSelectedPatientMenu(6)
+    setSelectedMenu(1);
+    setSelectedSubMenu(2);
+    setSelectedPatientMenu(6);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu])
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
 
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
@@ -116,8 +110,8 @@ const Medications = (props) => {
               {medications
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row._id, selectedRows)
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  const isItemSelected = isSelected(row._id, selectedRows);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -134,13 +128,13 @@ const Medications = (props) => {
                             handleSelectedRows(
                               row.id,
                               selectedRows,
-                              setSelectedRows,
+                              setSelectedRows
                             )
                           }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            'aria-labelledby': labelId,
+                            "aria-labelledby": labelId,
                           }}
                         />
                       </TableCell>
@@ -154,51 +148,51 @@ const Medications = (props) => {
                       <TableCell
                         align="left"
                         className={classes.tableCell}
-                        style={{ maxWidth: '20rem' }}
+                        style={{ maxWidth: "20rem" }}
                       >
                         {row.name}
                       </TableCell>
                       <TableCell
                         align="left"
                         className={classes.tableCell}
-                        style={{ maxWidth: '20rem' }}
+                        style={{ maxWidth: "20rem" }}
                       >
-                        {row.dosage ? row.dosage : 'No Value'}
+                        {row.dosage ? row.dosage : "No Value"}
                       </TableCell>
                       <TableCell
                         align="left"
                         className={classes.tableCell}
-                        style={{ maxWidth: '20rem' }}
+                        style={{ maxWidth: "20rem" }}
                       >
-                        {row.interval ? row.interval : 'No Value'}
+                        {row.interval ? row.interval : "No Value"}
                       </TableCell>
                       <TableCell
                         align="left"
                         className={classes.tableCell}
-                        style={{ maxWidth: '20rem' }}
+                        style={{ maxWidth: "20rem" }}
                       >
                         <div
                           style={{
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'left',
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "left",
                           }}
                         >
-                          <span style={{ marginRight: '1rem' }}>
+                          <span style={{ marginRight: "1rem" }}>
                             <Avatar
                               alt={`Display Photo of ${row.caregiver}`}
                               src={displayPhoto}
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
-                          <span style={{ fontSize: '1.25rem' }}>
+                          <span style={{ fontSize: "1.25rem" }}>
                             {row.doctor}
                           </span>
                         </div>
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
             </EnhancedTable>
           </Grid>
@@ -210,16 +204,16 @@ const Medications = (props) => {
         )}
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 Medications.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+};
 
-export default Medications
+export default Medications;

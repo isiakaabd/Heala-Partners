@@ -38,20 +38,23 @@ const WaitingList = (props) => {
         <Typography variant="h2">Waiting List</Typography>
       </Grid>
       <Grid item style={{ marginTop: "5rem" }}>
-        <WaitingListTable path="/appointments/waiting-list" onClick={() => setWaitingListMenu(1)} />
+        <WaitingListTable
+          path="/appointments/waiting-list"
+          onClick={() => setWaitingListMenu(1)}
+        />
       </Grid>
     </Grid>
   );
 };
 
 WaitingList.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setWaitingListMenu: PropTypes.func.isRequired,
-  setSelectedAppointmentMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setWaitingListMenu: PropTypes.func,
+  setSelectedAppointmentMenu: PropTypes.func,
 };
 
 export default WaitingList;

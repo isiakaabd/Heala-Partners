@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Grid,
   Typography,
@@ -7,81 +7,85 @@ import {
   TableCell,
   TableRow,
   Checkbox,
-} from '@mui/material'
-import TrendingDownIcon from '@mui/icons-material/TrendingDown'
-import { timeMoment, dateMoment, formatNumber } from 'components/Utilities/Time'
-import { EnhancedTable, NoData, EmptyTable } from 'components/layouts'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { financeHeader } from 'components/Utilities/tableHeaders'
-import displayPhoto from 'assets/images/avatar.svg'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import { PreviousButton, Loader } from 'components/Utilities'
-import { useQuery } from '@apollo/client'
-import { getEarningStats } from 'components/graphQL/useQuery'
+} from "@mui/material";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import {
+  timeMoment,
+  dateMoment,
+  formatNumber,
+} from "components/Utilities/Time";
+import { EnhancedTable, NoData, EmptyTable } from "components/layouts";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { financeHeader } from "components/Utilities/tableHeaders";
+import displayPhoto from "assets/images/avatar.svg";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import { PreviousButton, Loader } from "components/Utilities";
+import { useQuery } from "@apollo/client";
+import { getEarningStats } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.css-13i4rnv-MuiGrid-root': {
+    "&.css-13i4rnv-MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
   button: {
-    '&.css-1zf5oc-MuiButtonBase-root-MuiButton-root': {
-      background: '#fff',
+    "&.css-1zf5oc-MuiButtonBase-root-MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '10rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "10rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .css-9tj150-MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .css-9tj150-MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
 
-      '& .css-9tj150-MuiButton-endIcon': {
-        marginLeft: '.3rem',
-        marginTop: '-.2rem',
+      "& .css-9tj150-MuiButton-endIcon": {
+        marginLeft: ".3rem",
+        marginTop: "-.2rem",
       },
     },
   },
   iconWrapper: {
     width: 20,
     height: 20,
-    borderRadius: '50%',
-    display: 'grid',
-    placeContent: 'center',
+    borderRadius: "50%",
+    display: "grid",
+    placeContent: "center",
     background: theme.palette.common.lightGreen,
   },
 
   tableCell: {
-    '&.css-1jilxo7-MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.css-1jilxo7-MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
 
   badge: {
-    '&.css-1eelh6y-MuiChip-root': {
-      fontSize: '1.6rem !important',
-      height: '3rem',
-      borderRadius: '1.3rem',
+    "&.css-1eelh6y-MuiChip-root": {
+      fontSize: "1.6rem !important",
+      height: "3rem",
+      borderRadius: "1.3rem",
     },
   },
-}))
+}));
 
 const Financetable = ({
   selectedMenu,
@@ -89,46 +93,40 @@ const Financetable = ({
   selectedSubMenu,
   setSelectedSubMenu,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
-  const [pageInfo, setPageInfo] = useState([])
+  const classes = useStyles();
+  const theme = useTheme();
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
+  const [pageInfo, setPageInfo] = useState([]);
   const { loading, data, error, refetch } = useQuery(getEarningStats, {
     variables: {
-      providerId: localStorage.getItem('partnerProviderId'),
+      providerId: localStorage.getItem("partnerProviderId"),
     },
     notifyOnNetworkStatusChange: true,
-  })
-  const [earning, setEarning] = useState([])
+  });
+  const [earning, setEarning] = useState([]);
   const fetchMoreFunc = (_, newPage) => {
-    refetch({ page: newPage })
-  }
+    refetch({ page: newPage });
+  };
 
   useEffect(() => {
     if (data) {
-      setEarning(data.getEarningStats.earningData.data)
-      setPageInfo(data.getEarningStats.earningData.PageInfo)
+      setEarning(data.getEarningStats.earningData.data);
+      setPageInfo(data.getEarningStats.earningData.PageInfo);
     }
-  }, [earning, data])
+  }, [earning, data]);
   useEffect(() => {
-    setSelectedMenu(8)
-    setSelectedSubMenu(9)
+    setSelectedMenu(8);
+    setSelectedSubMenu(9);
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu])
+  }, [selectedMenu, selectedSubMenu]);
 
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  console.log(page, limit)
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  console.log(page, limit);
   return (
     <Grid container direction="column" gap={2} height="100%">
       <Grid item>
@@ -164,15 +162,11 @@ const Financetable = ({
               hasCheckbox={true}
             >
               {earning.map((row, index) => {
-                const { doctorData, createdAt, balance } = row
-                const {
-                  firstName,
-                  picture,
-                  lastName,
-                  specialization,
-                } = doctorData[0]
-                const isItemSelected = isSelected(row._id, selectedRows)
-                const labelId = `enhanced-table-checkbox-${index}`
+                const { doctorData, createdAt, balance } = row;
+                const { firstName, picture, lastName, specialization } =
+                  doctorData[0];
+                const isItemSelected = isSelected(row._id, selectedRows);
+                const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
@@ -189,13 +183,13 @@ const Financetable = ({
                           handleSelectedRows(
                             row.id,
                             selectedRows,
-                            setSelectedRows,
+                            setSelectedRows
                           )
                         }
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
-                          'aria-labelledby': labelId,
+                          "aria-labelledby": labelId,
                         }}
                       />
                     </TableCell>
@@ -220,25 +214,25 @@ const Financetable = ({
                     <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
-                        <span style={{ marginRight: '1rem' }}>
+                        <span style={{ marginRight: "1rem" }}>
                           <Avatar
-                            alt={firstName ? firstName : 'image'}
+                            alt={firstName ? firstName : "image"}
                             src={doctorData ? picture : displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
-                        <span style={{ fontSize: '1.25rem' }}>
+                        <span style={{ fontSize: "1.25rem" }}>
                           {doctorData && `${firstName} ${lastName}`}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
-                      {specialization ? specialization : 'No Value'}
+                      {specialization ? specialization : "No Value"}
                     </TableCell>
                     <TableCell
                       align="left"
@@ -248,7 +242,7 @@ const Financetable = ({
                       {formatNumber(balance.toFixed(2))}
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </EnhancedTable>
           </Grid>
@@ -260,14 +254,14 @@ const Financetable = ({
         )}
       </>
     </Grid>
-  )
-}
+  );
+};
 
 Financetable.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+};
 
-export default Financetable
+export default Financetable;
