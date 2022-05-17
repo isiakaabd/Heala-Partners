@@ -10,7 +10,7 @@ import {
   Checkbox,
   TableRow,
 } from "@mui/material";
-
+import prettyMoney from "pretty-money";
 import {
   FormSelect,
   Loader,
@@ -153,7 +153,12 @@ const CompletedOrders = ({
   const classes = useStyles();
   const [searchPartner, setSearchPartner] = useState("");
   const [state, setState] = useState([]);
-
+  const prettyDollarConfig = {
+    currency: "₦",
+    position: "before",
+    spaced: false,
+    thousandsDelimiter: ",",
+  };
   const [openFilterPartner, setOpenFilterPartner] = useState(false);
   const orderState = "completed";
   const { data, loading, error } = useQuery(getDrugOrders, {
@@ -183,7 +188,7 @@ const CompletedOrders = ({
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-
+  console.log(123);
   return (
     <>
       <Grid
@@ -210,14 +215,7 @@ const CompletedOrders = ({
           </Grid>
         </Grid>
         {state.length > 0 ? (
-          <Grid
-            item
-            container
-            height="100%"
-            direction="column"
-            tainer
-            style={{ marginTop: "5rem" }}
-          >
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={state}
@@ -228,9 +226,15 @@ const CompletedOrders = ({
               {state
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { orderId, createdAt, _id, patientData } = row;
+                  const {
+                    orderId,
+                    createdAt,
+                    prescriptions,
+                    _id,
+                    patientData,
+                  } = row;
                   const isItemSelected = isSelected(_id, selectedRows);
-
+                  const x = prescriptions.map((i) => i.drugPrice);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -294,6 +298,17 @@ const CompletedOrders = ({
                               : "No Value"}
                           </span>
                         </div>
+                      </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {prettyMoney(
+                          prettyDollarConfig,
+                          x?.reduce(function (accumulator, currentValue) {
+                            return accumulator + currentValue;
+                          }, 0)
+                        )}
+                      </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {x?.length}
                       </TableCell>
                       <TableCell>
                         <Chip

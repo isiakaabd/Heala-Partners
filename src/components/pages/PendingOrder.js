@@ -160,7 +160,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container style={{ paddingBottom: "5rem" }}>
+        <Grid item container>
           <Grid item className={classes.searchGrid}>
             <Search
               value={searchPatient}
@@ -200,11 +200,8 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       prescriptions,
                     } = row;
                     const isItemSelected = isSelected(_id, selectedRows);
-
                     const labelId = `enhanced-table-checkbox-${index}`;
-                    const x = prescriptions.map((i) => {
-                      return i.drugPrice;
-                    });
+                    const x = prescriptions.map((i) => i.drugPrice);
 
                     return (
                       <TableRow

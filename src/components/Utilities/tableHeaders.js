@@ -2,11 +2,11 @@
 export const patientsHeadCells = [
   {
     id: 0,
-    label: 'Date',
+    label: "Date",
   },
   {
     id: 8,
-    label: 'Order ID',
+    label: "Order ID",
   },
   {
     id: 12,
@@ -18,202 +18,202 @@ export const patientsHeadCells = [
   },
   {
     id: 3,
-    label: 'Test Amount',
+    label: "Test Amount",
   },
   {
     id: 55,
-    label: 'Total Tests',
+    label: "Total Tests",
   },
   {
     id: 4,
-    label: '',
+    label: "",
   },
-]
+];
 export const patientsHeadCells1 = [
   {
     id: 0,
-    label: 'User ID',
+    label: "User ID",
   },
   {
     id: 1,
-    label: 'Patient Name',
+    label: "Patient Name",
   },
   {
     id: 2,
-    label: 'Plan',
+    label: "Plan",
   },
   {
     id: 8,
-    label: 'Provider',
+    label: "Provider",
   },
   {
     id: 3,
-    label: 'Consultations',
+    label: "Consultations",
   },
   {
     id: 4,
-    label: 'Status',
+    label: "Status",
   },
   {
     id: 5,
-    label: '',
+    label: "",
   },
-]
+];
 export const hcpsHeadCells5 = [
-  { id: 0, label: 'Medical ID' },
-  { id: 1, label: 'Name' },
-  { id: 2, label: 'Category' },
-  { id: 3, label: 'Consultations' },
-  { id: 4, label: 'Hospital' },
-  { id: 5, label: 'Status' },
-  { id: 6, label: '' },
-]
+  { id: 0, label: "Medical ID" },
+  { id: 1, label: "Name" },
+  { id: 2, label: "Category" },
+  { id: 3, label: "Consultations" },
+  { id: 4, label: "Hospital" },
+  { id: 5, label: "Status" },
+  { id: 6, label: "" },
+];
 export const messagesHeadCell = [
-  { id: 0, label: 'Date' },
-  { id: 9, label: 'Referral ID' },
-  { id: 2, label: 'Cancellation Reasons' },
+  { id: 0, label: "Date" },
+  { id: 9, label: "Referral ID" },
+  { id: 2, label: "Cancellation Reasons" },
   { id: 3, label: "Patient's Name" },
-]
+];
 export const messagesHeadCells3 = [
-  { id: 0, label: 'Recipients' },
-  { id: 1, label: 'Subject' },
-  { id: 2, label: 'Date' },
-  { id: 3, label: 'Time' },
-  { id: 4, label: '' },
-]
+  { id: 0, label: "Recipients" },
+  { id: 1, label: "Subject" },
+  { id: 2, label: "Date" },
+  { id: 3, label: "Time" },
+  { id: 4, label: "" },
+];
 export const emailHeader = [
   {
     id: 0,
-    label: 'Recipients',
+    label: "Recipients",
   },
   {
     id: 6,
-    label: 'Subject',
+    label: "Subject",
   },
   {
     id: 4,
-    label: 'Entry Date',
+    label: "Entry Date",
   },
   {
     id: 2,
-    label: 'Plan',
+    label: "Plan",
   },
 
   {
     id: 8,
-    label: 'Email',
+    label: "Email",
   },
   {
     id: 9,
-    label: '',
+    label: "",
   },
-]
+];
 export const PermissionHeader = [
   {
     id: 0,
-    label: 'Permission',
+    label: "Permission",
   },
   {
     id: 6,
-    label: 'CRUD',
+    label: "CRUD",
   },
   {
     id: 3,
-    label: '',
+    label: "",
   },
-]
+];
 export const adminHeader = [
   {
     id: 0,
-    label: 'Admin Name',
+    label: "Admin Name",
   },
   {
     id: 1,
-    label: 'Role',
+    label: "Role",
   },
   {
     id: 2,
-    label: '',
+    label: "",
   },
-]
+];
 export const roleHeader = [
   {
     id: 0,
-    label: 'Role',
+    label: "Role",
   },
   {
     id: 5,
-    label: 'Permission',
+    label: "Permission",
   },
   {
     id: 2,
-    label: '',
+    label: "",
   },
-]
+];
 
 export const HCPHeader = [
   {
     id: 0,
-    label: 'Entry Date',
+    label: "Entry Date",
   },
   {
     id: 8,
-    label: 'Type',
+    label: "Type",
   },
   {
     id: 1,
-    label: 'Name',
+    label: "Name",
   },
   {
     id: 2,
-    label: 'Medical ID',
+    label: "Medical ID",
   },
 
   {
     id: 4,
-    label: '',
+    label: "",
   },
-]
+];
 export const financeHeader = [
   {
     id: 0,
-    label: 'Entry Date',
+    label: "Entry Date",
   },
   {
     id: 1,
-    label: 'Time',
+    label: "Time",
   },
   {
     id: 2,
-    label: 'Name',
+    label: "Name",
   },
 
   {
     id: 3,
-    label: 'Subscription Plan',
+    label: "Subscription Plan",
   },
   {
     id: 4,
-    label: 'Amount',
+    label: "Amount",
   },
-]
+];
 export const referralHeader = [
   {
     id: 0,
-    label: 'Date',
+    label: "Date",
   },
   {
     id: 1,
-    label: 'Time',
+    label: "Time",
   },
   {
     id: 2,
-    label: ' Name',
+    label: " Name",
   },
 
   {
     id: 3,
-    label: 'Category',
+    label: "Category",
   },
   {
     id: 4,
@@ -221,45 +221,45 @@ export const referralHeader = [
   },
   {
     id: 5,
-    label: 'Status',
+    label: "Status",
   },
   {
     id: 6,
-    label: '',
+    label: "",
   },
-]
+];
 export const referralHeaderss = [
   {
     id: 0,
-    label: 'Date',
+    label: "Date",
   },
   {
     id: 1,
-    label: 'Referral ID',
+    label: "Referral ID",
   },
   {
     id: 2,
-    label: 'Doctor',
+    label: "Doctor",
   },
 
   {
     id: 3,
-    label: 'Patient',
+    label: "Patient",
   },
 
   {
     id: 8,
-    label: 'Type',
+    label: "Type",
   },
   {
     id: 18,
-    label: 'Category',
+    label: "Category",
   },
   {
     id: 6,
-    label: '',
+    label: "",
   },
-]
+];
 export const subscriptionHeadersss = [
   {
     id: 8,
@@ -289,203 +289,207 @@ export const subscriptionHeadersss = [
 export const subscriptionHeader = [
   {
     id: 0,
-    label: 'Name of plan',
+    label: "Name of plan",
   },
   {
     id: 1,
-    label: 'Amount',
+    label: "Amount",
   },
   {
     id: 2,
-    label: ' Description',
+    label: " Description",
   },
 
   {
     id: 3,
-    label: '',
+    label: "",
   },
-]
+];
 export const payoutHeader = [
   {
     id: 0,
-    label: 'Date',
+    label: "Date",
   },
   {
     id: 1,
-    label: 'Time',
+    label: "Time",
   },
   {
     id: 2,
-    label: ' Name',
+    label: " Name",
   },
 
   {
     id: 3,
-    label: 'Medical ID',
+    label: "Medical ID",
   },
   {
     id: 4,
-    label: 'Amount Paid out',
+    label: "Amount Paid out",
   },
   {
     id: 5,
-    label: 'Payout status',
+    label: "Payout status",
   },
-]
+];
 export const pendingHeader = [
   {
     id: 0,
-    label: 'Date',
+    label: "Date",
   },
   {
     id: 1,
-    label: 'Heala  ID',
+    label: "Heala  ID",
   },
   {
     id: 2,
-    label: ' Name',
+    label: " Name",
   },
 
   {
     id: 3,
-    label: 'Amount paid',
+    label: "Amount paid",
   },
   {
     id: 4,
-    label: 'Account Details',
+    label: "Account Details",
   },
   {
     id: 5,
-    label: 'Bank',
+    label: "Bank",
   },
-]
+];
 export const viewRefferalHeader = [
   {
     id: 0,
-    label: 'Name',
+    label: "Name",
   },
   {
     id: 1,
-    label: 'Category',
+    label: "Category",
   },
   {
     id: 2,
-    label: ' Available Time',
+    label: " Available Time",
   },
 
   {
     id: 4,
-    label: '',
+    label: "",
   },
   {
     id: 5,
-    label: '',
+    label: "",
   },
-]
+];
 
 // Patient > Consultation Route Table
 export const consultationsHeadCells = [
-  { id: 100, label: 'Name' },
-  { id: 101, label: 'Date' },
-  { id: 102, label: 'Symptoms' },
-  { id: 103, label: 'Status' },
-  { id: 104, label: 'Type' },
-  { id: 1040, label: '' },
-]
+  { id: 100, label: "Name" },
+  { id: 101, label: "Date" },
+  { id: 102, label: "Symptoms" },
+  { id: 103, label: "Status" },
+  { id: 104, label: "Type" },
+  { id: 1040, label: "" },
+];
 
 // Patients > Prescription Route Table
 export const prescriptionsHeadCells = [
-  { id: 200, label: 'Date' },
-  { id: 201, label: 'Details' },
-  { id: 202, label: 'Dosage' },
-]
+  { id: 200, label: "Date" },
+  { id: 201, label: "Details" },
+  { id: 202, label: "Dosage" },
+];
 export const consultationsHeadCells2 = [
-  { id: 100, label: 'Doctor' },
-  { id: 101, label: 'Date' },
-  { id: 102, label: 'Time' },
-  { id: 103, label: '' },
-  { id: 139, label: '' },
-]
+  { id: 100, label: "Doctor" },
+  { id: 101, label: "Date" },
+  { id: 102, label: "Time" },
+  { id: 103, label: "" },
+  { id: 139, label: "" },
+];
 export const consultationsHeadCells4 = [
-  { id: 100, label: 'Date' },
-  { id: 101, label: 'Doctor' },
-  { id: 102, label: 'Symptoms' },
-  { id: 105, label: 'Contact' },
-  { id: 133, label: 'Type' },
-  { id: 1232, label: 'Status' },
-  { id: 103, label: '' },
-]
+  { id: 100, label: "Date" },
+  { id: 101, label: "Doctor" },
+  { id: 102, label: "Symptoms" },
+  { id: 105, label: "Contact" },
+  { id: 133, label: "Type" },
+  { id: 1232, label: "Status" },
+  { id: 103, label: "" },
+];
 export const editManagement = [
   {
     id: 110,
-    label: '',
+    label: "",
   },
   {
     id: 0,
-    label: 'Endpoints',
+    label: "Endpoints",
   },
   {
     id: 1,
-    label: 'Operations',
+    label: "Operations",
   },
-]
+];
 
 // Patients > Medications Route Table
 export const medicationsHeadCells = [
-  { id: 300, label: 'Date Prescribed' },
-  { id: 301, label: 'Medication Name' },
-  { id: 302, label: 'Prescription Types' },
-  { id: 303, label: 'Caregiver' },
-]
+  { id: 300, label: "Date Prescribed" },
+  { id: 301, label: "Medication Name" },
+  { id: 302, label: "Prescription Types" },
+  { id: 303, label: "Caregiver" },
+];
 
 // ------------------------------------
 
 // Dashboard Route TableHeader
 export const waitingHeadCells = [
-  { id: 0, label: 'User ID' },
-  { id: 1, label: 'Name' },
-  { id: 2, label: 'Waiting Time' },
-  { id: 3, label: '' },
-]
+  { id: 0, label: "User ID" },
+  { id: 1, label: "Name" },
+  { id: 2, label: "Waiting Time" },
+  { id: 3, label: "" },
+];
 
 export const availabilityHeadCells = [
-  { id: 0, label: 'HCP ID' },
-  { id: 1, label: 'Name' },
-  { id: 2, label: 'Category' },
-  { id: 3, label: 'Available Time' },
-  { id: 4, label: '' },
-]
+  { id: 0, label: "HCP ID" },
+  { id: 1, label: "Name" },
+  { id: 2, label: "Category" },
+  { id: 3, label: "Available Time" },
+  { id: 4, label: "" },
+];
 
 // HCPs HEADCELLS
 export const hcpsHeadCells = [
-  { id: 0, label: 'Date' },
-  { id: 1, label: 'Time' },
-  { id: 2, label: 'Order Num' },
+  { id: 0, label: "Date" },
+  { id: 1, label: "Time" },
+  { id: 2, label: "Order Num" },
   { id: 3, label: "Patient's Name" },
-  { id: 6, label: '' },
-]
+  { id: 120, label: "Test Amount" },
+  { id: 12, label: "Total Test" },
+  { id: 6, label: "" },
+];
 
 // Partner's HEADCELLS
 export const partnersHeadCells = [
-  { id: 0, label: 'Date' },
-  { id: 1, label: 'Time' },
-  { id: 2, label: 'Order Num' },
+  { id: 0, label: "Date" },
+  { id: 1, label: "Time" },
+  { id: 2, label: "Order Num" },
   { id: 3, label: "Patient's Name" },
-  { id: 6, label: '' },
-]
+  { id: 120, label: "Test Amount" },
+  { id: 12, label: "Total Test" },
+  { id: 6, label: "" },
+];
 
 // Messages's HEADCELLS
 export const messagesHeadCells = [
-  { id: 24, label: 'Date' },
-  { id: 9, label: 'Time' },
-  { id: 2, label: 'Order Num' },
+  { id: 24, label: "Date" },
+  { id: 9, label: "Time" },
+  { id: 2, label: "Order Num" },
   { id: 22, label: "Cancellation's Reason" },
   { id: 3, label: "Patient's Name" },
-  { id: 4, label: 'status' },
-]
+  { id: 4, label: "status" },
+];
 // HCP Patients HEADCELLS
 export const hcpPatientsHeadCells = [
-  { id: 0, label: 'User ID' },
-  { id: 1, label: 'Patient Name' },
-  { id: 2, label: '' },
-]
+  { id: 0, label: "User ID" },
+  { id: 1, label: "Patient Name" },
+  { id: 2, label: "" },
+];

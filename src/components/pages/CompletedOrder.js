@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
+import prettyMoney from "pretty-money";
 import {
   Button,
   FormControl,
@@ -11,7 +12,7 @@ import {
   TableCell,
   Checkbox,
 } from "@mui/material";
-import NoData from "components/layouts/NoData";
+import { NoData } from "components/layouts";
 import {
   Loader,
   FormSelect,
@@ -173,10 +174,14 @@ const CompletedOrder = ({
   });
 
   useEffect(() => {
-    if (data) {
-      setScheduleState(data.getDiagnosticTests.data);
-    }
+    if (data) return setScheduleState(data.getDiagnosticTests.data);
   }, [data]);
+  const prettyDollarConfig = {
+    currency: "₦",
+    position: "before",
+    spaced: false,
+    thousandsDelimiter: ",",
+  };
 
   const { hospitalName, date, categoryName } = filterSelectInput;
 
@@ -188,7 +193,13 @@ const CompletedOrder = ({
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" flexWrap="nowrap" height="100%">
+      <Grid
+        container
+        direction="column"
+        gap={2}
+        flexWrap="nowrap"
+        height="100%"
+      >
         <Grid item container>
           <Grid item className={classes.searchGrid}>
             <Search
@@ -207,7 +218,7 @@ const CompletedOrder = ({
         </Grid>
 
         {scheduleState !== null && scheduleState.length > 0 ? (
-          <Grid item container height="100%" style={{ marginTop: "5rem" }}>
+          <Grid item container height="100%">
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={scheduleState}
@@ -218,10 +229,9 @@ const CompletedOrder = ({
               {scheduleState
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row);
-                  const { createdAt, _id, testId, patientData } = row;
+                  const { createdAt, _id, tests, testId, patientData } = row;
                   const isItemSelected = isSelected(_id, selectedRows);
-
+                  const x = tests.map((i) => i.price);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -288,6 +298,17 @@ const CompletedOrder = ({
                               : " No User"}
                           </span>
                         </div>
+                      </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {prettyMoney(
+                          prettyDollarConfig,
+                          x.reduce(function (accumulator, currentValue) {
+                            return accumulator + currentValue;
+                          }, 0)
+                        )}
+                      </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {x.length}
                       </TableCell>
                       <TableCell>
                         <Chip
