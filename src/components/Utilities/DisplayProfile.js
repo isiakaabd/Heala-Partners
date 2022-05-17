@@ -128,7 +128,7 @@ const DisplayProfile = (props) => {
 };
 
 DisplayProfile.propTypes = {
-  fullName: PropTypes.string.isRequired,
+  fullName: PropTypes.string,
   displayPhoto: PropTypes.string,
   medicalTitle: PropTypes.string,
   statusId: PropTypes.number,

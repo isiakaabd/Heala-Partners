@@ -37,7 +37,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewMail = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelectedSubMenu }) => {
+const ViewMail = ({
+  selectedMenu,
+  setSelectedMenu,
+  selectedSubMenu,
+  setSelectedSubMenu,
+}) => {
   const { emailId } = useParams();
 
   const classes = useStyles();
@@ -74,7 +79,9 @@ const ViewMail = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelectedS
                 <Chip
                   variant="outlined"
                   deleteIcon={<ArrowForwardIosIcon />}
-                  onClick={() => window.open(`mailto:${details.email}`, "_blank")}
+                  onClick={() =>
+                    window.open(`mailto:${details.email}`, "_blank")
+                  }
                   onDelete={() => console.log(" ")}
                   label={details.email}
                   className={classes.chip}
@@ -102,7 +109,11 @@ const ViewMail = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelectedS
           </Grid>
         </Grid>
         <Divider />
-        <Grid item className={classes.gridWrapper} style={{ lineHeight: 1.85, fontSize: "1.5rem" }}>
+        <Grid
+          item
+          className={classes.gridWrapper}
+          style={{ lineHeight: 1.85, fontSize: "1.5rem" }}
+        >
           {/* <Typography variant="body1" style={{ lineHeight: 1.85 }}> */}
           {parseTextArea}
           {/* </Typography> */}
@@ -113,10 +124,10 @@ const ViewMail = ({ selectedMenu, setSelectedMenu, selectedSubMenu, setSelectedS
 };
 
 ViewMail.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
 };
 
 export default ViewMail;

@@ -1,65 +1,65 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Grid, Typography, Chip } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import { useParams } from 'react-router-dom'
-import { useLazyQuery, useQuery } from '@apollo/client'
-import { calculateBMI } from 'components/Utilities/bMI'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Grid, Typography, Chip } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import PreviousButton from "components/Utilities/PreviousButton";
+import { useParams } from "react-router-dom";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { calculateBMI } from "components/Utilities/bMI";
 import {
   getProfile,
   findAllergies,
   // getLabResult,
-} from 'components/graphQL/useQuery'
-import Loader from 'components/Utilities/Loader'
-import NoData from 'components/layouts/NoData'
+} from "components/graphQL/useQuery";
+import Loader from "components/Utilities/Loader";
+import NoData from "components/layouts/NoData";
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   cardGrid: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem 5rem',
-    height: '16.1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem 5rem",
+    height: "16.1rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   infoBadge: {
-    '&.MuiChip-root': {
-      fontSize: '1.35rem',
-      borderRadius: '1.5rem',
+    "&.MuiChip-root": {
+      fontSize: "1.35rem",
+      borderRadius: "1.5rem",
       color: theme.palette.common.green,
     },
   },
   link: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.25rem',
+    display: "flex",
+    alignItems: "center",
+    fontSize: "1.25rem",
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.lightGrey}`,
-    padding: '.75rem',
-    borderRadius: '1.5rem',
-    textDecoration: 'none',
+    padding: ".75rem",
+    borderRadius: "1.5rem",
+    textDecoration: "none",
   },
   linkIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '1.25rem',
+    "&.MuiSvgIcon-root": {
+      fontSize: "1.25rem",
       color: theme.palette.common.green,
-      marginLeft: '1.2rem',
+      marginLeft: "1.2rem",
     },
   },
 
   allergies: {
-    '&.MuiGrid-root:not(:last-of-type)': {
-      marginRight: '1rem',
+    "&.MuiGrid-root:not(:last-of-type)": {
+      marginRight: "1rem",
     },
   },
-}))
+}));
 
 const MedicalRecords = (props) => {
   const {
@@ -69,60 +69,60 @@ const MedicalRecords = (props) => {
     setSelectedMenu,
     setSelectedSubMenu,
     setSelectedPatientMenu,
-  } = props
-  const classes = useStyles()
-  const { patientId } = useParams()
-  const [patientProfile, setPatientProfile] = useState([])
+  } = props;
+  const classes = useStyles();
+  const { patientId } = useParams();
+  const [patientProfile, setPatientProfile] = useState([]);
 
   const { loading, data, error } = useQuery(getProfile, {
     variables: { profileId: patientId },
-  })
-  console.log(patientProfile)
+  });
+  console.log(patientProfile);
   const [alergy, allergyResult] = useLazyQuery(findAllergies, {
     variables: { id: patientId },
-  })
+  });
 
-  console.log(allergyResult.data)
+  console.log(allergyResult.data);
   // const [labResult, labResults] = useLazyQuery(getLabResult, {
   //   variables: { id: patientId },
   // })
-  const [alergies, setAlergies] = useState([])
-  const [lab] = useState([]) //setLab
+  const [alergies, setAlergies] = useState([]);
+  const [lab] = useState([]); //setLab
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       try {
         // patients()
-        alergy()
+        alergy();
         // labResult()
-        setAlergies(allergyResult.data.findAllergies.allergies)
+        setAlergies(allergyResult.data.findAllergies.allergies);
         // setLab(labResults.data.getLabResults.lab)
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
-    })() //labResult labResults.data
-  }, [alergy, patientId, allergyResult.data])
+    })(); //labResult labResults.data
+  }, [alergy, patientId, allergyResult.data]);
 
   useEffect(() => {
-    setSelectedMenu(1)
-    setSelectedSubMenu(2)
-    setSelectedPatientMenu(4)
+    setSelectedMenu(1);
+    setSelectedSubMenu(2);
+    setSelectedPatientMenu(4);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu])
+  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
   useEffect(() => {
     if (data) {
-      setPatientProfile(data.profile)
+      setPatientProfile(data.profile);
     }
-  }, [data])
+  }, [data]);
 
-  if (loading || allergyResult.loading) return <Loader />
+  if (loading || allergyResult.loading) return <Loader />;
   if (error || allergyResult.error)
-    return <NoData error={allergyResult.error || error} />
+    return <NoData error={allergyResult.error || error} />;
   // const { height, weight } = data&& patientProfile
-  const bmi = calculateBMI(patientProfile.height, patientProfile.weight)
+  const bmi = calculateBMI(patientProfile.height, patientProfile.weight);
   return (
-    <Grid container direction="column" style={{ paddingBottom: '10rem' }}>
-      <Grid item style={{ marginBottom: '3rem' }}>
+    <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
+      <Grid item style={{ marginBottom: "3rem" }}>
         <PreviousButton
           path={`/patients/${patientId}`}
           onClick={() => setSelectedPatientMenu(0)}
@@ -135,19 +135,19 @@ const MedicalRecords = (props) => {
         item
         container
         justifyContent="space-between"
-        style={{ paddingTop: '5rem' }}
+        style={{ paddingTop: "5rem" }}
       >
         {/* HEIGHT GRID */}
         <Grid
           item
           md
           className={classes.cardGrid}
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -158,7 +158,7 @@ const MedicalRecords = (props) => {
               <Chip
                 variant="outlined"
                 label={
-                  patientProfile.height ? patientProfile.height : 'No Value'
+                  patientProfile.height ? patientProfile.height : "No Value"
                 }
                 className={classes.infoBadge}
               />
@@ -170,12 +170,12 @@ const MedicalRecords = (props) => {
           item
           md
           className={classes.cardGrid}
-          style={{ marginLeft: '2rem' }}
+          style={{ marginLeft: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -186,7 +186,7 @@ const MedicalRecords = (props) => {
               <Chip
                 variant="outlined"
                 label={
-                  patientProfile.weight ? patientProfile.weight : 'No Value'
+                  patientProfile.weight ? patientProfile.weight : "No Value"
                 }
                 className={classes.infoBadge}
               />
@@ -198,19 +198,19 @@ const MedicalRecords = (props) => {
         item
         container
         justifyContent="space-between"
-        style={{ paddingTop: '5rem' }}
+        style={{ paddingTop: "5rem" }}
       >
         {/* BLOOD GROUP GRID */}
         <Grid
           item
           md
           className={classes.cardGrid}
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -223,7 +223,7 @@ const MedicalRecords = (props) => {
                 label={
                   patientProfile.bloodGroup
                     ? patientProfile.bloodGroup
-                    : 'No Value'
+                    : "No Value"
                 }
                 className={classes.infoBadge}
               />
@@ -235,12 +235,12 @@ const MedicalRecords = (props) => {
           item
           md
           className={classes.cardGrid}
-          style={{ marginLeft: '2rem' }}
+          style={{ marginLeft: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -251,7 +251,7 @@ const MedicalRecords = (props) => {
               <Chip
                 variant="outlined"
                 label={
-                  patientProfile.genotype ? patientProfile.genotype : 'No Value'
+                  patientProfile.genotype ? patientProfile.genotype : "No Value"
                 }
                 className={classes.infoBadge}
               />
@@ -263,19 +263,19 @@ const MedicalRecords = (props) => {
         item
         container
         justifyContent="space-between"
-        style={{ paddingTop: '5rem' }}
+        style={{ paddingTop: "5rem" }}
       >
         {/* BMI GRID */}
         <Grid
           item
           md
           className={classes.cardGrid}
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -285,7 +285,7 @@ const MedicalRecords = (props) => {
             <Grid item>
               <Chip
                 variant="outlined"
-                label={isNaN(bmi) ? 'No Value' : bmi}
+                label={isNaN(bmi) ? "No Value" : bmi}
                 className={classes.infoBadge}
               />
             </Grid>
@@ -296,12 +296,12 @@ const MedicalRecords = (props) => {
           item
           md
           className={classes.cardGrid}
-          style={{ marginLeft: '2rem' }}
+          style={{ marginLeft: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -336,19 +336,19 @@ const MedicalRecords = (props) => {
         item
         container
         justifyContent="space-between"
-        style={{ paddingTop: '5rem' }}
+        style={{ paddingTop: "5rem" }}
       >
         {/* BMI GRID */}
         <Grid
           item
           md
           className={classes.cardGrid}
-          style={{ marginRight: '2rem' }}
+          style={{ marginRight: "2rem" }}
         >
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -386,19 +386,19 @@ const MedicalRecords = (props) => {
         <Grid
           item
           md
-          style={{ marginLeft: '2rem', padding: '4rem 5rem' }}
+          style={{ marginLeft: "2rem", padding: "4rem 5rem" }}
         ></Grid>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 MedicalRecords.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+};
 
-export default MedicalRecords
+export default MedicalRecords;

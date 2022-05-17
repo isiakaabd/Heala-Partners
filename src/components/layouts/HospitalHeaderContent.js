@@ -1,60 +1,60 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { Typography, Toolbar } from '@mui/material'
-import { HeaderProfile } from '.'
-import { makeStyles } from '@mui/styles'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { Link, useLocation } from 'react-router-dom'
-import { useTheme } from '@mui/material/styles'
-import { useLazyQuery } from '@apollo/client'
-import { getPartner } from 'components/graphQL/useQuery'
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Typography, Toolbar } from "@mui/material";
+import { HeaderProfile } from ".";
+import { makeStyles } from "@mui/styles";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import { useLazyQuery } from "@apollo/client";
+import { getPartner } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    justifyContent: "space-between",
   },
   text: {
     color: theme.palette.common.lightGrey,
-    fontSize: '1.5rem',
+    fontSize: "1.5rem",
     fontWeight: 300,
   },
   name: {
-    fontSize: '2rem',
+    fontSize: "2rem",
     fontWeight: 300,
   },
   titleWrapper: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   link: {
-    textDecoration: 'none',
+    textDecoration: "none",
   },
   title: {
-    fontSize: '2.4rem',
+    fontSize: "2.4rem",
     color: theme.palette.common.green,
-    '&.MuiTypography-root': {
-      marginRight: '.5rem',
+    "&.MuiTypography-root": {
+      marginRight: ".5rem",
     },
   },
   subtitle: {
     color: theme.palette.common.green,
-    '&.MuiTypography-root': {
-      fontSize: '1.25rem',
-      marginLeft: '.5rem',
-      alignSelf: 'flex-end',
+    "&.MuiTypography-root": {
+      fontSize: "1.25rem",
+      marginLeft: ".5rem",
+      alignSelf: "flex-end",
     },
   },
   customSubHeaderWrapper: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
-}))
+}));
 
 const CustomHeaderText = ({ title, path }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.titleWrapper}>
@@ -64,17 +64,17 @@ const CustomHeaderText = ({ title, path }) => {
         </Typography>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 CustomHeaderText.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   total: PropTypes.number,
-  path: PropTypes.string.isRequired,
-}
+  path: PropTypes.string,
+};
 
 const CustomHeaderTitle = ({ title, path }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.titleWrapper}>
@@ -84,18 +84,18 @@ const CustomHeaderTitle = ({ title, path }) => {
         </Typography>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 CustomHeaderTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-}
+  title: PropTypes.string,
+  path: PropTypes.string,
+};
 
 // SUBMENU HEADERS
 const CustomSubHeaderText = (props) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
   const {
     title,
@@ -105,7 +105,7 @@ const CustomSubHeaderText = (props) => {
     scopedMenu,
     scopedSubMenu,
     titleColor = theme.palette.common.green,
-  } = props
+  } = props;
 
   return (
     <div className={classes.customSubHeaderWrapper}>
@@ -114,7 +114,7 @@ const CustomSubHeaderText = (props) => {
       </Typography>
       <KeyboardArrowRightIcon
         style={{
-          fontSize: '2rem',
+          fontSize: "2rem",
           color: theme.palette.common.grey,
         }}
       />
@@ -130,7 +130,7 @@ const CustomSubHeaderText = (props) => {
       {scopedMenu !== 0 && (
         <Fragment>
           <KeyboardArrowRightIcon
-            style={{ fontSize: '2rem', color: theme.palette.common.grey }}
+            style={{ fontSize: "2rem", color: theme.palette.common.grey }}
           />
           <Typography
             variant="h3"
@@ -150,7 +150,7 @@ const CustomSubHeaderText = (props) => {
       {scopedSubMenu !== 0 && (
         <Fragment>
           <KeyboardArrowRightIcon
-            style={{ fontSize: '2rem', color: theme.palette.common.grey }}
+            style={{ fontSize: "2rem", color: theme.palette.common.grey }}
           />
           <Typography
             variant="h3"
@@ -162,18 +162,18 @@ const CustomSubHeaderText = (props) => {
         </Fragment>
       )}
     </div>
-  )
-}
+  );
+};
 
 CustomSubHeaderText.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
   subSubTitle: PropTypes.string,
   scopedSubTitle: PropTypes.string,
   titleColor: PropTypes.string,
-  scopedMenu: PropTypes.number.isRequired,
-  scopedSubMenu: PropTypes.number.isRequired,
-}
+  scopedMenu: PropTypes.number,
+  scopedSubMenu: PropTypes.number,
+};
 
 // HEADER DYNAMIC RENDERING COMPONENT
 const HeaderText = (props) => {
@@ -183,27 +183,27 @@ const HeaderText = (props) => {
     selectedPatientMenu,
     selectedHcpMenu,
     selectedScopedMenu,
-  } = props
-  const classes = useStyles()
-  const theme = useTheme()
-  const id = localStorage.getItem('AppId')
-  const [pharmacyData, setPharmacyData] = useState()
+  } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const id = localStorage.getItem("AppId");
+  const [pharmacyData, setPharmacyData] = useState();
 
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
-  })
+  });
 
   useEffect(() => {
-    ;(async () => {
-      setTimeout(pharmacy, 300)
-    })()
+    (async () => {
+      setTimeout(pharmacy, 300);
+    })();
     if (data) {
-      localStorage.setItem('partnerID', data.getPartner._id)
-      setPharmacyData(data?.getPartner)
+      localStorage.setItem("partnerID", data.getPartner._id);
+      setPharmacyData(data?.getPartner);
     }
-  }, [pharmacy, data])
+  }, [pharmacy, data]);
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   switch (selectedMenu) {
     case 0:
@@ -216,7 +216,7 @@ const HeaderText = (props) => {
             {pharmacyData?.name}
           </Typography>
         </div>
-      )
+      );
     case 1:
       if (selectedSubMenu === 2) {
         return (
@@ -227,10 +227,10 @@ const HeaderText = (props) => {
             scopedSubMenu={selectedScopedMenu}
             scopedSubTitle={
               selectedScopedMenu === 1
-                ? 'Consultation Details'
+                ? "Consultation Details"
                 : selectedScopedMenu === 3
-                ? 'Create Message'
-                : ''
+                ? "Create Message"
+                : ""
             }
             titleColor={
               selectedPatientMenu === 0
@@ -239,22 +239,22 @@ const HeaderText = (props) => {
             }
             subSubTitle={
               selectedPatientMenu === 1
-                ? 'Patient Profile'
+                ? "Patient Profile"
                 : selectedPatientMenu === 2
-                ? 'Appointments'
+                ? "Appointments"
                 : selectedPatientMenu === 3
-                ? 'Prescriptions'
+                ? "Prescriptions"
                 : selectedPatientMenu === 4
-                ? 'Medical Records'
+                ? "Medical Records"
                 : selectedPatientMenu === 5
-                ? 'Consultations'
+                ? "Consultations"
                 : selectedPatientMenu === 6
-                ? 'Medications'
-                : ''
+                ? "Medications"
+                : ""
             }
             selectedPatientMenu={selectedPatientMenu}
           />
-        )
+        );
       }
       return (
         <CustomHeaderText
@@ -262,7 +262,7 @@ const HeaderText = (props) => {
           // total={patientContent.loading ? 'Loading' : profiles}
           path="patients"
         />
-      )
+      );
     case 2:
       if (selectedSubMenu === 3) {
         return (
@@ -271,25 +271,25 @@ const HeaderText = (props) => {
             scopedSubMenu={selectedScopedMenu}
             subSubTitle={
               selectedHcpMenu === 1
-                ? 'Doctor Profile'
+                ? "Doctor Profile"
                 : selectedHcpMenu === 2
-                ? 'Doctor Appointments'
+                ? "Doctor Appointments"
                 : selectedHcpMenu === 3
-                ? 'Availability'
+                ? "Availability"
                 : selectedHcpMenu === 4
-                ? 'Earnings'
+                ? "Earnings"
                 : selectedHcpMenu === 5
-                ? 'Patients'
+                ? "Patients"
                 : selectedHcpMenu === 6
-                ? 'Consultations'
-                : 'White Label'
+                ? "Consultations"
+                : "White Label"
             }
             scopedSubTitle={
               selectedScopedMenu === 2
-                ? 'Case Note'
+                ? "Case Note"
                 : selectedScopedMenu === 3
-                ? 'Create Message'
-                : ''
+                ? "Create Message"
+                : ""
             }
             title="Doctors"
             subTitle="Doctor View"
@@ -299,7 +299,7 @@ const HeaderText = (props) => {
                 : theme.palette.common.grey
             }
           />
-        )
+        );
       }
       return (
         <CustomHeaderText
@@ -307,9 +307,9 @@ const HeaderText = (props) => {
           // total={doctorContent.data && doctorContent.data.DoctorCount}
           path="hcps"
         />
-      )
+      );
     case 3:
-      return <CustomHeaderText title="Partners" total={24} path="partners" />
+      return <CustomHeaderText title="Partners" total={24} path="partners" />;
 
     case 5:
       if (selectedSubMenu === 6) {
@@ -319,16 +319,16 @@ const HeaderText = (props) => {
             scopedMenu={0}
             scopedSubMenu={0}
             subTitle={
-              pathname === '/messages/create-message'
-                ? 'New Message'
-                : 'View Message'
+              pathname === "/messages/create-message"
+                ? "New Message"
+                : "View Message"
             }
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="Messages" path="messages" />
+      return <CustomHeaderTitle title="Messages" path="messages" />;
     case 6:
-      return <CustomHeaderTitle title="Email" path="email" />
+      return <CustomHeaderTitle title="Email" path="email" />;
     case 7:
       if (selectedSubMenu === 8) {
         return (
@@ -338,11 +338,11 @@ const HeaderText = (props) => {
             scopedSubMenu={0}
             subTitle="Doctor View"
           />
-        )
+        );
       }
       return (
         <CustomHeaderTitle title="Doctor Verification" path="verification" />
-      )
+      );
     case 8:
       if (selectedSubMenu === 9) {
         return (
@@ -351,14 +351,14 @@ const HeaderText = (props) => {
             scopedMenu={0}
             scopedSubMenu={0}
             subTitle={
-              pathname === '/finance/earnings'
-                ? 'Earnings Table'
-                : 'Payouts Table'
+              pathname === "/finance/earnings"
+                ? "Earnings Table"
+                : "Payouts Table"
             }
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="Finance" path="finance" />
+      return <CustomHeaderTitle title="Finance" path="finance" />;
     case 9:
       if (selectedSubMenu === 10) {
         return (
@@ -368,42 +368,42 @@ const HeaderText = (props) => {
             scopedMenu={0}
             scopedSubMenu={0}
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="Referrals" path="referrals" />
+      return <CustomHeaderTitle title="Referrals" path="referrals" />;
     case 10:
-      return <CustomHeaderTitle title="Subscription Plans" path="plans" />
+      return <CustomHeaderTitle title="Subscription Plans" path="plans" />;
     case 11:
       if (selectedSubMenu === 12) {
         return (
           <CustomSubHeaderText
             title="Settings"
             subTitle={
-              pathname === '/settings/administrator'
-                ? 'Administrator'
-                : 'Profile'
+              pathname === "/settings/administrator"
+                ? "Administrator"
+                : "Profile"
             }
             scopedSubMenu={0} // okay
             scopedMenu={0}
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="Settings" path="settings" />
+      return <CustomHeaderTitle title="Settings" path="settings" />;
     case 12:
       if (selectedSubMenu === 13) {
         return (
           <CustomSubHeaderText
             title="White Label"
             subTitle={
-              pathname === '/label/provider' ? 'Providers' : 'User Types'
+              pathname === "/label/provider" ? "Providers" : "User Types"
             }
             scopedMenu={0}
             scopedSubMenu={selectedScopedMenu}
             // scopedSubMenu={0}
           />
-        )
+        );
       }
-      return <CustomHeaderTitle title="White Label" path="label" />
+      return <CustomHeaderTitle title="White Label" path="label" />;
 
     default:
       return (
@@ -415,19 +415,19 @@ const HeaderText = (props) => {
             {pharmacyData?.name}
           </Typography>
         </div>
-      )
+      );
   }
-}
+};
 
 HeaderText.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+};
 
 const HospitalHeaderContent = (props) => {
   const {
@@ -438,8 +438,8 @@ const HospitalHeaderContent = (props) => {
     waitingListMenu,
     selectedAppointmentMenu,
     selectedScopedMenu,
-  } = props
-  const classes = useStyles()
+  } = props;
+  const classes = useStyles();
   return (
     <Toolbar className={classes.toolbar}>
       <HeaderText
@@ -453,17 +453,17 @@ const HospitalHeaderContent = (props) => {
       />
       <HeaderProfile />
     </Toolbar>
-  )
-}
+  );
+};
 
 HospitalHeaderContent.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+};
 
-export default HospitalHeaderContent
+export default HospitalHeaderContent;

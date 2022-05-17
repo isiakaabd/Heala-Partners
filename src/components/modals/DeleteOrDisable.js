@@ -1,38 +1,38 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Grid, Modal, Fade, Typography, Box, Backdrop } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import CloseIcon from '@mui/icons-material/Close'
-import { CustomButton } from 'components/Utilities'
-import { BsExclamationCircle } from 'react-icons/bs'
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
+import React from "react";
+import PropTypes from "prop-types";
+import { Grid, Modal, Fade, Typography, Box, Backdrop } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import { CustomButton } from "components/Utilities";
+import { BsExclamationCircle } from "react-icons/bs";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 const useStyles = makeStyles((theme) => ({
   closeIcon: {
-    '&.MuiSvgIcon-root': {
-      cursor: 'pointer',
+    "&.MuiSvgIcon-root": {
+      cursor: "pointer",
 
-      '&:hover': {
+      "&:hover": {
         color: theme.palette.common.lightGreen,
       },
     },
   },
-}))
+}));
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 'auto',
-  minWidth: '40rem',
-  height: 'auto',
-  bgcolor: 'background.paper',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "auto",
+  minWidth: "40rem",
+  height: "auto",
+  bgcolor: "background.paper",
   boxShadow: 24,
-  borderRadius: '1rem',
-  padding: '3rem',
-}
+  borderRadius: "1rem",
+  padding: "3rem",
+};
 
 const DeleteOrDisable = ({
   open,
@@ -45,20 +45,20 @@ const DeleteOrDisable = ({
   onCancel,
   ...rest
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
   const discardButton = {
     background: theme.palette.info.main,
     hover: theme.palette.info.light,
     active: theme.palette.info.dark,
-  }
+  };
 
   const disableButton = {
     background: theme.palette.primary.main,
     hover: theme.palette.primary.light,
     active: theme.palette.primary.dark,
-  }
+  };
 
   return (
     <Modal
@@ -88,10 +88,10 @@ const DeleteOrDisable = ({
                 onClick={() => setOpen(false)}
               />
             </Grid>
-            <Grid item style={{ marginBottom: '3rem' }}>
-              {type === 'logout' ? (
+            <Grid item style={{ marginBottom: "3rem" }}>
+              {type === "logout" ? (
                 <LogoutRoundedIcon
-                  sx={{ fontSize: '10rem', color: 'red' }}
+                  sx={{ fontSize: "10rem", color: "red" }}
                   color={theme.palette.warning.main}
                 />
               ) : (
@@ -101,10 +101,10 @@ const DeleteOrDisable = ({
                 />
               )}
             </Grid>
-            <Grid item style={{ marginBottom: '2rem' }}>
+            <Grid item style={{ marginBottom: "2rem" }}>
               <Typography variant="h2">{title}</Typography>
             </Grid>
-            <Grid item style={{ marginBottom: '2rem' }}>
+            <Grid item style={{ marginBottom: "2rem" }}>
               <Typography variant="body1">{`Are you sure you want to ${confirmationMsg}?`}</Typography>
             </Grid>
             <Grid
@@ -112,7 +112,7 @@ const DeleteOrDisable = ({
               container
               justifyContent="space-between"
               gap={3}
-              sx={{ justifyContent: 'space-between' }}
+              sx={{ justifyContent: "space-between" }}
             >
               <Grid item md>
                 <CustomButton
@@ -129,8 +129,8 @@ const DeleteOrDisable = ({
                   type={disableButton}
                   width="100%"
                   onClick={() => {
-                    setOpen(false)
-                    onConfirm()
+                    setOpen(false);
+                    onConfirm();
                   }}
                 />
               </Grid>
@@ -139,18 +139,18 @@ const DeleteOrDisable = ({
         </Box>
       </Fade>
     </Modal>
-  )
-}
+  );
+};
 
 DeleteOrDisable.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  confirmationMsg: PropTypes.string.isRequired,
-  btnValue: PropTypes.string.isRequired,
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
+  title: PropTypes.string,
+  confirmationMsg: PropTypes.string,
+  btnValue: PropTypes.string,
   type: PropTypes.string,
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
-}
+};
 
-export default DeleteOrDisable
+export default DeleteOrDisable;

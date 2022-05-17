@@ -1,32 +1,32 @@
-import React, { useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Grid, Typography } from '@mui/material'
+import React, { useLayoutEffect } from "react";
+import PropTypes from "prop-types";
+import { Grid, Typography } from "@mui/material";
 import {
   HospitalDashboardChart,
   NoData,
   AvailabilityTable,
-} from 'components/layouts'
+} from "components/layouts";
 
-import { useQuery } from '@apollo/client'
-import { dashboard } from 'components/graphQL/useQuery'
-import { Loader } from 'components/Utilities'
+import { useQuery } from "@apollo/client";
+import { dashboard } from "components/graphQL/useQuery";
+import { Loader } from "components/Utilities";
 const HospitalDashboard = ({ chatMediaActive, setChatMediaActive }) => {
   const { data, error, loading } = useQuery(dashboard, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      providerId: localStorage.getItem('partnerProviderId'),
+      providerId: localStorage.getItem("partnerProviderId"),
     },
-  })
+  });
 
   useLayoutEffect(() => {
-    setChatMediaActive(false)
+    setChatMediaActive(false);
 
     // eslint-disable-next-line
-  }, [chatMediaActive])
+  }, [chatMediaActive]);
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
 
-  if (error) return <NoData error={error} />
+  if (error) return <NoData error={error} />;
 
   return (
     <Grid container direction="column">
@@ -41,12 +41,12 @@ const HospitalDashboard = ({ chatMediaActive, setChatMediaActive }) => {
       </Grid>
       <AvailabilityTable data={data?.getStats.availabilityCalendar} />
     </Grid>
-  )
-}
+  );
+};
 
 HospitalDashboard.propTypes = {
-  chatMediaActive: PropTypes.bool.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
-}
+  chatMediaActive: PropTypes.bool,
+  setChatMediaActive: PropTypes.func,
+};
 
-export default HospitalDashboard
+export default HospitalDashboard;

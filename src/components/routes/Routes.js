@@ -142,22 +142,22 @@ const Routes = (props) => {
 };
 
 Routes.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  selectedAppointmentMenu: PropTypes.number.isRequired,
-  waitingListMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-  chatMediaActive: PropTypes.bool.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
-  setWaitingListMenu: PropTypes.func.isRequired,
-  setSelectedAppointmentMenu: PropTypes.func.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
-  setSelectedScopedMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  selectedAppointmentMenu: PropTypes.number,
+  waitingListMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+  chatMediaActive: PropTypes.bool,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
+  setWaitingListMenu: PropTypes.func,
+  setSelectedAppointmentMenu: PropTypes.func,
+  setChatMediaActive: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default Routes;

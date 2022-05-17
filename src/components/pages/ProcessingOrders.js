@@ -566,8 +566,8 @@ const ProcessingOrders = ({
 };
 
 ProcessingOrders.propTypes = {
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default ProcessingOrders;

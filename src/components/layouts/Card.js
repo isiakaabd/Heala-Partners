@@ -30,7 +30,7 @@ export const Card = ({ title, width, children }) => {
 };
 
 Card.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   width: PropTypes.width,
   children: PropTypes.children,
   description: PropTypes.description,

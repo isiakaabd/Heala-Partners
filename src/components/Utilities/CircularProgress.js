@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
-import { ReactComponent as Circular } from 'assets/images/circular.svg'
+import React from "react";
+import PropTypes from "prop-types";
+import { Grid } from "@mui/material";
+import Box from "@mui/material/Box";
+import { ReactComponent as Circular } from "assets/images/circular.svg";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
-} from 'react-circular-progressbar'
-import 'react-circular-progressbar/dist/styles.css'
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const CircularProgressBar = ({
   value,
@@ -21,9 +21,9 @@ const CircularProgressBar = ({
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'inline-flex',
-        alignItems: 'center',
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center",
       }}
     >
       <Grid sx={{ height, width }}>
@@ -33,7 +33,7 @@ const CircularProgressBar = ({
           styles={buildStyles({
             pathColor: color,
             trailColor: trailColor,
-            strokeLinecap: strokeLinecap ? strokeLinecap : 'butt',
+            strokeLinecap: strokeLinecap ? strokeLinecap : "butt",
           })}
         />
       </Grid>
@@ -43,25 +43,25 @@ const CircularProgressBar = ({
           left: 0,
           bottom: 0,
           right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Circular />
       </Box>
     </Box>
-  )
-}
-export default CircularProgressBar
+  );
+};
+export default CircularProgressBar;
 
 CircularProgressBar.propTypes = {
-  value: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
-  trailColor: PropTypes.string.isRequired,
+  value: PropTypes.number,
+  color: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  trailColor: PropTypes.string,
   strokeLinecap: PropTypes.string,
   strokeWidth: PropTypes.number,
-}
+};

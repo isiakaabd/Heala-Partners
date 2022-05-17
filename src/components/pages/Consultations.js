@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { dateMoment } from 'components/Utilities/Time'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import NoData from 'components/layouts/NoData'
+import React, { useEffect, useState } from "react";
+import { dateMoment } from "components/Utilities/Time";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import NoData from "components/layouts/NoData";
 import {
   Grid,
   Typography,
@@ -11,66 +11,66 @@ import {
   Checkbox,
   Button,
   Avatar,
-} from '@mui/material'
-import FilterList from 'components/Utilities/FilterList'
-import { EnhancedTable, EmptyTable } from 'components/layouts'
-import { consultationsHeadCells4 } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { isSelected } from 'helpers/isSelected'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import displayPhoto from 'assets/images/avatar.svg'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import PreviousButton from 'components/Utilities/PreviousButton'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
-import { getConsultations } from 'components/graphQL/useQuery'
-import Loader from 'components/Utilities/Loader'
+} from "@mui/material";
+import FilterList from "components/Utilities/FilterList";
+import { EnhancedTable, EmptyTable } from "components/layouts";
+import { consultationsHeadCells4 } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { isSelected } from "helpers/isSelected";
+import { handleSelectedRows } from "helpers/selectedRows";
+import displayPhoto from "assets/images/avatar.svg";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import PreviousButton from "components/Utilities/PreviousButton";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { getConsultations } from "components/graphQL/useQuery";
+import Loader from "components/Utilities/Loader";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
-    '&.css-1jilxo7-MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.css-1jilxo7-MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
 
   button: {
-    '&.MuiButton-root': {
-      background: '#fff',
+    "&.MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '12rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "12rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
 
-      '& .MuiButton-endIcon': {
-        marginLeft: '.3rem',
+      "& .MuiButton-endIcon": {
+        marginLeft: ".3rem",
       },
     },
   },
-}))
+}));
 
 const filterOptions = [
-  { id: 0, value: 'Name' },
-  { id: 1, value: 'Date' },
-  { id: 2, value: 'Description' },
-]
+  { id: 0, value: "Name" },
+  { id: 1, value: "Date" },
+  { id: 2, value: "Description" },
+];
 
 const Consultations = (props) => {
   const {
@@ -82,52 +82,46 @@ const Consultations = (props) => {
     setSelectedSubMenu,
     setSelectedPatientMenu,
     setSelectedScopedMenu,
-  } = props
-  const [pageInfo, setPageInfo] = useState([])
-  const classes = useStyles()
-  const theme = useTheme()
-  const { patientConsultation } = useActions()
-  const { patientId } = useParams()
+  } = props;
+  const [pageInfo, setPageInfo] = useState([]);
+  const classes = useStyles();
+  const theme = useTheme();
+  const { patientConsultation } = useActions();
+  const { patientId } = useParams();
 
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
   const { loading, data, error, refetch } = useQuery(getConsultations, {
     variables: {
       id: patientId,
-      orderBy: '-createdAt',
+      orderBy: "-createdAt",
     },
-  })
+  });
 
-  const [consultations, setConsultations] = useState([])
+  const [consultations, setConsultations] = useState([]);
   useEffect(() => {
     if (data) {
-      setConsultations(data.getConsultations.data)
+      setConsultations(data.getConsultations.data);
       // patientConsultation(data)
-      setPageInfo(data.getConsultations.pageInfo)
+      setPageInfo(data.getConsultations.pageInfo);
     }
-  }, [data, consultations, patientConsultation])
+  }, [data, consultations, patientConsultation]);
 
   const fetchMoreFunc = (_, newPage) => {
-    refetch({ page: newPage })
-  }
+    refetch({ page: newPage });
+  };
   useEffect(() => {
-    setSelectedMenu(1)
-    setSelectedSubMenu(2)
-    setSelectedPatientMenu(5)
-    setSelectedScopedMenu(0)
+    setSelectedMenu(1);
+    setSelectedSubMenu(2);
+    setSelectedPatientMenu(5);
+    setSelectedScopedMenu(0);
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu, selectedScopedMenu])
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (loading) return <Loader />
-  if (error) return <NoData  error={error} />
+  }, [selectedMenu, selectedSubMenu, selectedPatientMenu, selectedScopedMenu]);
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
 
   return (
     <Grid container gap={2} flexWrap="nowrap" direction="column" height="100%">
@@ -169,9 +163,9 @@ const Consultations = (props) => {
             {consultations
               // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { doctorData } = row
-                const isItemSelected = isSelected(row._id, selectedRows)
-                const labelId = `enhanced-table-checkbox-${index}`
+                const { doctorData } = row;
+                const isItemSelected = isSelected(row._id, selectedRows);
+                const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
                     hover
@@ -187,13 +181,13 @@ const Consultations = (props) => {
                           handleSelectedRows(
                             row._id,
                             selectedRows,
-                            setSelectedRows,
+                            setSelectedRows
                           )
                         }
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
-                          'aria-labelledby': labelId,
+                          "aria-labelledby": labelId,
                         }}
                       />
                     </TableCell>
@@ -203,16 +197,16 @@ const Consultations = (props) => {
                     <TableCell
                       align="left"
                       className={classes.tableCell}
-                      style={{ maxWidth: '20rem' }}
+                      style={{ maxWidth: "20rem" }}
                     >
                       <div
                         style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
-                        <span style={{ marginRight: '1rem' }}>
+                        <span style={{ marginRight: "1rem" }}>
                           <Avatar
                             alt={`Display Photo of ${doctorData.firstName}`}
                             src={
@@ -223,10 +217,10 @@ const Consultations = (props) => {
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
-                        <span style={{ fontSize: '1.25rem' }}>
+                        <span style={{ fontSize: "1.25rem" }}>
                           {doctorData.firstName
                             ? `${doctorData.firstName} ${doctorData.lastName}`
-                            : 'No Doctor'}
+                            : "No Doctor"}
                         </span>
                       </div>
                     </TableCell>
@@ -234,9 +228,9 @@ const Consultations = (props) => {
                       <Grid container gap={1}>
                         {row.symptoms
                           ? row.symptoms.map((i) => {
-                              return <p key={i.name}>{i.name}</p>
+                              return <p key={i.name}>{i.name}</p>;
                             })
-                          : 'No Value'}
+                          : "No Value"}
                       </Grid>
                     </TableCell>
                     <TableCell
@@ -244,30 +238,30 @@ const Consultations = (props) => {
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        maxWidth: '20rem',
+                        maxWidth: "20rem",
                       }}
                     >
-                      {row.contactMedium ? row.contactMedium : 'No Value'}
+                      {row.contactMedium ? row.contactMedium : "No Value"}
                     </TableCell>
                     <TableCell
                       align="left"
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        maxWidth: '20rem',
+                        maxWidth: "20rem",
                       }}
                     >
-                      {row.type ? row.type : 'No Value'}
+                      {row.type ? row.type : "No Value"}
                     </TableCell>
                     <TableCell
                       align="left"
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        maxWidth: '20rem',
+                        maxWidth: "20rem",
                       }}
                     >
-                      {row.status ? row.status : 'No Value'}
+                      {row.status ? row.status : "No Value"}
                     </TableCell>
                     <TableCell align="left">
                       <Button
@@ -277,16 +271,16 @@ const Consultations = (props) => {
                         to={`/patients/${patientId}/consultations/case-note/${row._id}`}
                         endIcon={<ArrowForwardIosIcon />}
                         onClick={() => {
-                          setSelectedSubMenu(2)
-                          setSelectedPatientMenu(0)
-                          setSelectedScopedMenu(1)
+                          setSelectedSubMenu(2);
+                          setSelectedPatientMenu(0);
+                          setSelectedScopedMenu(1);
                         }}
                       >
                         View Details
                       </Button>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
           </EnhancedTable>
         </Grid>
@@ -298,18 +292,18 @@ const Consultations = (props) => {
         />
       )}
     </Grid>
-  )
-}
+  );
+};
 
 Consultations.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedPatientMenu: PropTypes.number.isRequired,
-  selectedScopedMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedPatientMenu: PropTypes.func.isRequired,
-  setSelectedScopedMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedPatientMenu: PropTypes.number,
+  selectedScopedMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedPatientMenu: PropTypes.func,
+  setSelectedScopedMenu: PropTypes.func,
+};
 
-export default Consultations
+export default Consultations;

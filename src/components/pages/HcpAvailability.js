@@ -51,7 +51,14 @@ const HcpAvailability = (props) => {
       <Grid item>
         <Typography variant="h2">HCP Availability</Typography>
       </Grid>
-      <Grid item container gap={3}  direction="column" flexWrap="nowrap" height="100%">
+      <Grid
+        item
+        container
+        gap={3}
+        direction="column"
+        flexWrap="nowrap"
+        height="100%"
+      >
         {availabiltyArray.length > 0 ? (
           availabiltyArray.map((availability, index) => {
             return (
@@ -69,12 +76,12 @@ const HcpAvailability = (props) => {
 };
 
 HcpAvailability.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  selectedHcpMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-  setSelectedHcpMenu: PropTypes.func.isRequired,
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  selectedHcpMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default HcpAvailability;

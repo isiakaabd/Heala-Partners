@@ -543,8 +543,8 @@ const PendingOrderProfile = ({
 };
 
 PendingOrderProfile.propTypes = {
-  chatMediaActive: PropTypes.bool.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
+  chatMediaActive: PropTypes.bool,
+  setChatMediaActive: PropTypes.func,
   type: PropTypes.string,
 };
 

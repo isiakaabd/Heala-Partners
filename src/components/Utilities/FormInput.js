@@ -1,27 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Grid from '@mui/material/Grid'
-import { makeStyles } from '@mui/styles'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputAdornment from '@mui/material/InputAdornment'
-import FormLabel from '@mui/material/FormLabel'
-import EditIcon from '@mui/icons-material/Edit'
+import React from "react";
+import PropTypes from "prop-types";
+import Grid from "@mui/material/Grid";
+import { makeStyles } from "@mui/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormLabel from "@mui/material/FormLabel";
+import EditIcon from "@mui/icons-material/Edit";
 
 const useStyles = makeStyles((theme) => ({
   input: {
-    '& .MuiOutlinedInput-input': {
-      background: 'transparent',
+    "& .MuiOutlinedInput-input": {
+      background: "transparent",
     },
     ...theme.typography.input,
   },
   label: {
-    fontSize: '1.6rem',
+    fontSize: "1.6rem",
     color: theme.palette.common.dark,
   },
-}))
+}));
 
 const FormInput = ({ label, labelId, id, position, iconButton, ...rest }) => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <Grid container direction="column">
       <Grid item>
@@ -34,7 +34,7 @@ const FormInput = ({ label, labelId, id, position, iconButton, ...rest }) => {
         <OutlinedInput
           id={id}
           className={classes.input}
-          sx={{ background: 'transparent' }}
+          sx={{ background: "transparent" }}
           endAdornment={
             <InputAdornment position="end">
               <EditIcon />
@@ -44,15 +44,15 @@ const FormInput = ({ label, labelId, id, position, iconButton, ...rest }) => {
         />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 FormInput.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   labelId: PropTypes.string,
   id: PropTypes.string,
   position: PropTypes.string,
   iconButton: PropTypes.node,
-}
+};
 
-export default FormInput
+export default FormInput;

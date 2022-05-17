@@ -114,7 +114,11 @@ const ChatInterfaceHeading = ({ setChatMediaActive, callPath, videoPath }) => {
         <Grid item>
           <Grid container alignItems="center">
             <Grid item style={{ marginRight: "2rem" }}>
-              <Avatar src={avatar} alt="Avatar" style={{ width: 70, height: 70 }} />
+              <Avatar
+                src={avatar}
+                alt="Avatar"
+                style={{ width: 70, height: 70 }}
+              />
             </Grid>
             <Grid item>
               <Grid container direction="column">
@@ -126,7 +130,10 @@ const ChatInterfaceHeading = ({ setChatMediaActive, callPath, videoPath }) => {
                 <Grid item>
                   <Typography
                     variant="body2"
-                    style={{ color: theme.palette.common.green, fontWeight: 400 }}
+                    style={{
+                      color: theme.palette.common.green,
+                      fontWeight: 400,
+                    }}
                   >
                     Online now
                   </Typography>
@@ -189,9 +196,9 @@ const ChatInterfaceHeading = ({ setChatMediaActive, callPath, videoPath }) => {
 };
 
 ChatInterfaceHeading.propTypes = {
-  callPath: PropTypes.string.isRequired,
-  videoPath: PropTypes.string.isRequired,
-  setChatMediaActive: PropTypes.func.isRequired,
+  callPath: PropTypes.string,
+  videoPath: PropTypes.string,
+  setChatMediaActive: PropTypes.func,
 };
 
 export default ChatInterfaceHeading;

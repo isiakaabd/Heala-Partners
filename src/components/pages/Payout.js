@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { EmptyTable } from 'components/layouts'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { EmptyTable } from "components/layouts";
 import {
   Grid,
   Typography,
@@ -9,83 +9,83 @@ import {
   Checkbox,
   TableRow,
   TableCell,
-} from '@mui/material'
-import { timeMoment, dateMoment } from 'components/Utilities/Time'
-import Loader from 'components/Utilities/Loader'
-import { useQuery } from '@apollo/client'
-import { getEarningStats } from 'components/graphQL/useQuery'
-import EnhancedTable from 'components/layouts/EnhancedTable'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import { payoutHeader } from 'components/Utilities/tableHeaders'
-import displayPhoto from 'assets/images/avatar.svg'
-import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import { useSelector } from 'react-redux'
-import { useActions } from 'components/hooks/useActions'
-import { handleSelectedRows } from 'helpers/selectedRows'
-import { isSelected } from 'helpers/isSelected'
-import PreviousButton from 'components/Utilities/PreviousButton'
+} from "@mui/material";
+import { timeMoment, dateMoment } from "components/Utilities/Time";
+import Loader from "components/Utilities/Loader";
+import { useQuery } from "@apollo/client";
+import { getEarningStats } from "components/graphQL/useQuery";
+import EnhancedTable from "components/layouts/EnhancedTable";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import { payoutHeader } from "components/Utilities/tableHeaders";
+import displayPhoto from "assets/images/avatar.svg";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { useSelector } from "react-redux";
+import { useActions } from "components/hooks/useActions";
+import { handleSelectedRows } from "helpers/selectedRows";
+import { isSelected } from "helpers/isSelected";
+import PreviousButton from "components/Utilities/PreviousButton";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
-    '&.css-13i4rnv-MuiGrid-root': {
+    "&.css-13i4rnv-MuiGrid-root": {
       flex: 1,
-      marginRight: '5rem',
+      marginRight: "5rem",
     },
   },
   iconWrapper: {
     width: 20,
     height: 20,
-    borderRadius: '50%',
-    display: 'grid',
-    placeContent: 'center',
-    marginLeft: '1rem',
+    borderRadius: "50%",
+    display: "grid",
+    placeContent: "center",
+    marginLeft: "1rem",
     background: theme.palette.common.lightGreen,
   },
   button: {
-    '&.css-1zf5oc-MuiButtonBase-root-MuiButton-root': {
-      background: '#fff',
+    "&.css-1zf5oc-MuiButtonBase-root-MuiButton-root": {
+      background: "#fff",
       color: theme.palette.common.grey,
-      textTransform: 'none',
-      borderRadius: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '1rem',
-      maxWidth: '10rem',
+      textTransform: "none",
+      borderRadius: "2rem",
+      display: "flex",
+      alignItems: "center",
+      padding: "1rem",
+      maxWidth: "10rem",
 
-      '&:hover': {
-        background: '#fcfcfc',
+      "&:hover": {
+        background: "#fcfcfc",
       },
 
-      '&:active': {
-        background: '#fafafa',
+      "&:active": {
+        background: "#fafafa",
       },
 
-      '& .css-9tj150-MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .css-9tj150-MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
 
-      '& .css-9tj150-MuiButton-endIcon': {
-        marginLeft: '.3rem',
-        marginTop: '-.2rem',
+      "& .css-9tj150-MuiButton-endIcon": {
+        marginLeft: ".3rem",
+        marginTop: "-.2rem",
       },
     },
   },
 
   tableCell: {
-    '&.css-1jilxo7-MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.css-1jilxo7-MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.6rem !important',
-      height: '3rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.6rem !important",
+      height: "3rem",
+      borderRadius: "1.3rem",
     },
   },
-}))
+}));
 
 const Payout = ({
   selectedMenu,
@@ -93,43 +93,37 @@ const Payout = ({
   setSelectedMenu,
   setSelectedSubMenu,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
-  const { selectedRows } = useSelector((state) => state.tables)
-  const { setSelectedRows } = useActions()
+  const { selectedRows } = useSelector((state) => state.tables);
+  const { setSelectedRows } = useActions();
 
   useEffect(() => {
-    setSelectedMenu(8)
-    setSelectedSubMenu(9)
+    setSelectedMenu(8);
+    setSelectedSubMenu(9);
 
     // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu])
+  }, [selectedMenu, selectedSubMenu]);
   const { loading, data, error, refetch } = useQuery(getEarningStats, {
     notifyOnNetworkStatusChange: true,
-  })
+  });
   const fetchMoreFunc = (_, newPage) => {
-    refetch({ page: newPage })
-  }
-  const [payout, setPayout] = useState([])
-  const [pageInfo, setPageInfo] = useState([])
+    refetch({ page: newPage });
+  };
+  const [payout, setPayout] = useState([]);
+  const [pageInfo, setPageInfo] = useState([]);
   useEffect(() => {
     if (data) {
-      setPageInfo(data.getEarningStats.payoutData.PageInfo)
-      setPayout(data.getEarningStats.payoutData.data)
+      setPageInfo(data.getEarningStats.payoutData.PageInfo);
+      setPayout(data.getEarningStats.payoutData.data);
     }
-  }, [data])
-  const [rowsPerPage, setRowsPerPage] = useState(0)
-  if (loading) return <Loader />
-  if (error) return <noData error={error} />
-  const {
-    page,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-    limit,
-    totalDocs,
-  } = pageInfo
+  }, [data]);
+  const [rowsPerPage, setRowsPerPage] = useState(0);
+  if (loading) return <Loader />;
+  if (error) return <noData error={error} />;
+  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
+    pageInfo;
 
   return (
     <Grid container direction="column" rowSpacing={2}>
@@ -142,7 +136,7 @@ const Payout = ({
           item
           container
           justifyContent="space-between"
-          style={{ paddingBottom: '3rem' }}
+          style={{ paddingBottom: "3rem" }}
         >
           <Grid item>
             <Grid item container alignItems="center">
@@ -175,15 +169,11 @@ const Payout = ({
               {payout
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { amount, createdAt, doctorData, status, _id } = row
-                  const {
-                    firstName,
-                    picture,
-                    lastName,
-                    specialization,
-                  } = doctorData[0]
-                  const isItemSelected = isSelected(_id, selectedRows)
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  const { amount, createdAt, doctorData, status, _id } = row;
+                  const { firstName, picture, lastName, specialization } =
+                    doctorData[0];
+                  const isItemSelected = isSelected(_id, selectedRows);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -200,13 +190,13 @@ const Payout = ({
                             handleSelectedRows(
                               _id,
                               selectedRows,
-                              setSelectedRows,
+                              setSelectedRows
                             )
                           }
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            'aria-labelledby': labelId,
+                            "aria-labelledby": labelId,
                           }}
                         />
                       </TableCell>
@@ -231,19 +221,19 @@ const Payout = ({
                       <TableCell align="left" className={classes.tableCell}>
                         <div
                           style={{
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
-                          <span style={{ marginRight: '1rem' }}>
+                          <span style={{ marginRight: "1rem" }}>
                             <Avatar
                               alt="Remy Sharp"
                               src={picture ? picture : displayPhoto}
                               sx={{ width: 24, height: 24 }}
                             />
                           </span>
-                          <span style={{ fontSize: '1.25rem' }}>
+                          <span style={{ fontSize: "1.25rem" }}>
                             {firstName} {lastName}
                           </span>
                         </div>
@@ -264,18 +254,18 @@ const Payout = ({
                           className={classes.badge}
                           style={{
                             background:
-                              status === 'active'
+                              status === "active"
                                 ? theme.palette.common.lightGreen
                                 : theme.palette.common.lightRed,
                             color:
-                              status === 'active'
+                              status === "active"
                                 ? theme.palette.common.green
                                 : theme.palette.common.red,
                           }}
                         />
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
             </EnhancedTable>
           </Grid>
@@ -287,14 +277,14 @@ const Payout = ({
         )}
       </>
     </Grid>
-  )
-}
+  );
+};
 
 Payout.propTypes = {
-  selectedMenu: PropTypes.number.isRequired,
-  selectedSubMenu: PropTypes.number.isRequired,
-  setSelectedMenu: PropTypes.func.isRequired,
-  setSelectedSubMenu: PropTypes.func.isRequired,
-}
+  selectedMenu: PropTypes.number,
+  selectedSubMenu: PropTypes.number,
+  setSelectedMenu: PropTypes.func,
+  setSelectedSubMenu: PropTypes.func,
+};
 
-export default Payout
+export default Payout;
