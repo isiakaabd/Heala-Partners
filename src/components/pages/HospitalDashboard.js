@@ -25,8 +25,8 @@ const HospitalDashboard = ({ chatMediaActive, setChatMediaActive }) => {
   }, [chatMediaActive]);
 
   if (loading) return <Loader />;
-
-  if (error) return <NoData error={error} />;
+  console.log(error);
+  if (error) return <NoData error="error" />;
 
   return (
     <Grid container direction="column">
