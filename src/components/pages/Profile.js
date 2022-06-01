@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { useMutation, useQuery } from "@apollo/client";
 import { updatePartner } from "components/graphQL/Mutation";
@@ -14,12 +13,7 @@ import FormikControl from "components/validation/FormikControl";
 import { getPartner } from "components/graphQL/useQuery";
 import * as Yup from "yup";
 
-const Profile = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Profile = () => {
   const [update] = useMutation(updatePartner);
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
@@ -85,13 +79,6 @@ const Profile = ({
     category: profile?.category || "",
     image: profile?.logoImageUrl || "",
   };
-
-  useEffect(() => {
-    setSelectedMenu(11);
-    setSelectedSubMenu(12);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   if (loading) return <Loader />;
   if (error) return <NoData />;
@@ -159,12 +146,6 @@ const Profile = ({
       </Grid>
     </Grid>
   );
-};
-Profile.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Profile;

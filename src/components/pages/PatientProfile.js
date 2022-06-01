@@ -86,12 +86,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PatientProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-  selectedMenu,
-}) => {
+const PatientProfile = () => {
   const { patientId } = useParams();
   const doci = localStorage.getItem("userDociId");
   const { loading, data, error } = useQuery(getProfile, {
@@ -99,7 +94,7 @@ const PatientProfile = ({
       profileId: patientId,
     },
   });
-  console.log(data);
+
   const { data: emailStatus, loading: emailLoading } = useQuery(verifiedEmail, {
     variables: {
       dociId: doci,
@@ -144,11 +139,6 @@ const PatientProfile = ({
     hover: "#fafafa",
     active: "#f4f4f4",
   };
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
 
   if (loading || emailLoading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -180,9 +170,6 @@ const PatientProfile = ({
           chatPath={`/patients/${patientId}/profile/chat`}
           callPath={`/patients/${patientId}/profile/call`}
           videoPath={`/patients/${patientId}/profile/video`}
-          setChatMediaActive={setChatMediaActive}
-          setSelectedSubMenu={setSelectedSubMenu}
-          selectedMenu={selectedMenu}
         />
       </Grid>
       {/* PERSONAL INFO SECTION */}
@@ -397,15 +384,6 @@ const PatientProfile = ({
       </Grid>
     </Grid>
   );
-};
-
-PatientProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  selectedMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default PatientProfile;

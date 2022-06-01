@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { ReactComponent as Administrator } from "assets/images/administrator.svg";
 import { Card } from "components/Utilities";
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Setting = ({ setSelectedSubMenu }) => {
+const Setting = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -56,11 +55,7 @@ const Setting = ({ setSelectedSubMenu }) => {
         md={6}
         sm={12}
       >
-        <Link
-          to="/setting/profile"
-          style={{ textDecoration: "none" }}
-          onClick={() => setSelectedSubMenu(11)}
-        >
+        <Link to="/setting/profile" style={{ textDecoration: "none" }}>
           <Card
             alt="A administrator icon used as a representation for the administrator "
             title="Diagnostics Profile"
@@ -74,13 +69,6 @@ const Setting = ({ setSelectedSubMenu }) => {
       {/* 2 */}
     </Grid>
   );
-};
-
-Setting.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Setting;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Grid, Typography, Avatar, Chip, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
@@ -30,23 +29,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewMessage = ({
-  selectedMenu,
-  setSelectedMenu,
-  selectedSubMenu,
-  setSelectedSubMenu,
-}) => {
+const ViewMessage = () => {
   const classes = useStyles();
   const { messageId } = useParams();
   const { loading, data, error } = useQuery(getAMessage, {
     variables: { id: messageId },
   });
 
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(6);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   const [message, setMessage] = useState([]);
 
   useEffect(() => {
@@ -95,13 +84,6 @@ const ViewMessage = ({
       </Grid>
     </Grid>
   );
-};
-
-ViewMessage.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default ViewMessage;

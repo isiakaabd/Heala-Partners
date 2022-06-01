@@ -112,7 +112,7 @@ const DashCharts = () => {
       partner: localStorage.getItem("pharmacyID"),
     },
   });
-  console.log(data, "dia");
+
   useEffect(() => {
     if (data) {
       const {

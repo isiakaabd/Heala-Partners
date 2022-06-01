@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import {
   Grid,
   Avatar,
@@ -123,19 +122,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CancelledOrder = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CancelledOrder = () => {
   const classes = useStyles();
   const status = "cancelled";
   const [scheduleState, setScheduleState] = useState([]);
   const { data, loading, error } = useQuery(getDiagnosticTests, {
     variables: { status },
   });
-  console.log(scheduleState, "cancelled");
   useEffect(() => {
     if (data) {
       setScheduleState(data.getDiagnosticTests.data);
@@ -159,11 +152,6 @@ const CancelledOrder = ({
   );
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
@@ -377,13 +365,6 @@ const CancelledOrder = ({
       </Modals>
     </>
   );
-};
-
-CancelledOrder.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default CancelledOrder;

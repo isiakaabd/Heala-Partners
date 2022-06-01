@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import FormikControl from "components/validation/FormikControl";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import PropTypes from "prop-types";
 import { NoData, EmptyTable } from "components/layouts";
 import { debounce } from "lodash";
 import {
@@ -101,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
+const Patients = () => {
   const classes = useStyles();
   const theme = useTheme();
   // const inputRef = createRef();
@@ -344,10 +343,6 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         component={Link}
                         to={`patients/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        onClick={() => {
-                          setSelectedSubMenu(2);
-                          setSelectedPatientMenu(0);
-                        }}
                       >
                         View Profile
                       </Button>
@@ -412,11 +407,6 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
       </Modals>
     </>
   );
-};
-
-Patients.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default Patients;

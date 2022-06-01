@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography, Chip } from "@mui/material";
 import { NoData } from "components/layouts";
 import { ReactComponent as CompleteIcon } from "assets/images/complete.svg";
@@ -99,12 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewResult = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-  type,
-}) => {
+const ViewResult = () => {
   const classes = useStyles();
   const { completeId } = useParams();
   const [scheduleState, setScheduleState] = useState([]);
@@ -120,12 +114,6 @@ const ViewResult = ({
       setScheduleState(data?.getDiagnosticTest);
     }
   }, [data]);
-
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -152,12 +140,7 @@ const ViewResult = ({
     <>
       <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
         <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/completed"}
-            onClick={() => {
-              setSelectedSubMenu(6);
-            }}
-          />
+          <PreviousButton path={"/completed"} />
         </Grid>
         {/* Display photo and profile name grid */}
 
@@ -326,7 +309,6 @@ const ViewResult = ({
             <Grid item container gap={2}>
               {testResults ? (
                 testResults.map((item, index) => {
-                  console.log(item);
                   return (
                     <Grid item key={index}>
                       <Grid container direction="column">
@@ -356,11 +338,6 @@ const ViewResult = ({
       </Grid>
     </>
   );
-};
-
-ViewResult.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default ViewResult;

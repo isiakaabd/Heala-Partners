@@ -19,7 +19,6 @@ import { ReactComponent as UserIcon } from "assets/images/user.svg";
 import { ReactComponent as PrescriptionIcon } from "assets/images/prescription.svg";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Link, useParams, useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import { useQuery, useMutation } from "@apollo/client";
 import { getPatients } from "components/graphQL/useQuery";
 import { deleteProfile } from "components/graphQL/Mutation";
@@ -61,14 +60,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const SinglePatient = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedPatientMenu,
-  } = props;
   const history = useHistory();
 
   const classes = useStyles();
@@ -164,13 +155,6 @@ const SinglePatient = (props) => {
 
   const [openDisablePatient, setOpenDisablePatient] = useState(false);
 
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(0);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   else {
@@ -182,10 +166,7 @@ const SinglePatient = (props) => {
         gap={2}
       >
         <Grid item>
-          <PreviousButton
-            path={`/patients`}
-            onClick={() => setSelectedSubMenu(0)}
-          />
+          <PreviousButton path={`/patients`} />
         </Grid>
         <Grid
           item
@@ -242,7 +223,6 @@ const SinglePatient = (props) => {
               className={classes.parentGrid}
               component={Link}
               to={`/patients/${patientId}/${card.path}`}
-              onClick={() => setSelectedPatientMenu(card.id)}
             >
               <Card title={card.title} background={card.background} header="h4">
                 {React.createElement(card.icon, { fill: card.fill })}
@@ -264,7 +244,6 @@ const SinglePatient = (props) => {
               className={classes.parentGrid}
               component={Link}
               to={`/patients/${patientId}/${card.path}`}
-              onClick={() => setSelectedPatientMenu(card.id)}
             >
               <Card title={card.title} background={card.background} header="h4">
                 {React.createElement(card.icon, {
@@ -298,15 +277,6 @@ const SinglePatient = (props) => {
       </Grid>
     );
   }
-};
-
-SinglePatient.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default React.memo(SinglePatient);

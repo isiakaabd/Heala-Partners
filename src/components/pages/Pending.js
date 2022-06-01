@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { dateMoment } from "components/Utilities/Time";
 import {
   Grid,
@@ -114,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
+const Pending = () => {
   const classes = useStyles();
   const [pendingState, setPendingState] = useState([]);
 
@@ -155,7 +154,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
     spaced: false,
     thousandsDelimiter: ",",
   };
-  console.log(1);
+
   return (
     <>
       <Grid
@@ -307,15 +306,14 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       <TableCell align="left" className={classes.tableCell}>
                         {x.length}
                       </TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        {x.length}
+                      </TableCell>
 
                       <TableCell>
                         <Chip
                           label="View requests"
                           variant="outlined"
-                          onClick={() => {
-                            setSelectedSubMenu(2);
-                            setSelectedPatientMenu(1);
-                          }}
                           component={Link}
                           to={`pending/${_id}/request`}
                           className={classes.chip}
@@ -424,11 +422,6 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
       </Modals>
     </>
   );
-};
-
-Pending.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default Pending;

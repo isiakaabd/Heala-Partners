@@ -141,14 +141,7 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const ViewCompleted = ({
-  chatMediaActive,
-  setSelectedMenu,
-  setSelectedSubMenu,
-  selectedMenu,
-  selectedSubMenu,
-  setChatMediaActive,
-}) => {
+const ViewCompleted = () => {
   const classes = useStyles();
   const { orderId } = useParams();
 
@@ -160,17 +153,6 @@ const ViewCompleted = ({
   useEffect(() => {
     if (data) return setState(data?.getDrugOrder);
   }, [data]);
-
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
-  useEffect(() => {
-    setSelectedMenu(3);
-    setSelectedSubMenu(4);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   const {
     createdAt,
@@ -192,11 +174,7 @@ const ViewCompleted = ({
         </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
-          <DisplayProfile
-            medicalTitle="User ID"
-            patientData={patientData}
-            setChatMediaActive={setChatMediaActive}
-          />
+          <DisplayProfile medicalTitle="User ID" patientData={patientData} />
         </Grid>
         {/* PERSONAL INFO SECTION */}
         <Grid
@@ -342,8 +320,6 @@ const ViewCompleted = ({
 };
 
 ViewCompleted.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
   type: PropTypes.string,
 };
 

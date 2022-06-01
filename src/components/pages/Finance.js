@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { NoData } from "components/layouts";
 import { Grid, Typography } from "@mui/material";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
@@ -107,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Finance = ({ setSelectedSubMenu }) => {
+const Finance = () => {
   const [form, setForm] = useState("");
   const { data, error, loading, refetch } = useQuery(getEarningStats, {
     variables: {
@@ -283,7 +282,6 @@ const Finance = ({ setSelectedSubMenu }) => {
           to="/finance/earnings"
           className={classes.parentGrid}
           style={{ marginRight: "5rem" }}
-          onClick={() => setSelectedSubMenu(9)}
         >
           <Card
             title="Earnings Table"
@@ -300,7 +298,6 @@ const Finance = ({ setSelectedSubMenu }) => {
           to="/finance/payouts"
           className={classes.parentGrid}
           style={{ marginRight: "5rem" }}
-          onClick={() => setSelectedSubMenu(9)}
         >
           <Card
             title="Payouts Table"
@@ -315,7 +312,6 @@ const Finance = ({ setSelectedSubMenu }) => {
           to="/finance/pending"
           className={classes.parentGrid}
           style={{ marginRight: "5rem" }}
-          onClick={() => setSelectedSubMenu(10)}
         >
           <Card
             title="Pending Payout"
@@ -329,10 +325,6 @@ const Finance = ({ setSelectedSubMenu }) => {
       </Grid>
     </Stack>
   );
-};
-
-Finance.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Finance;

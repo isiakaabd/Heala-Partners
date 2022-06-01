@@ -1,25 +1,24 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Typography, Chip, Avatar, Grid } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-
+import React from "react";
+import PropTypes from "prop-types";
+import { Typography, Chip, Avatar, Grid } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '2rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "2rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.3rem !important',
-      borderRadius: '1.5rem',
+    "&.MuiChip-root": {
+      fontSize: "1.3rem !important",
+      borderRadius: "1.5rem",
     },
   },
-}))
+}));
 
 const DisplayProfileHospital = ({
   fullName,
@@ -29,9 +28,8 @@ const DisplayProfileHospital = ({
   specialization,
   status,
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
- 
+  const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <Grid
@@ -40,7 +38,7 @@ const DisplayProfileHospital = ({
       alignItems="center"
       className={classes.gridsWrapper}
       rowSpacing={2}
-      sx={{ width: '100%' }}
+      sx={{ width: "100%" }}
     >
       <Grid item>
         <Grid container width="100%" gap={2} alignItems="center" rowSpacing={2}>
@@ -53,12 +51,12 @@ const DisplayProfileHospital = ({
           </Grid>
           <Grid item>
             <Grid container direction="column">
-              <Grid item style={{ marginBottom: '1rem' }}>
+              <Grid item style={{ marginBottom: "1rem" }}>
                 <Typography variant="h3">{fullName}</Typography>
               </Grid>
               <Grid item>
                 <Grid container alignItems="center">
-                  <Grid item style={{ marginRight: '3rem' }}>
+                  <Grid item style={{ marginRight: "3rem" }}>
                     <Typography
                       variant="h4"
                       color="error"
@@ -66,7 +64,7 @@ const DisplayProfileHospital = ({
                     >
                       <span style={{ color: theme.palette.common.lightGrey }}>
                         {medicalTitle}:
-                      </span>{' '}
+                      </span>{" "}
                       {statusId}
                     </Typography>
                   </Grid>
@@ -75,7 +73,7 @@ const DisplayProfileHospital = ({
                       <Typography variant="h4" style={{ fontWeight: 400 }}>
                         <span style={{ color: theme.palette.common.lightGrey }}>
                           Specialization:
-                        </span>{' '}
+                        </span>{" "}
                         <Chip
                           label={specialization}
                           color="success"
@@ -85,22 +83,22 @@ const DisplayProfileHospital = ({
                     </Grid>
                   ) : status ? (
                     <Grid item>
-                      {' '}
+                      {" "}
                       <Typography variant="h4">
                         <span style={{ color: theme.palette.common.lightGrey }}>
                           Status:
-                        </span>{' '}
+                        </span>{" "}
                         <Chip
                           label={status}
-                          color={status === 'Active' ? 'success' : 'error'}
+                          color={status === "Active" ? "success" : "error"}
                           className={classes.badge}
                           style={{
                             background:
-                              status === 'Active'
+                              status === "Active"
                                 ? theme.palette.common.lightGreen
                                 : theme.palette.common.lightRed,
                             color:
-                              status === 'Active'
+                              status === "Active"
                                 ? theme.palette.common.green
                                 : theme.palette.common.red,
                           }}
@@ -128,14 +126,13 @@ const DisplayProfileHospital = ({
                   ? `/patients/${patientId}/profile/chat`
                   : `/hcps/${hcpId}/profile/chat`
               }
-              onClick={() => setSelectedSubMenu(6)}
             />
           </Grid>
         </Grid>
       </Grid> */}
     </Grid>
-  )
-}
+  );
+};
 
 DisplayProfileHospital.propTypes = {
   fullName: PropTypes.string,
@@ -146,12 +143,6 @@ DisplayProfileHospital.propTypes = {
   status: PropTypes.string,
   chatPath: PropTypes.string,
   type: PropTypes.string,
-  setChatMediaActive: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  selectedMenu: PropTypes.number,
-  setSelectedPatientMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
-}
+};
 
-export default DisplayProfileHospital
+export default DisplayProfileHospital;

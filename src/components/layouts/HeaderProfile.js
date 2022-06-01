@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderProfile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  console.log(anchorEl);
   const { userDetail } = useActions();
 
   const classes = useStyles();

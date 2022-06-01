@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import { AppBar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import HeaderContents from "components/layouts/HeaderContents";
@@ -15,16 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    selectedHcpMenu,
-    waitingListMenu,
-    selectedAppointmentMenu,
-    selectedScopedMenu,
-  } = props;
+const Header = () => {
   const classes = useStyles();
   return (
     <Fragment>
@@ -33,28 +23,10 @@ const Header = (props) => {
         className={classes.appBar}
         classes={{ root: classes.appBar }}
       >
-        <HeaderContents
-          selectedMenu={selectedMenu}
-          selectedSubMenu={selectedSubMenu}
-          selectedPatientMenu={selectedPatientMenu}
-          selectedHcpMenu={selectedHcpMenu}
-          waitingListMenu={waitingListMenu}
-          selectedAppointmentMenu={selectedAppointmentMenu}
-          selectedScopedMenu={selectedScopedMenu}
-        />
+        <HeaderContents />
       </AppBar>
     </Fragment>
   );
-};
-
-Header.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  waitingListMenu: PropTypes.number,
-  selectedAppointmentMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
 };
 
 export default Header;

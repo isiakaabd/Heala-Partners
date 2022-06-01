@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Loader from "components/Utilities/Loader";
 import {
   Grid,
@@ -57,31 +56,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HcpPatients = (props) => {
+const HcpPatients = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [pageInfo, setPageInfo] = useState([]);
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedHcpMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedHcpMenu,
-  } = props;
 
   const { hcpId } = useParams();
 
   const { setSelectedRows } = useActions();
   const { selectedRows } = useSelector((state) => state.tables);
 
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(5);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
   const { loading, error, data, refetch } = useQuery(getDoctorPatients, {
     variables: { id: hcpId },
     notifyOnNetworkStatusChange: true,
@@ -104,10 +88,7 @@ const HcpPatients = (props) => {
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
       <Grid item>
-        <PreviousButton
-          path={`/hcps/${hcpId}`}
-          onClick={() => setSelectedHcpMenu(0)}
-        />
+        <PreviousButton path={`/hcps/${hcpId}`} />
       </Grid>
       <Grid item>
         <Typography variant="h2">Doctor Patients</Typography>
@@ -215,15 +196,6 @@ const HcpPatients = (props) => {
       )}
     </Grid>
   );
-};
-
-HcpPatients.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default HcpPatients;

@@ -1,3 +1,4 @@
+import patterns from "mocks/patterns";
 import t from "prop-types";
 
 import { removeEmptyStringValues } from "./func";
@@ -104,4 +105,17 @@ export const trucateString = (word, length) => {
 trucateString.PropTypes = {
   word: t.string,
   length: t.number,
+};
+
+export const getAppPattern = (appType) => {
+  switch (appType) {
+    case "diagnostics":
+      return patterns?.diagnosticsPatterns;
+    case "pharmacy":
+      return patterns?.pharmacyPatterns;
+    case "hospital":
+      return patterns?.hospitalPatterns;
+    default:
+      return {};
+  }
 };

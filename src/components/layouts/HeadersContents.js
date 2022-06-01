@@ -185,8 +185,6 @@ const HeaderText = (props) => {
     selectedScopedMenu,
   } = props;
   const classes = useStyles();
-  console.log(selectedMenu);
-  console.log(selectedSubMenu, "selectedSubMenu");
   const theme = useTheme();
   const id = localStorage.getItem("AppId");
   const [pharmacyData, setPharmacyData] = useState();

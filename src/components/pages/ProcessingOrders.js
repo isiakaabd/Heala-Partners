@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Success } from "components/modals";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
-import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
 import { FormikControl } from "components/validation";
@@ -137,12 +136,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProcessingOrders = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const ProcessingOrders = () => {
   const theme = useTheme();
   const classes = useStyles();
   const [state, setState] = useState([]);
@@ -250,12 +244,6 @@ const ProcessingOrders = ({
     hospital: "",
     status: "",
   });
-
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   const { date, specialization, hospital } = selectedInput;
 
@@ -563,11 +551,6 @@ const ProcessingOrders = ({
       </Modals>
     </Grid>
   );
-};
-
-ProcessingOrders.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default ProcessingOrders;

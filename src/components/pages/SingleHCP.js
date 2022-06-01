@@ -58,17 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const SingleHCP = (props) => {
-  const {
-    selectedMenu,
-    setSelectedMenu,
-    selectedSubMenu,
-    selectedScopedMenu,
-    setSelectedSubMenu,
-    selectedHcpMenu,
-    setSelectedHcpMenu,
-    setSelectedScopedMenu,
-  } = props;
+const SingleHCP = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -139,7 +129,7 @@ const SingleHCP = (props) => {
       id: 5,
       title: "Patients",
       background: theme.palette.common.lightRed,
-      path: "patients",
+      path: "doctor-patients",
       icon: UserIcon,
       fill: theme.palette.common.red,
     },
@@ -159,14 +149,6 @@ const SingleHCP = (props) => {
     active: "#f4f4f4",
   };
 
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(0);
-    setSelectedScopedMenu(0);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu, selectedScopedMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
@@ -179,10 +161,7 @@ const SingleHCP = (props) => {
         className={classes.gridContainer}
       >
         <Grid item>
-          <PreviousButton
-            path={`/hcps`}
-            onClick={() => setSelectedSubMenu(0)}
-          />
+          <PreviousButton path={`/hcps`} />
         </Grid>
         <Grid
           item
@@ -234,7 +213,6 @@ const SingleHCP = (props) => {
               className={classes.parentGrid}
               component={Link}
               to={`/hcps/${hcpId}/${card.path}`}
-              onClick={() => setSelectedHcpMenu(card.id)}
             >
               <Card title={card.title} background={card.background} header="h4">
                 {React.createElement(card.icon, { fill: card.fill })}
@@ -256,7 +234,6 @@ const SingleHCP = (props) => {
               className={classes.parentGrid}
               component={Link}
               to={`/hcps/${hcpId}/${card.path}`}
-              onClick={() => setSelectedHcpMenu(card.id)}
             >
               <Card title={card.title} background={card.background} header="h4">
                 {React.createElement(card.icon, {
@@ -280,17 +257,6 @@ const SingleHCP = (props) => {
       />
     </>
   );
-};
-
-SingleHCP.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default SingleHCP;

@@ -151,17 +151,11 @@ const dates = ["Hello", "World", "Goodbye", "World"];
 const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
-const ScheduledRequest = ({
-  setSelectedSubMenu,
-  setSelectedMenu,
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedHcpMenu,
-}) => {
+const ScheduledRequest = () => {
   const classes = useStyles();
+  const status = "scheduled";
   const [searchPartner, setSearchPartner] = useState("");
   const [scheduleState, setScheduleState] = useState(null);
-  const status = "scheduled";
   const { data, loading, error } = useQuery(getDiagnosticTests, {
     variables: { status },
   });
@@ -189,11 +183,7 @@ const ScheduledRequest = ({
   const { rowsPerPage, selectedRows, page } = useSelector(
     (state) => state.tables
   );
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
+
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -315,11 +305,6 @@ const ScheduledRequest = ({
                           component={Link}
                           to={`/schedule/${_id}/schedule`}
                           className={classes.chip}
-                          onClick={() => {
-                            setSelectedSubMenu(3);
-                            setSelectedHcpMenu(1);
-                            // setSelectedPatientMenu(0)
-                          }}
                           deleteIcon={<ArrowForwardIosIcon />}
                         />
                       </TableCell>

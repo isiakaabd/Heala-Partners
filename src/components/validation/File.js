@@ -60,12 +60,9 @@ const useStyles = makeStyles((theme) => ({
 
 export const Formiks = ({ name, setFieldValue, onBlur, type, file, value }) => {
   const [preview, setPreview] = useState(null);
-  console.log("preview", preview);
   // const [array, setArray] = useState([])
   const [progress, setProgress] = useState();
-  console.log(value);
   const classes = useStyles();
-  // console.log(array)
   const uploadImage = async (file) => {
     try {
       const form = new FormData();

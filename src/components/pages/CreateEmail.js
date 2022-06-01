@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import PropTypes from "prop-types";
 import { Grid, Typography, Divider } from "@mui/material";
 import ChipInput from "material-ui-chip-input";
 import { CustomButton, TextError, PreviousButton } from "components/Utilities";
@@ -81,12 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateEmail = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CreateEmail = () => {
   const isEvent = (event) =>
     event && (event instanceof Event || event.nativeEvent instanceof Event);
   const history = useHistory();
@@ -94,13 +88,6 @@ const CreateEmail = ({
   const theme = useTheme();
 
   const { emailData } = useActions();
-
-  useEffect(() => {
-    setSelectedMenu(6);
-    setSelectedSubMenu(7);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   const buttonType = {
     background: theme.palette.common.black,
@@ -314,11 +301,5 @@ const Wrapper = styled.div`
 const ChipWrapper = styled.div`
   font-size: 1.4rem;
 `;
-CreateEmail.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-};
 
 export default CreateEmail;

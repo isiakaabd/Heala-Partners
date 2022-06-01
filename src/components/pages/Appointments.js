@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { ReactComponent as ConsultationIcon } from "assets/images/consultation.svg";
 import { ReactComponent as CalendarIcon } from "assets/images/calendar.svg";
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
+const Appointments = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -48,10 +47,6 @@ const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
         lg
         md={6}
         sm={12}
-        onClick={() => {
-          setSelectedSubMenu(5);
-          setSelectedAppointmentMenu(1);
-        }}
       >
         <Card title="Waiting List" background={theme.palette.common.lightGreen}>
           <CalendarIcon fill={theme.palette.common.green} />
@@ -70,10 +65,6 @@ const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
         lg
         md={6}
         sm={12}
-        onClick={() => {
-          setSelectedSubMenu(5);
-          setSelectedAppointmentMenu(2);
-        }}
       >
         <Card title="Consultation" background={theme.palette.common.lightRed}>
           <ConsultationIcon fill={theme.palette.common.red} />
@@ -81,11 +72,6 @@ const Appointments = ({ setSelectedSubMenu, setSelectedAppointmentMenu }) => {
       </Grid>
     </Grid>
   );
-};
-
-Appointments.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedAppointmentMenu: PropTypes.func,
 };
 
 export default Appointments;

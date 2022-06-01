@@ -144,12 +144,7 @@ const dates = ["Hello", "World", "Goodbye", "World"];
 const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
-const CompletedOrders = ({
-  setSelectedMenu,
-  setSelectedSubMenu,
-  selectedSubMenu,
-  selectedMenu,
-}) => {
+const CompletedOrders = () => {
   const classes = useStyles();
   const [searchPartner, setSearchPartner] = useState("");
   const [state, setState] = useState([]);
@@ -180,15 +175,11 @@ const CompletedOrders = ({
   const { rowsPerPage, selectedRows, page } = useSelector(
     (state) => state.tables
   );
-  useEffect(() => {
-    setSelectedMenu(3);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
+
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  console.log(123);
+
   return (
     <>
       <Grid

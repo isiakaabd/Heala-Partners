@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HospitalSettings = ({ setSelectedSubMenu }) => {
+const HospitalSettings = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -58,9 +58,8 @@ const HospitalSettings = ({ setSelectedSubMenu }) => {
           sm={12}
         >
           <Link
-            to="/hsettings/profile"
+            to="/hospital-settings/profile"
             style={{ textDecoration: "none" }}
-            onClick={() => setSelectedSubMenu(12)}
           >
             <Card
               alt="A administrator icon used as a representation for the administrator "
@@ -74,13 +73,6 @@ const HospitalSettings = ({ setSelectedSubMenu }) => {
       </Grid>
     </>
   );
-};
-
-HospitalSettings.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default HospitalSettings;

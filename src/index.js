@@ -16,10 +16,10 @@ import {
 } from "@apollo/client";
 import { getAccessToken } from "./accessToken";
 require("dotenv").config();
-// const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const httpLink = createHttpLink({
-  uri: "https://api-staging.heala.io/",
+  uri: BASE_URL,
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {

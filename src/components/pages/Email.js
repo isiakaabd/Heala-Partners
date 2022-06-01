@@ -126,12 +126,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Email = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Email = () => {
   const classes = useStyles();
   const theme = useTheme();
   const { data, error, loading } = useQuery(getEmailList);
@@ -182,12 +177,6 @@ const Email = ({
   const onSubmit = (values) => {
     console.log(values);
   };
-
-  useEffect(() => {
-    setSelectedMenu(6);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -318,7 +307,6 @@ const Email = ({
                             component={Link}
                             to={`email/${index}`}
                             endIcon={<ArrowForwardIosIcon />}
-                            onClick={() => setSelectedSubMenu(7)}
                           >
                             View mail
                           </Button>
@@ -402,10 +390,4 @@ const Email = ({
   );
 };
 
-Email.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-};
 export default Email;

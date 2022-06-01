@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
 import {
@@ -11,7 +11,6 @@ import {
 import * as Yup from "yup";
 import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
-import PropTypes from "prop-types";
 import { Grid, Typography, Chip, Avatar } from "@mui/material";
 import { NoData } from "components/layouts";
 import { makeStyles } from "@mui/styles";
@@ -99,12 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ScheduledRequestProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-  setSelectedMenu,
-}) => {
+const ScheduledRequestProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const theme = useTheme();
@@ -201,7 +195,7 @@ const ScheduledRequestProfile = ({
       console.error(error);
     }
 
-    setSelectedSubMenu(6);
+    /* setSelectedSubMenu(6); */
   };
 
   const darkButton = {
@@ -223,11 +217,6 @@ const ScheduledRequestProfile = ({
     disabled: "#868686",
   };
 
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
   const initialValues1 = {
     title: "",
     image: null,
@@ -264,7 +253,6 @@ const ScheduledRequestProfile = ({
         variant: "success",
       });
       history.push("/completed");
-      setSelectedMenu(3);
       handleDialogClose();
     } catch (error) {
       enqueueSnackbar(getErrors(error), {
@@ -298,12 +286,7 @@ const ScheduledRequestProfile = ({
     <>
       <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
         <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/schedule"}
-            onClick={() => {
-              setSelectedSubMenu(4);
-            }}
-          />
+          <PreviousButton path={"/schedule"} />
         </Grid>
         {/* Display photo and profile name grid */}
 
@@ -336,8 +319,6 @@ const ScheduledRequestProfile = ({
               </Typography>
             </Grid>
             <Grid item container gap={2} className={classes.cardsWrapper}>
-              {/* <Grid item>asdcbkjsadbasjkb</Grid> */}
-
               {tests && tests.length > 0 ? (
                 tests.map((i, index) => {
                   return (
@@ -651,11 +632,6 @@ const ScheduledRequestProfile = ({
       />
     </>
   );
-};
-
-ScheduledRequestProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default ScheduledRequestProfile;

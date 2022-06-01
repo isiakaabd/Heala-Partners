@@ -108,12 +108,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Messages = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Messages = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [pageInfo, setPageInfo] = useState([]);
@@ -150,12 +145,6 @@ const Messages = ({
 
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
-
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
     pageInfo;
   const [rowsPerPage, setRowsPerPage] = useState(0);
@@ -180,7 +169,6 @@ const Messages = ({
               type={greenButtonType}
               component={Link}
               to="/messages/create-message"
-              onClick={() => setSelectedSubMenu(6)}
             />
           </Grid>
         </Grid>
@@ -286,7 +274,6 @@ const Messages = ({
                           component={Link}
                           to={`messages/${_id}`}
                           endIcon={<ArrowForwardIosIcon />}
-                          onClick={() => setSelectedSubMenu(6)}
                         >
                           View Message
                         </Button>
@@ -305,13 +292,6 @@ const Messages = ({
       </Grid>
     );
   }
-};
-
-Messages.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Messages;
