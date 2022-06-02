@@ -27,9 +27,7 @@ const HeaderProfile = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   console.log(anchorEl);
   const { userDetail } = useActions();
-
   const classes = useStyles();
-
   function notificationsLabel(count) {
     if (count === 0) {
       return "no notifications";
