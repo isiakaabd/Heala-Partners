@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { NoData } from "components/layouts";
 import { Grid, Typography } from "@mui/material";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
@@ -110,20 +109,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 // const selectOptions = ["One day", "Five Days", "One Month", "Three Months", "One Year"];
 
-const HcpEarnings = (props) => {
+const HcpEarnings = () => {
   const classes = useStyles();
   // const theme = useTheme();
 
   const { hcpId } = useParams();
-
-  const {
-    selectedMenu,
-    setSelectedMenu,
-    selectedSubMenu,
-    setSelectedSubMenu,
-    selectedHcpMenu,
-    setSelectedHcpMenu,
-  } = props;
 
   const [form, setForm] = useState("");
   const { data, error, loading, refetch } = useQuery(getEarningStats, {
@@ -132,8 +122,6 @@ const HcpEarnings = (props) => {
   const { data: datas } = useQuery(getMyEarningDoc, {
     variables: { doctor: hcpId },
   });
-
-  console.log(datas, hcpId, "kkk");
 
   const [x, setX] = useState(0);
 
@@ -163,14 +151,6 @@ const HcpEarnings = (props) => {
   }, [form, data, datas]);
   // const classes = useStyles();
 
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(4);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
-  console.log(x, "jjj");
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
@@ -178,7 +158,7 @@ const HcpEarnings = (props) => {
       <Grid item style={{ marginBottom: "3rem" }}>
         <PreviousButton
           path={`/hcps/${hcpId}`}
-          onClick={() => setSelectedHcpMenu(0)}
+          /* onClick={() => setSelectedHcpMenu(0)} */
         />
       </Grid>
       <Grid container component="div" className={classes.mainContainer}>
@@ -302,15 +282,6 @@ const HcpEarnings = (props) => {
       </Grid>
     </Grid>
   );
-};
-
-HcpEarnings.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default HcpEarnings;

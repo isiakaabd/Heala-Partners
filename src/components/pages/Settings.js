@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Grid from "@mui/material/Grid";
 import { ReactComponent as Administrator } from "assets/images/administrator.svg";
 import Card from "components/Utilities/Card";
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Settings = ({ setSelectedSubMenu }) => {
+const Settings = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -57,11 +56,7 @@ const Settings = ({ setSelectedSubMenu }) => {
           md={6}
           sm={12}
         >
-          <Link
-            to="/settings/profile"
-            style={{ textDecoration: "none" }}
-            onClick={() => setSelectedSubMenu(12)}
-          >
+          <Link to="/settings/profile" style={{ textDecoration: "none" }}>
             <Card
               alt="A administrator icon used as a representation for the administrator "
               title="Pharmacy Profile"
@@ -78,7 +73,6 @@ const Settings = ({ setSelectedSubMenu }) => {
           <Link
             to="/settings/management"
             style={{ textDecoration: "none" }}
-            onClick={() => setSelectedSubMenu(12)}
           >
             <Card
               alt="An icon used as a representation for making consultation with the doctor"
@@ -102,7 +96,6 @@ const Settings = ({ setSelectedSubMenu }) => {
           <Link
             to="/settings/permissions"
             style={{ textDecoration: "none" }}
-            onClick={() => setSelectedSubMenu(12)}
           >
             <Card
               alt="An icon used as a permission for making consultation with the doctor"
@@ -118,7 +111,6 @@ const Settings = ({ setSelectedSubMenu }) => {
           <Link
             to="/settings/list-management"
             style={{ textDecoration: "none" }}
-            onClick={() => setSelectedSubMenu(12)}
           >
             <Card
               alt="list management Icon"
@@ -132,13 +124,6 @@ const Settings = ({ setSelectedSubMenu }) => {
       </Grid>
     </>
   );
-};
-
-Settings.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Settings;

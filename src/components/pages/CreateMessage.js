@@ -61,12 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateMessage = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CreateMessage = () => {
   const classes = useStyles();
   const theme = useTheme();
   let history = useHistory();
@@ -160,13 +155,6 @@ const CreateMessage = ({
     recipient: recipient ? `${firstName} ${lastName} ` : "",
     textarea: "",
   };
-
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(6);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   return (
     <Formik
@@ -279,13 +267,6 @@ const CreateMessage = ({
   );
 
   // );
-};
-
-CreateMessage.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default CreateMessage;

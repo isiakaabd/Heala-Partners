@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
 import {
   Chip,
@@ -126,12 +125,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CancelledOrders = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CancelledOrders = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [state, setState] = useState([]);
@@ -139,9 +133,11 @@ const CancelledOrders = ({
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: orderState },
   });
+
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data);
   }, [data]);
+
   const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
   const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
   const dates = ["Hello", "World", "Goodbye", "World"];
@@ -160,14 +156,9 @@ const CancelledOrders = ({
   );
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  console.log(data);
+
   return (
     <>
       <Grid
@@ -410,13 +401,6 @@ const CancelledOrders = ({
       </Modals>
     </>
   );
-};
-
-CancelledOrders.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default CancelledOrders;

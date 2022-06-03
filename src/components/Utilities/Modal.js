@@ -33,11 +33,9 @@ const Modals = ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: width ? width : 500,
-    height: "auto",
+    height,
     bgcolor: "background.paper",
     borderRadius: "2rem",
-    p: 4,
   };
 
   const classes = useStyles();
@@ -49,20 +47,18 @@ const Modals = ({
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-        <Box sx={style}>
+        <Box
+          sx={style}
+          width={{ sm: "40vw", xs: "90vw", md: "40vw" }}
+          padding={{ sm: 4, xs: 3, md: 4 }}
+        >
           <Grid
             container
             rowSpacing={rowSpacing ? rowSpacing : 4}
             className={classes.modal}
             flexDirection="column"
           >
-            <Grid
-              item
-              container
-              justifyContent="space-between"
-              alignItems="center"
-              flex="2"
-            >
+            <Grid item container justifyContent="space-between" alignItems="center" flex="2">
               <Grid item>
                 <Typography variant="h3">{title}</Typography>
               </Grid>

@@ -87,24 +87,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Payout = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Payout = () => {
   const classes = useStyles();
   const theme = useTheme();
 
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(8);
-    setSelectedSubMenu(9);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   const { loading, data, error, refetch } = useQuery(getEarningStats, {
     notifyOnNetworkStatusChange: true,
   });
@@ -128,7 +117,7 @@ const Payout = ({
   return (
     <Grid container direction="column" rowSpacing={2}>
       <Grid item>
-        <PreviousButton path="/finance" onClick={() => setSelectedSubMenu(0)} />
+        <PreviousButton path="/finance" />
       </Grid>
 
       <>
@@ -169,9 +158,10 @@ const Payout = ({
               {payout
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { amount, createdAt, doctorData, status, _id } = row;
-                  const { firstName, picture, lastName, specialization } =
-                    doctorData[0];
+                  const { amount, createdAt, /* doctorData, */ status, _id } =
+                    row;
+                  /* const { firstName, picture, lastName, specialization } =
+                    doctorData[0]; */
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -227,19 +217,19 @@ const Payout = ({
                           }}
                         >
                           <span style={{ marginRight: "1rem" }}>
-                            <Avatar
+                            {/* <Avatar
                               alt="Remy Sharp"
                               src={picture ? picture : displayPhoto}
                               sx={{ width: 24, height: 24 }}
-                            />
+                            /> */}
                           </span>
                           <span style={{ fontSize: "1.25rem" }}>
-                            {firstName} {lastName}
+                            {/* {firstName} {lastName} */}
                           </span>
                         </div>
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
-                        {specialization}
+                        {/* {specialization} */}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -278,13 +268,6 @@ const Payout = ({
       </>
     </Grid>
   );
-};
-
-Payout.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Payout;

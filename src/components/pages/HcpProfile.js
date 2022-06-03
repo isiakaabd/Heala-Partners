@@ -1,99 +1,88 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Grid, Typography, Chip } from '@mui/material'
-import { NoData } from 'components/layouts'
-import { makeStyles } from '@mui/styles'
-import { PreviousButton, Loader, DisplayProfile } from 'components/Utilities'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import { IoCopy } from 'react-icons/io5'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
-import { doctor } from 'components/graphQL/useQuery'
-import { dateMoment } from 'components/Utilities/Time'
+import React, { useState, useEffect } from "react";
+import { Grid, Typography, Chip } from "@mui/material";
+import { NoData } from "components/layouts";
+import { makeStyles } from "@mui/styles";
+import { PreviousButton, Loader, DisplayProfile } from "components/Utilities";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { IoCopy } from "react-icons/io5";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { doctor } from "components/graphQL/useQuery";
+import { dateMoment } from "components/Utilities/Time";
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.3rem",
       //   height: "2.7rem",
       background: theme.palette.common.lightGreen,
       color: theme.palette.common.green,
-      borderRadius: '1.5rem',
+      borderRadius: "1.5rem",
     },
   },
 
   cardGrid: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem 5rem',
-    width: '100%',
-    minHeight: '16.1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem 5rem",
+    width: "100%",
+    minHeight: "16.1rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   infoBadge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem',
-      borderRadius: '1.5rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem",
+      borderRadius: "1.5rem",
       color: theme.palette.common.green,
     },
   },
 
   link: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.25rem',
+    display: "flex",
+    alignItems: "center",
+    fontSize: "1.25rem",
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.lightGrey}`,
-    padding: '.75rem',
-    borderRadius: '1.5rem',
-    textDecoration: 'none',
+    padding: ".75rem",
+    borderRadius: "1.5rem",
+    textDecoration: "none",
   },
 
   linkIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '1.25rem',
+    "&.MuiSvgIcon-root": {
+      fontSize: "1.25rem",
       color: theme.palette.common.green,
-      marginLeft: '1.2rem',
+      marginLeft: "1.2rem",
     },
   },
 
   locationIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '2rem',
+    "&.MuiSvgIcon-root": {
+      fontSize: "2rem",
     },
   },
 
   buttonsGridWrapper: {
-    marginTop: '5rem !important',
-    height: '16.1rem',
+    marginTop: "5rem !important",
+    height: "16.1rem",
   },
-}))
+}));
 
-const HcpProfile = (props) => {
-  const {
-    selectedMenu,
-    setSelectedMenu,
-    selectedSubMenu,
-    chatMediaActive,
-    setSelectedSubMenu,
-    selectedHcpMenu,
-    setSelectedHcpMenu,
-    setChatMediaActive,
-  } = props
-  const classes = useStyles()
+const HcpProfile = () => {
+  const classes = useStyles();
 
-  const { hcpId } = useParams()
+  const { hcpId } = useParams();
 
-  const [doctorProfile, setDoctorProfile] = useState('')
+  const [doctorProfile, setDoctorProfile] = useState("");
   // const profile = useQuery(createAllery, {
   //   variables: {
   //     id: hcpId,
@@ -104,24 +93,15 @@ const HcpProfile = (props) => {
     variables: {
       id: hcpId,
     },
-  })
+  });
   useEffect(() => {
     if (data) {
-      setDoctorProfile(data.doctorProfile)
+      setDoctorProfile(data.doctorProfile);
     }
-  }, [data, hcpId])
+  }, [data, hcpId]);
 
-  useLayoutEffect(() => {
-    setSelectedMenu(2)
-    setSelectedSubMenu(3)
-    setSelectedHcpMenu(1)
-    setChatMediaActive(false)
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu, chatMediaActive])
-
-  if (loading) return <Loader />
-  if (error) return <NoData error={error} />
+  if (loading) return <Loader />;
+  if (error) return <NoData error={error} />;
   const {
     dociId,
     picture,
@@ -133,13 +113,13 @@ const HcpProfile = (props) => {
     phoneNumber,
     gender,
     dob,
-  } = doctorProfile
+  } = doctorProfile;
   return (
     <Grid container direction="column" gap={3} width="100%">
       <Grid item>
         <PreviousButton
           path={`/hcps/${hcpId}`}
-          onClick={() => setSelectedHcpMenu(0)}
+          /* onClick={() => setSelectedHcpMenu(0)} */
         />
       </Grid>
       {/* Display photo and profile name grid */}
@@ -148,12 +128,9 @@ const HcpProfile = (props) => {
           fullName={`${firstName} ${lastName}`}
           displayPhoto={picture}
           medicalTitle="Medical ID"
-          statusId={dociId && dociId.split('-')[1]}
-          specialization={specialization ? specialization : 'Not assigned'}
+          statusId={dociId && dociId.split("-")[1]}
+          specialization={specialization ? specialization : "Not assigned"}
           // chatPath={`/hcps/${hcpId}/profile/chat`}
-          setChatMediaActive={setChatMediaActive}
-          setSelectedSubMenu={setSelectedSubMenu}
-          selectedMenu={selectedMenu}
           type="doctor"
         />
       </Grid>
@@ -163,14 +140,14 @@ const HcpProfile = (props) => {
         container
         justifyContent="space-between"
         gap={5}
-        sx={{ width: '100%' }}
+        sx={{ width: "100%" }}
       >
         {/* GENDER GRID */}
         <Grid item md className={classes.cardGrid}>
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -191,7 +168,7 @@ const HcpProfile = (props) => {
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -214,7 +191,7 @@ const HcpProfile = (props) => {
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -238,7 +215,7 @@ const HcpProfile = (props) => {
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -252,7 +229,7 @@ const HcpProfile = (props) => {
                   <IoCopy
                     className={classes.linkIcon}
                     size={12.5}
-                    style={{ marginLeft: '1.2rem' }}
+                    style={{ marginLeft: "1.2rem" }}
                   />
                 </a>
               ) : (
@@ -268,7 +245,7 @@ const HcpProfile = (props) => {
           <Grid
             container
             direction="column"
-            style={{ height: '100%' }}
+            style={{ height: "100%" }}
             justifyContent="space-between"
             alignItems="center"
           >
@@ -292,18 +269,7 @@ const HcpProfile = (props) => {
         {/* PLACEHOLDER GRID */}
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-HcpProfile.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  chatMediaActive: PropTypes.bool,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
-  setChatMediaActive: PropTypes.func,
-}
-
-export default HcpProfile
+export default HcpProfile;

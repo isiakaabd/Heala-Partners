@@ -22,31 +22,12 @@ const HcpAvailability = (props) => {
     if (data) setAvailabiltyArray(data.getAvailabilities.availability);
   }, [data]);
 
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedHcpMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedHcpMenu,
-  } = props;
-
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(3);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
       <Grid item>
-        <PreviousButton
-          path={`/hcps/${hcpId}`}
-          onClick={() => setSelectedHcpMenu(0)}
-        />
+        <PreviousButton path={`/hcps/${hcpId}`} />
       </Grid>
       <Grid item>
         <Typography variant="h2">HCP Availability</Typography>
@@ -73,15 +54,6 @@ const HcpAvailability = (props) => {
       </Grid>
     </Grid>
   );
-};
-
-HcpAvailability.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default HcpAvailability;

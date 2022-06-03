@@ -101,7 +101,6 @@ const useStyles = makeStyles((theme) => ({
 const HopsitalDashboardChart = ({ data, refetch }) => {
   const classes = useStyles();
   const theme = useTheme();
-  console.log(data);
 
   const timeFrames = [
     { id: 0, time: "Jan" },

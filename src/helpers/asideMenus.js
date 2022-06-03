@@ -13,7 +13,7 @@ import LoopIcon from "@mui/icons-material/Loop";
 
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 
-export const menus = [
+export const pharmacyMenu = [
   { id: 0, title: "Dashboard", icon: DashboardIcon, path: "/dashboard" },
   {
     id: 1,
@@ -42,7 +42,7 @@ export const menus = [
 
   { id: 11, title: "Settings", icon: SettingsIcon, path: "/settings" },
 ];
-export const menu = [
+export const diagnosticsMenu = [
   { id: 0, title: "Dashboard", icon: DashboardIcon, path: "/dashboard" },
   {
     id: 1,
@@ -80,5 +80,5 @@ export const hospitalMenu = [
   { id: 8, title: "Finance", icon: PaymentsIcon, path: "/finance" },
   { id: 9, title: "Referrals", icon: LoopIcon, path: "/referrals" },
   { id: 10, title: "Subscription", icon: SubscriptionsIcon, path: "/plans" },
-  { id: 11, title: "Settings", icon: SettingsIcon, path: "/hsettings" },
+  { id: 11, title: "Settings", icon: SettingsIcon, path: "/hospital-settings" },
 ];

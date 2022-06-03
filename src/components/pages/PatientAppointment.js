@@ -4,7 +4,6 @@ import NoData from "components/layouts/NoData";
 import CustomButton from "components/Utilities/CustomButton";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
-import PropTypes from "prop-types";
 import {
   Grid,
   Alert,
@@ -105,16 +104,8 @@ const filterOptions = [
   { id: 2, value: "Description" },
 ];
 
-const PatientAppointment = (props) => {
+const PatientAppointment = () => {
   const [updateAppoint] = useMutation(updateAppointment);
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    selectedPatientMenu,
-    setSelectedPatientMenu,
-  } = props;
   const [deleteAppointments] = useMutation(deleteAppointment);
   const [pageInfo, setPageInfo] = useState([]);
   const [alert, setAlert] = useState(null);
@@ -253,13 +244,6 @@ const PatientAppointment = (props) => {
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(2);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
-
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
@@ -312,10 +296,7 @@ const PatientAppointment = (props) => {
         height="100%"
       >
         <Grid item>
-          <PreviousButton
-            path={`/patients/${patientId}`}
-            onClick={() => setSelectedPatientMenu(0)}
-          />
+          <PreviousButton path={`/patients/${patientId}`} />
         </Grid>
 
         <>
@@ -620,15 +601,6 @@ const PatientAppointment = (props) => {
       />
     </>
   );
-};
-
-PatientAppointment.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default PatientAppointment;

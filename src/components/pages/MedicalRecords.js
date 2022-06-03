@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Grid, Typography, Chip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PreviousButton from "components/Utilities/PreviousButton";
@@ -61,15 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MedicalRecords = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedPatientMenu,
-  } = props;
+const MedicalRecords = () => {
   const classes = useStyles();
   const { patientId } = useParams();
   const [patientProfile, setPatientProfile] = useState([]);
@@ -77,12 +68,11 @@ const MedicalRecords = (props) => {
   const { loading, data, error } = useQuery(getProfile, {
     variables: { profileId: patientId },
   });
-  console.log(patientProfile);
+
   const [alergy, allergyResult] = useLazyQuery(findAllergies, {
     variables: { id: patientId },
   });
 
-  console.log(allergyResult.data);
   // const [labResult, labResults] = useLazyQuery(getLabResult, {
   //   variables: { id: patientId },
   // })
@@ -103,13 +93,6 @@ const MedicalRecords = (props) => {
   }, [alergy, patientId, allergyResult.data]);
 
   useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(4);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
-  useEffect(() => {
     if (data) {
       setPatientProfile(data.profile);
     }
@@ -125,7 +108,7 @@ const MedicalRecords = (props) => {
       <Grid item style={{ marginBottom: "3rem" }}>
         <PreviousButton
           path={`/patients/${patientId}`}
-          onClick={() => setSelectedPatientMenu(0)}
+          /* onClick={() => setSelectedPatientMenu(0)} */
         />
       </Grid>
       <Grid item>
@@ -391,14 +374,6 @@ const MedicalRecords = (props) => {
       </Grid>
     </Grid>
   );
-};
-MedicalRecords.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default MedicalRecords;

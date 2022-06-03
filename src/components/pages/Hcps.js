@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
+const Hcps = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [pageInfo, setPageInfo] = useState([]);
@@ -161,7 +161,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       setPageInfo(data.doctorProfiles.pageInfo);
     }
   }, [data]);
-  console.log(profiles);
+
   const [searchHcp, setSearchHcp] = useState("");
   const [openHcpFilter, setOpenHcpFilter] = useState(false);
   const [openAddHcp, setOpenAddHcp] = useState(false);
@@ -432,10 +432,10 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                         component={Link}
                         to={`hcps/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        onClick={() => {
+                        /* onClick={() => {
                           setSelectedSubMenu(3);
                           setSelectedHcpMenu(0);
-                        }}
+                        }} */
                       >
                         View Doctor
                       </Button>
@@ -671,11 +671,6 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       </Modals>
     </Grid>
   );
-};
-
-Hcps.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default Hcps;

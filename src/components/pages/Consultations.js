@@ -72,17 +72,7 @@ const filterOptions = [
   { id: 2, value: "Description" },
 ];
 
-const Consultations = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    selectedScopedMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedPatientMenu,
-    setSelectedScopedMenu,
-  } = props;
+const Consultations = () => {
   const [pageInfo, setPageInfo] = useState([]);
   const classes = useStyles();
   const theme = useTheme();
@@ -110,13 +100,7 @@ const Consultations = (props) => {
   const fetchMoreFunc = (_, newPage) => {
     refetch({ page: newPage });
   };
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(5);
-    setSelectedScopedMenu(0);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu, selectedScopedMenu]);
+
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
     pageInfo;
   const [rowsPerPage, setRowsPerPage] = useState(0);
@@ -126,10 +110,7 @@ const Consultations = (props) => {
   return (
     <Grid container gap={2} flexWrap="nowrap" direction="column" height="100%">
       <Grid item>
-        <PreviousButton
-          path={`/patients/${patientId}`}
-          onClick={() => setSelectedPatientMenu(0)}
-        />
+        <PreviousButton path={`/patients/${patientId}`} />
       </Grid>
       <Grid item container justifyContent="space-between" alignItems="center">
         <Grid item>
@@ -270,11 +251,6 @@ const Consultations = (props) => {
                         component={Link}
                         to={`/patients/${patientId}/consultations/case-note/${row._id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        onClick={() => {
-                          setSelectedSubMenu(2);
-                          setSelectedPatientMenu(0);
-                          setSelectedScopedMenu(1);
-                        }}
                       >
                         View Details
                       </Button>
@@ -293,17 +269,6 @@ const Consultations = (props) => {
       )}
     </Grid>
   );
-};
-
-Consultations.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default Consultations;

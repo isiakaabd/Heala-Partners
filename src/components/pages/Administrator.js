@@ -6,7 +6,6 @@ import {
   Loader,
   Button,
   Modals,
-  PreviousButton,
   CustomButton,
   Search,
   FilterList,
@@ -274,9 +273,6 @@ const Administrator = ({
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item>
-          <PreviousButton path="/settings" />
-        </Grid>
         <Grid item container flexWrap="nowrap" gap={2}>
           <Grid item className={classes.searchGrid}>
             <Search

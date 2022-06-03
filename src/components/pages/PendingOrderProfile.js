@@ -155,11 +155,7 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const PendingOrderProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-}) => {
+const PendingOrderProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const theme = useTheme();
@@ -209,7 +205,6 @@ const PendingOrderProfile = ({
         variant: "success",
       });
       history.push("/processing-order");
-      setSelectedSubMenu(4);
     } catch (error) {
       enqueueSnackbar(getErrors(error), {
         variant: "error",
@@ -233,12 +228,6 @@ const PendingOrderProfile = ({
     active: "#f4f4f4",
   };
   const history = useHistory();
-
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
 
   const initialValues = {
     reason: "",
@@ -298,22 +287,12 @@ const PendingOrderProfile = ({
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  // useEffect(() => {
-  //   setSelectedMenu(1);
-  //   setSelectedSubMenu(2);
-  //   //   eslint-disable-next-line
-  // }, [selectedMenu, selectedSubMenu]);
 
   return (
     <>
       <Grid container direction="column">
         <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/pending-order"}
-            onClick={() => {
-              setSelectedSubMenu(4);
-            }}
-          />
+          <PreviousButton path={"/pending-order"} />
         </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
@@ -321,7 +300,6 @@ const PendingOrderProfile = ({
             medicalTitle="User ID"
             patientData={patientData}
             chatPath={`/patients/${orderId}/profile/chat`}
-            setChatMediaActive={setChatMediaActive}
           />
         </Grid>
         {/* PERSONAL INFO SECTION */}
@@ -543,8 +521,6 @@ const PendingOrderProfile = ({
 };
 
 PendingOrderProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
   type: PropTypes.string,
 };
 

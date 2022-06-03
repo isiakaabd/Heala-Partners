@@ -1,16 +1,15 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import PropTypes from "prop-types";
 import { NoData } from "components/layouts";
 import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
+import { useSnackbar } from "notistack";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { DeleteOrDisable } from "components/modals";
-import { useSnackbar } from "notistack";
-import { useParams, useHistory } from "react-router-dom";
 import { time } from "components/Utilities/Time";
 import { useQuery, useMutation } from "@apollo/client";
+import { useParams, useHistory } from "react-router-dom";
 import {
   getDiagnosticTest,
   getDiagnosticTests,
@@ -100,11 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PendingProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-}) => {
+const PendingProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const initialValues = {
     reason: "",
@@ -159,7 +154,7 @@ const PendingProfile = ({
       });
       console.error(error);
     }
-    setSelectedSubMenu(6);
+    /* setSelectedSubMenu(6); */
   };
 
   const onConfirm = () => setCancel(true);
@@ -200,7 +195,7 @@ const PendingProfile = ({
         variant: "success",
       });
       history.push("/schedule");
-      setSelectedSubMenu(2);
+      /* setSelectedSubMenu(2); */
     } catch (error) {
       enqueueSnackbar(getErrors(error), {
         variant: "error",
@@ -252,11 +247,6 @@ const PendingProfile = ({
     active: "#f4f4f4",
   };
 
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
   const handlePatientCloses = () => setIsPatients(false);
 
   if (loading) return <Loader />;
@@ -265,12 +255,7 @@ const PendingProfile = ({
     <>
       <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
         <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/pending"}
-            onClick={() => {
-              setSelectedSubMenu(3);
-            }}
-          />
+          <PreviousButton path={"/pending"} />
         </Grid>
 
         <DisplayProfile2
@@ -559,11 +544,6 @@ const PendingProfile = ({
       </Modals>
     </>
   );
-};
-
-PendingProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default PendingProfile;

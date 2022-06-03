@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Grid, Chip, Avatar, Typography, Divider } from "@mui/material";
 import { Modals } from "components/Utilities";
 import { NoData } from "components/layouts";
@@ -47,16 +46,7 @@ const caseNotes = [
   },
 ];
 
-const HcpCaseNotes = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  selectedHcpMenu,
-  selectedScopedMenu,
-  setSelectedSubMenu,
-  setSelectedHcpMenu,
-  setSelectedScopedMenu,
-}) => {
+const HcpCaseNotes = () => {
   const classes = useStyles();
   const theme = useTheme();
   const buttonType = {
@@ -69,13 +59,6 @@ const HcpCaseNotes = ({
   const { hcpId, rowId } = useParams();
 
   const [consult, setConsult] = useState([]);
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(6);
-    setSelectedScopedMenu(2);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu, selectedScopedMenu]);
 
   const { loading, data, error } = useQuery(getConsult, {
     variables: {
@@ -118,10 +101,7 @@ const HcpCaseNotes = ({
     <>
       <Grid container direction="column" gap={2}>
         <Grid item>
-          <PreviousButton
-            path={`/hcps/${hcpId}/consultations`}
-            onClick={() => setSelectedHcpMenu(6)}
-          />
+          <PreviousButton path={`/hcps/${hcpId}/consultations`} />
         </Grid>
         <Grid item>
           <Typography variant="h2">Consultation Details</Typography>
@@ -594,17 +574,6 @@ const HcpCaseNotes = ({
       </Modals>
     </>
   );
-};
-
-HcpCaseNotes.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default HcpCaseNotes;

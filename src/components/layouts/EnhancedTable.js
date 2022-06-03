@@ -1,19 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Table,
-  Paper,
-  TablePagination,
-  TableBody,
-  TableContainer,
-} from "@mui/material";
-import EnhancedTableHeader from "./EnhancedTableHeader";
-
 import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
+import { useTheme } from "@mui/material/styles";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  Table,
+  TableBody,
+  TableContainer,
+  TablePagination,
+  Paper,
+} from "@mui/material";
+import EnhancedTableHeader from "./EnhancedTableHeader";
+import { paginationActionTypes } from "helpers/mockData";
 import { useActions } from "components/hooks/useActions";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import { handlePageChange } from "helpers/filterHelperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -37,14 +43,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTable = (props) => {
+const EnhancedTable = ({
+  rows,
+  children,
+  headCells,
+  paginationLabel,
+  title,
+  type,
+  hasCheckbox,
+  handleChangePage,
+  changeLimit,
+  fetchData,
+  dataPageInfo,
+  hasPagination = true,
+}) => {
   const classes = useStyles();
-  const { setPage, setRowsPerPage, setSelectedRows } = useActions();
-  const { page, rowsPerPage, selectedRows } = useSelector(
-    (state) => state.tables
-  );
-  const { rows, children, headCells, paginationLabel, title, hasCheckbox } =
-    props;
+  const { setSelectedRows } = useActions();
+  const { selectedRows } = useSelector((state) => state.tables);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -54,17 +69,6 @@ const EnhancedTable = (props) => {
     }
     setSelectedRows([]);
   };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  // Avoid a layout jump when reaching the last page with empty rows.
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -83,17 +87,32 @@ const EnhancedTable = (props) => {
             <TableBody>{children}</TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          labelRowsPerPage={paginationLabel}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          className={classes.pagination}
-        />
+        {hasPagination &&
+          (type !== "editRole" ? (
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 15, 25]}
+              component="div"
+              count={dataPageInfo?.totalDocs || 0}
+              rowsPerPage={dataPageInfo?.limit || 10}
+              page={dataPageInfo?.page - 1}
+              labelRowsPerPage={paginationLabel}
+              onPageChange={(e, pageNum) => {
+                handleChangePage(e, pageNum);
+              }}
+              onRowsPerPageChange={(e) => {
+                changeLimit(parseInt(e.target.value, 10), fetchData);
+              }}
+              className={classes.pagination}
+              ActionsComponent={() => (
+                <EnhancedTableAction
+                  {...{
+                    fetchData,
+                    dataPageInfo,
+                  }}
+                />
+              )}
+            />
+          ) : null)}
       </Paper>
     </Box>
   );
@@ -105,7 +124,65 @@ EnhancedTable.propTypes = {
   headCells: PropTypes.array,
   paginationLabel: PropTypes.string,
   title: PropTypes.string,
+  handleChangePage: PropTypes.func,
   hasCheckbox: PropTypes.bool,
+  type: PropTypes.string,
+  changeLimit: PropTypes.func,
+  fetchData: PropTypes.func,
+  dataPageInfo: PropTypes.object,
+  hasPagination: PropTypes.bool,
+};
+
+const EnhancedTableAction = ({ fetchData, dataPageInfo }) => {
+  const theme = useTheme();
+  const { FIRSTPAGE, NEXTPAGE, PREVPAGE, LASTPAGE } = paginationActionTypes;
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={() => handlePageChange(fetchData, FIRSTPAGE, dataPageInfo)}
+        disabled={!dataPageInfo?.hasPrevPage}
+        aria-label="first page"
+      >
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={() => handlePageChange(fetchData, PREVPAGE, dataPageInfo)}
+        disabled={!dataPageInfo?.hasPrevPage}
+        aria-label="previous page"
+      >
+        {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={() => handlePageChange(fetchData, NEXTPAGE, dataPageInfo)}
+        disabled={!dataPageInfo?.hasNextPage}
+        aria-label="next page"
+      >
+        {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={() => handlePageChange(fetchData, LASTPAGE, dataPageInfo)}
+        disabled={!dataPageInfo?.hasNextPage}
+        aria-label="last page"
+      >
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+};
+
+EnhancedTableAction.propTypes = {
+  count: PropTypes.number,
+  page: PropTypes.number,
+  pagnumber: PropTypes.number,
+  totalPages: PropTypes.number,
+  dataPageInfo: PropTypes.object,
+  rowsPerPage: PropTypes.number,
+  hasPrevPage: PropTypes.bool,
+  setPageNumber: PropTypes.func,
+  handleChangePage: PropTypes.func,
+  hasNextPage: PropTypes.bool,
+  fetchData: PropTypes.func,
 };
 
 export default EnhancedTable;

@@ -70,17 +70,7 @@ const filterOptions = [
   { id: 2, value: "Description" },
 ];
 
-const HcpConsultations = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedHcpMenu,
-    // selectedScopedMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedHcpMenu,
-    setSelectedScopedMenu,
-  } = props;
+const HcpConsultations = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [pageInfo, setPageInfo] = useState([]);
@@ -112,22 +102,12 @@ const HcpConsultations = (props) => {
     refetch({ page: newPage });
   };
 
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(6);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
-
   if (error) return <NoData error={error} />;
   if (loading) return <Loader />;
   return (
     <Grid container direction="column" height="100%" gap={2}>
       <Grid item>
-        <PreviousButton
-          path={`/hcps/${hcpId}`}
-          onClick={() => setSelectedHcpMenu(0)}
-        />
+        <PreviousButton path={`/hcps/${hcpId}`} />
       </Grid>
 
       <Grid item container justifyContent="space-between" alignItems="center">
@@ -275,13 +255,8 @@ const HcpConsultations = (props) => {
                         variant="contained"
                         className={classes.button}
                         component={Link}
-                        to={`/hcps/${hcpId}/consultations/case-notes/${_id}`}
+                        to={`/hcps/${hcpId}/consultations/case-note/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        onClick={() => {
-                          setSelectedSubMenu(2);
-                          setSelectedHcpMenu(0);
-                          setSelectedScopedMenu(2);
-                        }}
                       >
                         View Details
                       </Button>
@@ -299,17 +274,6 @@ const HcpConsultations = (props) => {
       )}
     </Grid>
   );
-};
-
-HcpConsultations.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default HcpConsultations;

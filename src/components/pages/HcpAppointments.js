@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Grid, Alert, Divider, Avatar, Typography } from "@mui/material";
 import {
   Modals,
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HcpAppointments = (props) => {
+const HcpAppointments = () => {
   const { hcpId } = useParams();
   const classes = useStyles();
   const theme = useTheme();
@@ -75,14 +74,6 @@ const HcpAppointments = (props) => {
     setId(id);
     setdeleteModal(true);
   };
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedHcpMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedHcpMenu,
-  } = props;
 
   const greenButton = {
     background: theme.palette.common.lightGreen,
@@ -186,12 +177,6 @@ const HcpAppointments = (props) => {
     });
     handlePatientCloses();
   };
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(2);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedHcpMenu]);
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -214,10 +199,7 @@ const HcpAppointments = (props) => {
           </Alert>
         )}
         <Grid item>
-          <PreviousButton
-            path={`/hcps/${hcpId}`}
-            onClick={() => setSelectedHcpMenu(0)}
-          />
+          <PreviousButton path={`/hcps/${hcpId}`} />
         </Grid>
         <Grid item style={{ marginBottom: "3rem", padding: "2rem" }}>
           <Typography variant="h2">Doctor Appointments</Typography>
@@ -417,15 +399,6 @@ const HcpAppointments = (props) => {
       </Modals>
     </>
   );
-};
-
-HcpAppointments.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default HcpAppointments;

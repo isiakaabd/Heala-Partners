@@ -16,14 +16,8 @@ const DisplayProfile = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const {
-    displayPhoto,
-    medicalTitle,
-    specialization,
-    status,
-    patientData,
-    // setChatMediaActive,
-  } = props;
+  const { displayPhoto, medicalTitle, specialization, status, patientData } =
+    props;
 
   return (
     <>
@@ -137,7 +131,6 @@ DisplayProfile.propTypes = {
   chatPath: PropTypes.string,
   callPath: PropTypes.string,
   videoPath: PropTypes.string,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default DisplayProfile;

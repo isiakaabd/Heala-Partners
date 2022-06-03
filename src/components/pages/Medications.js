@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TableRow from "@mui/material/TableRow";
@@ -31,15 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Medications = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    setSelectedPatientMenu,
-  } = props;
+const Medications = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [pageInfo, setPageInfo] = useState([]);
@@ -65,13 +56,6 @@ const Medications = (props) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(6);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
     pageInfo;
   const [rowsPerPage, setRowsPerPage] = useState(0);
@@ -81,10 +65,7 @@ const Medications = (props) => {
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
       <Grid item>
-        <PreviousButton
-          path={`/patients/${patientId}`}
-          onClick={() => setSelectedPatientMenu(0)}
-        />
+        <PreviousButton path={`/patients/${patientId}`} />
       </Grid>
       <Grid item container height="100%" direction="column" gap={2}>
         <Grid item>
@@ -205,15 +186,6 @@ const Medications = (props) => {
       </Grid>
     </Grid>
   );
-};
-
-Medications.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default Medications;

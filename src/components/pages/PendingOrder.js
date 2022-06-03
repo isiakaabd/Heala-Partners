@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
+const PendingOrder = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [state, setState] = useState([]);
@@ -301,10 +301,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           <Chip
                             label="view request"
                             variant="outlined"
-                            onClick={() => {
-                              setSelectedSubMenu(2);
-                              setSelectedPatientMenu(0);
-                            }}
                             component={Link}
                             to={`pending-order/${_id}/order`}
                             className={classes.chip}
@@ -434,11 +430,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
       </Modals>
     </>
   );
-};
-
-PendingOrder.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default PendingOrder;

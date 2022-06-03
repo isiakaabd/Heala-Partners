@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
 import { Grid } from "@mui/material";
@@ -13,12 +12,7 @@ import FormikControl from "components/validation/FormikControl";
 import { getPartner } from "components/graphQL/useQuery";
 import * as Yup from "yup";
 
-const Profile = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Profile = () => {
   const [update] = useMutation(updatePartner);
   const { enqueueSnackbar } = useSnackbar();
   const { loading, error, data } = useQuery(getPartner, {
@@ -85,24 +79,12 @@ const Profile = ({
     image: profile?.logoImageUrl,
   };
 
-  useEffect(() => {
-    setSelectedMenu(11);
-    // setSelectedSubMenu(12)
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
-
   if (loading) return <Loader />;
   if (error) return <NoData />;
   return (
     <Grid container>
       <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton
-          path={"/setting"}
-          onClick={() => {
-            setSelectedSubMenu(11);
-          }}
-        />
+        <PreviousButton path={"/setting"} />
       </Grid>
       <Grid container>
         <Formik
@@ -163,12 +145,6 @@ const Profile = ({
       </Grid>
     </Grid>
   );
-};
-Profile.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Profile;

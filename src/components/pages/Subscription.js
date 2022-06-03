@@ -234,7 +234,6 @@ const Subscription = () => {
   };
   useEffect(() => {
     if (data) {
-      console.log(data);
       setPlan(data.getPlans.plan);
       setPageInfo(data.getPlans.pageInfo);
     }
@@ -255,7 +254,6 @@ const Subscription = () => {
   if (error) console.log(error);
   //  return <NoData error={error} />
 
-  console.log(plan, "fff");
   return (
     <>
       <Grid

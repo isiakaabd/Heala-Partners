@@ -146,20 +146,10 @@ const dates = ["Hello", "World", "Goodbye", "World"];
 const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
-const CompletedOrder = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CompletedOrder = () => {
   const classes = useStyles();
   const [searchPartner, setSearchPartner] = useState("");
   const [openFilterPartner, setOpenFilterPartner] = useState(false);
-  useEffect(() => {
-    setSelectedMenu(3);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   // FILTER PARTNERS SELECT STATES
   const [filterSelectInput, handleSelectedInput] = useFormInput({
@@ -316,10 +306,6 @@ const CompletedOrder = ({
                           variant="outlined"
                           component={Link}
                           to={`/completed/${_id}/view`}
-                          onClick={() => {
-                            setSelectedSubMenu(4);
-                            // setSelectedPatientMenu(1)
-                          }}
                           className={classes.chip}
                           deleteIcon={<ArrowForwardIosIcon />}
                           onDelete={() => console.log(" ")}

@@ -67,26 +67,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CaseNotes = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  selectedScopedMenu,
-  setSelectedSubMenu,
-  selectedPatientMenu,
-  setSelectedPatientMenu,
-  setSelectedScopedMenu,
-}) => {
+const CaseNotes = () => {
   const classes = useStyles();
   const theme = useTheme();
   const { patientId, rowId } = useParams();
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(5);
-    setSelectedScopedMenu(1);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu, selectedScopedMenu]);
   const [caseNoteState, setCaseNoteState] = useState([]);
 
   const { loading, data, error } = useQuery(getConsult, {
@@ -141,7 +125,7 @@ const CaseNotes = ({
         <Grid item>
           <PreviousButton
             path={`/patients/${patientId}/consultations`}
-            onClick={() => setSelectedPatientMenu(5)}
+            /* onClick={() => setSelectedPatientMenu(5)} */
           />
         </Grid>
         <Grid item>
@@ -608,17 +592,6 @@ const CaseNotes = ({
       </Modals>
     </>
   );
-};
-
-CaseNotes.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default CaseNotes;
