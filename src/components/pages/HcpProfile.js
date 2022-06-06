@@ -83,11 +83,6 @@ const HcpProfile = () => {
   const { hcpId } = useParams();
 
   const [doctorProfile, setDoctorProfile] = useState("");
-  // const profile = useQuery(createAllery, {
-  //   variables: {
-  //     id: hcpId,
-  //   },
-  // });
 
   const { loading, error, data } = useQuery(doctor, {
     variables: {
@@ -116,12 +111,6 @@ const HcpProfile = () => {
   } = doctorProfile;
   return (
     <Grid container direction="column" gap={3} width="100%">
-      <Grid item>
-        <PreviousButton
-          path={`/hcps/${hcpId}`}
-          /* onClick={() => setSelectedHcpMenu(0)} */
-        />
-      </Grid>
       {/* Display photo and profile name grid */}
       <Grid item container>
         <DisplayProfile
