@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, createElement, useState } from "react";
 import { Grid, Typography, Avatar } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import {
-  CustomButton,
-  PreviousButton,
-  Loader,
-  Card,
-} from "components/Utilities";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-// import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import DisablePatient from "components/modals/DeleteOrDisable";
+import { Loader, Card } from "components/Utilities";
 import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
 import { NoData } from "components/layouts";
@@ -18,39 +10,29 @@ import { ReactComponent as ConsultationIcon } from "assets/images/consultation.s
 import { ReactComponent as UserIcon } from "assets/images/user.svg";
 import { ReactComponent as PrescriptionIcon } from "assets/images/prescription.svg";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import { Link, useParams, useHistory } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import { getPatients } from "components/graphQL/useQuery";
-import { deleteProfile } from "components/graphQL/Mutation";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
-    paddingBottom: "20rem",
+    paddingBottom: "10rem",
   },
 
   gridsWrapper: {
-    background: "#fff",
-    borderRadius: "2rem",
-    padding: "4rem",
-  },
-
-  parentGrid: {
-    textDecoration: "none",
-    width: "24.7rem",
-    color: theme.palette.primary.main,
-    "&.MuiGrid-item": {
-      ...theme.typography.cardParentGrid,
-      minWidth: "20rem",
-
-      "&:hover": {
-        background: "#fff",
-        border: "1px solid #ebebeb",
-      },
-
-      "&:active": {
-        background: "#fafafa",
+    "@media(max-width:600px)": {
+      "&.MuiGrid-root": {
+        flexDirection: "column",
+        rowGap: "1.5rem",
+        alignItems: "center",
+        "& .detailsContainer": {
+          justifyContent: "space-around",
+        },
       },
     },
+  },
+  parentGrid: {
+    textDecoration: "none",
+    color: theme.palette.primary.main,
   },
 
   icon: {
@@ -58,27 +40,33 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "4rem",
     },
   },
+  "@media(max-width:600px)": {
+    "&.MuiGrid-root": {
+      flexDirection: "column",
+      rowGap: "1.5rem",
+    },
+  },
+  container: {
+    "&.MuiGrid-root": {
+      paddingTop: "5rem",
+      flexWrap: "wrap",
+      "@media(max-width:600px)": {
+        "&": {
+          padding: 0,
+          paddingTop: "1rem",
+          // flexDirection: "column",
+          rowGap: "1.5rem",
+        },
+      },
+    },
+  },
 }));
 const SinglePatient = (props) => {
-  const history = useHistory();
-
   const classes = useStyles();
   const theme = useTheme();
   const { patientId } = useParams();
-  const [disableUser] = useMutation(deleteProfile);
-  const onConfirm = async () => {
-    try {
-      await disableUser({
-        variables: { id: patientId },
-        refetchQueries: [{ query: getPatients }],
-      });
 
-      history.push("/patients");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const cards1 = [
+  const cards2 = [
     {
       id: 1,
       title: "Patient Profile",
@@ -103,9 +91,6 @@ const SinglePatient = (props) => {
       icon: PrescriptionIcon,
       fill: theme.palette.common.red,
     },
-  ];
-
-  const cards2 = [
     {
       id: 4,
       title: "Medical Records",
@@ -132,12 +117,6 @@ const SinglePatient = (props) => {
     },
   ];
 
-  const trasparentButton = {
-    background: "transparent",
-    hover: "#fafafa",
-    active: "#f4f4f4",
-  };
-
   const [patientProfile, setPatientProfile] = useState("");
   const { loading, error, data } = useQuery(findProfile, {
     variables: {
@@ -153,8 +132,6 @@ const SinglePatient = (props) => {
     }
   }, [data, patientId]);
 
-  const [openDisablePatient, setOpenDisablePatient] = useState(false);
-
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   else {
@@ -165,115 +142,70 @@ const SinglePatient = (props) => {
         className={classes.gridContainer}
         gap={2}
       >
-        <Grid item>
-          <PreviousButton path={`/patients`} />
-        </Grid>
         <Grid
           item
-          container
           justifyContent="space-between"
+          alignItems="center"
+          container
+          p={2}
           className={classes.gridsWrapper}
         >
-          {/* Display photo and profile name grid */}
-          <Grid item>
-            <Grid container alignItems="center">
-              <Grid item style={{ marginRight: "2rem" }}>
-                <Avatar
-                  alt={patientProfile.firstName}
-                  src={
-                    patientProfile.image ? patientProfile.image : displayPhoto
-                  }
-                  sx={{ width: 50, height: 50 }}
-                />
-              </Grid>
+          <Grid
+            item
+            alignItems="center"
+            container
+            gap={2}
+            className="detailsContainer"
+            sx={{ flex: 1 }}
+          >
+            <Grid item>
+              <Avatar
+                alt={patientProfile.firstName}
+                src={patientProfile.image ? patientProfile.image : displayPhoto}
+                sx={{ width: 50, height: 50 }}
+              />
+            </Grid>
 
-              <Grid item>
-                <Typography variant="h2">
-                  {patientProfile.firstName} {patientProfile.lastName}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          {/* Action Buttons grid */}
-          <Grid item>
-            <Grid container alignItems="center">
-              <Grid item style={{ marginRight: "2rem" }}>
-                <CustomButton
-                  endIcon={<PersonRemoveIcon />}
-                  title="Disable Patient"
-                  type={trasparentButton}
-                  textColor={theme.palette.common.red}
-                  onClick={() => setOpenDisablePatient(true)}
-                />
-              </Grid>
-            </Grid>
+            <Typography variant="h2">
+              {patientProfile.firstName} {patientProfile.lastName}
+            </Typography>
           </Grid>
         </Grid>
-        {/* TOP CARDS SECTION */}
-        <Grid
-          item
-          container
-          style={{ paddingTop: "5rem" }}
-          justifyContent="space-evenly"
-        >
-          {cards1.map((card) => (
-            <Grid
-              key={card.id}
-              item
-              className={classes.parentGrid}
-              component={Link}
-              to={`/patients/${patientId}/${card.path}`}
-            >
-              <Card title={card.title} background={card.background} header="h4">
-                {React.createElement(card.icon, { fill: card.fill })}
-              </Card>
-            </Grid>
-          ))}
+        <Grid item>
+          <Grid
+            container
+            justifyContent="center"
+            p={2}
+            flexWrap="wrap"
+            spacing={{ md: 6, sm: 4, xs: 4 }}
+          >
+            {cards2.map((card) => (
+              <Grid
+                key={card.id}
+                item
+                xs={10}
+                sm={6}
+                md={4}
+                className={classes.parentGrid}
+                component={Link}
+                p={0}
+                to={`/patients/${patientId}/${card.path}`}
+              >
+                <Card
+                  title={card.title}
+                  background={card.background}
+                  header="h4"
+                >
+                  {createElement(card.icon, {
+                    fill: card.fill,
+                    color: "success",
+                    style: { fontSize: "clamp(2.5rem, 3vw,4rem)" },
+                  })}
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
-        {/* BOTTOM CARDS SECTION */}
-        <Grid
-          item
-          container
-          justifyContent="space-evenly"
-          style={{ paddingTop: "5rem" }}
-        >
-          {cards2.map((card) => (
-            <Grid
-              key={card.id}
-              item
-              className={classes.parentGrid}
-              component={Link}
-              to={`/patients/${patientId}/${card.path}`}
-            >
-              <Card title={card.title} background={card.background} header="h4">
-                {React.createElement(card.icon, {
-                  fill: card.fill,
-                  color: "success",
-                  style: { fontSize: "4rem" },
-                })}
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-        <DisablePatient
-          open={openDisablePatient}
-          setOpen={setOpenDisablePatient}
-          title="Delete Patient"
-          btnValue="delete"
-          onConfirm={onConfirm}
-          confirmationMsg="disable Patient"
-        />
-        {/* <Modals
-          isOpen={isOpen}
-          title="Refer Patient"
-          handleClose={handleDialogClose}
-        >
-          <ReferPatient
-            type="refer"
-            handleDialogClose={handleDialogClose}
-            initialValues={initialValues}
-          />
-        </Modals> */}
       </Grid>
     );
   }

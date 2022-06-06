@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { dateMoment } from "components/Utilities/Time";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import NoData from "components/layouts/NoData";
 import {
   Grid,
   Typography,
@@ -12,8 +10,8 @@ import {
   Button,
   Avatar,
 } from "@mui/material";
-import FilterList from "components/Utilities/FilterList";
-import { EnhancedTable, EmptyTable } from "components/layouts";
+import { FilterList, Loader } from "components/Utilities";
+import { EnhancedTable, NoData, EmptyTable } from "components/layouts";
 import { consultationsHeadCells4 } from "components/Utilities/tableHeaders";
 import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
@@ -23,11 +21,10 @@ import { isSelected } from "helpers/isSelected";
 import { handleSelectedRows } from "helpers/selectedRows";
 import displayPhoto from "assets/images/avatar.svg";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import PreviousButton from "components/Utilities/PreviousButton";
+import { changeTableLimit, fetchMoreData } from "helpers/filterHelperFunctions";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { getConsultations } from "components/graphQL/useQuery";
-import Loader from "components/Utilities/Loader";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -81,12 +78,17 @@ const Consultations = () => {
 
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
-  const { loading, data, error, refetch } = useQuery(getConsultations, {
-    variables: {
-      id: patientId,
-      orderBy: "-createdAt",
-    },
-  });
+  const [fetchConsultations, { loading, data, error }] =
+    useLazyQuery(getConsultations);
+
+  useEffect(() => {
+    fetchConsultations({
+      variables: {
+        id: patientId,
+        orderBy: "-createdAt",
+      },
+    });
+  }, [fetchConsultations, patientId]);
 
   const [consultations, setConsultations] = useState([]);
   useEffect(() => {
@@ -97,31 +99,23 @@ const Consultations = () => {
     }
   }, [data, consultations, patientConsultation]);
 
-  const fetchMoreFunc = (_, newPage) => {
-    refetch({ page: newPage });
-  };
-
-  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
-    pageInfo;
-  const [rowsPerPage, setRowsPerPage] = useState(0);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
 
   return (
     <Grid container gap={2} flexWrap="nowrap" direction="column" height="100%">
-      <Grid item>
-        <PreviousButton path={`/patients/${patientId}`} />
-      </Grid>
-      <Grid item container justifyContent="space-between" alignItems="center">
-        <Grid item>
+      <Grid
+        item
+        container
+        flexWrap="nowrap"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Grid item flex={1}>
           <Typography variant="h2">Consultations</Typography>
         </Grid>
         <Grid item>
-          <FilterList
-            options={filterOptions}
-            title="Filter consultations"
-            width="18.7rem"
-          />
+          <FilterList options={filterOptions} title="Filter" />
         </Grid>
       </Grid>
       {consultations.length > 0 ? (
@@ -130,22 +124,25 @@ const Consultations = () => {
             headCells={consultationsHeadCells4}
             rows={consultations}
             paginationLabel="Patients per page"
-            page={page}
-            limit={limit}
-            totalPages={totalPages}
-            totalDocs={totalDocs}
-            rowsPerPage={rowsPerPage}
-            setRowsPerPage={setRowsPerPage}
-            hasNextPage={hasNextPage}
-            hasPrevPage={hasPrevPage}
-            handleChangePage={fetchMoreFunc}
+            handleChangePage={fetchMoreData}
             hasCheckbox={true}
+            changeLimit={changeTableLimit}
+            fetchData={fetchConsultations}
+            dataPageInfo={pageInfo}
           >
             {consultations
               // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { doctorData } = row;
-                const isItemSelected = isSelected(row._id, selectedRows);
+                const {
+                  doctorData,
+                  createdAt,
+                  symptoms,
+                  _id,
+                  contactMedium,
+                  type,
+                  status,
+                } = row;
+                const isItemSelected = isSelected(_id, selectedRows);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
@@ -153,17 +150,13 @@ const Consultations = () => {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row._id}
+                    key={_id}
                     selected={isItemSelected}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         onClick={() =>
-                          handleSelectedRows(
-                            row._id,
-                            selectedRows,
-                            setSelectedRows
-                          )
+                          handleSelectedRows(_id, selectedRows, setSelectedRows)
                         }
                         color="primary"
                         checked={isItemSelected}
@@ -173,12 +166,12 @@ const Consultations = () => {
                       />
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
-                      {dateMoment(row.createdAt)}
+                      {dateMoment(createdAt)}
                     </TableCell>
                     <TableCell
                       align="left"
                       className={classes.tableCell}
-                      style={{ maxWidth: "20rem" }}
+                      style={{ maxWidth: "25rem" }}
                     >
                       <div
                         style={{
@@ -207,8 +200,8 @@ const Consultations = () => {
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <Grid container gap={1}>
-                        {row.symptoms
-                          ? row.symptoms.map((i) => {
+                        {symptoms
+                          ? symptoms.map((i) => {
                               return <p key={i.name}>{i.name}</p>;
                             })
                           : "No Value"}
@@ -219,37 +212,35 @@ const Consultations = () => {
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        maxWidth: "20rem",
+                        width: "4rem",
                       }}
                     >
-                      {row.contactMedium ? row.contactMedium : "No Value"}
+                      {contactMedium ? contactMedium : "No Value"}
                     </TableCell>
                     <TableCell
                       align="left"
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        maxWidth: "20rem",
                       }}
                     >
-                      {row.type ? row.type : "No Value"}
+                      {type ? type : "No Value"}
                     </TableCell>
                     <TableCell
                       align="left"
                       className={classes.tableCell}
                       style={{
                         color: theme.palette.common.grey,
-                        maxWidth: "20rem",
                       }}
                     >
-                      {row.status ? row.status : "No Value"}
+                      {status ? status : "No Value"}
                     </TableCell>
                     <TableCell align="left">
                       <Button
                         variant="contained"
                         className={classes.button}
                         component={Link}
-                        to={`/patients/${patientId}/consultations/case-note/${row._id}`}
+                        to={`/patients/${patientId}/consultations/case-notes/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
                       >
                         View Details
@@ -263,8 +254,7 @@ const Consultations = () => {
       ) : (
         <EmptyTable
           headCells={consultationsHeadCells4}
-          paginationLabel="Orders  per page"
-          text="No Consulation"
+          paginationLabel="Patients per page"
         />
       )}
     </Grid>

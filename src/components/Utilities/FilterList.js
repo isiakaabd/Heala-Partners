@@ -9,8 +9,8 @@ const FilterList = ({ width, title, ...rest }) => {
     button: {
       "&.MuiButton-root": {
         ...theme.typography.btn,
-        backgroundColor: theme.palette.common.lightGreen,
-        color: theme.palette.common.green,
+        backgroundColor: "#fff",
+        color: theme.palette.common.dark,
 
         "&:hover": {
           backgroundColor: "#fafafa",

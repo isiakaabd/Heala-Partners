@@ -4,6 +4,7 @@ export { default as IconLabelButtons } from "./Button";
 export { default as CircularProgressBar } from "./CircularProgress";
 export { default as CustomButton } from "./CustomButton";
 export { default as DisplayProfile } from "./DisplayProfile";
+export { default as ProfileCard } from "./ProfileCard";
 export { default as DisplayProfiles } from "./DisplayProfiles";
 export { default as DisplayProfile2 } from "./DisplayProfile2";
 export { default as DisplayProfile1 } from "./DisplayProfile1";

@@ -94,7 +94,8 @@ const Hospital = () => {
       />
 
       <PrivateRoute
-        path="/patients/:patientId/consultations/case-note/:rowId"
+        exact
+        path="/patients/:patientId/consultations/case-note/:id"
         component={CaseNotes}
       />
 

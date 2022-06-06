@@ -20,7 +20,7 @@ import {
   Search,
   CustomButton,
 } from "components/Utilities";
-import EnhancedTable from "components/layouts/EnhancedTable";
+import { EnhancedTable } from "components/layouts";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { patientsHeadCells1 } from "components/Utilities/tableHeaders";
@@ -40,10 +40,9 @@ const genderType = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
+  searchFilterContainer: {
     "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
+      justifyContent: "space-between",
     },
   },
   button: {
@@ -54,8 +53,9 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "2rem",
       display: "flex",
       alignItems: "center",
+      justifyContent: "center",
       padding: "1rem",
-      maxWidth: "10rem",
+      maxWidth: "15rem",
 
       "&:hover": {
         background: "#fcfcfc",
@@ -66,12 +66,7 @@ const useStyles = makeStyles((theme) => ({
       },
 
       "& .MuiButton-endIcon>*:nth-of-type(1)": {
-        fontSize: "1.2rem",
-      },
-
-      "& .MuiButton-endIcon": {
-        marginLeft: ".3rem",
-        marginTop: "-.2rem",
+        fontSize: "1rem",
       },
     },
   },
@@ -196,27 +191,32 @@ const Patients = () => {
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          spacing={{ sm: 4, md: 4, xs: 2 }}
+          // flexWrap={{ sm: "nowrap", md: "nowrap", xs: "wrap" }}
+          // direction={{ sm: "row", md: "row", xs: "column" }}
+          className={classes.searchFilterContainer}
+        >
+          <Grid item flex={1}>
             <Search
-              // value={searchPatient}
               onChange={(e) => {
-                let value = "";
-                if (value !== "") value = `HEALA-${value.toUpperCase()}`;
-                else value = "";
-                return debouncer({ variables: { dociId: value } });
+                let value = e.target.value;
+
+                if (value !== "") {
+                  return debouncer({
+                    variables: { dociId: `HEALA-${value.toUpperCase()}` },
+                  });
+                }
               }}
               // onChange={debouncedChangeHandler}
-              placeholder="Type to search patients by Heala ID e.g 7NE6ELLO "
+              placeholder="Search by ID e.g 7NE6ELLO "
               height="5rem"
             />
           </Grid>
           <Grid item>
-            <FilterList
-              title="Filter Patients"
-              width="15.2rem"
-              onClick={handleDialogOpen}
-            />
+            <FilterList title="Filter" onClick={handleDialogOpen} />
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
@@ -289,14 +289,14 @@ const Patients = () => {
                         textAlign: "left",
                       }}
                     >
-                      {dociId && dociId.split("-")[1]}
+                      {dociId?.split("-")[1]}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
                           height: "100%",
                           display: "flex",
-                          alignItems: "left",
+                          alignItems: "center",
                         }}
                       >
                         <span style={{ marginRight: "1rem" }}>
@@ -386,9 +386,6 @@ const Patients = () => {
                       placeholder="Filter by Gender"
                     />
                   </Grid>
-                  <br></br>
-                  <br></br>
-                  <br></br>
 
                   <Grid item>
                     <CustomButton

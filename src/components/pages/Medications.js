@@ -13,14 +13,14 @@ import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { isSelected } from "helpers/isSelected";
 import { handleSelectedRows } from "helpers/selectedRows";
-import PreviousButton from "components/Utilities/PreviousButton";
 import displayPhoto from "assets/images/avatar.svg";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { myMedic } from "components/graphQL/useQuery";
 import { dateMoment } from "components/Utilities/Time";
 import Loader from "components/Utilities/Loader";
 import { NoData, EmptyTable } from "components/layouts";
+import { changeTableLimit, fetchMoreData } from "helpers/filterHelperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -39,16 +39,18 @@ const Medications = () => {
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
   const [medications, setMedications] = useState([]);
-  const { loading, error, data, refetch } = useQuery(myMedic, {
-    variables: {
-      id: patientId,
-      orderBy: "-createdAt",
-    },
-    notifyOnNetworkStatusChange: true,
-  });
-  const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage });
-  };
+  const [fetchMedications, { loading, error, data }] = useLazyQuery(myMedic);
+
+  useEffect(() => {
+    fetchMedications({
+      variables: {
+        id: patientId,
+        orderBy: "-createdAt",
+      },
+      notifyOnNetworkStatusChange: true,
+    });
+  }, [fetchMedications, patientId]);
+
   useEffect(() => {
     if (data) {
       setMedications(data.getMedications.medication);
@@ -56,37 +58,26 @@ const Medications = () => {
     }
   }, [data]);
 
-  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
-    pageInfo;
-  const [rowsPerPage, setRowsPerPage] = useState(0);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
 
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
-      <Grid item>
-        <PreviousButton path={`/patients/${patientId}`} />
-      </Grid>
       <Grid item container height="100%" direction="column" gap={2}>
         <Grid item>
           <Typography variant="h2">Medications</Typography>
         </Grid>
         {medications.length > 0 ? (
-          <Grid item container>
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={medicationsHeadCells}
               rows={medications}
               paginationLabel="Medication per page"
-              page={page}
-              limit={limit}
-              totalPages={totalPages}
-              totalDocs={totalDocs}
-              rowsPerPage={rowsPerPage}
-              setRowsPerPage={setRowsPerPage}
-              hasNextPage={hasNextPage}
-              hasPrevPage={hasPrevPage}
-              handleChangePage={fetchMoreFunc}
+              handleChangePage={fetchMoreData}
               hasCheckbox={true}
+              changeLimit={changeTableLimit}
+              fetchData={fetchMedications}
+              dataPageInfo={pageInfo}
             >
               {medications
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -180,7 +171,7 @@ const Medications = () => {
         ) : (
           <EmptyTable
             headCells={medicationsHeadCells}
-            paginationLabel="Medications  per page"
+            paginationLabel="Medications per page"
           />
         )}
       </Grid>

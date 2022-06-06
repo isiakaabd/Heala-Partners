@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Typography, Grid, Avatar, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
 import { dateMoment } from "components/Utilities/Time";
 import { getConsultations } from "components/graphQL/useQuery";
 import { useQuery } from "@apollo/client";
-import { PreviousButton, Loader } from "components/Utilities";
+import { Loader } from "components/Utilities";
 import { NoData } from "components/layouts";
 import { useParams } from "react-router-dom";
 
@@ -74,9 +73,6 @@ const Prescriptions = () => {
   return (
     <Grid container direction="column" flexWrap="nowrap" height="100%" gap={2}>
       <Grid item>
-        <PreviousButton path={`/patients/${patientId}`} />
-      </Grid>
-      <Grid item>
         <Typography variant="h2">Prescriptions</Typography>
       </Grid>
       {Object.entries(consultations).length > 0 ? (
@@ -95,6 +91,7 @@ const Prescriptions = () => {
             justifyContent="space-between"
             flexWrap="no-wrap"
             padding=" 2rem 0"
+            rowGap={{ xs: 2 }}
             width="90%"
             margin="auto"
           >
@@ -189,8 +186,6 @@ const Prescriptions = () => {
                   <Grid item>
                     <Typography variant="h5">Mode</Typography>
                   </Grid>
-                  {/* );
-            })} */}
                 </Grid>
               </Grid>
               <Divider />
@@ -203,7 +198,6 @@ const Prescriptions = () => {
                 <>
                   <Grid
                     container
-                    flexDirection="row"
                     alignItems="center"
                     justifyContent="space-between"
                     flexWrap="no-wrap"
@@ -218,19 +212,20 @@ const Prescriptions = () => {
                       className={classes.item}
                       alignItems="center"
                       justifyContent="space-between"
-                      gap={2}
+                      flexWrap="no-wrap"
+                      gap={{ sm: 2, xs: 0.5 }}
                     >
                       <Grid item>
-                        <Typography variant="body1">{i.drugName}</Typography>
+                        <Typography variant="h5">{i.drugName}</Typography>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body1">{i.dosage}</Typography>
+                        <Typography variant="h5">{i.dosage}</Typography>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body1">{`${i.dosageFrequency.day}day / ${i.dosageFrequency.duration}duration`}</Typography>
+                        <Typography variant="h5">{`${i.dosageFrequency.day}day / ${i.dosageFrequency.duration}duration`}</Typography>
                       </Grid>
                       <Grid item>
-                        <Typography variant="body1">{i.mode}</Typography>
+                        <Typography variant="h5">{i.mode}</Typography>
                       </Grid>
                     </Grid>
                   </Grid>

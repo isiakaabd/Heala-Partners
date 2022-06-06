@@ -1,31 +1,18 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import Loader from "components/Utilities/Loader";
-// import Modals from 'components/Utilities/Modal'
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { dateMoment } from "components/Utilities/Time";
-import NoData from "components/layouts/NoData";
-import { Typography, Grid, Chip } from "@mui/material";
+import { NoData } from "components/layouts";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import {
-  PreviousButton,
-  CustomButton,
+  Loader,
   DisplayProfileHospital,
+  ProfileCard,
 } from "components/Utilities";
 import displayPhoto from "assets/images/avatar.svg";
-import { useTheme } from "@mui/material/styles";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { IoCopy } from "react-icons/io5";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import DisablePatient from "components/modals/DeleteOrDisable";
-import { useParams, useHistory } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
-import { deleteProfile } from "components/graphQL/Mutation";
-import {
-  getPatients,
-  getProfile,
-  verifiedEmail,
-} from "components/graphQL/useQuery";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { getProfile, verifiedEmail } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
@@ -53,25 +40,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
-  infoBadge: {
-    "&.MuiChip-root": {
-      fontSize: "1.25rem",
-      borderRadius: "1.5rem",
-      color: theme.palette.common.green,
-    },
-  },
-
-  link: {
-    display: "flex",
-    alignItems: "center",
-    fontSize: "1.25rem",
-    color: theme.palette.common.green,
-    border: `1px solid ${theme.palette.common.lightGrey}`,
-    padding: ".75rem",
-    borderRadius: "1.5rem",
-    textDecoration: "none",
-  },
-
   linkIcon: {
     "&.MuiSvgIcon-root": {
       fontSize: "1.25rem",
@@ -79,9 +47,13 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "1.2rem",
     },
   },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.common.green,
+    cursor: "pointer",
+  },
 
   buttonsGridWrapper: {
-    marginTop: "5rem !important",
     height: "16.1rem",
   },
 }));
@@ -101,10 +73,8 @@ const PatientProfile = () => {
     },
   });
 
-  const [disableUser] = useMutation(deleteProfile);
-
   const classes = useStyles();
-  const theme = useTheme();
+
   const [patientProfile, setPatientProfile] = useState("");
   const [emailStat, setEmailStat] = useState(false);
 
@@ -118,27 +88,6 @@ const PatientProfile = () => {
       setPatientProfile(data.profile);
     }
   }, [data, patientId]);
-
-  const history = useHistory();
-  const onConfirm = async () => {
-    try {
-      await disableUser({
-        variables: { id: patientId },
-        refetchQueries: [{ query: getPatients }],
-      });
-      history.push("/patients");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [openDisablePatient, setOpenDisablePatient] = useState(false);
-
-  const trasparentButton = {
-    background: "transparent",
-    hover: "#fafafa",
-    active: "#f4f4f4",
-  };
 
   if (loading || emailLoading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -156,231 +105,73 @@ const PatientProfile = () => {
   } = patientProfile;
   return (
     <Grid container direction="column" gap={2}>
-      <Grid item>
-        <PreviousButton path={`/patients/${patientId}`} />
-      </Grid>
       {/* Display photo and profile name grid */}
       <Grid item>
         <DisplayProfileHospital
           fullName={`${firstName} ${lastName}`}
           displayPhoto={image ? image : displayPhoto}
           medicalTitle="User ID"
-          statusId={dociId && dociId.split("-")[1]}
+          statusId={dociId?.split("-")[1]}
           status={status ? status : "No Value"}
-          chatPath={`/patients/${patientId}/profile/chat`}
-          callPath={`/patients/${patientId}/profile/call`}
-          videoPath={`/patients/${patientId}/profile/video`}
         />
       </Grid>
       {/* PERSONAL INFO SECTION */}
-      <Grid
-        item
-        container
-        justifyContent="space-between"
-        style={{ paddingTop: "2rem" }}
-      >
-        {/* GENDER GRID */}
-        <Grid
-          item
-          md
-          className={classes.cardGrid}
-          style={{ marginRight: "2rem" }}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h4">Gender</Typography>
-            </Grid>
-            <Grid item>
-              <Chip
-                variant="outlined"
-                label={gender}
-                className={classes.infoBadge}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        {/* DATE OF BIRTH GRID */}
-        <Grid
-          item
-          md
-          className={classes.cardGrid}
-          style={{ marginLeft: "2rem" }}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h4">Provider</Typography>
-            </Grid>
-            <Grid item>
-              <Chip
-                variant="outlined"
-                label={provider ? provider : "No Provider"}
-                className={classes.infoBadge}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid
-        item
-        container
-        justifyContent="space-between"
-        style={{ paddingTop: "2rem" }}
-      >
-        {/* EMAIL ADDRESS GRID */}
-        <Grid
-          item
-          md
-          className={classes.cardGrid}
-          style={{ marginRight: "2rem" }}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h4">Created At</Typography>
-            </Grid>
-            <Grid item>
-              <Chip
-                variant="outlined"
-                label={dateMoment(createdAt)}
-                className={classes.infoBadge}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        {/* DATE OF BIRTH GRID */}
-        <Grid
-          item
-          md
-          className={classes.cardGrid}
-          style={{ marginLeft: "2rem" }}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h4">Verified</Typography>
-            </Grid>
-            <Grid item>
-              <Chip
-                variant="outlined"
-                label={emailStat === "false" ? "Not Verified" : "Verified"}
-                className={classes.infoBadge}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid
-        item
-        container
-        justifyContent="space-between"
-        style={{ paddingTop: "2rem" }}
-      >
-        {/* EMAIL ADDRESS GRID */}
-        <Grid
-          item
-          md
-          className={classes.cardGrid}
-          style={{ marginRight: "2rem" }}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h4">Email Address</Typography>
-            </Grid>
-            <Grid item>
-              {email ? (
-                <a href={`mailto:${email}`} className={classes.link}>
-                  <span>{email}</span>
-                  <ArrowForwardIosIcon className={classes.linkIcon} />
-                </a>
-              ) : (
-                <p className={classes.link}> No Email Provided</p>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-        {/* DATE OF BIRTH GRID */}
-        <Grid
-          item
-          md
-          className={classes.cardGrid}
-          style={{ marginLeft: "2rem" }}
-        >
-          <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid item>
-              <Typography variant="h4">Phone Number</Typography>
-            </Grid>
-            <Grid item>
-              <a href={`tel:+234${phoneNumber}`} className={classes.link}>
-                <span>{phoneNumber}</span>
-                <IoCopy
-                  className={classes.linkIcon}
-                  size={12.5}
-                  style={{ marginLeft: "1.2rem" }}
-                />
-              </a>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid
-        item
-        container
-        justifyContent="center"
-        alignItems="center"
-        className={`${classes.gridsWrapper} ${classes.buttonsGridWrapper}`}
-      >
-        <Grid item style={{ marginRight: "2rem" }}>
-          <CustomButton
-            endIcon={<PersonRemoveIcon />}
-            title="Disable Patient"
-            type={trasparentButton}
-            textColor={theme.palette.common.red}
-            onClick={() => setOpenDisablePatient(true)}
+      <Grid item container spacing={4} justifyContent="space-between">
+        <Grid item container md={6} sm={6} xs={12}>
+          <ProfileCard
+            text="Gender"
+            value={
+              gender == 0
+                ? "Male"
+                : gender == 1
+                ? "Female"
+                : "Prefer not to say"
+            }
           />
         </Grid>
-
-        <DisablePatient
-          open={openDisablePatient}
-          setOpen={setOpenDisablePatient}
-          title="Delete Partner"
-          btnValue="disable"
-          confirmationMsg="disable Patient"
-          onConfirm={onConfirm}
-        />
+        <Grid item container md={6} sm={6} xs={12}>
+          <ProfileCard text="Created At" value={dateMoment(createdAt)} />
+        </Grid>
+        <Grid item container md={6} sm={6} xs={12}>
+          <ProfileCard
+            text="Provider"
+            value={provider ? provider : "No Provider"}
+          />
+        </Grid>
+        <Grid item container md={6} sm={6} xs={12}>
+          <ProfileCard
+            text="Verified"
+            value={emailStat == "false" ? "Not Verified" : "Verified"}
+          />
+        </Grid>
+        <Grid item container md={6} sm={6} xs={12} mx="auto">
+          <ProfileCard
+            text="Email Address"
+            value={
+              email ? (
+                <a href={`mailto:${email}`} className={classes.link}>
+                  {email}
+                </a>
+              ) : (
+                "No Email Provided"
+              )
+            }
+          />
+        </Grid>
+        <Grid item container md={6} sm={6} xs={12}>
+          <ProfileCard
+            text="Phone Number"
+            value={
+              phoneNumber ? (
+                <a href={`tel:+234${phoneNumber}`} className={classes.link}>
+                  {phoneNumber}
+                </a>
+              ) : (
+                "No Phone Number"
+              )
+            }
+          />
+        </Grid>
       </Grid>
     </Grid>
   );
