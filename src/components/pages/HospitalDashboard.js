@@ -19,20 +19,18 @@ const HospitalDashboard = () => {
   });
 
   if (loading) return <Loader />;
-  console.log(error);
   if (error) return <NoData error="error" />;
 
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" rowGap={3}>
       <Grid item container alignItems="center">
         <Grid item sx={{ flexGrow: 1 }}>
           <Typography variant="h1">Dashboard</Typography>
         </Grid>
       </Grid>
 
-      <Grid item>
-        <HospitalDashboardChart data={data} />
-      </Grid>
+      <HospitalDashboardChart data={data} />
+
       <AvailabilityTable data={data?.getStats.availabilityCalendar} />
     </Grid>
   );

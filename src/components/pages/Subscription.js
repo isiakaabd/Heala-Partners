@@ -273,8 +273,13 @@ const Subscription = () => {
           </Alert>
         )}
 
-        <Grid item container gap={3}>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          direction={{ sm: "row", md: "row", xs: "column" }}
+          container
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchMail}
               onChange={(e) => onChange(e.target.value)}

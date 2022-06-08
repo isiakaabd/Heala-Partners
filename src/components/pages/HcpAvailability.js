@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import AvailabilityCard from "components/Utilities/AvailabilityCard";
-import PreviousButton from "components/Utilities/PreviousButton";
+import { Grid, Typography } from "@mui/material";
+import { AvailabilityCard, Loader } from "components/Utilities";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { getAvailability } from "components/graphQL/useQuery";
-import Loader from "components/Utilities/Loader";
-import NoData from "components/layouts/NoData";
+import { NoData } from "components/layouts";
 
 const HcpAvailability = (props) => {
   const [availabiltyArray, setAvailabiltyArray] = useState([]);
@@ -26,9 +22,6 @@ const HcpAvailability = (props) => {
   if (error) return <NoData error={error} />;
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
-      <Grid item>
-        <PreviousButton path={`/hcps/${hcpId}`} />
-      </Grid>
       <Grid item>
         <Typography variant="h2">HCP Availability</Typography>
       </Grid>

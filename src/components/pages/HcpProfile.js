@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, Typography, Chip } from "@mui/material";
 import { NoData } from "components/layouts";
 import { makeStyles } from "@mui/styles";
-import { PreviousButton, Loader, DisplayProfile } from "components/Utilities";
+import { Loader, DisplayProfile } from "components/Utilities";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { IoCopy } from "react-icons/io5";

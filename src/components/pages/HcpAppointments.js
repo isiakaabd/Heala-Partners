@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Alert, Divider, Avatar, Typography } from "@mui/material";
-import {
-  Modals,
-  CustomButton,
-  Loader,
-  PreviousButton,
-} from "components/Utilities";
+import { Modals, CustomButton, Loader } from "components/Utilities";
 import { timeConverter, timeMoment } from "components/Utilities/Time";
 import * as Yup from "yup";
 import { updateAppointment } from "components/graphQL/Mutation";
@@ -198,9 +193,7 @@ const HcpAppointments = () => {
             {alert.message}
           </Alert>
         )}
-        <Grid item>
-          <PreviousButton path={`/hcps/${hcpId}`} />
-        </Grid>
+
         <Grid item style={{ marginBottom: "3rem", padding: "2rem" }}>
           <Typography variant="h2">Doctor Appointments</Typography>
         </Grid>

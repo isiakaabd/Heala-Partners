@@ -49,7 +49,11 @@ const EmptyCell = (props) => {
 
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-            <EnhancedTableHeader rowCount={10} headCells={headCells} hasCheckbox />
+            <EnhancedTableHeader
+              rowCount={10}
+              headCells={headCells}
+              hasCheckbox
+            />
             <TableBody>
               <TableRow
                 style={{

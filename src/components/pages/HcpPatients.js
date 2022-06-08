@@ -7,7 +7,9 @@ import {
   TableCell,
   Button,
   Checkbox,
+  Avatar,
 } from "@mui/material";
+import { changeTableLimit } from "helpers/filterHelperFunctions";
 import { NoData, EnhancedTable, EmptyTable } from "components/layouts";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { hcpPatientsHeadCells } from "components/Utilities/tableHeaders";
@@ -19,7 +21,7 @@ import { useTheme } from "@mui/material/styles";
 import { Link, useParams } from "react-router-dom";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { getDoctorPatients } from "components/graphQL/useQuery";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
@@ -64,10 +66,15 @@ const HcpPatients = () => {
   const { setSelectedRows } = useActions();
   const { selectedRows } = useSelector((state) => state.tables);
 
-  const { loading, error, data, refetch } = useQuery(getDoctorPatients, {
-    variables: { id: hcpId },
-    notifyOnNetworkStatusChange: true,
-  });
+  const [fetchDoctorsPatients, { loading, error, data, refetch }] =
+    useLazyQuery(getDoctorPatients);
+
+  useEffect(() => {
+    fetchDoctorsPatients({
+      variables: { id: hcpId },
+      notifyOnNetworkStatusChange: true,
+    });
+  }, [fetchDoctorsPatients, hcpId]);
   const [profiles, setProfiles] = useState([]);
   useEffect(() => {
     if (data) {
@@ -78,9 +85,7 @@ const HcpPatients = () => {
   const fetchMoreFunc = (e, newPage) => {
     refetch({ page: newPage });
   };
-  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
-    pageInfo;
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
@@ -94,96 +99,96 @@ const HcpPatients = () => {
             headCells={hcpPatientsHeadCells}
             rows={profiles}
             paginationLabel="List Per Page"
-            page={page}
-            limit={limit}
-            totalPages={totalPages}
-            totalDocs={totalDocs}
-            rowsPerPage={rowsPerPage}
-            setRowsPerPage={setRowsPerPage}
-            hasNextPage={hasNextPage}
-            hasPrevPage={hasPrevPage}
             handleChangePage={fetchMoreFunc}
             hasCheckbox={true}
+            changeLimit={changeTableLimit}
+            fetchData={fetchDoctorsPatients}
+            dataPageInfo={pageInfo}
           >
-            {profiles.map((row, index) => {
-              const { _id, doctor, patient } = row;
-              const isItemSelected = isSelected(_id, selectedRows);
+            {profiles
 
-              const labelId = `enhanced-table-checkbox-${index}`;
+              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                const { _id, doctorData, patientData } = row;
+                const isItemSelected = isSelected(_id, selectedRows);
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-              return (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={_id}
-                  selected={isItemSelected}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      onClick={() =>
-                        handleSelectedRows(_id, selectedRows, setSelectedRows)
-                      }
-                      color="primary"
-                      checked={isItemSelected}
-                      inputProps={{
-                        "aria-labelledby": labelId,
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell
-                    id={labelId}
-                    scope="row"
-                    align="left"
-                    className={classes.tableCell}
-                    style={{ color: theme.palette.common.grey }}
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={_id}
+                    selected={isItemSelected}
                   >
-                    {doctor}
-                  </TableCell>
-                  <TableCell align="left" className={classes.tableCell}>
-                    {patient}
-                    {/* <div
-                          style={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            textAlign: "left",
-                          }}
-                        >
-                          <span style={{ marginRight: "1rem" }}>
-                            <Avatar
-                              alt="Remy Sharp"
-                              src={image}
-                              sx={{ width: 24, height: 24 }}
-                            />
-                          </span>
-                          <span style={{ fontSize: "1.25rem" }}>
-                            {firstName}
-                            {lastName}
-                          </span>
-                        </div> */}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      className={classes.button}
-                      component={Link}
-                      to={`/hcps/${hcpId}/profile`}
-                      endIcon={<ArrowForwardIosIcon />}
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        onClick={() =>
+                          handleSelectedRows(_id, selectedRows, setSelectedRows)
+                        }
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      id={labelId}
+                      scope="row"
+                      align="left"
+                      className={classes.tableCell}
+                      style={{ color: theme.palette.common.grey }}
                     >
-                      View Doctor Profile
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                      {doctorData
+                        ? doctorData?.dociId?.split("-")[1]
+                        : "No Doctor ID"}
+                    </TableCell>
+                    <TableCell align="left" className={classes.tableCell}>
+                      <div
+                        style={{
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          textAlign: "left",
+                        }}
+                      >
+                        <span style={{ marginRight: "1rem" }}>
+                          <Avatar
+                            alt="Remy Sharp"
+                            src={row.image}
+                            sx={{ width: 24, height: 24 }}
+                          />
+                        </span>
+                        <span style={{ fontSize: "1.25rem" }}>
+                          {patientData?.firstName
+                            ? `${patientData?.firstName} ${patientData?.lastName}`
+                            : "No Patient Name"}
+                          {row.lastName}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        className={classes.button}
+                        component={Link}
+                        to={`/hcps/${hcpId}/profile`}
+                        endIcon={<ArrowForwardIosIcon />}
+                      >
+                        View Doctor Profile
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </EnhancedTable>
         </Grid>
       ) : (
         <EmptyTable
           headCells={hcpPatientsHeadCells}
-          paginationLabel="Patients  per page"
+          paginationLabel="List  per page"
         />
       )}
     </Grid>

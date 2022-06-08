@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { getDocConsult } from "components/graphQL/useQuery";
@@ -22,7 +21,7 @@ import { isSelected } from "helpers/isSelected";
 import { handleSelectedRows } from "helpers/selectedRows";
 import displayPhoto from "assets/images/avatar.svg";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { PreviousButton, FilterList, Loader } from "components/Utilities";
+import { FilterList, Loader } from "components/Utilities";
 import { useParams } from "react-router-dom";
 import { dateMoment } from "components/Utilities/Time";
 import { changeTableLimit } from "helpers/filterHelperFunctions";
@@ -106,24 +105,16 @@ const HcpConsultations = () => {
   if (loading) return <Loader />;
   return (
     <Grid container direction="column" height="100%" gap={2}>
-      <Grid item>
-        <PreviousButton path={`/hcps/${hcpId}`} />
-      </Grid>
-
-      <Grid item container justifyContent="space-between" alignItems="center">
-        <Grid item>
+      <Grid item container alignItems="center">
+        <Grid item flex={1}>
           <Typography variant="h2">Consultations</Typography>
         </Grid>
         <Grid item>
-          <FilterList
-            options={filterOptions}
-            title="Filter consultations"
-            width="18.7rem"
-          />
+          <FilterList options={filterOptions} title="Filter " />
         </Grid>
       </Grid>
       {consultations.length > 0 ? (
-        <Grid item>
+        <Grid item container>
           <EnhancedTable
             headCells={consultationsHeadCells}
             rows={consultations}
@@ -149,7 +140,7 @@ const HcpConsultations = () => {
 
                   // eslint-disable-next-line
                 } = row;
-                const isItemSelected = isSelected(_id, selectedRows);
+                const isItemSelected = isSelected(row._id, selectedRows);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
@@ -255,8 +246,13 @@ const HcpConsultations = () => {
                         variant="contained"
                         className={classes.button}
                         component={Link}
-                        to={`/hcps/${hcpId}/consultations/case-note/${_id}`}
+                        to={`/hcps/${hcpId}/consultations/case-notes/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
+                        /* onClick={() => {
+                          setSelectedSubMenu(2);
+                          setSelectedHcpMenu(0);
+                          setSelectedScopedMenu(2);
+                        }} */
                       >
                         View Details
                       </Button>

@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
-import { PreviousButton, Loader } from "components/Utilities";
+import { Loader } from "components/Utilities";
 import { useQuery } from "@apollo/client";
 import { getEarningStats } from "components/graphQL/useQuery";
 
@@ -118,10 +118,6 @@ const Financetable = () => {
 
   return (
     <Grid container direction="column" gap={2} height="100%">
-      <Grid item>
-        <PreviousButton path="/finance" />
-      </Grid>
-
       <>
         <Grid item container gap={1} alignItems="center">
           <Grid item>

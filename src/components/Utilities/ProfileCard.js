@@ -59,10 +59,19 @@ const ProfileCard = ({ value, text, type }) => {
       <Grid item>
         {Array.isArray(value) ? (
           value.map((i, key) => (
-            <Chip variant="outlined" key={key} label={i} className={classes.infoBadge} />
+            <Chip
+              variant="outlined"
+              key={key}
+              label={i}
+              className={classes.infoBadge}
+            />
           ))
         ) : (
-          <Chip variant="outlined" label={value} className={classes.infoBadge} />
+          <Chip
+            variant="outlined"
+            label={value}
+            className={classes.infoBadge}
+          />
         )}
       </Grid>
     </Grid>

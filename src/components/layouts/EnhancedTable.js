@@ -151,14 +151,22 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo }) => {
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="previous page"
       >
-        {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={() => handlePageChange(fetchData, NEXTPAGE, dataPageInfo)}
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="next page"
       >
-        {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={() => handlePageChange(fetchData, LASTPAGE, dataPageInfo)}

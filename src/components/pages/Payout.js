@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { EmptyTable } from "components/layouts";
+import { EmptyTable, NoData } from "components/layouts";
 import {
   Grid,
   Typography,
-  Avatar,
   Chip,
   Checkbox,
   TableRow,
@@ -18,13 +16,11 @@ import EnhancedTable from "components/layouts/EnhancedTable";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { payoutHeader } from "components/Utilities/tableHeaders";
-import displayPhoto from "assets/images/avatar.svg";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
-import PreviousButton from "components/Utilities/PreviousButton";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
@@ -110,16 +106,12 @@ const Payout = () => {
   }, [data]);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   if (loading) return <Loader />;
-  if (error) return <noData error={error} />;
+  if (error) return <NoData error={error} />;
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
     pageInfo;
 
   return (
     <Grid container direction="column" rowSpacing={2}>
-      <Grid item>
-        <PreviousButton path="/finance" />
-      </Grid>
-
       <>
         <Grid
           item
@@ -158,10 +150,10 @@ const Payout = () => {
               {payout
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
+                  console.log(row);
                   const { amount, createdAt, /* doctorData, */ status, _id } =
                     row;
-                  /* const { firstName, picture, lastName, specialization } =
-                    doctorData[0]; */
+
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
