@@ -275,11 +275,11 @@ const Subscription = () => {
 
         <Grid
           item
-          direction={{ sm: "row", md: "row", xs: "column" }}
+          // direction={{ sm: "row", md: "row", xs: "column" }}
           container
           spacing={{ md: 4, sm: 4, xs: 2 }}
         >
-          <Grid item flex={1}>
+          <Grid item flex={2}>
             <Search
               value={searchMail}
               onChange={(e) => onChange(e.target.value)}
@@ -291,7 +291,7 @@ const Subscription = () => {
           <Grid item>
             <CustomButton
               endIcon={<AddIcon />}
-              title="Create new plan"
+              title="Create"
               type={buttonType}
               onClick={handleDialogOpen}
             />
