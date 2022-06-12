@@ -53,11 +53,9 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "2rem",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center",
       padding: "1rem",
-      maxWidth: "15rem",
-      whiteSpace: 'nowrap',
-
+      maxWidth: "10rem",
+      whiteSpace: "nowrap",
 
       "&:hover": {
         background: "#fcfcfc",
@@ -68,7 +66,12 @@ const useStyles = makeStyles((theme) => ({
       },
 
       "& .MuiButton-endIcon>*:nth-of-type(1)": {
-        fontSize: "1rem",
+        fontSize: "1.2rem",
+      },
+
+      "& .MuiButton-endIcon": {
+        marginLeft: ".3rem",
+        marginTop: "-.2rem",
       },
     },
   },

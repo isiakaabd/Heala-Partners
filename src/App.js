@@ -172,7 +172,7 @@ const PreApp = ({ window }) => {
                   handleDrawerToggle={handleDrawerToggle}
                   drawerWidth={drawerWidth}
                 />
-                {/* <ScrollToView> */}
+
                 {!isAuthenticated && (
                   <Route
                     path={["/", "/login"]}
@@ -198,6 +198,9 @@ const PreApp = ({ window }) => {
                         boxSizing: "border-box",
                         width: drawerWidth,
                       },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
                     }}
                   >
                     <SideNav />
@@ -209,6 +212,9 @@ const PreApp = ({ window }) => {
                       "& .MuiDrawer-paper": {
                         boxSizing: "border-box",
                         width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
                       },
                     }}
                     open
@@ -228,7 +234,6 @@ const PreApp = ({ window }) => {
                   <Hospital />
                 </Box>
               </Box>
-              {/* </ScrollToView> */}
             </>
           )}
         </div>

@@ -58,11 +58,9 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "2rem",
       display: "flex",
       alignItems: "center",
-      padding: "0.5rem",
-      maxWidth: "15rem",
-      fontSize: "1rem",
-      whiteSpace: 'nowrap',
-
+      padding: "1rem",
+      maxWidth: "10rem",
+      whiteSpace: "nowrap",
 
       "&:hover": {
         background: "#fcfcfc",
@@ -73,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
       },
 
       "& .MuiButton-endIcon>*:nth-of-type(1)": {
-        fontSize: ".85rem",
+        fontSize: "1.2rem",
       },
 
       "& .MuiButton-endIcon": {
-        marginLeft: ".2rem",
+        marginLeft: ".3rem",
         marginTop: "-.2rem",
       },
     },
@@ -384,7 +382,7 @@ const Hcps = () => {
                         minWidth: "10rem",
                       }}
                     >
-                      {dociId && dociId.split("-")[1]}
+                      {dociId?.split("-")[1]}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
@@ -446,10 +444,6 @@ const Hcps = () => {
                         component={Link}
                         to={`hcps/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        /* onClick={() => {
-                          setSelectedSubMenu(3);
-                          setSelectedHcpMenu(0);
-                        }} */
                       >
                         View Doctor
                       </Button>
