@@ -56,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "center",
       padding: "1rem",
       maxWidth: "15rem",
+      whiteSpace: 'nowrap',
+
 
       "&:hover": {
         background: "#fcfcfc",

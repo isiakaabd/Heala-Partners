@@ -24,7 +24,7 @@ import { AppTypeProvider } from "store/contexts/AppTypeContext";
 import { Box, Drawer, Toolbar, CssBaseline } from "@mui/material";
 
 const sectionStyles = {
-  "--widthA": "max(25rem,22vw)",
+  "--widthA": "max(24rem,22vw)",
   "--widthB": "calc(var(--widthA) +5rem)",
 
   // paddingLeft: "39rem",

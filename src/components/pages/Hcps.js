@@ -59,8 +59,10 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       alignItems: "center",
       padding: "0.5rem",
-      maxWidth: "12rem",
+      maxWidth: "15rem",
       fontSize: "1rem",
+      whiteSpace: 'nowrap',
+
 
       "&:hover": {
         background: "#fcfcfc",
