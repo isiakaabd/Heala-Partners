@@ -6,7 +6,7 @@ import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
 import { useTheme } from "@mui/material/styles";
 import { NoData } from "components/layouts";
-import { CustomButton, PreviousButton, Loader } from "components/Utilities";
+import { CustomButton, Loader } from "components/Utilities";
 import { useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
@@ -84,66 +84,61 @@ const Profile = () => {
   if (error) return <NoData />;
   return (
     <Grid container>
-      <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton path={"/settings"} />
-      </Grid>
-      <Grid container>
-        <Formik
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-          validateOnChange={false}
-          validateOnMount={false}
-          initialValues={initialValues}
-          enableReinitialize
-        >
-          {({ isSubmitting, dirty, isValid, setFieldValue }) => {
-            return (
-              <Grid item container direction="column">
-                <Form>
-                  <Grid item container gap={2} md={4} direction="column">
-                    <Grid item md={6}>
-                      <FormikControl
-                        control="file"
-                        name="image"
-                        label="Upload Your Logo"
-                        setFieldValue={setFieldValue}
-                        type="image"
-                        file={profile?.logoImageUrl}
-                      />
-                    </Grid>
-                    <Grid item md={6}>
-                      <FormikControl
-                        control="input"
-                        name="name"
-                        label="Name "
-                        placeholder="Enter Name"
-                      />
-                    </Grid>
-                    <Grid item md={6}>
-                      <FormikControl
-                        control="input"
-                        name="email"
-                        label="Email"
-                        placeholder="Email"
-                      />
-                    </Grid>
-
-                    <Grid item md={6}>
-                      <CustomButton
-                        title="Save"
-                        type={trasparentButton}
-                        width="100%"
-                        isSubmitting={isSubmitting}
-                        disabled={!(dirty || isValid)}
-                      />
-                    </Grid>
+      <Formik
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+        validateOnChange={false}
+        validateOnMount={false}
+        initialValues={initialValues}
+        enableReinitialize
+      >
+        {({ isSubmitting, dirty, isValid, setFieldValue }) => {
+          return (
+            <Grid item container direction="column">
+              <Form>
+                <Grid item container gap={2} md={4} direction="column">
+                  <Grid item md={6}>
+                    <FormikControl
+                      control="file"
+                      name="image"
+                      label="Upload Your Logo"
+                      setFieldValue={setFieldValue}
+                      type="image"
+                      file={profile?.logoImageUrl}
+                    />
                   </Grid>
-                </Form>
-              </Grid>
-            );
-          }}
-        </Formik>
-      </Grid>
+                  <Grid item md={6}>
+                    <FormikControl
+                      control="input"
+                      name="name"
+                      label="Name "
+                      placeholder="Enter Name"
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <FormikControl
+                      control="input"
+                      name="email"
+                      label="Email"
+                      placeholder="Email"
+                    />
+                  </Grid>
+
+                  <Grid item md={6}>
+                    <CustomButton
+                      title="Save"
+                      type={trasparentButton}
+                      width="100%"
+                      isSubmitting={isSubmitting}
+                      disabled={!(dirty || isValid)}
+                    />
+                  </Grid>
+                </Grid>
+              </Form>
+            </Grid>
+          );
+        }}
+      </Formik>
     </Grid>
   );
 };
