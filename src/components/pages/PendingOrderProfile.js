@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { getErrors } from "components/Utilities/Time";
@@ -97,62 +97,6 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.grey,
     },
   },
-  // gridsWrapper: {
-  //   background: "#fff",
-  //   borderRadius: "1rem",
-  //   padding: "4rem",
-  //   boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
-  // },
-
-  // badge: {
-  //   "&.MuiChip-root": {
-  //     fontSize: "1.3rem !important",
-  //     //   height: "2.7rem",
-  //     background: theme.palette.common.lightGreen,
-  //     color: theme.palette.common.green,
-  //     borderRadius: "1.5rem",
-  //   },
-  // },
-
-  // cardGrid: {
-  //   background: "#fff",
-  //   borderRadius: "1rem",
-  //   padding: "4rem 5rem",
-  //   height: "16.1rem",
-  //   boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
-  // },
-
-  // infoBadge: {
-  //   "&.MuiChip-root": {
-  //     fontSize: "1.25rem",
-  //     borderRadius: "1.5rem",
-  //     color: theme.palette.common.green,
-  //   },
-  // },
-
-  // link: {
-  //   display: "flex",
-  //   alignItems: "center",
-  //   fontSize: "1.25rem",
-  //   color: theme.palette.common.green,
-  //   border: `1px solid ${theme.palette.common.lightGrey}`,
-  //   padding: ".75rem",
-  //   borderRadius: "1.5rem",
-  //   textDecoration: "none",
-  // },
-
-  // linkIcon: {
-  //   "&.MuiSvgIcon-root": {
-  //     fontSize: "1.25rem",
-  //     color: theme.palette.common.green,
-  //     marginLeft: "1.2rem",
-  //   },
-  // },
-
-  // buttonsGridWrapper: {
-  //   marginTop: "5rem !important",
-  //   height: "16.1rem",
-  // },
 }));
 
 const PendingOrderProfile = () => {
@@ -291,9 +235,6 @@ const PendingOrderProfile = () => {
   return (
     <>
       <Grid container direction="column">
-        <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton path={"/pending-order"} />
-        </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
           <DisplayProfile

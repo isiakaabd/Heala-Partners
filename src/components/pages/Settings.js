@@ -1,61 +1,23 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
+import { Grid } from "@mui/material";
 import { ReactComponent as Administrator } from "assets/images/administrator.svg";
-import Card from "components/Utilities/Card";
-import { makeStyles } from "@mui/styles";
+import { Card } from "components/Utilities";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  containerGrid: {
-    paddingTop: "7em",
-  },
-
-  parentGrid: {
-    "&.MuiGrid-item": {
-      ...theme.typography.cardParentGrid,
-      width: "30rem",
-
-      // '&:hover': {
-      //   background: '#fcfcfc',
-      // },
-
-      // '&:active': {
-      //   background: '#fafafa',
-      // },
-    },
-  },
-
-  gridWrapper: {
-    ...theme.typography.cardGridWrapper,
-  },
-
-  iconWrapper: {
-    ...theme.typography.cardIconWrapper,
-  },
-}));
-
 const Settings = () => {
-  const classes = useStyles();
   const theme = useTheme();
 
   return (
-    <>
-      <Grid
-        container
-        justifyContent="space-between"
-        className={classes.containerGrid}
-        columnGap={4}
-        rowSpacing={4}
-      >
-        <Grid
-          item
-          className={classes.parentGrid}
-          style={{ marginRight: "2em" }}
-          lg={4}
-          md={6}
-          sm={12}
-        >
+    <Grid
+      container
+      alignItems="space-between"
+      gap="5rem"
+      paddingY="2rem"
+      justifyContent="flex-start"
+    >
+      <Grid item container md={5} mt={2} sm={5} xs={12}>
+        <Grid item container flexDirection="column">
           <Link to="/settings/profile" style={{ textDecoration: "none" }}>
             <Card
               alt="A administrator icon used as a representation for the administrator "
@@ -66,63 +28,8 @@ const Settings = () => {
             </Card>
           </Link>
         </Grid>
-
-        {/* 2 */}
-
-        {/* <Grid item className={classes.parentGrid} style={{ marginLeft: "2em" }} lg md={12} sm={12}>
-          <Link
-            to="/settings/management"
-            style={{ textDecoration: "none" }}
-          >
-            <Card
-              alt="An icon used as a representation for making consultation with the doctor"
-              title="Role Management"
-              background={theme.palette.common.lightRed}
-            >
-              <ConsulationIcon fill={theme.palette.common.red} />
-            </Card>
-          </Link>
-        </Grid> */}
       </Grid>
-      {/* 3 */}
-      <Grid
-        container
-        justifyContent="space-between"
-        className={classes.containerGrid}
-        rowSpacing={4}
-        columnGap={4}
-      >
-        {/* <Grid item className={classes.parentGrid} style={{ marginRight: "2em" }} lg md={12} sm={12}>
-          <Link
-            to="/settings/permissions"
-            style={{ textDecoration: "none" }}
-          >
-            <Card
-              alt="An icon used as a permission for making consultation with the doctor"
-              title="Permissions"
-              background={theme.palette.common.lightRed}
-            >
-              <ConsulationIcon fill={theme.palette.common.red} />
-            </Card>
-          </Link>
-        </Grid> */}
-        {/* 4 */}
-        {/* <Grid item className={classes.parentGrid} style={{ marginLeft: "2em" }} lg md={12} sm={12}>
-          <Link
-            to="/settings/list-management"
-            style={{ textDecoration: "none" }}
-          >
-            <Card
-              alt="list management Icon"
-              title="List management"
-              background={theme.palette.common.lightRed}
-            >
-              <ConsulationIcon fill={theme.palette.common.red} />
-            </Card>
-          </Link>
-        </Grid> */}
-      </Grid>
-    </>
+    </Grid>
   );
 };
 

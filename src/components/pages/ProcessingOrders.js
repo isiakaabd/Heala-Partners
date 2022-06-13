@@ -47,13 +47,6 @@ const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -145,7 +138,6 @@ const ProcessingOrders = () => {
   });
   const [cancelTest] = useMutation(cancelDrugOrder);
   const handleClose = () => setOpenHcpFilter(false);
-
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data);
   }, [data]);
@@ -256,8 +248,13 @@ const ProcessingOrders = () => {
 
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
-      <Grid item container>
-        <Grid item className={classes.searchGrid}>
+      <Grid
+        item
+        container
+        flexDirection={{ md: "row", sm: "row", xs: "column" }}
+        spacing={{ md: 4, sm: 4, xs: 2 }}
+      >
+        <Grid item flex={1}>
           <Search
             value={searchHcp}
             onChange={(e) => setSearchHcp(e.target.value)}
@@ -266,10 +263,7 @@ const ProcessingOrders = () => {
           />
         </Grid>
         <Grid item>
-          <FilterList
-            onClick={() => setOpenHcpFilter(true)}
-            title="Filter referrals"
-          />
+          <FilterList onClick={() => setOpenHcpFilter(true)} title="Filter" />
         </Grid>
       </Grid>
       {state.length > 0 ? (

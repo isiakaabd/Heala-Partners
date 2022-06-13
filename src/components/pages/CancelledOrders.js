@@ -33,17 +33,6 @@ import {
 } from "components/Utilities";
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-  actionBtnGrid: {
-    "&.MuiGrid-root": {
-      marginRight: "1.5rem",
-    },
-  },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -168,8 +157,13 @@ const CancelledOrders = () => {
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchMessage}
               onChange={(e) => setSearchMessage(e.target.value)}
@@ -180,18 +174,12 @@ const CancelledOrders = () => {
           <Grid item>
             <FilterList
               onClick={() => setOpenFilterPartner(true)}
-              title="Filter referrals"
+              title="Filter"
             />
           </Grid>
         </Grid>
         {state.length > 0 ? (
-          <Grid
-            item
-            container
-            height="100%"
-            direction="column"
-            style={{ marginTop: "5rem" }}
-          >
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={messagesHeadCells}
               rows={state}

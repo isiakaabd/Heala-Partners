@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "5em",
     minHeight: "100vh",
     height: "100%",
-    boxShadow: "5px -5px 7px #eee",
     position: "fixed",
     overflowY: "hidden",
     zIndex: theme.zIndex.appBar + 1,

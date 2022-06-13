@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-import { DisplayProfile, PreviousButton, Loader } from "components/Utilities";
+import { DisplayProfile, Loader } from "components/Utilities";
 import { NoData } from "components/layouts";
 import { dateMoment } from "components/Utilities/Time";
 import { useParams } from "react-router-dom";
@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
       "& > *": {
         flex: 1,
         boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
+        alignItems: "center",
+        justifyContent: "center",
         minHeight: "14.9rem",
         background: "#fff",
       },
@@ -83,62 +85,6 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.grey,
     },
   },
-  // gridsWrapper: {
-  //   background: "#fff",
-  //   borderRadius: "1rem",
-  //   padding: "4rem",
-  //   boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
-  // },
-
-  // badge: {
-  //   "&.MuiChip-root": {
-  //     fontSize: "1.3rem !important",
-  //     //   height: "2.7rem",
-  //     background: theme.palette.common.lightGreen,
-  //     color: theme.palette.common.green,
-  //     borderRadius: "1.5rem",
-  //   },
-  // },
-
-  // cardGrid: {
-  //   background: "#fff",
-  //   borderRadius: "1rem",
-  //   padding: "4rem 5rem",
-  //   height: "16.1rem",
-  //   boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
-  // },
-
-  // infoBadge: {
-  //   "&.MuiChip-root": {
-  //     fontSize: "1.25rem",
-  //     borderRadius: "1.5rem",
-  //     color: theme.palette.common.green,
-  //   },
-  // },
-
-  // link: {
-  //   display: "flex",
-  //   alignItems: "center",
-  //   fontSize: "1.25rem",
-  //   color: theme.palette.common.green,
-  //   border: `1px solid ${theme.palette.common.lightGrey}`,
-  //   padding: ".75rem",
-  //   borderRadius: "1.5rem",
-  //   textDecoration: "none",
-  // },
-
-  // linkIcon: {
-  //   "&.MuiSvgIcon-root": {
-  //     fontSize: "1.25rem",
-  //     color: theme.palette.common.green,
-  //     marginLeft: "1.2rem",
-  //   },
-  // },
-
-  // buttonsGridWrapper: {
-  //   marginTop: "5rem !important",
-  //   height: "16.1rem",
-  // },
 }));
 
 const ViewCompleted = () => {
@@ -169,9 +115,6 @@ const ViewCompleted = () => {
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
-        <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton path={"/completed-order"} />
-        </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
           <DisplayProfile medicalTitle="User ID" patientData={patientData} />
@@ -181,7 +124,6 @@ const ViewCompleted = () => {
           item
           container
           className={classes.cardContainer}
-          ga
           sx={{ paddingTop: "5rem" }}
         >
           <Grid item xs={12} md={12} container className={classes.card}>

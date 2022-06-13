@@ -40,12 +40,12 @@ const plans = ["Plan 1", "Plan 2", "Plan 3", "Plan 4"];
 const statusType = ["Active", "Blocked"];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
+  // searchGrid: {
+  //   "&.MuiGrid-root": {
+  //     flex: 1,
+  //     marginRight: "5rem",
+  //   },
+  // },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -165,7 +165,7 @@ const Pending = () => {
         flexWrap="nowrap"
       >
         <Grid item container>
-          <Grid item className={classes.searchGrid}>
+          <Grid item>
             <Search
               value={searchPatient}
               onChange={(e) => setSearchPatient(e.target.value)}
@@ -174,11 +174,7 @@ const Pending = () => {
             />
           </Grid>
           <Grid item>
-            <FilterList
-              title="Filter referrals"
-              width="15.2rem"
-              onClick={handleDialogOpen}
-            />
+            <FilterList title="Filter" onClick={handleDialogOpen} />
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
