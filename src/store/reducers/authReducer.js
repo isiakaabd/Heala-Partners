@@ -29,7 +29,7 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
       };
     case actionTypes.USER_DETAIL:
-      localStorage.setItem("role", action.payload);
+      // localStorage.setItem("role", action.payload);
       return {
         ...state,
         userDetail: action.payload,
