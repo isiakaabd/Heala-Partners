@@ -164,8 +164,13 @@ const Pending = () => {
         gap={2}
         flexWrap="nowrap"
       >
-        <Grid item container>
-          <Grid item>
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchPatient}
               onChange={(e) => setSearchPatient(e.target.value)}
@@ -298,9 +303,6 @@ const Pending = () => {
                             return accumulator + currentValue;
                           }, 0)
                         )}
-                      </TableCell>
-                      <TableCell align="left" className={classes.tableCell}>
-                        {x.length}
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
                         {x.length}

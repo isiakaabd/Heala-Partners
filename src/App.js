@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
@@ -16,25 +16,11 @@ import { setAccessToken } from "./accessToken";
 import Private from "components/routes/Private";
 import SideNav from "components/layouts/SideNav";
 import Hospital from "components/routes/Hospital";
-import ScrollToView from "components/ScrollToView";
 import { getPartner } from "components/graphQL/useQuery";
 import { LOGOUT_USER } from "components/graphQL/Mutation";
 import { useActions } from "components/hooks/useActions";
 import { AppTypeProvider } from "store/contexts/AppTypeContext";
 import { Box, Drawer, Toolbar, CssBaseline } from "@mui/material";
-
-const sectionStyles = {
-  "--widthA": "max(24rem,22vw)",
-  "--widthB": "calc(var(--widthA) +5rem)",
-
-  // paddingLeft: "39rem",
-  paddingRight: "min(5rem,8vw)",
-  paddingTop: "12rem",
-  paddingBottom: "5rem",
-  paddingLeft: "calc(var(--widthA) + min(5rem,8vw))", // max(12rem, calc(100% - 80px))
-  minHeight: "100vh",
-  width: "100%",
-};
 
 const PreApp = ({ window }) => {
   const { changeAppType } = useApptype();
@@ -113,7 +99,7 @@ const PreApp = ({ window }) => {
           {isAuthenticated && role === "hospital" && state && (
             <Loader color="success" />
           )}
-          {isAuthenticated && role === "diagnostics" && !state && (
+          {/* {isAuthenticated && role === "diagnostics" && !state && (
             <>
               <Header />
               <ScrollToView>
@@ -137,33 +123,80 @@ const PreApp = ({ window }) => {
                 </main>
               </ScrollToView>
             </>
-          )}
+          )} */}
 
-          {/* {isAuthenticated && role === "pharmacy" && !state && (
+          {isAuthenticated && role === "diagnostics" && !state && (
             <>
-              <Header />
-              <ScrollToView>
+              <Box sx={{ display: "flex" }}>
+                <CssBaseline />
+                <Header
+                  handleDrawerToggle={handleDrawerToggle}
+                  drawerWidth={drawerWidth}
+                />
+
                 {!isAuthenticated && (
                   <Route
                     path={["/", "/login"]}
                     render={(props) => <Login {...props} />}
                   />
                 )}
-
-                <main
-                  style={{
-                    display: isAuthenticated ? "flex" : "none",
+                <Box
+                  component="nav"
+                  sx={{ width: { md: "300px" }, flexShrink: { md: 0 } }}
+                  aria-label="sidebar_menu"
+                >
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                  >
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                  </Drawer>
+                  <Drawer
+                    variant="permanent"
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                    open
+                  >
+                    <SideNav />
+                  </Drawer>
+                </Box>
+                <Box
+                  component="main"
+                  sx={{
+                    flex: 1,
+                    p: 3,
+                    width: { xs: `calc(100% - ${drawerWidth}px)` },
                   }}
                 >
-                  <SideNav />
-
-                  <section style={sectionStyles}>
-                    <Routes />
-                  </section>
-                </main>
-              </ScrollToView>
+                  <Toolbar />
+                  <Private />
+                </Box>
+              </Box>
             </>
-          )} */}
+          )}
           {isAuthenticated && role === "pharmacy" && !state && (
             <>
               <Box sx={{ display: "flex" }}>
@@ -203,7 +236,7 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -219,7 +252,7 @@ const PreApp = ({ window }) => {
                     }}
                     open
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                 </Box>
                 <Box
@@ -275,7 +308,7 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -291,7 +324,7 @@ const PreApp = ({ window }) => {
                     }}
                     open
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                 </Box>
                 <Box

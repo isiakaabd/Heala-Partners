@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { HiLogout } from "react-icons/hi";
 import { useMutation } from "@apollo/client";
@@ -8,6 +7,7 @@ import {
   ListItemButton,
   List,
   ListItemIcon,
+  Grid,
   ListItemText,
 } from "@mui/material";
 
@@ -23,7 +23,7 @@ import {
   diagnosticsMenu,
 } from "helpers/asideMenus";
 
-const SideNav = ({ drawerWidth }) => {
+const SideNav = ({ drawerWidth, handleDrawerToggle }) => {
   const useStyles = makeStyles((theme) => ({
     aside: {
       width: `${drawerWidth}`,
@@ -32,7 +32,6 @@ const SideNav = ({ drawerWidth }) => {
       paddingRight: "2.5em",
       paddingTop: "1em",
       minHeight: "100vh",
-      boxShadow: "5px -5px 7px #eee",
       height: "100%",
       position: "fixed",
       overflowY: "hidden",
@@ -165,7 +164,10 @@ const SideNav = ({ drawerWidth }) => {
 
   return (
     <>
-      <aside className={classes.aside}>
+      <Grid
+        className={classes.aside}
+        boxShadow={{ sm: "5px -5px 7px #eee", xs: "none" }}
+      >
         <div className={classes.logoWrapper}>
           <img src={logo} alt="logo" />
         </div>
@@ -203,7 +205,7 @@ const SideNav = ({ drawerWidth }) => {
             <ListItemText>Logout</ListItemText>
           </ListItemButton>
         </List>
-      </aside>
+      </Grid>
       <DeleteOrDisable
         open={Logout}
         setOpen={setLogout}
