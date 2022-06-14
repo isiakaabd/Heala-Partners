@@ -23,7 +23,7 @@ import {
   diagnosticsMenu,
 } from "helpers/asideMenus";
 
-const SideNav = ({ drawerWidth }) => {
+const SideNav = ({ drawerWidth, handleDrawerToggle }) => {
   const useStyles = makeStyles((theme) => ({
     aside: {
       width: `${drawerWidth}`,

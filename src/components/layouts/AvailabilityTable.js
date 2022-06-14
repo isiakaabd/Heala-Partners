@@ -71,7 +71,7 @@ const AvailabilityTable = ({ data }) => {
       <Grid item sx={{ flexGrow: 1 }}>
         <Typography variant="h4">Availability Table</Typography>
       </Grid>
-      {/* <Grid item container direction="column" height="100%">
+      <Grid item container direction="column" height="100%">
         {avaliablity && avaliablity.length > 0 ? (
           <EnhancedTable
             headCells={availabilityHeadCells}
@@ -155,7 +155,7 @@ const AvailabilityTable = ({ data }) => {
             text="No Availabity Data"
           />
         )}
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 };

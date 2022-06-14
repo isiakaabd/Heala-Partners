@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
@@ -21,19 +21,6 @@ import { LOGOUT_USER } from "components/graphQL/Mutation";
 import { useActions } from "components/hooks/useActions";
 import { AppTypeProvider } from "store/contexts/AppTypeContext";
 import { Box, Drawer, Toolbar, CssBaseline } from "@mui/material";
-
-const sectionStyles = {
-  "--widthA": "max(24rem,22vw)",
-  "--widthB": "calc(var(--widthA) +5rem)",
-
-  // paddingLeft: "39rem",
-  paddingRight: "min(5rem,8vw)",
-  paddingTop: "12rem",
-  paddingBottom: "5rem",
-  paddingLeft: "calc(var(--widthA) + min(5rem,8vw))", // max(12rem, calc(100% - 80px))
-  minHeight: "100vh",
-  width: "100%",
-};
 
 const PreApp = ({ window }) => {
   const { changeAppType } = useApptype();
@@ -177,7 +164,7 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -249,7 +236,7 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -265,7 +252,7 @@ const PreApp = ({ window }) => {
                     }}
                     open
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                 </Box>
                 <Box
@@ -321,7 +308,7 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -337,7 +324,7 @@ const PreApp = ({ window }) => {
                     }}
                     open
                   >
-                    <SideNav />
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
                   </Drawer>
                 </Box>
                 <Box

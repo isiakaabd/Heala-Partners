@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { DashCharts } from "components/layouts";
@@ -6,9 +6,7 @@ import { DashCharts } from "components/layouts";
 const Dashboards = () => {
   return (
     <Grid container direction="column">
-      <Grid item>
-        <DashCharts />
-      </Grid>
+      <DashCharts />
     </Grid>
   );
 };

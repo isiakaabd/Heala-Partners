@@ -163,7 +163,6 @@ const Pending = () => {
         height="100%"
         gap={2}
         flexWrap="nowrap"
-        style={{ paddingBottom: "5rem" }}
       >
         <Grid
           item
