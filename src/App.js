@@ -16,7 +16,6 @@ import { setAccessToken } from "./accessToken";
 import Private from "components/routes/Private";
 import SideNav from "components/layouts/SideNav";
 import Hospital from "components/routes/Hospital";
-import ScrollToView from "components/ScrollToView";
 import { getPartner } from "components/graphQL/useQuery";
 import { LOGOUT_USER } from "components/graphQL/Mutation";
 import { useActions } from "components/hooks/useActions";
