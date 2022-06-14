@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-import { DisplayProfile, Loader } from "components/Utilities";
+import { DisplayProfile1, Loader } from "components/Utilities";
 import { NoData } from "components/layouts";
 import { dateMoment } from "components/Utilities/Time";
 import { useParams } from "react-router-dom";
@@ -117,7 +117,7 @@ const ViewCompleted = () => {
       <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
         {/* Display photo and profile name grid */}
         <Grid item>
-          <DisplayProfile medicalTitle="User ID" patientData={patientData} />
+          <DisplayProfile1 medicalTitle="User ID" patientData={patientData} />
         </Grid>
         {/* PERSONAL INFO SECTION */}
         <Grid

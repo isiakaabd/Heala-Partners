@@ -189,7 +189,7 @@ const CompletedOrder = () => {
           flexDirection={{ md: "row", sm: "row", xs: "column" }}
           spacing={{ md: 4, sm: 4, xs: 2 }}
         >
-          <Grid item>
+          <Grid item flex={1}>
             <Search
               value={searchPartner}
               onChange={(e) => setSearchPartner(e.target.value)}

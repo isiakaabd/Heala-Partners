@@ -34,13 +34,6 @@ import { useQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -189,9 +182,20 @@ const ScheduledRequest = () => {
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" flexWrap="nowrap" gap={2}>
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+      <Grid
+        container
+        direction="column"
+        height="100%"
+        gap={2}
+        flexWrap="nowrap"
+      >
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchPartner}
               onChange={(e) => setSearchPartner(e.target.value)}

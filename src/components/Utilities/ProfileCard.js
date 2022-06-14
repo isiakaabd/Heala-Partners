@@ -56,7 +56,7 @@ const ProfileCard = ({ value, text, type }) => {
             ></a>
           ))
         : null}
-      <Grid item>
+      <Grid item marginInline={1}>
         {Array.isArray(value) ? (
           value.map((i, key) => (
             <Chip

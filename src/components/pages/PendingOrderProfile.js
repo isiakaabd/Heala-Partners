@@ -244,13 +244,7 @@ const PendingOrderProfile = () => {
           />
         </Grid>
         {/* PERSONAL INFO SECTION */}
-        <Grid
-          item
-          container
-          className={classes.cardContainer}
-          ga
-          sx={{ paddingTop: "5rem" }}
-        >
+        <Grid item container className={classes.cardContainer}>
           <Grid item container md={12} xs={12} className={classes.card}>
             <Grid item>
               <Typography variant="h4">Date </Typography>

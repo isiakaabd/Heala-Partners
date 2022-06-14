@@ -113,7 +113,7 @@ const PreApp = ({ window }) => {
           {isAuthenticated && role === "hospital" && state && (
             <Loader color="success" />
           )}
-          {isAuthenticated && role === "diagnostics" && !state && (
+          {/* {isAuthenticated && role === "diagnostics" && !state && (
             <>
               <Header />
               <ScrollToView>
@@ -137,33 +137,80 @@ const PreApp = ({ window }) => {
                 </main>
               </ScrollToView>
             </>
-          )}
+          )} */}
 
-          {/* {isAuthenticated && role === "pharmacy" && !state && (
+          {isAuthenticated && role === "diagnostics" && !state && (
             <>
-              <Header />
-              <ScrollToView>
+              <Box sx={{ display: "flex" }}>
+                <CssBaseline />
+                <Header
+                  handleDrawerToggle={handleDrawerToggle}
+                  drawerWidth={drawerWidth}
+                />
+
                 {!isAuthenticated && (
                   <Route
                     path={["/", "/login"]}
                     render={(props) => <Login {...props} />}
                   />
                 )}
-
-                <main
-                  style={{
-                    display: isAuthenticated ? "flex" : "none",
+                <Box
+                  component="nav"
+                  sx={{ width: { md: "300px" }, flexShrink: { md: 0 } }}
+                  aria-label="sidebar_menu"
+                >
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                  >
+                    <SideNav />
+                  </Drawer>
+                  <Drawer
+                    variant="permanent"
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                    open
+                  >
+                    <SideNav />
+                  </Drawer>
+                </Box>
+                <Box
+                  component="main"
+                  sx={{
+                    flex: 1,
+                    p: 3,
+                    width: { xs: `calc(100% - ${drawerWidth}px)` },
                   }}
                 >
-                  <SideNav />
-
-                  <section style={sectionStyles}>
-                    <Routes />
-                  </section>
-                </main>
-              </ScrollToView>
+                  <Toolbar />
+                  <Private />
+                </Box>
+              </Box>
             </>
-          )} */}
+          )}
           {isAuthenticated && role === "pharmacy" && !state && (
             <>
               <Box sx={{ display: "flex" }}>

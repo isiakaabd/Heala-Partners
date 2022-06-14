@@ -145,7 +145,13 @@ const CancelledOrder = () => {
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" height="100%" flexWrap="nowrap">
+      <Grid
+        container
+        direction="column"
+        gap={2}
+        height="100%"
+        flexWrap="nowrap"
+      >
         <Grid
           item
           container
@@ -168,7 +174,7 @@ const CancelledOrder = () => {
           </Grid>
         </Grid>
         {scheduleState.length > 0 ? (
-          <Grid item container style={{ marginTop: "5rem" }} height="100%">
+          <Grid item container height="100%">
             <EnhancedTable
               headCells={messagesHeadCell}
               rows={scheduleState}
