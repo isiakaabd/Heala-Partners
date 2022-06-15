@@ -337,10 +337,10 @@ const Pending = () => {
         rowSpacing={5}
         handleClose={handleDialogClose}
       >
-        <Grid item container direction="column">
+        <Grid item container direction="column" rowGap={3}>
           <Grid item>
             <Grid container spacing={2}>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -360,7 +360,7 @@ const Pending = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -382,7 +382,7 @@ const Pending = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+          <Grid item>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <Grid container direction="column">
@@ -406,14 +406,14 @@ const Pending = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item marginTop={3}>
             <Button
               variant="contained"
               onClick={handleDialogClose}
               type="submit"
               className={classes.searchFilterBtn}
             >
-              Apply Filter
+              Apply Filters
             </Button>
           </Grid>
         </Grid>

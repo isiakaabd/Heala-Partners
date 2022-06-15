@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
 import { TextError } from "components/Utilities";
-import PropTypes from "prop-types";
+
 import { makeStyles } from "@mui/styles";
 import { FormLabel, Grid } from "@mui/material";
 
@@ -34,10 +34,6 @@ const Input = (props) => {
       <ErrorMessage name={name} component={TextError} />
     </Grid>
   );
-};
-Input.propTypes = {
-  label: PropTypes.string,
-  name: PropTypes.string,
 };
 
 export default Input;

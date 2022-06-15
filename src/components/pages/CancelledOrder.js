@@ -284,7 +284,7 @@ const CancelledOrder = () => {
         <Grid item container direction="column">
           <Grid item>
             <Grid container spacing={2}>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -304,7 +304,7 @@ const CancelledOrder = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -326,9 +326,9 @@ const CancelledOrder = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+          <Grid item style={{ marginBlock: "3rem" }}>
             <Grid container spacing={2}>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -351,7 +351,7 @@ const CancelledOrder = () => {
               <Grid item md></Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item marginTop={2}>
             <Button
               variant="contained"
               onClick={() => setOpenFilterPartner(false)}

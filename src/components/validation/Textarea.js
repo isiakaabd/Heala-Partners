@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
 import { TextError } from "components/Utilities";
-import PropTypes from "prop-types";
+
 import { makeStyles } from "@mui/styles";
 import { FormLabel, TextField, Grid } from "@mui/material";
 
@@ -55,14 +55,7 @@ const EmptyTextarea = (props) => {
     </Grid>
   );
 };
-EmptyTextarea.propTypes = {
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  onBlur: PropTypes.func,
-  placeholder: PropTypes.string,
-  value: PropTypes.string,
-  minRows: PropTypes.number,
-};
+
 const Textarea = ({ label, name, fLabel, placeholder, ...rest }) => {
   const classes = useStyles();
 
@@ -89,12 +82,6 @@ const Textarea = ({ label, name, fLabel, placeholder, ...rest }) => {
       </Grid>
     </>
   );
-};
-Textarea.propTypes = {
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  name: PropTypes.string,
-  fLabel: PropTypes.bool,
 };
 
 export default Textarea;

@@ -1,90 +1,90 @@
-import React from 'react'
-import displayPhoto from 'assets/images/avatar.svg'
-import PropTypes from 'prop-types'
-import { Grid, Avatar, Typography } from '@mui/material'
-import { dateMoment, timeMoment } from 'components/Utilities/Time'
-import { makeStyles } from '@mui/styles'
+import React from "react";
+import displayPhoto from "assets/images/avatar.svg";
+import PropTypes from "prop-types";
+import { Grid, Avatar, Typography } from "@mui/material";
+import { dateMoment, timeMoment } from "components/Utilities/Time";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   parentGridWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.1)',
-    '&:not(:last-of-type)': {
-      marginBottom: '5rem',
+    background: "#fff",
+    borderRadius: "1rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.1)",
+    "&:not(:last-of-type)": {
+      marginBottom: "5rem",
     },
   },
   gridsWrapper: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "1rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.3rem !important',
+    "&.MuiChip-root": {
+      fontSize: "1.3rem !important",
       //   height: "2.7rem",
       background: theme.palette.common.lightGreen,
       color: theme.palette.common.green,
-      borderRadius: '1.5rem',
+      borderRadius: "1.5rem",
     },
   },
 
   cardGrid: {
-    background: '#fff',
-    borderRadius: '1rem',
-    padding: '4rem 5rem',
-    height: '14.1rem',
-    boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    background: "#fff",
+    borderRadius: "1rem",
+    padding: "4rem 5rem",
+    height: "14.1rem",
+    boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
   firstContainer: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
 
   infoBadge: {
-    '&.MuiChip-root': {
-      fontSize: '1.25rem',
-      borderRadius: '1.5rem',
+    "&.MuiChip-root": {
+      fontSize: "1.25rem",
+      borderRadius: "1.5rem",
       color: theme.palette.common.green,
     },
   },
 
   link: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.25rem',
+    display: "flex",
+    alignItems: "center",
+    fontSize: "1.25rem",
     color: theme.palette.common.green,
     border: `1px solid ${theme.palette.common.lightGrey}`,
-    padding: '.75rem',
-    borderRadius: '1.5rem',
-    textDecoration: 'none',
+    padding: ".75rem",
+    borderRadius: "1.5rem",
+    textDecoration: "none",
   },
 
   linkIcon: {
-    '&.MuiSvgIcon-root': {
-      fontSize: '1.25rem',
+    "&.MuiSvgIcon-root": {
+      fontSize: "1.25rem",
       color: theme.palette.common.green,
-      marginLeft: '1.2rem',
+      marginLeft: "1.2rem",
     },
   },
 
   buttonsGridWrapper: {
-    marginTop: '5rem !important',
-    height: '16.1rem',
+    marginTop: "5rem !important",
+    height: "16.1rem",
   },
 
   title: {
-    '&.MuiTypography-root': {
+    "&.MuiTypography-root": {
       color: theme.palette.common.grey,
     },
   },
-}))
+}));
 const DisplayProfiles = (props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const { referralId, createdAt, status, type, patientData } = props
+  const { referralId, createdAt, status, type, patientData } = props;
 
   return (
     <Grid
@@ -100,7 +100,7 @@ const DisplayProfiles = (props) => {
         <Grid item>
           <Avatar
             src={patientData ? patientData.image : displayPhoto}
-            sx={{ minWidth: '150px', minHeight: '150px' }}
+            sx={{ minWidth: "150px", minHeight: "150px" }}
           />
         </Grid>
       </Grid>
@@ -110,57 +110,57 @@ const DisplayProfiles = (props) => {
           direction="row"
           justifyContent="space-between"
           flex={1}
-          sx={{ height: '100%' }}
+          sx={{ height: "100%" }}
         >
           <Grid
             item
-            sx={{ flexGrow: 1, flexBasis: type === 'scheduled' ? 33.333 : 0 }}
+            sx={{ flexGrow: 1, flexBasis: type === "scheduled" ? 33.333 : 0 }}
           >
             <Grid container direction="column" gap={1}>
               <Grid item>
-                <Typography variant="body1" style={{ color: '#3e5ea9' }}>
+                <Typography variant="body1" style={{ color: "#3e5ea9" }}>
                   Patient Name
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4" style={{ fontWeight: '400' }}>
+                <Typography variant="h4" style={{ fontWeight: "400" }}>
                   {patientData
                     ? `${patientData.firstName} ${patientData.lastName}`
-                    : 'No Patient'}
+                    : "No Patient"}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid
             item
-            sx={{ flexGrow: 1, flexBasis: type === 'scheduled' ? 33.333 : 0 }}
+            sx={{ flexGrow: 1, flexBasis: type === "scheduled" ? 33.333 : 0 }}
           >
             <Grid container direction="column" gap={1}>
               <Grid item>
-                <Typography variant="body1" style={{ color: '#3e5ea9' }}>
+                <Typography variant="body1" style={{ color: "#3e5ea9" }}>
                   Gender:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4" style={{ fontWeight: '400' }}>
-                  {patientData ? patientData.gender : 'No Gender '}
+                <Typography variant="h4" style={{ fontWeight: "400" }}>
+                  {patientData ? patientData.gender : "No Gender "}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid
             item
-            sx={{ flexGrow: 1, flexBasis: type === 'scheduled' ? 33.333 : 0 }}
+            sx={{ flexGrow: 1, flexBasis: type === "scheduled" ? 33.333 : 0 }}
           >
             <Grid container direction="column" gap={1}>
               <Grid item>
-                <Typography variant="body1" style={{ color: '#3e5ea9' }}>
+                <Typography variant="body1" style={{ color: "#3e5ea9" }}>
                   Status:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4" style={{ fontWeight: '400' }}>
-                  {status ? status : 'Not Specified'}
+                <Typography variant="h4" style={{ fontWeight: "400" }}>
+                  {status ? status : "Not Specified"}
                 </Typography>
               </Grid>
             </Grid>
@@ -169,54 +169,54 @@ const DisplayProfiles = (props) => {
         <Grid container width="100%">
           <Grid
             item
-            sx={{ flexGrow: 1, flexBasis: type === 'scheduled' ? 33.333 : 0 }}
+            sx={{ flexGrow: 1, flexBasis: type === "scheduled" ? 33.333 : 0 }}
           >
             <Grid container justifyContent="left" direction="column" gap={1}>
               <Grid item>
-                <Typography variant="body1" style={{ color: '#3e5ea9' }}>
+                <Typography variant="body1" style={{ color: "#3e5ea9" }}>
                   Referral ID:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4" style={{ fontWeight: '400' }}>
-                  {referralId ? referralId.slice(0, 10) : 'No Referral'}
+                <Typography variant="h4" style={{ fontWeight: "400" }}>
+                  {referralId ? referralId.slice(0, 10) : "No Referral"}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid
             item
-            sx={{ flexGrow: 1, flexBasis: type === 'scheduled' ? 33.333 : 0 }}
+            sx={{ flexGrow: 1, flexBasis: type === "scheduled" ? 33.333 : 0 }}
           >
             <Grid container direction="column" gap={1} width="100%">
               <Grid item>
-                <Typography variant="body1" style={{ color: '#3e5ea9' }}>
-                  {type === 'scheduled' ? 'Order Date:' : 'Date'}
+                <Typography variant="body1" style={{ color: "#3e5ea9" }}>
+                  {type === "scheduled" ? "Order Date:" : "Date"}
                 </Typography>
               </Grid>
               <Grid item width="100%">
-                <Typography variant="h4" style={{ fontWeight: '400' }}>
-                  {createdAt ? `${dateMoment(createdAt)}` : 'No Date '}
+                <Typography variant="h4" style={{ fontWeight: "400" }}>
+                  {createdAt ? `${dateMoment(createdAt)}` : "No Date "}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid
             item
-            sx={{ flexGrow: 1, flexBasis: type === 'scheduled' ? 33.333 : 0 }}
+            sx={{ flexGrow: 1, flexBasis: type === "scheduled" ? 33.333 : 0 }}
           >
             <Grid container direction="column" gap={1} width="100%">
               <Grid item>
-                <Typography variant="body1" style={{ color: '#3e5ea9' }}>
-                  {' '}
+                <Typography variant="body1" style={{ color: "#3e5ea9" }}>
+                  {" "}
                   Scheduled Date:
                 </Typography>
               </Grid>
               <Grid item width="100%">
-                <Typography variant="h4" style={{ fontWeight: '400' }}>
+                <Typography variant="h4" style={{ fontWeight: "400" }}>
                   {createdAt
                     ? `${dateMoment(createdAt)} ${timeMoment(createdAt)}`
-                    : 'No Date '}
+                    : "No Date "}
                 </Typography>
               </Grid>
             </Grid>
@@ -224,8 +224,8 @@ const DisplayProfiles = (props) => {
         </Grid>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 DisplayProfiles.propTypes = {
   fullName: PropTypes.string,
@@ -239,6 +239,6 @@ DisplayProfiles.propTypes = {
   callPath: PropTypes.string,
   videoPath: PropTypes.string,
   setChatMediaActive: PropTypes.func,
-}
+};
 
-export default DisplayProfiles
+export default DisplayProfiles;

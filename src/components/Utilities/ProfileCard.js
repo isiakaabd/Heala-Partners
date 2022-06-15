@@ -2,7 +2,6 @@ import React from "react";
 import { Typography, Grid, Chip } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
     background: "#fff",
@@ -53,7 +52,10 @@ const ProfileCard = ({ value, text, type }) => {
               className={classes.link}
               href={i.url}
               target="_blank"
-            ></a>
+              alt={i.name}
+            >
+              {i.name}
+            </a>
           ))
         : null}
       <Grid item marginInline={1}>

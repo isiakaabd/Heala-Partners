@@ -3,10 +3,6 @@ import PropTypes from "prop-types";
 import { AppBar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { HospitalHeaderContent } from "components/layouts";
-// import { LOGOUT_USER } from 'components/graphQL/Mutation'
-// import { useMutation } from '@apollo/client'
-// import jwtDecode from 'jwt-decode'
-// import { useActions } from 'components/hooks/useActions'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -20,11 +16,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HospitalHeader = (props) => {
-  // const { logout } = useActions()
-  // const [logout_user] = useMutation(LOGOUT_USER)
   const {
     selectedMenu,
-    // setSelectedMenu,
     selectedSubMenu,
     selectedPatientMenu,
     selectedHcpMenu,

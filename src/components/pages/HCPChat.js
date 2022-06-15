@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+
 import { Grid, Typography, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Loader from "components/Utilities/Loader";

@@ -133,7 +133,7 @@ const PatientProfile = () => {
         <Grid item container md={6} sm={6} xs={12}>
           <ProfileCard
             text="Verified"
-            value={emailStat == "false" ? "Not Verified" : "Verified"}
+            value={emailStat === "false" ? "Not Verified" : "Verified"}
           />
         </Grid>
         <Grid item container md={6} sm={6} xs={12} mx="auto">

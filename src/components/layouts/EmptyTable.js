@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import {
   Box,
   Table,
@@ -10,7 +10,6 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import PropTypes from "prop-types";
 
 import EnhancedTableHeader from "./EnhancedTableHeader";
 // import { makeStyles } from "@mui/styles";

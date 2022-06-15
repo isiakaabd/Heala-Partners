@@ -1,6 +1,6 @@
 import React from "react";
 import displayPhoto from "assets/images/avatar.svg";
-import PropTypes from "prop-types";
+
 import { Grid, Avatar, Typography } from "@mui/material";
 import { dateMoment } from "components/Utilities/Time";
 import { makeStyles } from "@mui/styles";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { useHistory } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import { Typography, Toolbar, Grid } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-
+import PropTypes from "prop-types";
 import useApptype from "hooks/useAppType";
 import HeaderProfile from "./HeaderProfile";
 import { useLazyQuery } from "@apollo/client";

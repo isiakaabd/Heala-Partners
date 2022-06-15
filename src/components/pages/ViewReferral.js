@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+
 import { Typography, Grid, Avatar, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useQuery } from "@apollo/client";
 import { getRefferal } from "components/graphQL/useQuery";
 import NoData from "components/layouts/NoData";
@@ -61,15 +60,9 @@ const ViewReferral = () => {
     doctorData,
     // eslint-disable-next-line
   } = referral;
-  // const { firstName, lastName, picture } = doctorData;
-  // const { firstName: patientName, lastName: patientLastName, picture: patientImage } =
-  //   referral && patientData;
 
   return (
     <Grid container direction="column" gap={2}>
-      <Grid item>
-        <PreviousButton path={`/referrals`} />
-      </Grid>
       <Grid
         item
         container

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DeleteOrDisable from "components/modals/DeleteOrDisable";
-import PropTypes from "prop-types";
+
 import {
   ListItemText,
   ListItemButton,
