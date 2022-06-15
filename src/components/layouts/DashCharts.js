@@ -102,17 +102,12 @@ const DashCharts = () => {
   const [completedTestsStats, setCompletedTestsStats] = useState("");
   const [cancelledTestsStats, setCancelledTestsStats] = useState("");
 
-  // const totalDoc = activeDoctors + inactiveDoctors;
-  // const totalPatient = activePatients + inactivePatients;
-  // const patientPercentage = returnpercent(activePatients, inactivePatients);
-  // const doctorPercentage = returnpercent(activeDoctors, inactiveDoctors);
-
   const { data, loading, error } = useQuery(getDiagnosticDashboard, {
     variables: {
       partner: localStorage.getItem("pharmacyID"),
     },
   });
-  console.log(data, "dia");
+
   useEffect(() => {
     if (data) {
       const {
@@ -125,7 +120,7 @@ const DashCharts = () => {
         completedTestsStats,
         cancelledTestsStats,
       } = data?.getDiagnosticDashboard;
-      // setState(data.getDiagnosticTests.data)
+
       setTestRequest(testRequestsCount);
       setScheduledTests(scheduledTestsCount);
       setCompletedTests(completedTestsCount);
@@ -146,229 +141,231 @@ const DashCharts = () => {
   return (
     <Grid
       container
-      style={{ marginBottom: "5rem" }}
-      justifyContent="space-between"
-      spacing={5}
+      display="grid"
+      gap={{ md: 3, xs: 2 }}
+      gridTemplateColumns={{ sm: "1fr 1fr", xs: "1fr" }}
     >
-      <Grid item md={6} sm={12} lg={6}>
-        <Grid container direction="column">
-          <Grid
-            item
-            className={classes.chartCard}
-            // style={{ marginBottom: '3em' }}
-          >
-            <Grid container direction="column">
-              <Grid item className={classes.headerGrid}>
-                <Typography variant="h5">Total Tests</Typography>
-              </Grid>
-              <Divider color={theme.palette.common.lighterGrey} />
-              <Grid item>
-                <Grid
-                  container
-                  className={classes.overviewGrid}
-                  justifyContent="space-between"
-                >
-                  <Grid item>
-                    <Grid container alignItems="center">
-                      <Grid item className={classes.groupIconGrid}>
-                        <GroupIcon
-                          color="success"
-                          className={classes.groupIcon}
-                        />
-                      </Grid>
-                      <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
-                        <Typography variant="h1">{testRequest}</Typography>
-                      </Grid>
-                      <Grid item style={{ marginRight: "0.5rem" }}>
-                        <ArrowUpwardIcon color="success" />
-                      </Grid>
-                      <Grid item>
-                        <Typography
-                          variant="body2"
-                          style={{ color: theme.palette.success.main }}
-                        >
-                          {/* 2.76% */}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Divider color={theme.palette.common.lighterGrey} />
-              <Grid
-                item
-                container
-                direction="column"
-                className={classes.bottomChartGrid}
-              >
-                <LineChart
-                  selectedTimeframe={selectedTimeframe}
-                  setSelectedTimeframe={setSelectedTimeframe}
-                  details={testRequestsStats}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          {/* hehre */}
-          <Divider color={theme.palette.common.lighterGrey} />
-          <Grid item className={classes.headerGrid}>
-            <Typography variant="h5">Completed Tests</Typography>
-          </Grid>
-          <Divider color={theme.palette.common.lighterGrey} />
+      {/* 1 */}
+      <Grid item container direction="column">
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid item className={classes.headerGrid}>
+          <Typography variant="h5">Completed Tests</Typography>
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
 
-          <Grid item>
-            <Grid
-              container
-              className={classes.overviewGrid}
-              justifyContent="space-between"
-            >
-              <Grid item>
-                <Grid container alignItems="center">
-                  <Grid item className={classes.groupIconGrid}>
-                    <GroupIcon color="success" className={classes.groupIcon} />
-                  </Grid>
-                  <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
-                    <Grid container direction="column" alignItems="center">
-                      <Grid item>
-                        <Typography variant="h1">{completedTests}</Typography>
-                      </Grid>
+        <Grid item>
+          <Grid
+            container
+            className={classes.overviewGrid}
+            justifyContent="space-between"
+          >
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item className={classes.groupIconGrid}>
+                  <GroupIcon color="success" className={classes.groupIcon} />
+                </Grid>
+                <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item>
+                      <Typography variant="h1">{completedTests}</Typography>
                     </Grid>
                   </Grid>
-                  <Grid item style={{ marginRight: "0.5rem" }}>
-                    <ArrowUpwardIcon color="success" />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      variant="body2"
-                      style={{ color: theme.palette.success.main }}
-                    >
-                      {/* 2.76% */}
-                    </Typography>
-                  </Grid>
+                </Grid>
+                <Grid item style={{ marginRight: "0.5rem" }}>
+                  <ArrowUpwardIcon color="success" />
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    style={{ color: theme.palette.success.main }}
+                  >
+                    {/* 2.76% */}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Divider color={theme.palette.common.lighterGrey} />
-          <Grid
-            item
-            container
-            direction="column"
-            className={classes.bottomChartGrid}
-          >
-            <LineChart
-              selectedTimeframe={selectedTimeframe}
-              setSelectedTimeframe={setSelectedTimeframe}
-              details={completedTestsStats}
-            />
-          </Grid>
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid
+          item
+          container
+          direction="column"
+          className={classes.bottomChartGrid}
+        >
+          <LineChart
+            selectedTimeframe={selectedTimeframe}
+            setSelectedTimeframe={setSelectedTimeframe}
+            details={completedTestsStats}
+          />
         </Grid>
       </Grid>
 
-      <Grid item md={6} sm={12} lg={6}>
-        <Grid item container direction="column" className={classes.chartCard}>
-          <Grid item className={classes.headerGrid}>
-            <Typography variant="h5">Scheduled Tests</Typography>
-          </Grid>
-          <Divider color={theme.palette.common.lightGrey} />
-          <Grid item>
-            <Grid
-              container
-              className={classes.overviewGrid}
-              justifyContent="space-between"
-            >
-              <Grid item>
-                <Grid container alignItems="center">
-                  <Grid item className={classes.groupIconGrid}>
-                    <GroupIcon color="success" className={classes.groupIcon} />
-                  </Grid>
-                  <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
-                    <Grid container direction="column" alignItems="center">
-                      <Grid item>
-                        <Typography variant="h1">{scheduledTests}</Typography>
-                      </Grid>
+      {/* 2 */}
+
+      <Grid item container direction="column">
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid item className={classes.headerGrid}>
+          <Typography variant="h5">Total Tests</Typography>
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+
+        <Grid item>
+          <Grid
+            container
+            className={classes.overviewGrid}
+            justifyContent="space-between"
+          >
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item className={classes.groupIconGrid}>
+                  <GroupIcon color="success" className={classes.groupIcon} />
+                </Grid>
+                <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item>
+                      <Typography variant="h1">{testRequest}</Typography>
                     </Grid>
                   </Grid>
-                  <Grid item style={{ marginRight: "0.5rem" }}>
-                    <ArrowUpwardIcon color="success" />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      variant="body2"
-                      style={{ color: theme.palette.success.main }}
-                    >
-                      {/* 2.76% */}
-                    </Typography>
-                  </Grid>
+                </Grid>
+                <Grid item style={{ marginRight: "0.5rem" }}>
+                  <ArrowUpwardIcon color="success" />
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    style={{ color: theme.palette.success.main }}
+                  >
+                    {/* 2.76% */}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Divider color={theme.palette.common.lighterGrey} />
-          {/* <Divider color={theme.palette.common.lighterGrey} /> */}
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid
+          item
+          container
+          direction="column"
+          className={classes.bottomChartGrid}
+        >
+          <LineChart
+            selectedTimeframe={selectedTimeframe}
+            setSelectedTimeframe={setSelectedTimeframe}
+            details={testRequestsStats}
+          />
+        </Grid>
+      </Grid>
+
+      {/* 3 */}
+      <Grid item container direction="column">
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid item className={classes.headerGrid}>
+          <Typography variant="h5">Cancelled Tests</Typography>
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+
+        <Grid item>
           <Grid
-            item
             container
-            direction="column"
-            className={classes.bottomChartGrid}
+            className={classes.overviewGrid}
+            justifyContent="space-between"
           >
-            <LineChart
-              selectedTimeframe={selectedTimeframe}
-              setSelectedTimeframe={setSelectedTimeframe}
-              details={scheduledTestsStats}
-            />
-          </Grid>
-          <Divider color={theme.palette.common.lighterGrey} />
-          <Grid item className={classes.headerGrid}>
-            <Typography variant="h5">Cancelled Tests</Typography>
-          </Grid>
-          <Divider color={theme.palette.common.lighterGrey} />
-          <Grid item>
-            <Grid
-              container
-              className={classes.overviewGrid}
-              justifyContent="space-between"
-            >
-              <Grid item>
-                <Grid container alignItems="center">
-                  <Grid item className={classes.groupIconGrid}>
-                    <GroupIcon color="success" className={classes.groupIcon} />
-                  </Grid>
-                  <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
-                    <Grid container direction="column" alignItems="center">
-                      <Grid item>
-                        <Typography variant="h1">{cancelled}</Typography>
-                      </Grid>
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item className={classes.groupIconGrid}>
+                  <GroupIcon color="success" className={classes.groupIcon} />
+                </Grid>
+                <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item>
+                      <Typography variant="h1">{cancelled}</Typography>
                     </Grid>
                   </Grid>
-                  <Grid item style={{ marginRight: "0.5rem" }}>
-                    <ArrowUpwardIcon color="success" />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      variant="body2"
-                      style={{ color: theme.palette.success.main }}
-                    >
-                      {/* 2.76% */}
-                    </Typography>
-                  </Grid>
+                </Grid>
+                <Grid item style={{ marginRight: "0.5rem" }}>
+                  <ArrowUpwardIcon color="success" />
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    style={{ color: theme.palette.success.main }}
+                  >
+                    {/* 2.76% */}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Divider color={theme.palette.common.lighterGrey} />
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid
+          item
+          container
+          direction="column"
+          className={classes.bottomChartGrid}
+        >
+          <LineChart
+            selectedTimeframe={selectedTimeframe}
+            setSelectedTimeframe={setSelectedTimeframe}
+            details={cancelledTestsStats}
+          />
+        </Grid>
+      </Grid>
+      {/* 4 */}
+      <Grid item container direction="column">
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid item className={classes.headerGrid}>
+          <Typography variant="h5">Scheduled Tests</Typography>
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+
+        <Grid item>
           <Grid
-            item
             container
-            direction="column"
-            className={classes.bottomChartGrid}
+            className={classes.overviewGrid}
+            justifyContent="space-between"
           >
-            <LineChart
-              selectedTimeframe={selectedTimeframe}
-              setSelectedTimeframe={setSelectedTimeframe}
-              details={cancelledTestsStats}
-            />
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item className={classes.groupIconGrid}>
+                  <GroupIcon color="success" className={classes.groupIcon} />
+                </Grid>
+                <Grid item style={{ margin: "0 0.5rem 0 1rem" }}>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item>
+                      <Typography variant="h1">{scheduledTests}</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item style={{ marginRight: "0.5rem" }}>
+                  <ArrowUpwardIcon color="success" />
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    style={{ color: theme.palette.success.main }}
+                  >
+                    {/* 2.76% */}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
+        </Grid>
+        <Divider color={theme.palette.common.lighterGrey} />
+        <Grid
+          item
+          container
+          direction="column"
+          className={classes.bottomChartGrid}
+        >
+          <LineChart
+            selectedTimeframe={selectedTimeframe}
+            setSelectedTimeframe={setSelectedTimeframe}
+            details={scheduledTestsStats}
+          />
         </Grid>
       </Grid>
     </Grid>

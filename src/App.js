@@ -1,46 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
+import jwtDecode from "jwt-decode";
+import { useSelector } from "react-redux";
+import { ThemeProvider } from "@mui/material/styles";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { Login } from "components/pages";
+import useApptype from "hooks/useAppType";
+import { Header } from "components/layouts";
 import { Loader } from "components/Utilities";
+import Routes from "components/routes/Routes";
+import { muiTheme } from "components/muiTheme";
+import { setAccessToken } from "./accessToken";
+import Private from "components/routes/Private";
+import SideNav from "components/layouts/SideNav";
+import Hospital from "components/routes/Hospital";
 import { getPartner } from "components/graphQL/useQuery";
 import { LOGOUT_USER } from "components/graphQL/Mutation";
 import { useActions } from "components/hooks/useActions";
-import { setAccessToken } from "./accessToken";
-import { muiTheme } from "components/muiTheme";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { Header, Headers, SideMenu, SideMenus } from "components/layouts";
-import Routes from "components/routes/Routes";
-import { useSelector } from "react-redux";
-import ScrollToView from "components/ScrollToView";
-import { Login } from "components/pages";
-import Private from "components/routes/Private";
-import { HospitalHeader, HospitalMenu } from "components/layouts";
-import Hospital from "components/routes/Hospital";
-import jwtDecode from "jwt-decode";
+import { AppTypeProvider } from "store/contexts/AppTypeContext";
+import { Box, Drawer, Toolbar, CssBaseline } from "@mui/material";
 
-const sectionStyles = {
-  "--widthA": "max(25rem,22vw)",
-  "--widthB": "calc(var(--widthA) +5rem)",
+const PreApp = ({ window }) => {
+  const { changeAppType } = useApptype();
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
-  // paddingLeft: "39rem",
-  paddingRight: "min(5rem,8vw)",
-  paddingTop: "12rem",
-  paddingBottom: "5rem",
-  paddingLeft: "calc(var(--widthA) + min(5rem,8vw))", // max(12rem, calc(100% - 80px))
-  minHeight: "100vh",
-  width: "100%",
-};
-
-const App = () => {
   const [state, setstate] = useState(true);
   const { userDetail, logout } = useActions();
   const [logout_user] = useMutation(LOGOUT_USER);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const id = localStorage.getItem("AppId");
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   });
   const { isAuthenticated, role } = useSelector((state) => state.auth);
+  const drawerWidth = 200;
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+  useEffect(() => {
+    changeAppType(role);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [role]);
 
   useEffect(() => {
     const token = localStorage.getItem("Pharmacy_token");
@@ -76,18 +79,8 @@ const App = () => {
     d();
     // eslint-disable-next-line
   }, [data, pharmacy, state, isAuthenticated]);
-  const [selectedMenu, setSelectedMenu] = useState(0);
-  const [selectedSubMenu, setSelectedSubMenu] = useState(0);
-  const [selectedPatientMenu, setSelectedPatientMenu] = useState(0);
-  const [selectedHcpMenu, setSelectedHcpMenu] = useState(0);
-  const [selectedAppointmentMenu, setSelectedAppointmentMenu] = useState(0);
-  const [waitingListMenu, setWaitingListMenu] = useState(0);
-  const [selectedScopedMenu, setSelectedScopedMenu] = useState(0);
-  const [selectedPendingMenu, setSelectedPendingMenu] = useState(0);
-  const [chatMediaActive, setChatMediaActive] = useState(false);
-
   return (
-    <ThemeProvider theme={muiTheme}>
+    <>
       <Router>
         <div className="container">
           {!isAuthenticated && (
@@ -97,229 +90,244 @@ const App = () => {
             />
           )}
 
-          {isAuthenticated &&
-            !chatMediaActive &&
-            role === "diagnostics" &&
-            state && <Loader color="success" />}
-          {isAuthenticated &&
-            !chatMediaActive &&
-            role === "pharmacy" &&
-            state && <Loader color="success" />}
-          {isAuthenticated &&
-            !chatMediaActive &&
-            role === "hospital" &&
-            state && <Loader color="success" />}
-          {isAuthenticated &&
-            !chatMediaActive &&
-            role === "diagnostics" &&
-            !state && (
-              <>
+          {isAuthenticated && role === "diagnostics" && state && (
+            <Loader color="success" />
+          )}
+          {isAuthenticated && role === "pharmacy" && state && (
+            <Loader color="success" />
+          )}
+          {isAuthenticated && role === "hospital" && state && (
+            <Loader color="success" />
+          )}
+
+          {isAuthenticated && role === "diagnostics" && !state && (
+            <>
+              <Box sx={{ display: "flex" }}>
+                <CssBaseline />
                 <Header
-                  selectedMenu={selectedMenu}
-                  selectedPendingMenu={selectedPendingMenu}
-                  selectedSubMenu={selectedSubMenu}
-                  selectedPatientMenu={selectedPatientMenu}
-                  selectedHcpMenu={selectedHcpMenu}
-                  selectedAppointmentMenu={selectedAppointmentMenu}
-                  waitingListMenu={waitingListMenu}
-                  selectedScopedMenu={selectedScopedMenu}
+                  handleDrawerToggle={handleDrawerToggle}
+                  drawerWidth={drawerWidth}
                 />
-                <ScrollToView>
-                  {!isAuthenticated && (
-                    <Route
-                      path={["/", "/login"]}
-                      render={(props) => <Login {...props} />}
-                    />
-                  )}
 
-                  <main
-                    style={{
-                      display: isAuthenticated
-                        ? "flex"
-                        : chatMediaActive
-                        ? "block"
-                        : "none",
+                {!isAuthenticated && (
+                  <Route
+                    path={["/", "/login"]}
+                    render={(props) => <Login {...props} />}
+                  />
+                )}
+                <Box
+                  component="nav"
+                  sx={{ width: { md: "300px" }, flexShrink: { md: 0 } }}
+                  aria-label="sidebar_menu"
+                >
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
                     }}
                   >
-                    <SideMenus
-                      selectedMenu={selectedMenu}
-                      setSelectedMenu={setSelectedMenu}
-                      setSelectedSubMenu={setSelectedSubMenu}
-                      setWaitingListMenu={setWaitingListMenu}
-                      setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                    />
-
-                    <section
-                      style={
-                        !chatMediaActive ? sectionStyles : { width: "100%" }
-                      }
-                    >
-                      <Private
-                        setSelectedMenu={setSelectedMenu}
-                        selectedMenu={selectedMenu}
-                        selectedSubMenu={selectedSubMenu}
-                        setSelectedSubMenu={setSelectedSubMenu}
-                        selectedPatientMenu={selectedPatientMenu}
-                        setSelectedPatientMenu={setSelectedPatientMenu}
-                        selectedHcpMenu={selectedHcpMenu}
-                        setSelectedHcpMenu={setSelectedHcpMenu}
-                        selectedAppointmentMenu={selectedAppointmentMenu}
-                        setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                        waitingListMenu={waitingListMenu}
-                        setWaitingListMenu={setWaitingListMenu}
-                        chatMediaActive={chatMediaActive}
-                        setChatMediaActive={setChatMediaActive}
-                        selectedScopedMenu={selectedScopedMenu}
-                        setSelectedScopedMenu={setSelectedScopedMenu}
-                        setSelectedPendingMenu={setSelectedPendingMenu}
-                      />
-                    </section>
-                  </main>
-                </ScrollToView>
-              </>
-            )}
-
-          {isAuthenticated &&
-            !chatMediaActive &&
-            role === "pharmacy" &&
-            !state && (
-              <>
-                <Headers
-                  selectedMenu={selectedMenu}
-                  selectedPendingMenu={selectedPendingMenu}
-                  selectedSubMenu={selectedSubMenu}
-                  selectedPatientMenu={selectedPatientMenu}
-                  selectedHcpMenu={selectedHcpMenu}
-                  selectedAppointmentMenu={selectedAppointmentMenu}
-                  waitingListMenu={waitingListMenu}
-                  selectedScopedMenu={selectedScopedMenu}
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                  </Drawer>
+                  <Drawer
+                    variant="permanent"
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                    open
+                  >
+                    <SideNav />
+                  </Drawer>
+                </Box>
+                <Box
+                  component="main"
+                  sx={{
+                    flex: 1,
+                    p: 3,
+                    width: { xs: `calc(100% - ${drawerWidth}px)` },
+                  }}
+                >
+                  <Toolbar />
+                  <Private />
+                </Box>
+              </Box>
+            </>
+          )}
+          {isAuthenticated && role === "pharmacy" && !state && (
+            <>
+              <Box sx={{ display: "flex" }}>
+                <CssBaseline />
+                <Header
+                  handleDrawerToggle={handleDrawerToggle}
+                  drawerWidth={drawerWidth}
                 />
-                <ScrollToView>
-                  {!isAuthenticated && (
-                    <Route
-                      path={["/", "/login"]}
-                      render={(props) => <Login {...props} />}
-                    />
-                  )}
 
-                  <main
-                    style={{
-                      display: isAuthenticated
-                        ? "flex"
-                        : chatMediaActive
-                        ? "block"
-                        : "none",
+                {!isAuthenticated && (
+                  <Route
+                    path={["/", "/login"]}
+                    render={(props) => <Login {...props} />}
+                  />
+                )}
+                <Box
+                  component="nav"
+                  sx={{ width: { md: "300px" }, flexShrink: { md: 0 } }}
+                  aria-label="sidebar_menu"
+                >
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
                     }}
                   >
-                    <SideMenu
-                      selectedMenu={selectedMenu}
-                      setSelectedMenu={setSelectedMenu}
-                      setSelectedSubMenu={setSelectedSubMenu}
-                      setWaitingListMenu={setWaitingListMenu}
-                      setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                    />
-
-                    <section
-                      style={
-                        !chatMediaActive ? sectionStyles : { width: "100%" }
-                      }
-                    >
-                      <Routes
-                        setSelectedMenu={setSelectedMenu}
-                        selectedMenu={selectedMenu}
-                        selectedSubMenu={selectedSubMenu}
-                        setSelectedSubMenu={setSelectedSubMenu}
-                        selectedPatientMenu={selectedPatientMenu}
-                        setSelectedPatientMenu={setSelectedPatientMenu}
-                        selectedHcpMenu={selectedHcpMenu}
-                        setSelectedHcpMenu={setSelectedHcpMenu}
-                        selectedAppointmentMenu={selectedAppointmentMenu}
-                        setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                        waitingListMenu={waitingListMenu}
-                        setWaitingListMenu={setWaitingListMenu}
-                        chatMediaActive={chatMediaActive}
-                        setChatMediaActive={setChatMediaActive}
-                        selectedScopedMenu={selectedScopedMenu}
-                        setSelectedScopedMenu={setSelectedScopedMenu}
-                        setSelectedPendingMenu={setSelectedPendingMenu}
-                      />
-                    </section>
-                  </main>
-                </ScrollToView>
-              </>
-            )}
-          {isAuthenticated &&
-            !chatMediaActive &&
-            role === "hospital" &&
-            !state && (
-              <>
-                <HospitalHeader
-                  selectedMenu={selectedMenu}
-                  selectedPendingMenu={selectedPendingMenu}
-                  selectedSubMenu={selectedSubMenu}
-                  setSelectedMenu={setSelectedMenu}
-                  selectedPatientMenu={selectedPatientMenu}
-                  selectedHcpMenu={selectedHcpMenu}
-                  selectedAppointmentMenu={selectedAppointmentMenu}
-                  waitingListMenu={waitingListMenu}
-                  selectedScopedMenu={selectedScopedMenu}
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                  </Drawer>
+                  <Drawer
+                    variant="permanent"
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                    open
+                  >
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                  </Drawer>
+                </Box>
+                <Box
+                  component="main"
+                  sx={{
+                    flex: 1,
+                    p: 3,
+                    width: { xs: `calc(100% - ${drawerWidth}px)` },
+                  }}
+                >
+                  <Toolbar />
+                  <Routes />
+                </Box>
+              </Box>
+            </>
+          )}
+          {isAuthenticated && role === "hospital" && !state && (
+            <>
+              <Box sx={{ display: "flex" }}>
+                <CssBaseline />
+                <Header
+                  handleDrawerToggle={handleDrawerToggle}
+                  drawerWidth={drawerWidth}
                 />
-                <ScrollToView>
-                  {!isAuthenticated && (
-                    <Route
-                      path={["/", "/login"]}
-                      render={(props) => <Login {...props} />}
-                    />
-                  )}
 
-                  <main
-                    style={{
-                      display: isAuthenticated
-                        ? "flex"
-                        : chatMediaActive
-                        ? "block"
-                        : "none",
+                {!isAuthenticated && (
+                  <Route
+                    path={["/", "/login"]}
+                    render={(props) => <Login {...props} />}
+                  />
+                )}
+                <Box
+                  component="nav"
+                  sx={{ width: { md: "300px" }, flexShrink: { md: 0 } }}
+                  aria-label="sidebar_menu"
+                >
+                  <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                      keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
                     }}
                   >
-                    <HospitalMenu
-                      selectedMenu={selectedMenu}
-                      setSelectedMenu={setSelectedMenu}
-                      setSelectedSubMenu={setSelectedSubMenu}
-                      setWaitingListMenu={setWaitingListMenu}
-                      setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                    />
-
-                    <section
-                      style={
-                        !chatMediaActive ? sectionStyles : { width: "100%" }
-                      }
-                    >
-                      <Hospital
-                        setSelectedMenu={setSelectedMenu}
-                        selectedMenu={selectedMenu}
-                        selectedSubMenu={selectedSubMenu}
-                        setSelectedSubMenu={setSelectedSubMenu}
-                        selectedPatientMenu={selectedPatientMenu}
-                        setSelectedPatientMenu={setSelectedPatientMenu}
-                        selectedHcpMenu={selectedHcpMenu}
-                        setSelectedHcpMenu={setSelectedHcpMenu}
-                        selectedAppointmentMenu={selectedAppointmentMenu}
-                        setSelectedAppointmentMenu={setSelectedAppointmentMenu}
-                        waitingListMenu={waitingListMenu}
-                        setWaitingListMenu={setWaitingListMenu}
-                        chatMediaActive={chatMediaActive}
-                        setChatMediaActive={setChatMediaActive}
-                        selectedScopedMenu={selectedScopedMenu}
-                        setSelectedScopedMenu={setSelectedScopedMenu}
-                      />
-                    </section>
-                  </main>
-                </ScrollToView>
-              </>
-            )}
-          {/* {!chatMediaActive && !state && <div>ghgcfvh</div>} */}
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                  </Drawer>
+                  <Drawer
+                    variant="permanent"
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: drawerWidth,
+                      },
+                      "& .MuiBackdrop-root": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                    open
+                  >
+                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                  </Drawer>
+                </Box>
+                <Box
+                  component="main"
+                  sx={{
+                    flex: 1,
+                    p: 3,
+                    width: { xs: `calc(100% - ${drawerWidth}px)` },
+                  }}
+                >
+                  <Toolbar />
+                  <Hospital />
+                </Box>
+              </Box>
+            </>
+          )}
         </div>
       </Router>
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <ThemeProvider theme={muiTheme}>
+      <AppTypeProvider>
+        <PreApp />
+      </AppTypeProvider>
     </ThemeProvider>
   );
 };

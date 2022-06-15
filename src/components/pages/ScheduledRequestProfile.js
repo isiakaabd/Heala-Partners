@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
 import {
   Modals,
   Loader,
   CustomButton,
-  PreviousButton,
   DisplayProfile1,
 } from "components/Utilities";
 import * as Yup from "yup";
 import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
-import PropTypes from "prop-types";
 import { Grid, Typography, Chip, Avatar } from "@mui/material";
 import { NoData } from "components/layouts";
 import { makeStyles } from "@mui/styles";
@@ -32,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
     background: "#fff",
     borderRadius: "1rem",
-    padding: "5rem",
-    gap: "max(2rem, 3vw)",
+    minHeight: "15rem",
     justifyContent: "center",
-    flexWrap: "nowrap",
+    alignItems: "center",
+    flexWrap: "wrap",
     width: "100%",
     boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
@@ -76,9 +74,7 @@ const useStyles = makeStyles((theme) => ({
   cardContainer: {
     "&.MuiGrid-root": {
       display: "grid",
-      gridTemplateColumns: "repeat(2,minmax(15rem,1fr))",
-      rowGap: "3rem",
-      columnGap: "2rem",
+      gap: "3rem",
       "& > *": {
         flex: 1,
         // justifyContent: "center",
@@ -99,12 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ScheduledRequestProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-  setSelectedMenu,
-}) => {
+const ScheduledRequestProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const theme = useTheme();
@@ -201,7 +192,7 @@ const ScheduledRequestProfile = ({
       console.error(error);
     }
 
-    setSelectedSubMenu(6);
+    /* setSelectedSubMenu(6); */
   };
 
   const darkButton = {
@@ -223,11 +214,6 @@ const ScheduledRequestProfile = ({
     disabled: "#868686",
   };
 
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
   const initialValues1 = {
     title: "",
     image: null,
@@ -264,7 +250,6 @@ const ScheduledRequestProfile = ({
         variant: "success",
       });
       history.push("/completed");
-      setSelectedMenu(3);
       handleDialogClose();
     } catch (error) {
       enqueueSnackbar(getErrors(error), {
@@ -297,14 +282,6 @@ const ScheduledRequestProfile = ({
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
-        <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/schedule"}
-            onClick={() => {
-              setSelectedSubMenu(4);
-            }}
-          />
-        </Grid>
         {/* Display photo and profile name grid */}
 
         <DisplayProfile1
@@ -326,18 +303,32 @@ const ScheduledRequestProfile = ({
           item
           container
           className={classes.cardContainer}
-          ga
+          gridTemplateColumns={{ sm: "repeat(2,1fr)", xs: "1fr" }}
           sx={{ paddingTop: "5rem" }}
         >
-          <Grid item xs={12} md={12} container className={classes.card}>
+          <Grid
+            item
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            md={12}
+            container
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">
                 {tests && tests.length > 1 ? "Tests" : "Test"}
               </Typography>
             </Grid>
-            <Grid item container gap={2} className={classes.cardsWrapper}>
-              {/* <Grid item>asdcbkjsadbasjkb</Grid> */}
-
+            <Grid
+              item
+              container
+              justifyContent={{ sm: "flex-start", xs: "center" }}
+              alignItems={{ sm: "flex-start", xs: "center" }}
+              gap={2}
+              className={classes.cardsWrapper}
+            >
               {tests && tests.length > 0 ? (
                 tests.map((i, index) => {
                   return (
@@ -367,7 +358,16 @@ const ScheduledRequestProfile = ({
               )}
             </Grid>
           </Grid>
-          <Grid item md={12} xs={12} container className={classes.card}>
+          <Grid
+            item
+            md={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            xs={12}
+            container
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test ID </Typography>
             </Grid>
@@ -379,7 +379,16 @@ const ScheduledRequestProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            md={12}
+            xs={12}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Doctor Name</Typography>
             </Grid>
@@ -395,7 +404,16 @@ const ScheduledRequestProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            md={12}
+            xs={12}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Affliation</Typography>
             </Grid>
@@ -407,7 +425,16 @@ const ScheduledRequestProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            md={12}
+            xs={12}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test Option</Typography>
             </Grid>
@@ -419,12 +446,27 @@ const ScheduledRequestProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            md={12}
+            xs={12}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test Collection Details</Typography>
             </Grid>
             {userLocation ? (
-              <Grid item container gap={2}>
+              <Grid
+                item
+                container
+                justifyContent={{ sm: "flex-start", xs: "center" }}
+                alignItems={{ sm: "flex-start", xs: "center" }}
+                gap={2}
+              >
                 <Grid item>
                   <Chip
                     variant="outlined"
@@ -456,7 +498,16 @@ const ScheduledRequestProfile = ({
               </Grid>
             )}
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            md={12}
+            xs={12}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Reason For Referral</Typography>
             </Grid>
@@ -472,19 +523,20 @@ const ScheduledRequestProfile = ({
         <Grid
           item
           container
+          gap={{ sm: 5, xs: 2 }}
           className={`${classes.gridsWrapper} ${classes.buttonsGridWrapper}`}
         >
-          <Grid item xs={12} md={3}>
+          <Grid item columns={{ md: 3, xs: 10 }}>
             <CustomButton
               variant="contained"
-              title="Cancel Test"
+              title="Cancel"
               type={trasparentButton}
               width="100%"
               textColor={theme.palette.common.black}
               onClick={() => setOpenDisablePatient(true)}
             />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item columns={{ md: 3, xs: 12 }}>
             <CustomButton
               variant="contained"
               title="Complete Test"
@@ -519,8 +571,8 @@ const ScheduledRequestProfile = ({
               {({ isSubmitting, dirty, isValid, values, setFieldValue }) => {
                 return (
                   <Form style={{ marginTop: "3rem" }}>
-                    <Grid item container direction="column">
-                      <Grid item container md>
+                    <Grid item container direction="column" rowGap={3}>
+                      <Grid item container>
                         <FormikControl
                           control="input"
                           name="title"
@@ -528,25 +580,17 @@ const ScheduledRequestProfile = ({
                           placeholder="Enter Title"
                         />
                       </Grid>
-                      <Grid item container md marginTop={3}>
-                        <Grid item container>
-                          <FormikControl
-                            control="file"
-                            name="image"
-                            value={values.image}
-                            label="Upload Your File"
-                            setFieldValue={setFieldValue}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          marginTop={3}
-                          container
-                          md={6}
-                          alignItems="end"
-                          justifyContent="end"
-                        ></Grid>
+
+                      <Grid item container>
+                        <FormikControl
+                          control="file"
+                          name="image"
+                          value={values.image}
+                          label="Upload Your File"
+                          setFieldValue={setFieldValue}
+                        />
                       </Grid>
+
                       {value.val.length > 0 ? (
                         <Grid item container gap={1} marginTop={2}>
                           {value.val.map((item, index) => {
@@ -566,9 +610,9 @@ const ScheduledRequestProfile = ({
                       <Grid
                         item
                         container
-                        marginTop={4}
+                        gap={3}
                         justifyContent="space-between"
-                        xs={12}
+                        flexWrap="nowrap"
                       >
                         <CustomButton
                           variant="contained"
@@ -577,15 +621,16 @@ const ScheduledRequestProfile = ({
                           }
                           type={buttonType}
                           complete
-                          width="40%"
+                          width="50%"
                           onClick={() => handleClick(values, setFieldValue)}
                         />
 
                         <CustomButton
                           title="Complete Test"
-                          width="40%"
+                          width="50%"
                           type={buttonType}
                           isSubmitting={isSubmitting}
+                          sx={{ whiteSpace: "nowrap" }}
                           disabled={
                             !(dirty || isValid) || value.val.length <= 0
                           }
@@ -651,11 +696,6 @@ const ScheduledRequestProfile = ({
       />
     </>
   );
-};
-
-ScheduledRequestProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default ScheduledRequestProfile;

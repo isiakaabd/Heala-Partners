@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Modals from "components/Utilities/Modal";
-import NoData from "components/layouts/NoData";
-import CustomButton from "components/Utilities/CustomButton";
+import { Modals, CustomButton, Loader, FilterList } from "components/Utilities";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
-import PropTypes from "prop-types";
 import {
   Grid,
   Alert,
@@ -16,9 +13,9 @@ import {
   Avatar,
 } from "@mui/material";
 import { deleteAppointment } from "components/graphQL/Mutation";
-import FilterList from "components/Utilities/FilterList";
-import { EnhancedTable, EmptyTable } from "components/layouts";
-import { useQuery, useMutation } from "@apollo/client";
+import { changeTableLimit, fetchMoreData } from "helpers/filterHelperFunctions";
+import { EnhancedTable, EmptyTable, NoData } from "components/layouts";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { getAppoint, getDOCAppoint } from "components/graphQL/useQuery";
 import DeleteOrDisable from "components/modals/DeleteOrDisable";
 import { consultationsHeadCells2 } from "components/Utilities/tableHeaders";
@@ -31,9 +28,7 @@ import { handleSelectedRows } from "helpers/selectedRows";
 import displayPhoto from "assets/images/avatar.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useParams } from "react-router-dom";
-import Loader from "components/Utilities/Loader";
 import { timeConverter, timeMoment } from "components/Utilities/Time";
 import * as Yup from "yup";
 import { updateAppointment } from "components/graphQL/Mutation";
@@ -105,16 +100,8 @@ const filterOptions = [
   { id: 2, value: "Description" },
 ];
 
-const PatientAppointment = (props) => {
+const PatientAppointment = () => {
   const [updateAppoint] = useMutation(updateAppointment);
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    setSelectedMenu,
-    setSelectedSubMenu,
-    selectedPatientMenu,
-    setSelectedPatientMenu,
-  } = props;
   const [deleteAppointments] = useMutation(deleteAppointment);
   const [pageInfo, setPageInfo] = useState([]);
   const [alert, setAlert] = useState(null);
@@ -231,13 +218,8 @@ const PatientAppointment = (props) => {
     console.log(values);
   };
 
-  const { loading, data, error, refetch } = useQuery(getAppoint, {
-    variables: {
-      id: patientId,
-      orderBy: "-createdAt",
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+  const [getPatientsAppointment, { loading, data, error }] =
+    useLazyQuery(getAppoint);
 
   useEffect(() => {
     if (data) {
@@ -246,19 +228,8 @@ const PatientAppointment = (props) => {
     }
   }, [data, patientId]);
 
-  const fetchMoreFunc = (e, newPage) => {
-    refetch({ page: newPage });
-  };
-
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
-
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(2);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu]);
 
   const buttonType = {
     background: theme.palette.common.black,
@@ -288,9 +259,7 @@ const PatientAppointment = (props) => {
     { key: "Active", value: "Active" },
     { key: "Blocked", value: "Blocked" },
   ];
-  const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
-    pageInfo;
-  const [rowsPerPage, setRowsPerPage] = useState(0);
+
   if (error) return <NoData error={error} />;
   if (loading) return <Loader />;
   return (
@@ -311,29 +280,22 @@ const PatientAppointment = (props) => {
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item>
-          <PreviousButton
-            path={`/patients/${patientId}`}
-            onClick={() => setSelectedPatientMenu(0)}
-          />
-        </Grid>
-
         <>
           <Grid
             item
             container
+            flexWrap="nowrap"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Grid item>
+            <Grid item flex={1}>
               <Typography variant="h2">Appointments</Typography>
             </Grid>
             <Grid item>
               <FilterList
                 onClick={handlePatientOpen}
                 options={filterOptions}
-                title="Filter Appointments"
-                width="18.7rem"
+                title="Filter"
               />
             </Grid>
           </Grid>
@@ -343,16 +305,11 @@ const PatientAppointment = (props) => {
                 headCells={consultationsHeadCells2}
                 rows={patientAppointment}
                 paginationLabel="Patients per page"
-                page={page}
-                limit={limit}
-                totalPages={totalPages}
-                totalDocs={totalDocs}
-                rowsPerPage={rowsPerPage}
-                setRowsPerPage={setRowsPerPage}
-                hasNextPage={hasNextPage}
-                hasPrevPage={hasPrevPage}
-                handleChangePage={fetchMoreFunc}
+                handleChangePage={fetchMoreData}
                 hasCheckbox={true}
+                changeLimit={changeTableLimit}
+                fetchData={getPatientsAppointment}
+                dataPageInfo={pageInfo}
               >
                 {patientAppointment
                   // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -456,7 +413,7 @@ const PatientAppointment = (props) => {
           ) : (
             <EmptyTable
               headCells={consultationsHeadCells2}
-              paginationLabel="Medications  per page"
+              paginationLabel="Appointments per page"
             />
           )}
         </>
@@ -620,15 +577,6 @@ const PatientAppointment = (props) => {
       />
     </>
   );
-};
-
-PatientAppointment.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default PatientAppointment;

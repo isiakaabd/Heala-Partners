@@ -1,14 +1,19 @@
-import React, { Fragment } from "react";
+import React from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
+import { AppBar, IconButton, Grid, Toolbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import HeadersContents from "components/layouts/HeadersContents";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    paddingLeft: "35rem",
-    paddingTop: "2em",
-    paddingBottom: "2em",
+    "&.MuiToolbar-root": {
+      display: "flex",
+      justifyContent: "space-around",
+      padding: "0px",
+      alignItems: "center",
+      paddingInline: "min(2.5rem,4vw)",
+    },
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -18,32 +23,43 @@ const useStyles = makeStyles((theme) => ({
 const Headers = (props) => {
   const {
     selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    selectedHcpMenu,
-    waitingListMenu,
-    selectedAppointmentMenu,
-    selectedScopedMenu,
+
+    handleDrawerToggle,
+    drawerWidth,
   } = props;
   const classes = useStyles();
   return (
-    <Fragment>
-      <AppBar
-        position="fixed"
-        className={classes.appBar}
-        classes={{ root: classes.appBar }}
-      >
+    <AppBar
+      position="fixed"
+      padding="1rem"
+      sx={{
+        width: { md: `calc(100% - (${drawerWidth}px + 5em))` },
+      }}
+    >
+      <Toolbar className={classes.appBar}>
+        <Grid item marginInline={2.5}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{
+              color: "white",
+              fontSize: "3rem",
+              background: "black",
+              display: { md: "none" },
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Grid>
         <HeadersContents
           selectedMenu={selectedMenu}
-          selectedSubMenu={selectedSubMenu}
-          selectedPatientMenu={selectedPatientMenu}
-          selectedHcpMenu={selectedHcpMenu}
-          waitingListMenu={waitingListMenu}
-          selectedAppointmentMenu={selectedAppointmentMenu}
-          selectedScopedMenu={selectedScopedMenu}
+          drawerWidth={drawerWidth}
+          handleDrawerToggle={handleDrawerToggle}
         />
-      </AppBar>
-    </Fragment>
+      </Toolbar>
+    </AppBar>
   );
 };
 

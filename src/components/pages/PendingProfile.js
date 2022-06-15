@@ -1,16 +1,15 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import PropTypes from "prop-types";
 import { NoData } from "components/layouts";
 import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
+import { useSnackbar } from "notistack";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { DeleteOrDisable } from "components/modals";
-import { useSnackbar } from "notistack";
-import { useParams, useHistory } from "react-router-dom";
 import { time } from "components/Utilities/Time";
 import { useQuery, useMutation } from "@apollo/client";
+import { useParams, useHistory } from "react-router-dom";
 import {
   getDiagnosticTest,
   getDiagnosticTests,
@@ -23,21 +22,20 @@ import {
 import { Typography, Grid, Chip } from "@mui/material";
 import { getErrors } from "components/Utilities/Time";
 import {
-  DisplayProfile2,
+  DisplayProfile1,
   CustomButton,
   Loader,
   Modals,
-  PreviousButton,
 } from "components/Utilities";
 
 const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
     background: "#fff",
     borderRadius: "1rem",
-    padding: "5rem",
-    gap: "max(2rem, 3vw)",
+    minHeight: "15rem",
     justifyContent: "center",
-    flexWrap: "nowrap",
+    alignItems: "center",
+    flexWrap: "wrap",
     width: "100%",
     boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
@@ -52,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
       borderRadius: "1rem",
       flexDirection: "column",
-      padding: "min(3rem,4vw)",
+
       gap: "1rem",
     },
   },
@@ -62,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     wordBreak: "break-all",
-    fontSize: "1.3rem !important",
+    fontSize: "clamp(1.2rem, 3vw, 1.3rem) ",
     color: theme.palette.common.green,
     border: "1px solid #bdbdbd",
     padding: ".4rem",
@@ -71,16 +69,15 @@ const useStyles = makeStyles((theme) => ({
   },
   chipLabel: {
     overflowWrap: "break-word",
-    whiteSpace: "normal",
+    whiteSpace: "nowrap",
     textOverflow: "clip",
   },
 
   cardContainer: {
     "&.MuiGrid-root": {
       display: "grid",
-      gridTemplateColumns: "repeat(2,minmax(15rem,1fr))",
-      rowGap: "3rem",
-      columnGap: "2rem",
+      gap: "2rem",
+      // columnGap: "2rem",
       "& > *": {
         flex: 1,
         boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
@@ -100,11 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PendingProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-}) => {
+const PendingProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const initialValues = {
     reason: "",
@@ -159,7 +152,7 @@ const PendingProfile = ({
       });
       console.error(error);
     }
-    setSelectedSubMenu(6);
+    /* setSelectedSubMenu(6); */
   };
 
   const onConfirm = () => setCancel(true);
@@ -169,9 +162,7 @@ const PendingProfile = ({
   });
 
   useEffect(() => {
-    if (data) {
-      setPendingProfile(data?.getDiagnosticTest);
-    }
+    if (data) return setPendingProfile(data?.getDiagnosticTest);
   }, [data]);
 
   // <NotistackAlert variant="success" message="order has been scheduled" />;
@@ -200,7 +191,7 @@ const PendingProfile = ({
         variant: "success",
       });
       history.push("/schedule");
-      setSelectedSubMenu(2);
+      /* setSelectedSubMenu(2); */
     } catch (error) {
       enqueueSnackbar(getErrors(error), {
         variant: "error",
@@ -252,28 +243,14 @@ const PendingProfile = ({
     active: "#f4f4f4",
   };
 
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
   const handlePatientCloses = () => setIsPatients(false);
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
-        <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/pending"}
-            onClick={() => {
-              setSelectedSubMenu(3);
-            }}
-          />
-        </Grid>
-
-        <DisplayProfile2
+      <Grid container direction="column" style={{ paddingBottom: "5rem" }}>
+        <DisplayProfile1
           createdAt={createdAt}
           gender={gender}
           sampleCollection={sampleCollection}
@@ -285,24 +262,42 @@ const PendingProfile = ({
           testOption={testOption}
           doctorData={doctorData}
           patientData={patientData}
+          type="pending"
         />
         <Grid
           item
           container
+          gridTemplateColumns={{ sm: "repeat(2,1fr)", xs: "repeat(1,1fr)" }}
           className={classes.cardContainer}
           sx={{ paddingTop: "5rem" }}
         >
-          <Grid item xs={12} md={12} container className={classes.card}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            container
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">
                 {tests && tests.length > 1 ? "Tests" : "Test"}
               </Typography>
             </Grid>
-            <Grid item container gap={2} className={classes.cardsWrapper}>
+            <Grid
+              item
+              justifyContent={{ sm: "flex-start", xs: "center" }}
+              alignItems={{ sm: "flex-start", xs: "center" }}
+              container
+              gap={2}
+              className={classes.cardsWrapper}
+            >
               {/* <Grid item>asdcbkjsadbasjkb</Grid> */}
 
-              {tests && tests.length > 0 ? (
-                tests.map((i, index) => {
+              {tests?.length > 0 ? (
+                tests?.map((i, index) => {
                   return (
                     <Grid item key={index}>
                       <Chip
@@ -320,7 +315,7 @@ const PendingProfile = ({
                 <Grid item>
                   <Chip
                     variant="outlined"
-                    label={"No Test yet"}
+                    label="No Test yet"
                     classes={{
                       root: classes.chipRoot,
                       label: classes.chipLabel,
@@ -330,7 +325,16 @@ const PendingProfile = ({
               )}
             </Grid>
           </Grid>
-          <Grid item md={12} xs={12} container className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            md={12}
+            xs={12}
+            container
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="body1">Test ID </Typography>
             </Grid>
@@ -342,7 +346,16 @@ const PendingProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            container
+            md={12}
+            xs={12}
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="body1">Doctor Name</Typography>
             </Grid>
@@ -358,7 +371,16 @@ const PendingProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            container
+            md={12}
+            xs={12}
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="body1">Affliation</Typography>
             </Grid>
@@ -370,7 +392,16 @@ const PendingProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            container
+            md={12}
+            xs={12}
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="body1">Test Option</Typography>
             </Grid>
@@ -382,12 +413,27 @@ const PendingProfile = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            container
+            md={12}
+            xs={12}
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="body1">Test Collection Details</Typography>
             </Grid>
             {userLocation ? (
-              <Grid item container gap={2}>
+              <Grid
+                item
+                container
+                gap={2}
+                justifyContent={{ sm: "flex-start", xs: "center" }}
+                alignItems={{ sm: "flex-start", xs: "center" }}
+              >
                 <Grid item>
                   <Chip
                     variant="outlined"
@@ -419,7 +465,16 @@ const PendingProfile = ({
               </Grid>
             )}
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            item
+            padding={{ sm: "min(3rem,4vw)" }}
+            container
+            md={12}
+            xs={12}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Reason For Referral</Typography>
             </Grid>
@@ -427,6 +482,7 @@ const PendingProfile = ({
               <Chip
                 variant="outlined"
                 label={reason ? reason : "No Reason"}
+                sx={{ whiteSpace: "nowrap !important" }}
                 classes={{ root: classes.chipRoot, label: classes.chipLabel }}
               />
             </Grid>
@@ -435,19 +491,21 @@ const PendingProfile = ({
         <Grid
           item
           container
+          gap={{ sm: 5, xs: 2 }}
+          // direction={{ sm: "row", md: "row", xs: "column" }}
           className={`${classes.gridsWrapper} ${classes.buttonsGridWrapper}`}
         >
-          <Grid item xs={12} md={3}>
+          <Grid item columns={{ md: 3, xs: 10 }}>
             <CustomButton
               variant="contained"
-              title="Cancel Referral"
+              title="Cancel"
               type={trasparentButton}
               width="100%"
               textColor={theme.palette.common.black}
               onClick={() => setOpenDisablePatient(true)}
             />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item columns={{ md: 3, xs: 10 }}>
             <CustomButton
               variant="contained"
               title="Schedule Test"
@@ -470,7 +528,8 @@ const PendingProfile = ({
             isOpen={isPatients}
             title="Schedule Test"
             rowSpacing={5}
-            height="90vh"
+            height="auto"
+            width={{ sm: "40vw", xs: "90vw" }}
             handleClose={handlePatientCloses}
           >
             <Formik
@@ -483,8 +542,8 @@ const PendingProfile = ({
               {({ isSubmitting, dirty, isValid, setFieldValue }) => {
                 return (
                   <Form style={{ marginTop: "3rem" }}>
-                    <Grid item container>
-                      <Grid item md>
+                    <Grid container rowGap={3}>
+                      <Grid item container>
                         <FormikControl
                           control="time"
                           name="date"
@@ -493,21 +552,15 @@ const PendingProfile = ({
                           setFieldValue={setFieldValue}
                         />
                       </Grid>
-                    </Grid>
-                    <Grid
-                      item
-                      container
-                      alignItems="flex-end"
-                      marginTop={3}
-                      xs={12}
-                    >
-                      <CustomButton
-                        title="Schedule Test"
-                        width="100%"
-                        type={buttonType}
-                        isSubmitting={isSubmitting}
-                        disabled={!(dirty || isValid)}
-                      />
+                      <Grid item container>
+                        <CustomButton
+                          title="Schedule Test"
+                          width="100%"
+                          type={buttonType}
+                          isSubmitting={isSubmitting}
+                          disabled={!(dirty || isValid)}
+                        />
+                      </Grid>
                     </Grid>
                   </Form>
                 );
@@ -559,11 +612,6 @@ const PendingProfile = ({
       </Modals>
     </>
   );
-};
-
-PendingProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default PendingProfile;

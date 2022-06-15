@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import {
   Grid,
   Avatar,
@@ -31,17 +30,6 @@ import { useQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-  actionBtnGrid: {
-    "&.MuiGrid-root": {
-      marginRight: "1.5rem",
-    },
-  },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -123,19 +111,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CancelledOrder = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CancelledOrder = () => {
   const classes = useStyles();
   const status = "cancelled";
   const [scheduleState, setScheduleState] = useState([]);
   const { data, loading, error } = useQuery(getDiagnosticTests, {
     variables: { status },
   });
-  console.log(scheduleState, "cancelled");
   useEffect(() => {
     if (data) {
       setScheduleState(data.getDiagnosticTests.data);
@@ -159,18 +141,24 @@ const CancelledOrder = ({
   );
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" height="100%" flexWrap="nowrap">
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+      <Grid
+        container
+        direction="column"
+        gap={2}
+        height="100%"
+        flexWrap="nowrap"
+      >
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchMessage}
               onChange={(e) => setSearchMessage(e.target.value)}
@@ -181,12 +169,12 @@ const CancelledOrder = ({
           <Grid item>
             <FilterList
               onClick={() => setOpenFilterPartner(true)}
-              title="Filter referrals"
+              title="Filter"
             />
           </Grid>
         </Grid>
         {scheduleState.length > 0 ? (
-          <Grid item container style={{ marginTop: "5rem" }} height="100%">
+          <Grid item container height="100%">
             <EnhancedTable
               headCells={messagesHeadCell}
               rows={scheduleState}
@@ -296,7 +284,7 @@ const CancelledOrder = ({
         <Grid item container direction="column">
           <Grid item>
             <Grid container spacing={2}>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -316,7 +304,7 @@ const CancelledOrder = ({
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -338,9 +326,9 @@ const CancelledOrder = ({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+          <Grid item style={{ marginBlock: "3rem" }}>
             <Grid container spacing={2}>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -363,7 +351,7 @@ const CancelledOrder = ({
               <Grid item md></Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item marginTop={2}>
             <Button
               variant="contained"
               onClick={() => setOpenFilterPartner(false)}
@@ -377,13 +365,6 @@ const CancelledOrder = ({
       </Modals>
     </>
   );
-};
-
-CancelledOrder.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default CancelledOrder;

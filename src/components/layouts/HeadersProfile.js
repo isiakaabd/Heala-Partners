@@ -47,7 +47,7 @@ const HeadersProfile = () => {
   const [notify, { data: notData }] = useLazyQuery(getNotifications, {
     variables: { user: id },
   });
-  console.log(notData, "from headerprofiles");
+
   useEffect(() => {
     (async () => {
       setTimeout(notify, 300);

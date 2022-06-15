@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+
 import { Grid, Typography, Divider } from "@mui/material";
 import Loader from "components/Utilities/Loader";
 import { useParams } from "react-router-dom";
@@ -60,14 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = ({
-  setSelectedSubMenu,
-  setSelectedMenu,
-  selectedSubMenu,
-  selectedMenu,
-  setSelectedPatientMenu,
-  setSelectedScopedMenu,
-}) => {
+const Chat = () => {
   const { patientId } = useParams();
   const classes = useStyles();
   const theme = useTheme();
@@ -75,7 +68,9 @@ const Chat = ({
   const [createNewMessage] = useMutation(CREATE_MESSAGE, {
     refetchQueries: [{ query: getMessage }],
   });
-  const { data, loading } = useQuery(getProfile, { variables: { profileId: patientId } });
+  const { data, loading } = useQuery(getProfile, {
+    variables: { profileId: patientId },
+  });
   const buttonType = {
     background: theme.palette.common.black,
     hover: theme.palette.primary.main,
@@ -98,9 +93,15 @@ const Chat = ({
   }, [data]);
 
   const validationSchema = Yup.object({
-    subject: Yup.string("Enter your subject").trim().required("Subject is required"),
-    textarea: Yup.string("Enter your message").trim().required("Message is required"),
-    recipient: Yup.string("Enter your recipient").trim().required("recipients is required"),
+    subject: Yup.string("Enter your subject")
+      .trim()
+      .required("Subject is required"),
+    textarea: Yup.string("Enter your message")
+      .trim()
+      .required("Message is required"),
+    recipient: Yup.string("Enter your recipient")
+      .trim()
+      .required("recipients is required"),
   });
   const onSubmit = async (values, onSubmitProps) => {
     const id = localStorage.getItem("user_id");
@@ -120,16 +121,8 @@ const Chat = ({
     }
     onSubmitProps.resetForm();
     history.push(`/patients/${patientId}/profile`);
-    setSelectedScopedMenu(0);
   };
 
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(1);
-    setSelectedScopedMenu(3);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, setSelectedPatientMenu, setSelectedScopedMenu]);
   if (loading) return <Loader />;
   return (
     <Formik
@@ -146,10 +139,7 @@ const Chat = ({
           <Form>
             <Grid container direction="column">
               <Grid item style={{ marginBottom: "3rem" }}>
-                <PreviousButton
-                  path={`/patients/${patientId}/profile`}
-                  onClick={() => setSelectedScopedMenu(0)}
-                />
+                <PreviousButton path={`/patients/${patientId}/profile`} />
               </Grid>
               <Grid item container direction="column" alignItems="center">
                 <Grid item>
@@ -157,9 +147,19 @@ const Chat = ({
                     Create New Message
                   </Typography>
                 </Grid>
-                <Grid item container direction="column" className={classes.gridWrapper}>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.gridWrapper}
+                >
                   <Grid item>
-                    <Grid item container alignItems="center" sx={{ gap: "0!important" }}>
+                    <Grid
+                      item
+                      container
+                      alignItems="center"
+                      sx={{ gap: "0!important" }}
+                    >
                       <Grid item>
                         <Typography variant="body2" className={classes.heading}>
                           Recipient:
@@ -216,7 +216,10 @@ const Chat = ({
                     </Grid>
                     {/* <Divider className={classes.divider} /> */}
                   </Grid>
-                  <Grid item style={{ alignSelf: "flex-end", marginTop: "2rem" }}>
+                  <Grid
+                    item
+                    style={{ alignSelf: "flex-end", marginTop: "2rem" }}
+                  >
                     <CustomButton
                       title="Send Message"
                       width="100%"
@@ -234,17 +237,6 @@ const Chat = ({
       }}
     </Formik>
   );
-};
-
-Chat.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedMenu: PropTypes.func,
-  selectedSubMenu: PropTypes.func,
-  selectedMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default Chat;

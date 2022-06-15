@@ -1,28 +1,36 @@
 import React, { useState, useEffect, Fragment } from "react";
-import PropTypes from "prop-types";
-import { Typography, Toolbar } from "@mui/material";
-import HeaderProfile from "./HeaderProfile";
-import { makeStyles } from "@mui/styles";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Typography, Toolbar, Grid } from "@mui/material";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import PropTypes from "prop-types";
+import useApptype from "hooks/useAppType";
+import HeaderProfile from "./HeaderProfile";
 import { useLazyQuery } from "@apollo/client";
+import { useTheme } from "@mui/material/styles";
 import { getPartner } from "components/graphQL/useQuery";
+import { getAppPattern } from "helpers/filterHelperFunctions";
+import { predicateBreadcrumbFromUrl } from "helperFunctions/breadcrumb";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     alignItems: "center",
-    width: "100%",
+    // width: "100%",
     height: "100%",
+    flex: 1,
     justifyContent: "space-between",
   },
   text: {
     color: theme.palette.common.lightGrey,
-    fontSize: "1.5rem",
+    fontSize: "clamp(1rem, 1.2vw, 1.5rem)",
     fontWeight: 300,
   },
   name: {
-    fontSize: "2rem",
+    fontSize: "clamp(1.5rem, 1.5vw, 2rem)", //clamp(1.5rem, 1.5vw, 2.25rem)
     fontWeight: 300,
   },
   titleWrapper: {
@@ -33,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   title: {
-    fontSize: "2.4rem",
-    color: theme.palette.common.green,
+    // fontSize: "clamp(1.2rem, 1vw+1rem, 2.4rem )",
+    fontSize: "clamp(1.5rem, 1.5vw, 2.25rem)",
+    color: theme.palette.common.red,
     "&.MuiTypography-root": {
       marginRight: ".5rem",
     },
@@ -42,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   subtitle: {
     color: theme.palette.common.green,
     "&.MuiTypography-root": {
-      fontSize: "1.25rem",
+      fontSize: "clamp(0.6rem, 1vw + .5rem, 1.25rem)",
       marginLeft: ".5rem",
       alignSelf: "flex-end",
     },
@@ -52,46 +61,39 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
 }));
-
-const CustomHeaderText = ({ title, path }) => {
+const CustomHeaderTitle = ({ title, path, onClick = null, variant }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.titleWrapper}>
-      <Link to={`/${path}`} className={classes.link}>
-        <Typography variant="h3" classes={{ root: classes.title }}>
+      {!onClick ? (
+        <Link to={`/${path}`} className={classes.link}>
+          <Typography>{title}</Typography>
+        </Link>
+      ) : (
+        <Typography
+          sx={{
+            cursor: "pointer",
+          }}
+          onClick={onClick}
+          variant="h3"
+          classes={{ root: classes.title }}
+        >
           {title}
         </Typography>
-      </Link>
+      )}
     </div>
   );
 };
 
-CustomHeaderText.propTypes = {
-  title: PropTypes.string,
-  total: PropTypes.number,
-  path: PropTypes.string,
-};
-
-const CustomHeaderTitle = ({ title, path }) => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.titleWrapper}>
-      <Link to={`/${path}`} className={classes.link}>
-        <Typography variant="h3" classes={{ root: classes.title }}>
-          {title}
-        </Typography>
-      </Link>
-    </div>
-  );
-};
+//
 
 CustomHeaderTitle.propTypes = {
+  onClick: PropTypes.func,
   title: PropTypes.string,
   path: PropTypes.string,
+  variant: PropTypes.string,
 };
-
 // SUBMENU HEADERS
 const CustomSubHeaderText = (props) => {
   const classes = useStyles();
@@ -106,7 +108,7 @@ const CustomSubHeaderText = (props) => {
     scopedSubMenu,
     titleColor = theme.palette.common.green,
   } = props;
-  console.log("from diagnostics");
+
   return (
     <div className={classes.customSubHeaderWrapper}>
       <Typography variant="h3" style={{ color: theme.palette.common.grey }}>
@@ -177,15 +179,19 @@ CustomSubHeaderText.propTypes = {
 
 // HEADER DYNAMIC RENDERING COMPONENT
 const HeaderText = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    selectedHcpMenu,
-  } = props;
+  const { type } = useApptype();
   const classes = useStyles();
+  const { pathname } = useLocation();
+  const appPattern = getAppPattern(type);
+  const breadcrumbs = React.useMemo(() => {
+    return predicateBreadcrumbFromUrl(appPattern, pathname.substring(1));
+  }, [appPattern, pathname]);
 
-  const theme = useTheme();
+  const counts = {
+    Doctors: null,
+    Patients: null,
+  };
+
   const id = localStorage.getItem("AppId");
   const [pharmacyData, setPharmacyData] = useState([]);
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
@@ -202,110 +208,23 @@ const HeaderText = (props) => {
     }
   }, [pharmacy, data]);
 
-  switch (selectedMenu) {
-    case 0:
+  switch (pathname) {
+    case "/dashboard":
       return (
         <div>
           <Typography variant="h5" className={classes.text} gutterBottom>
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            {pharmacyData && pharmacyData.name}
+            {pharmacyData ? pharmacyData?.name : ""}
           </Typography>
         </div>
       );
-    case 1:
-      if (selectedSubMenu === 2) {
-        return (
-          <CustomSubHeaderText
-            title="Pending Tests"
-            subTitle=" View Request"
-            scopedMenu={0}
-            scopedSubMenu={0}
-            titleColor={
-              selectedPatientMenu === 0
-                ? theme.palette.common.green
-                : theme.palette.common.grey
-            }
-            selectedPatientMenu={selectedPatientMenu}
-          />
-        );
-      }
-      return <CustomHeaderText title="Pending Tests" path="pending" />;
-    case 2:
-      if (selectedSubMenu === 3) {
-        return (
-          <CustomSubHeaderText
-            scopedMenu={0}
-            scopedSubMenu={0}
-            title="Scheduled Tests"
-            subTitle="view Scheduled Request"
-            titleColor={
-              selectedHcpMenu === 0
-                ? theme.palette.common.red
-                : theme.palette.common.grey
-            }
-          />
-        );
-      }
-      return <CustomHeaderText title="Scheduled Tests" path="schedule" />;
-    case 3:
-      if (selectedSubMenu === 4) {
-        return (
-          <CustomSubHeaderText
-            scopedMenu={0}
-            scopedSubMenu={0}
-            title="Completed Tests"
-            subTitle="view Completed Request"
-            titleColor={
-              selectedHcpMenu === 0
-                ? theme.palette.common.red
-                : theme.palette.common.grey
-            }
-          />
-        );
-      }
-      return <CustomHeaderText title="Completed Tests" path="completed" />;
-
-    case 5:
-      if (selectedSubMenu === 6) {
-        return (
-          <CustomSubHeaderText
-            title="Cancelled Tests"
-            scopedMenu={0}
-            scopedSubMenu={0}
-          />
-        );
-      }
-      return <CustomHeaderTitle title="Cancelled Tests" path="cancelled" />;
-    case 11:
-      if (selectedSubMenu === 12) {
-        return (
-          <CustomSubHeaderText
-            title="Settings"
-            subTitle="Profile"
-            titleColor={
-              selectedHcpMenu === 0
-                ? theme.palette.common.red
-                : theme.palette.common.grey
-            }
-            // {pathname === '/setting/profile' ? 'Profile' : ''}
-            scopedMenu={0}
-            scopedSubMenu={0}
-          />
-        );
-      }
-      return <CustomHeaderTitle title="Settings" path="setting" />;
 
     default:
       return (
         <div>
-          <Typography variant="h5" className={classes.text} gutterBottom>
-            Welcome,
-          </Typography>
-          <Typography variant="h3" color="primary" className={classes.name}>
-            {pharmacyData && pharmacyData.name}
-          </Typography>
+          <Breadcrumb breadcrumbs={breadcrumbs} counts={counts} />
         </div>
       );
   }
@@ -321,41 +240,83 @@ HeaderText.propTypes = {
   selectedScopedMenu: PropTypes.number,
 };
 
-const HeaderContent = (props) => {
-  const {
-    selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    selectedHcpMenu,
-    waitingListMenu,
-    selectedAppointmentMenu,
-    selectedScopedMenu,
-  } = props;
+const Breadcrumb = ({ breadcrumbs = [], counts = {} }) => {
+  const theme = useTheme();
   const classes = useStyles();
+  const history = useHistory();
+
+  // Patients Doctors
+
   return (
-    <Toolbar className={classes.toolbar}>
-      <HeaderText
-        selectedMenu={selectedMenu}
-        selectedSubMenu={selectedSubMenu}
-        selectedPatientMenu={selectedPatientMenu}
-        selectedHcpMenu={selectedHcpMenu}
-        waitingListMenu={waitingListMenu}
-        selectedAppointmentMenu={selectedAppointmentMenu}
-        selectedScopedMenu={selectedScopedMenu}
-      />
-      <HeaderProfile />
-    </Toolbar>
+    <Grid container justifyContent="flex-start" alignItems="center">
+      {breadcrumbs.map((text, index) => {
+        return (
+          <>
+            {breadcrumbs.length < 2 ? (
+              <Grid container alignContent="center">
+                <Grid item>
+                  <CustomHeaderTitle
+                    title={text}
+                    variant="h2"
+                    onClick={() => {
+                      const page = index - (breadcrumbs.length - 1);
+                      history.go(page);
+                    }}
+                  />
+                </Grid>
+                {counts[text] && (
+                  <Grid
+                    item
+                    sx={{ marginLeft: "0.5rem", display: "flex" }}
+                    alignContent="center"
+                  >
+                    <Grid container alignContent="center">
+                      <ArrowUpwardIcon color="success" />
+                      <Typography variant="h5" className={classes.subtitle}>
+                        {counts[text]} total
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            ) : (
+              <CustomHeaderTitle
+                title={text}
+                variant="h4"
+                onClick={() => {
+                  const page = index - (breadcrumbs.length - 1);
+                  history.go(page);
+                }}
+              />
+            )}
+            {breadcrumbs.length > 0 && breadcrumbs.length - 1 > index ? (
+              <KeyboardArrowRightIcon
+                size={10}
+                style={{
+                  color: theme.palette.common.grey,
+                }}
+              />
+            ) : null}
+          </>
+        );
+      })}
+    </Grid>
   );
 };
 
-HeaderContent.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  selectedHcpMenu: PropTypes.number,
-  waitingListMenu: PropTypes.number,
-  selectedAppointmentMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
+Breadcrumb.propTypes = {
+  breadcrumbs: PropTypes.array,
+  counts: PropTypes.object,
+};
+
+const HeaderContent = () => {
+  const classes = useStyles();
+  return (
+    <Toolbar className={classes.toolbar}>
+      <HeaderText />
+      <HeaderProfile />
+    </Toolbar>
+  );
 };
 
 export default HeaderContent;

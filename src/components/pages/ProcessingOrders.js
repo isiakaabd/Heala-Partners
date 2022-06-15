@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Success } from "components/modals";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
-import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
 import { FormikControl } from "components/validation";
@@ -48,13 +47,6 @@ const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -137,12 +129,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProcessingOrders = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const ProcessingOrders = () => {
   const theme = useTheme();
   const classes = useStyles();
   const [state, setState] = useState([]);
@@ -151,7 +138,6 @@ const ProcessingOrders = ({
   });
   const [cancelTest] = useMutation(cancelDrugOrder);
   const handleClose = () => setOpenHcpFilter(false);
-
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data);
   }, [data]);
@@ -251,12 +237,6 @@ const ProcessingOrders = ({
     status: "",
   });
 
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
-
   const { date, specialization, hospital } = selectedInput;
 
   const { rowsPerPage, selectedRows, page } = useSelector(
@@ -268,8 +248,13 @@ const ProcessingOrders = ({
 
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
-      <Grid item container>
-        <Grid item className={classes.searchGrid}>
+      <Grid
+        item
+        container
+        flexDirection={{ md: "row", sm: "row", xs: "column" }}
+        spacing={{ md: 4, sm: 4, xs: 2 }}
+      >
+        <Grid item flex={1}>
           <Search
             value={searchHcp}
             onChange={(e) => setSearchHcp(e.target.value)}
@@ -278,10 +263,7 @@ const ProcessingOrders = ({
           />
         </Grid>
         <Grid item>
-          <FilterList
-            onClick={() => setOpenHcpFilter(true)}
-            title="Filter referrals"
-          />
+          <FilterList onClick={() => setOpenHcpFilter(true)} title="Filter" />
         </Grid>
       </Grid>
       {state.length > 0 ? (
@@ -563,11 +545,6 @@ const ProcessingOrders = ({
       </Modals>
     </Grid>
   );
-};
-
-ProcessingOrders.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default ProcessingOrders;

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { TableHead, Checkbox, TableRow, TableCell } from "@mui/material";
-
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({

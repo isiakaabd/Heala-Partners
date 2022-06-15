@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   TableRow,
   Grid,
@@ -6,68 +6,68 @@ import {
   TableCell,
   Avatar,
   Chip,
-} from '@mui/material'
-import EnhancedTable from './EnhancedTable'
-import { availabilityHeadCells } from 'components/Utilities/tableHeaders'
-import { useSelector } from 'react-redux'
-import { makeStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
-import displayPhoto from 'assets/images/avatar.svg'
-import { hours } from 'components/Utilities/Time'
-import PropTypes from 'prop-types'
-import { EmptyTable } from '.'
+} from "@mui/material";
+import EnhancedTable from "./EnhancedTable";
+import { availabilityHeadCells } from "components/Utilities/tableHeaders";
+import { useSelector } from "react-redux";
+import { makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
+import displayPhoto from "assets/images/avatar.svg";
+import { hours } from "components/Utilities/Time";
+
+import { EmptyTable } from ".";
 
 const useStyles = makeStyles((theme) => ({
   tableCell: {
-    '&.MuiTableCell-root': {
-      fontSize: '1.25rem',
+    "&.MuiTableCell-root": {
+      fontSize: "1.25rem",
     },
   },
   button: {
-    '&.MuiButton-root': {
+    "&.MuiButton-root": {
       ...theme.typography.rowBtn,
-      paddingTop: '.5rem',
-      paddingBottom: '.5rem',
+      paddingTop: ".5rem",
+      paddingBottom: ".5rem",
       background: theme.palette.common.lightGrey,
       color: theme.palette.primary.dark,
 
-      '&:hover': {
-        background: '#ccc',
+      "&:hover": {
+        background: "#ccc",
       },
 
-      '&:active': {
+      "&:active": {
         background: theme.palette.primary.light,
-        color: '#fff',
+        color: "#fff",
       },
 
-      '& .MuiButton-endIcon>*:nth-of-type(1)': {
-        fontSize: '1.2rem',
+      "& .MuiButton-endIcon>*:nth-of-type(1)": {
+        fontSize: "1.2rem",
       },
     },
   },
 
   badge: {
-    '&.MuiChip-root': {
-      fontSize: '1.2rem !important',
-      height: '2.7rem',
-      borderRadius: '1.3rem',
+    "&.MuiChip-root": {
+      fontSize: "1.2rem !important",
+      height: "2.7rem",
+      borderRadius: "1.3rem",
     },
   },
-}))
+}));
 
 const AvailabilityTable = ({ data }) => {
-  const [avaliablity, setAvaliablity] = useState([])
+  const [avaliablity, setAvaliablity] = useState([]);
   useEffect(() => {
-    setAvaliablity(data)
-  }, [data])
+    setAvaliablity(data);
+  }, [data]);
 
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
-  const { page, rowsPerPage } = useSelector((state) => state.tables)
+  const { page, rowsPerPage } = useSelector((state) => state.tables);
 
   return (
-    <Grid container height="100%" gap={2}>
+    <Grid item container gap={2}>
       <Grid item sx={{ flexGrow: 1 }}>
         <Typography variant="h4">Availability Table</Typography>
       </Grid>
@@ -84,8 +84,8 @@ const AvailabilityTable = ({ data }) => {
             {avaliablity
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { _id, doctor, dates } = row
-                const labelId = `enhanced-table-checkbox-${index}`
+                const { _id, doctor, dates } = row;
+                const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow hover tabIndex={-1} key={_id}>
                     <TableCell
@@ -100,26 +100,26 @@ const AvailabilityTable = ({ data }) => {
                     <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          textAlign: 'left',
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          textAlign: "left",
                         }}
                       >
-                        <span style={{ marginRight: '1rem' }}>
+                        <span style={{ marginRight: "1rem" }}>
                           <Avatar
                             alt="Remy Sharp"
                             src={displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
-                        <span style={{ fontSize: '1.25rem' }}>{doctor}</span>
+                        <span style={{ fontSize: "1.25rem" }}>{doctor}</span>
                       </div>
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       {dates &&
                         dates.map((times) => {
-                          return times.day
+                          return times.day;
                         })}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
@@ -131,7 +131,7 @@ const AvailabilityTable = ({ data }) => {
                                 <Chip
                                   key={index}
                                   label={`${hours(time.start)} - ${hours(
-                                    time.stop,
+                                    time.stop
                                   )} `}
                                   className={classes.badge}
                                   style={{
@@ -139,28 +139,25 @@ const AvailabilityTable = ({ data }) => {
                                     color: theme.palette.common.green,
                                   }}
                                 />
-                              )
-                            })
+                              );
+                            });
                           })}
                       </Grid>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
           </EnhancedTable>
         ) : (
-          <EmptyTable 
-          headCells={availabilityHeadCells}
-          paginationLabel="Availability  per page"
-          text="No Availabity Data"
-       />
+          <EmptyTable
+            headCells={availabilityHeadCells}
+            paginationLabel="Availability  per page"
+            text="No Availabity Data"
+          />
         )}
       </Grid>
     </Grid>
-  )
-}
-AvailabilityTable.propTypes = {
-  data: PropTypes.object,
-}
+  );
+};
 
-export default AvailabilityTable
+export default AvailabilityTable;

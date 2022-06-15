@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { EmptyTable } from "components/layouts";
+import { EmptyTable, NoData } from "components/layouts";
 import {
   Grid,
   Typography,
-  Avatar,
   Chip,
   Checkbox,
   TableRow,
@@ -18,13 +16,11 @@ import EnhancedTable from "components/layouts/EnhancedTable";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { payoutHeader } from "components/Utilities/tableHeaders";
-import displayPhoto from "assets/images/avatar.svg";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
-import PreviousButton from "components/Utilities/PreviousButton";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
@@ -87,24 +83,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Payout = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Payout = () => {
   const classes = useStyles();
   const theme = useTheme();
 
   const { selectedRows } = useSelector((state) => state.tables);
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(8);
-    setSelectedSubMenu(9);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   const { loading, data, error, refetch } = useQuery(getEarningStats, {
     notifyOnNetworkStatusChange: true,
   });
@@ -121,16 +106,12 @@ const Payout = ({
   }, [data]);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   if (loading) return <Loader />;
-  if (error) return <noData error={error} />;
+  if (error) return <NoData error={error} />;
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
     pageInfo;
 
   return (
     <Grid container direction="column" rowSpacing={2}>
-      <Grid item>
-        <PreviousButton path="/finance" onClick={() => setSelectedSubMenu(0)} />
-      </Grid>
-
       <>
         <Grid
           item
@@ -169,9 +150,10 @@ const Payout = ({
               {payout
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const { amount, createdAt, doctorData, status, _id } = row;
-                  const { firstName, picture, lastName, specialization } =
-                    doctorData[0];
+                  console.log(row);
+                  const { amount, createdAt, /* doctorData, */ status, _id } =
+                    row;
+
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -227,19 +209,19 @@ const Payout = ({
                           }}
                         >
                           <span style={{ marginRight: "1rem" }}>
-                            <Avatar
+                            {/* <Avatar
                               alt="Remy Sharp"
                               src={picture ? picture : displayPhoto}
                               sx={{ width: 24, height: 24 }}
-                            />
+                            /> */}
                           </span>
                           <span style={{ fontSize: "1.25rem" }}>
-                            {firstName} {lastName}
+                            {/* {firstName} {lastName} */}
                           </span>
                         </div>
                       </TableCell>
                       <TableCell align="left" className={classes.tableCell}>
-                        {specialization}
+                        {/* {specialization} */}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -278,13 +260,6 @@ const Payout = ({
       </>
     </Grid>
   );
-};
-
-Payout.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Payout;

@@ -34,13 +34,6 @@ import { useQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -151,17 +144,11 @@ const dates = ["Hello", "World", "Goodbye", "World"];
 const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
-const ScheduledRequest = ({
-  setSelectedSubMenu,
-  setSelectedMenu,
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedHcpMenu,
-}) => {
+const ScheduledRequest = () => {
   const classes = useStyles();
+  const status = "scheduled";
   const [searchPartner, setSearchPartner] = useState("");
   const [scheduleState, setScheduleState] = useState(null);
-  const status = "scheduled";
   const { data, loading, error } = useQuery(getDiagnosticTests, {
     variables: { status },
   });
@@ -189,19 +176,26 @@ const ScheduledRequest = ({
   const { rowsPerPage, selectedRows, page } = useSelector(
     (state) => state.tables
   );
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
+
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   return (
     <>
-      <Grid container direction="column" flexWrap="nowrap" gap={2}>
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+      <Grid
+        container
+        direction="column"
+        height="100%"
+        gap={2}
+        flexWrap="nowrap"
+      >
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchPartner}
               onChange={(e) => setSearchPartner(e.target.value)}
@@ -315,11 +309,6 @@ const ScheduledRequest = ({
                           component={Link}
                           to={`/schedule/${_id}/schedule`}
                           className={classes.chip}
-                          onClick={() => {
-                            setSelectedSubMenu(3);
-                            setSelectedHcpMenu(1);
-                            // setSelectedPatientMenu(0)
-                          }}
                           deleteIcon={<ArrowForwardIosIcon />}
                         />
                       </TableCell>
@@ -341,10 +330,10 @@ const ScheduledRequest = ({
           rowSpacing={5}
           handleClose={() => setOpenFilterPartner(false)}
         >
-          <Grid item container direction="column">
+          <Grid item container rowGap={3} direction="column">
             <Grid item>
               <Grid container spacing={2}>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -367,7 +356,7 @@ const ScheduledRequest = ({
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -392,9 +381,9 @@ const ScheduledRequest = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+            <Grid item>
               <Grid container spacing={2}>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -420,7 +409,7 @@ const ScheduledRequest = ({
                 <Grid item md></Grid>
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid item marginTop={3}>
               <Button
                 variant="contained"
                 onClick={() => setOpenFilterPartner(false)}

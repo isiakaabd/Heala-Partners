@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography, Chip } from "@mui/material";
 import { NoData } from "components/layouts";
 import { ReactComponent as CompleteIcon } from "assets/images/complete.svg";
-import { Loader, DisplayProfiles, PreviousButton } from "components/Utilities";
+import { Loader, DisplayProfile1 } from "components/Utilities";
 import { makeStyles } from "@mui/styles";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -57,9 +56,7 @@ const useStyles = makeStyles((theme) => ({
   cardContainer: {
     "&.MuiGrid-root": {
       display: "grid",
-      gridTemplateColumns: "repeat(2,minmax(15rem,1fr))",
-      rowGap: "3rem",
-      columnGap: "2rem",
+      gap: "3rem",
       "& > *": {
         flex: 1,
         boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
@@ -99,12 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewResult = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-  type,
-}) => {
+const ViewResult = () => {
   const classes = useStyles();
   const { completeId } = useParams();
   const [scheduleState, setScheduleState] = useState([]);
@@ -121,17 +113,10 @@ const ViewResult = ({
     }
   }, [data]);
 
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
-
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   const {
     createdAt,
-    gender,
     sampleCollection,
     referralId,
     reason,
@@ -151,19 +136,10 @@ const ViewResult = ({
   return (
     <>
       <Grid container direction="column" style={{ paddingBottom: "2rem" }}>
-        <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/completed"}
-            onClick={() => {
-              setSelectedSubMenu(6);
-            }}
-          />
-        </Grid>
         {/* Display photo and profile name grid */}
 
-        <DisplayProfiles
+        <DisplayProfile1
           createdAt={createdAt}
-          gender={gender}
           sampleCollection={sampleCollection}
           referralId={referralId}
           reason={reason}
@@ -179,16 +155,31 @@ const ViewResult = ({
           item
           container
           className={classes.cardContainer}
-          ga
+          gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr" }}
           sx={{ paddingTop: "5rem" }}
         >
-          <Grid item xs={12} md={12} container className={classes.card}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">
                 {tests && tests.length > 1 ? "Tests" : "Test"}
               </Typography>
             </Grid>
-            <Grid item container gap={2}>
+            <Grid
+              item
+              container
+              justifyContent={{ sm: "flex-start", xs: "center" }}
+              alignItems={{ sm: "flex-start", xs: "center" }}
+              gap={2}
+            >
               {tests && tests.length > 0 ? (
                 tests.map((i) => {
                   return (
@@ -218,7 +209,16 @@ const ViewResult = ({
               )}
             </Grid>
           </Grid>
-          <Grid item md={12} xs={12} container className={classes.card}>
+          <Grid
+            item
+            md={12}
+            xs={12}
+            container
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test ID </Typography>
             </Grid>
@@ -230,7 +230,16 @@ const ViewResult = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            md={12}
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Doctor Name</Typography>
             </Grid>
@@ -246,7 +255,16 @@ const ViewResult = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            md={12}
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Affliation</Typography>
             </Grid>
@@ -258,7 +276,16 @@ const ViewResult = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            md={12}
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test Option</Typography>
             </Grid>
@@ -270,12 +297,27 @@ const ViewResult = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            md={12}
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test Collection Details</Typography>
             </Grid>
             {userLocation ? (
-              <Grid item container gap={2}>
+              <Grid
+                item
+                container
+                justifyContent={{ sm: "flex-start", xs: "center" }}
+                alignItems={{ sm: "flex-start", xs: "center" }}
+                gap={2}
+              >
                 <Grid item>
                   <Chip
                     variant="outlined"
@@ -307,7 +349,16 @@ const ViewResult = ({
               </Grid>
             )}
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            md={12}
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Reason For Referral</Typography>
             </Grid>
@@ -319,14 +370,28 @@ const ViewResult = ({
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            container
+            md={12}
+            xs={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="body1">Test Result</Typography>
             </Grid>
-            <Grid item container gap={2}>
+            <Grid
+              item
+              container
+              justifyContent={{ sm: "flex-start", xs: "center" }}
+              alignItems={{ sm: "flex-start", xs: "center" }}
+              gap={2}
+            >
               {testResults ? (
-                testResults.map((item, index) => {
-                  console.log(item);
+                testResults?.map((item, index) => {
                   return (
                     <Grid item key={index}>
                       <Grid container direction="column">
@@ -356,11 +421,6 @@ const ViewResult = ({
       </Grid>
     </>
   );
-};
-
-ViewResult.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
 };
 
 export default ViewResult;

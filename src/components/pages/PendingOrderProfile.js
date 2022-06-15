@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+
 import { makeStyles } from "@mui/styles";
 import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
@@ -8,7 +8,6 @@ import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
 import {
   DisplayProfile,
-  PreviousButton,
   CustomButton,
   Loader,
   Modals,
@@ -97,69 +96,9 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.grey,
     },
   },
-  // gridsWrapper: {
-  //   background: "#fff",
-  //   borderRadius: "1rem",
-  //   padding: "4rem",
-  //   boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
-  // },
-
-  // badge: {
-  //   "&.MuiChip-root": {
-  //     fontSize: "1.3rem !important",
-  //     //   height: "2.7rem",
-  //     background: theme.palette.common.lightGreen,
-  //     color: theme.palette.common.green,
-  //     borderRadius: "1.5rem",
-  //   },
-  // },
-
-  // cardGrid: {
-  //   background: "#fff",
-  //   borderRadius: "1rem",
-  //   padding: "4rem 5rem",
-  //   height: "16.1rem",
-  //   boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
-  // },
-
-  // infoBadge: {
-  //   "&.MuiChip-root": {
-  //     fontSize: "1.25rem",
-  //     borderRadius: "1.5rem",
-  //     color: theme.palette.common.green,
-  //   },
-  // },
-
-  // link: {
-  //   display: "flex",
-  //   alignItems: "center",
-  //   fontSize: "1.25rem",
-  //   color: theme.palette.common.green,
-  //   border: `1px solid ${theme.palette.common.lightGrey}`,
-  //   padding: ".75rem",
-  //   borderRadius: "1.5rem",
-  //   textDecoration: "none",
-  // },
-
-  // linkIcon: {
-  //   "&.MuiSvgIcon-root": {
-  //     fontSize: "1.25rem",
-  //     color: theme.palette.common.green,
-  //     marginLeft: "1.2rem",
-  //   },
-  // },
-
-  // buttonsGridWrapper: {
-  //   marginTop: "5rem !important",
-  //   height: "16.1rem",
-  // },
 }));
 
-const PendingOrderProfile = ({
-  chatMediaActive,
-  setChatMediaActive,
-  setSelectedSubMenu,
-}) => {
+const PendingOrderProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const theme = useTheme();
@@ -209,7 +148,6 @@ const PendingOrderProfile = ({
         variant: "success",
       });
       history.push("/processing-order");
-      setSelectedSubMenu(4);
     } catch (error) {
       enqueueSnackbar(getErrors(error), {
         variant: "error",
@@ -233,12 +171,6 @@ const PendingOrderProfile = ({
     active: "#f4f4f4",
   };
   const history = useHistory();
-
-  useLayoutEffect(() => {
-    setChatMediaActive(false);
-
-    // eslint-disable-next-line
-  }, [chatMediaActive]);
 
   const initialValues = {
     reason: "",
@@ -298,40 +230,20 @@ const PendingOrderProfile = ({
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  // useEffect(() => {
-  //   setSelectedMenu(1);
-  //   setSelectedSubMenu(2);
-  //   //   eslint-disable-next-line
-  // }, [selectedMenu, selectedSubMenu]);
 
   return (
     <>
       <Grid container direction="column">
-        <Grid item style={{ marginBottom: "3rem" }}>
-          <PreviousButton
-            path={"/pending-order"}
-            onClick={() => {
-              setSelectedSubMenu(4);
-            }}
-          />
-        </Grid>
         {/* Display photo and profile name grid */}
         <Grid item>
           <DisplayProfile
             medicalTitle="User ID"
             patientData={patientData}
             chatPath={`/patients/${orderId}/profile/chat`}
-            setChatMediaActive={setChatMediaActive}
           />
         </Grid>
         {/* PERSONAL INFO SECTION */}
-        <Grid
-          item
-          container
-          className={classes.cardContainer}
-          ga
-          sx={{ paddingTop: "5rem" }}
-        >
+        <Grid item container className={classes.cardContainer}>
           <Grid item container md={12} xs={12} className={classes.card}>
             <Grid item>
               <Typography variant="h4">Date </Typography>
@@ -540,12 +452,6 @@ const PendingOrderProfile = ({
       </Modals>
     </>
   );
-};
-
-PendingOrderProfile.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
-  type: PropTypes.string,
 };
 
 export default PendingOrderProfile;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+
 import { Grid, Typography, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Loader from "components/Utilities/Loader";
@@ -60,14 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HCPChat = ({
-  setSelectedSubMenu,
-  setSelectedMenu,
-  selectedSubMenu,
-  selectedMenu,
-  setSelectedHcpMenu,
-  setSelectedScopedMenu,
-}) => {
+const HCPChat = () => {
   const { hcpId } = useParams();
 
   const classes = useStyles();
@@ -99,9 +92,15 @@ const HCPChat = ({
   }, [data]);
 
   const validationSchema = Yup.object({
-    subject: Yup.string("Enter your subject").trim().required("Subject is required"),
-    textarea: Yup.string("Enter your message").trim().required("Message is required"),
-    recipient: Yup.string("Enter your recipient").trim().required("recipients is required"),
+    subject: Yup.string("Enter your subject")
+      .trim()
+      .required("Subject is required"),
+    textarea: Yup.string("Enter your message")
+      .trim()
+      .required("Message is required"),
+    recipient: Yup.string("Enter your recipient")
+      .trim()
+      .required("recipients is required"),
   });
   const onSubmit = async (values, onSubmitProps) => {
     const id = localStorage.getItem("user_id");
@@ -121,17 +120,8 @@ const HCPChat = ({
     }
     onSubmitProps.resetForm();
     history.push(`/hcps/${hcpId}/profile`);
-
-    setSelectedScopedMenu(0);
   };
 
-  useEffect(() => {
-    setSelectedMenu(2);
-    setSelectedSubMenu(3);
-    setSelectedHcpMenu(1);
-    setSelectedScopedMenu(3);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, setSelectedHcpMenu, setSelectedScopedMenu]);
   if (loading) return <Loader />;
   return (
     <Formik
@@ -148,10 +138,7 @@ const HCPChat = ({
           <Form>
             <Grid container direction="column">
               <Grid item style={{ marginBottom: "3rem" }}>
-                <PreviousButton
-                  path={`/hcps/${hcpId}/profile`}
-                  onClick={() => setSelectedScopedMenu(0)}
-                />
+                <PreviousButton path={`/hcps/${hcpId}/profile`} />
               </Grid>
               <Grid item container direction="column" alignItems="center">
                 <Grid item>
@@ -159,9 +146,19 @@ const HCPChat = ({
                     Create New Message
                   </Typography>
                 </Grid>
-                <Grid item container direction="column" className={classes.gridWrapper}>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  className={classes.gridWrapper}
+                >
                   <Grid item>
-                    <Grid item container alignItems="center" sx={{ gap: "0!important" }}>
+                    <Grid
+                      item
+                      container
+                      alignItems="center"
+                      sx={{ gap: "0!important" }}
+                    >
                       <Grid item>
                         <Typography variant="body2" className={classes.heading}>
                           Recipient:
@@ -218,7 +215,10 @@ const HCPChat = ({
                     </Grid>
                     {/* <Divider className={classes.divider} /> */}
                   </Grid>
-                  <Grid item style={{ alignSelf: "flex-end", marginTop: "2rem" }}>
+                  <Grid
+                    item
+                    style={{ alignSelf: "flex-end", marginTop: "2rem" }}
+                  >
                     <CustomButton
                       title="Send Message"
                       width="100%"
@@ -236,17 +236,6 @@ const HCPChat = ({
       }}
     </Formik>
   );
-};
-
-HCPChat.propTypes = {
-  chatMediaActive: PropTypes.bool,
-  setChatMediaActive: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedMenu: PropTypes.func,
-  selectedSubMenu: PropTypes.number,
-  selectedMenu: PropTypes.number,
-  setSelectedHcpMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default HCPChat;

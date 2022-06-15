@@ -234,7 +234,6 @@ const Subscription = () => {
   };
   useEffect(() => {
     if (data) {
-      console.log(data);
       setPlan(data.getPlans.plan);
       setPageInfo(data.getPlans.pageInfo);
     }
@@ -255,7 +254,6 @@ const Subscription = () => {
   if (error) console.log(error);
   //  return <NoData error={error} />
 
-  console.log(plan, "fff");
   return (
     <>
       <Grid
@@ -275,8 +273,13 @@ const Subscription = () => {
           </Alert>
         )}
 
-        <Grid item container gap={3}>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          // direction={{ sm: "row", md: "row", xs: "column" }}
+          container
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={2}>
             <Search
               value={searchMail}
               onChange={(e) => onChange(e.target.value)}
@@ -288,7 +291,7 @@ const Subscription = () => {
           <Grid item>
             <CustomButton
               endIcon={<AddIcon />}
-              title="Create new plan"
+              title="Create"
               type={buttonType}
               onClick={handleDialogOpen}
             />

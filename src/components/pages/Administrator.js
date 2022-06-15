@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
+import PropTypes from "prop-types";
 import * as Yup from "yup";
 import FormikControl from "components/validation/FormikControl";
 import {
   Loader,
   Button,
   Modals,
-  PreviousButton,
   CustomButton,
   Search,
   FilterList,
 } from "components/Utilities";
 import { useTheme } from "@mui/material/styles";
-import PropTypes from "prop-types";
+
 import { Grid, Checkbox, TableRow, TableCell } from "@mui/material";
 import { signup } from "components/graphQL/Mutation";
 import { EnhancedTable, NoData, EmptyTable } from "components/layouts";
@@ -274,9 +274,6 @@ const Administrator = ({
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item>
-          <PreviousButton path="/settings" />
-        </Grid>
         <Grid item container flexWrap="nowrap" gap={2}>
           <Grid item className={classes.searchGrid}>
             <Search

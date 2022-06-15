@@ -1,12 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
-import PropTypes from "prop-types";
 import { Grid, Typography, Divider, Chip, Avatar } from "@mui/material";
-import {
-  Modals,
-  CustomButton,
-  PreviousButton,
-  Loader,
-} from "components/Utilities";
+import { Modals, CustomButton, Loader } from "components/Utilities";
 import Copy from "components/Copy";
 import { makeStyles } from "@mui/styles";
 import { useQuery } from "@apollo/client";
@@ -67,26 +61,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CaseNotes = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  selectedScopedMenu,
-  setSelectedSubMenu,
-  selectedPatientMenu,
-  setSelectedPatientMenu,
-  setSelectedScopedMenu,
-}) => {
+const CaseNotes = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const { patientId, rowId } = useParams();
-  useEffect(() => {
-    setSelectedMenu(1);
-    setSelectedSubMenu(2);
-    setSelectedPatientMenu(5);
-    setSelectedScopedMenu(1);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, selectedPatientMenu, selectedScopedMenu]);
+  const { rowId } = useParams();
   const [caseNoteState, setCaseNoteState] = useState([]);
 
   const { loading, data, error } = useQuery(getConsult, {
@@ -139,12 +117,6 @@ const CaseNotes = ({
     <>
       <Grid container direction="column" gap={2}>
         <Grid item>
-          <PreviousButton
-            path={`/patients/${patientId}/consultations`}
-            onClick={() => setSelectedPatientMenu(5)}
-          />
-        </Grid>
-        <Grid item>
           <Typography variant="h2">Consultation Details</Typography>
         </Grid>
 
@@ -154,10 +126,18 @@ const CaseNotes = ({
           direction="column"
           className={classes.parentGridWrapper}
         >
-          <Grid item container className={classes.item}>
+          <Grid
+            item
+            container
+            flexWrap="wrap"
+            className={classes.item}
+            flexDirection={{ xs: "column", sm: "row", md: "row" }}
+            alignItems={{ md: "center", xs: "flex-start", sm: "flex-start" }}
+            rowGap={{ xs: "1.5rem", sm: "1.5rem" }}
+          >
             <Grid item>
-              <Grid container className={classes.subItem}>
-                <Grid item container marginBottom="2rem">
+              <Grid container className={classes.subItem} gap={2}>
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Consultation Date:
                   </Typography>
@@ -168,65 +148,73 @@ const CaseNotes = ({
               </Grid>
             </Grid>
             <Grid item>
-              <Grid
-                item
-                container
-                flexDirection="column"
-                className={classes.subItem}
-              >
-                <Grid item marginBottom="2rem">
+              <Grid item container className={classes.subItem} gap={2}>
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Referral:
                   </Typography>
                 </Grid>
                 <Grid item>
                   {referralId ? (
-                    <>
-                      <Typography variant="h5" sx={{ marginRight: "1rem" }}>
+                    <Grid item container gap={2}>
+                      <Typography variant="body1">
                         {trucateString(referralId, 10)}
                       </Typography>
                       <Copy text={referralId} name="Consultation ID" />
-                    </>
+                    </Grid>
                   ) : (
-                    <Typography variant="h5">No Value</Typography>
+                    "No value"
                   )}
                 </Grid>
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item container flexDirection="column">
-                <Grid item marginBottom="2rem">
+              <Grid
+                item
+                container
+                flexDirection="column"
+                gap={2}
+                className={classes.subItem}
+              >
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Consultation ID:
                   </Typography>
                 </Grid>
                 <Grid item>
                   {referralId ? (
-                    <>
-                      <Typography variant="h5" sx={{ marginRight: "1rem" }}>
+                    <Grid item container gap={2}>
+                      <Typography variant="h5">
                         {trucateString(referralId, 10)}
                       </Typography>
                       <Copy text={referralId} name="Consultation ID" />
-                    </>
+                    </Grid>
                   ) : (
-                    <Typography variant="h5">No Value</Typography>
+                    <Typography variant="h5"> No value</Typography>
                   )}
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
           <Divider color={theme.palette.common.lighterGrey} />
-          <Grid item container className={classes.item}>
+          <Grid
+            item
+            container
+            className={classes.item}
+            flexDirection={{ xs: "column", sm: "row", md: "row" }}
+            alignItems={{ md: "center", xs: "flex-start", sm: "flex-start" }}
+            rowGap={{ xs: "1.5rem", sm: "1.5rem" }}
+          >
             <Grid item>
-              <Grid container className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid container className={classes.subItem} gap={2}>
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Doctor:
                   </Typography>
                 </Grid>
                 {doctorData && Object.keys(doctorData).length > 0 ? (
-                  <>
-                    <Grid item>
+                  <Grid item container alignItems="center">
+                    <Grid item marginRight={2}>
                       <Avatar
                         src={doctorData.image}
                         alt={`Display photo of the ${doctorData.firstName}`}
@@ -235,35 +223,35 @@ const CaseNotes = ({
                     <Grid item>
                       <Typography variant="h5">{`${doctorData.firstName} ${doctorData.lastName}`}</Typography>
                     </Grid>
-                  </>
+                  </Grid>
                 ) : (
                   <Typography variant="h5">No Doctor</Typography>
                 )}
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid item container className={classes.subItem} gap={2}>
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Contact:
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">
+                  <Typography variant="body1">
                     {contactMedium ? contactMedium : "No Value"}
                   </Typography>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid item container className={classes.subItem} gap={2}>
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Owner:
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">
+                  <Typography variant="body1">
                     {consultationOwner ? consultationOwner : "No Value"}
                   </Typography>
                 </Grid>
@@ -272,42 +260,49 @@ const CaseNotes = ({
           </Grid>
           <Divider color={theme.palette.common.lighterGrey} />
 
-          <Grid item container className={classes.item}>
-            <Grid item container className={classes.subItem}>
-              <Grid item marginBottom="2rem">
+          <Grid
+            item
+            container
+            className={classes.item}
+            flexDirection={{ xs: "column", sm: "row", md: "row" }}
+            alignItems={{ md: "center", xs: "flex-start", sm: "flex-start" }}
+            rowGap={{ xs: "1.5rem", sm: "1.5rem" }}
+          >
+            <Grid item container className={classes.subItem} gap={2}>
+              <Grid item>
                 <Typography variant="body1" className={classes.title}>
                   Severity:
                 </Typography>
               </Grid>
               <Grid item>
                 <Grid container gap={1}>
-                  <Typography variant="h5">
+                  <Typography variant="body1">
                     {severity ? severity : "No value"}
                   </Typography>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item container className={classes.subItem}>
-              <Grid item marginBottom="2rem">
+            <Grid item container className={classes.subItem} gap={2}>
+              <Grid item>
                 <Typography variant="body1" className={classes.title}>
                   First Notice:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">
+                <Typography variant="body1">
                   {" "}
                   {firstNotice ? firstNotice : "No value"}
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container className={classes.subItem}>
-              <Grid item marginBottom="2rem">
+            <Grid item container className={classes.subItem} gap={2}>
+              <Grid item>
                 <Typography variant="body1" className={classes.title}>
                   Discomfort:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">
+                <Typography variant="body1">
                   {discomfortLevel ? discomfortLevel : "No Value"}
                 </Typography>
               </Grid>
@@ -315,9 +310,16 @@ const CaseNotes = ({
           </Grid>
 
           <Divider color={theme.palette.common.lighterGrey} />
-          <Grid item container className={classes.item}>
-            <Grid item container className={classes.subItem}>
-              <Grid item marginBottom="2rem">
+          <Grid
+            item
+            container
+            className={classes.item}
+            flexDirection={{ xs: "column", sm: "row", md: "row" }}
+            alignItems={{ md: "center", xs: "flex-start", sm: "flex-start" }}
+            rowGap={{ xs: "1.5rem", sm: "1.5rem" }}
+          >
+            <Grid item container className={classes.subItem} gap={2}>
+              <Grid item>
                 <Typography variant="body1" className={classes.title}>
                   Symptoms:
                 </Typography>
@@ -327,20 +329,26 @@ const CaseNotes = ({
                   {symptoms ? (
                     symptoms.map((symptom, index) => {
                       return (
-                        <Typography key={index} variant="h5">
+                        <Typography key={index} variant="body1">
                           {`${symptom.name},`}
                         </Typography>
                       );
                     })
                   ) : (
-                    <Typography variant="h5">No Value</Typography>
+                    <Typography variant="body1">No Value</Typography>
                   )}
                 </Grid>
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item container flexDirection="column">
-                <Grid item marginBottom="2rem">
+              <Grid
+                item
+                container
+                flexDirection="column"
+                className={classes.subItem}
+                gap={2}
+              >
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Status:
                   </Typography>
@@ -355,14 +363,14 @@ const CaseNotes = ({
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item container className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid item container className={classes.subItem} gap={2}>
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Type:
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">
+                  <Typography variant="body1">
                     {type ? type : "No Value"}
                   </Typography>
                 </Grid>
@@ -370,15 +378,22 @@ const CaseNotes = ({
             </Grid>
           </Grid>
           <Divider color={theme.palette.common.lighterGrey} />
-          <Grid item container className={classes.item}>
-            <Grid item container direction="column" gap={2}>
+          <Grid
+            item
+            container
+            className={classes.item}
+            flexDirection={{ xs: "column", sm: "row", md: "row" }}
+            alignItems={{ md: "center", xs: "flex-start", sm: "flex-start" }}
+            rowGap={{ xs: "1.5rem", sm: "1.5rem" }}
+          >
+            <Grid item container className={classes.subItem} gap={2}>
               <Grid item>
                 <Typography variant="body1" className={classes.title}>
                   Description:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">
+                <Typography variant="body1" style={{ lineHeight: 1.85 }}>
                   {description ? description : "No Value"}
                 </Typography>
               </Grid>
@@ -390,7 +405,7 @@ const CaseNotes = ({
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">
+                <Typography variant="body1" style={{ lineHeight: 1.85 }}>
                   {doctorNote ? doctorNote : "No Value"}
                 </Typography>
               </Grid>
@@ -402,7 +417,9 @@ const CaseNotes = ({
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">{dateMoment(updatedAt)}</Typography>
+                <Typography variant="body1" style={{ lineHeight: 1.85 }}>
+                  {dateMoment(updatedAt)}
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -411,10 +428,9 @@ const CaseNotes = ({
             item
             container
             style={{ padding: "2rem 3rem" }}
-            alignItems="center"
             justifyContent="flex-end"
           >
-            <Grid item container sx={{ width: "20%" }}>
+            <Grid item container width={{ md: "20%", xs: "100%", sm: "50%" }}>
               <CustomButton
                 title="View Prescription"
                 width="100%"
@@ -428,8 +444,9 @@ const CaseNotes = ({
 
       <Modals
         isOpen={isOpen}
+        height={{ xs: "90vh" }}
         title="Prescription"
-        width="50vw"
+        width={{ md: "50vw", sm: "70vw", xs: "90vw" }}
         rowSpacing={2}
         handleClose={handleDialogClose}
       >
@@ -437,22 +454,29 @@ const CaseNotes = ({
           <Grid
             item
             container
-            style={{ padding: "2rem 0" }}
-            alignItems="center"
+            padding={{ md: "2rem 0", sm: "1rem 0", xs: "1rem 0" }}
+            // alignItems="center"
             justifyContent="space-between"
             width="100%"
-            sx={{ flexWrap: "nowrap" }}
+            flexDirection={{ xs: "column", sm: "row", md: "row" }}
+            alignItems={{ md: "center", xs: "flex-start", sm: "flex-start" }}
+            rowGap={{ xs: "1rem", sm: "1.5rem" }}
           >
             <Grid item>
-              <Grid item container className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid
+                item
+                container
+                className={classes.subItem}
+                gap={{ md: 2, sm: 2, xs: 0 }}
+              >
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Doctor:
                   </Typography>
                 </Grid>
                 {doctorData && Object.keys(doctorData).length > 0 ? (
-                  <>
-                    <Grid item>
+                  <Grid container alignItems="center">
+                    <Grid item marginRight={2}>
                       <Avatar
                         src={doctorData.image}
                         alt={`Display photo of the ${doctorData.firstName}`}
@@ -461,17 +485,22 @@ const CaseNotes = ({
                     <Grid item>
                       <Typography variant="h5">{`${doctorData.firstName} ${doctorData.lastName}`}</Typography>
                     </Grid>
-                  </>
+                  </Grid>
                 ) : (
-                  <Typography variant="h5">No Doctor</Typography>
+                  <Typography variant="body1">No Doctor</Typography>
                 )}
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item container className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid
+                item
+                container
+                className={classes.subItem}
+                gap={{ md: 2, sm: 2, xs: 0 }}
+              >
+                <Grid>
                   <Typography variant="body1" className={classes.title}>
-                    Prescription Date:
+                    Prescription Date
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -480,8 +509,13 @@ const CaseNotes = ({
               </Grid>
             </Grid>
             <Grid item>
-              <Grid item container className={classes.subItem}>
-                <Grid item marginBottom="2rem">
+              <Grid
+                item
+                container
+                className={classes.subItem}
+                gap={{ md: 2, sm: 2, xs: 0 }}
+              >
+                <Grid item>
                   <Typography variant="body1" className={classes.title}>
                     Symptoms
                   </Typography>
@@ -556,25 +590,25 @@ const CaseNotes = ({
                     sx={{ flexWrap: "nowrap", textAlign: "left" }}
                   >
                     <Grid item>
-                      <Typography variant="h5" className={classes.title}>
+                      <Typography variant="body1" className={classes.title}>
                         {i.drugName}
                       </Typography>
                     </Grid>
 
                     <Grid item>
-                      <Typography variant="h5" className={classes.title}>
+                      <Typography variant="body1" className={classes.title}>
                         {`${i.dosageQuantity} ${i.dosage}`}
                       </Typography>
                     </Grid>
 
                     <Grid item>
-                      <Typography variant="h5" className={classes.title}>
+                      <Typography variant="body1" className={classes.title}>
                         {duration(i.dosageFrequency.duration)}{" "}
                         {daily(i.dosageFrequency.day)}
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography variant="h5" className={classes.title}>
+                      <Typography variant="body1" className={classes.title}>
                         {i.mode}
                       </Typography>
                     </Grid>
@@ -586,19 +620,24 @@ const CaseNotes = ({
           <Grid
             item
             container
-            style={{ padding: "2rem 0rem" }}
+            padding={{ md: "2rem 0", sm: "1rem 0", xs: "1rem 0" }}
             alignItems="center"
             justifyContent="space-between"
             sx={{ flexWrap: "nowrap" }}
           >
-            <Grid item container direction="column" gap={2}>
+            <Grid
+              item
+              container
+              direction="column"
+              gap={{ md: 2, sm: 2, xs: 0 }}
+            >
               <Grid item>
                 <Typography variant="body1" className={classes.title}>
                   Doctors Note:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">
+                <Typography variant="body1" style={{ lineHeight: 1.85 }}>
                   {doctorNote ? doctorNote : "No Value"}
                 </Typography>
               </Grid>
@@ -608,17 +647,6 @@ const CaseNotes = ({
       </Modals>
     </>
   );
-};
-
-CaseNotes.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedPatientMenu: PropTypes.number,
-  selectedScopedMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
-  setSelectedScopedMenu: PropTypes.func,
 };
 
 export default CaseNotes;

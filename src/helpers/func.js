@@ -40,3 +40,22 @@ export const removeEmptyStringValues = (obj) => {
     return obj;
   }
 };
+
+export const setSideNav = (appNavData, pathname, setNav) => {
+  try {
+    const pathArr = pathname.split("/");
+    if (pathArr.length < 2) {
+      setNav(0);
+      return;
+    }
+    // eslint-disable-next-line
+    appNavData.map((data) => {
+      // eslint-disable-next-line no-restricted-syntax
+      if (data.path === `/${pathArr[1]}`) {
+        return setNav(data?.id);
+      }
+    });
+  } catch (error) {
+    console.log("Something sent wrong with setSideNav FN", error);
+  }
+};

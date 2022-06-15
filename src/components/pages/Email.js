@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import NoData from "components/layouts/NoData";
 import Loader from "components/Utilities/Loader";
 import FormikControl from "components/validation/FormikControl";
-import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import { dateMoment } from "components/Utilities/Time";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -126,12 +126,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Email = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Email = () => {
   const classes = useStyles();
   const theme = useTheme();
   const { data, error, loading } = useQuery(getEmailList);
@@ -182,12 +177,6 @@ const Email = ({
   const onSubmit = (values) => {
     console.log(values);
   };
-
-  useEffect(() => {
-    setSelectedMenu(6);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
@@ -318,7 +307,6 @@ const Email = ({
                             component={Link}
                             to={`email/${index}`}
                             endIcon={<ArrowForwardIosIcon />}
-                            onClick={() => setSelectedSubMenu(7)}
                           >
                             View mail
                           </Button>
@@ -402,10 +390,4 @@ const Email = ({
   );
 };
 
-Email.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-};
 export default Email;

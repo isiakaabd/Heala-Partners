@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { Chip, Typography, Grid } from "@mui/material";
-import DisplayProfile from "components/Utilities/DisplayProfile";
-import PreviousButton from "components/Utilities/PreviousButton";
+import { DisplayProfile, PreviousButton } from "components/Utilities";
 import displayPhoto from "assets/images/avatar.svg";
 import { makeStyles } from "@mui/styles";
 
@@ -24,36 +22,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const WaitingListDetails = (props) => {
-  const {
-    selectedMenu,
-    setSelectedMenu,
-    selectedSubMenu,
-    setSelectedSubMenu,
-    waitingListMenu,
-    setWaitingListMenu,
-    setSelectedAppointmentMenu,
-    selectedAppointmentMenu,
-  } = props;
   const classes = useStyles();
 
   const symptoms = ["Headache", "Sore Throat", "Fever"];
 
-  useEffect(() => {
-    setSelectedMenu(4);
-    setSelectedSubMenu(5);
-    setSelectedAppointmentMenu(1);
-    setWaitingListMenu(1);
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu, waitingListMenu, selectedAppointmentMenu]);
-
   return (
     <Grid container direction="column" style={{ paddingBottom: "10rem" }}>
       <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton
-          path="/appointments/waiting-list"
-          onClick={() => setWaitingListMenu(0)}
-        />
+        <PreviousButton path="/appointments/waiting-list" />
       </Grid>
       <Grid item>
         <DisplayProfile
@@ -188,17 +164,6 @@ const WaitingListDetails = (props) => {
       </Grid>
     </Grid>
   );
-};
-
-WaitingListDetails.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  selectedAppointmentMenu: PropTypes.number,
-  waitingListMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
-  setWaitingListMenu: PropTypes.func,
-  setSelectedAppointmentMenu: PropTypes.func,
 };
 
 export default WaitingListDetails;

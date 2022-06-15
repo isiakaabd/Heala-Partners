@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { dateMoment } from "components/Utilities/Time";
 import {
   Grid,
@@ -41,12 +40,12 @@ const plans = ["Plan 1", "Plan 2", "Plan 3", "Plan 4"];
 const statusType = ["Active", "Blocked"];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
+  // searchGrid: {
+  //   "&.MuiGrid-root": {
+  //     flex: 1,
+  //     marginRight: "5rem",
+  //   },
+  // },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -114,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
+const Pending = () => {
   const classes = useStyles();
   const [pendingState, setPendingState] = useState([]);
 
@@ -155,7 +154,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
     spaced: false,
     thousandsDelimiter: ",",
   };
-  console.log(1);
+
   return (
     <>
       <Grid
@@ -165,8 +164,13 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         gap={2}
         flexWrap="nowrap"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchPatient}
               onChange={(e) => setSearchPatient(e.target.value)}
@@ -175,11 +179,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
             />
           </Grid>
           <Grid item>
-            <FilterList
-              title="Filter referrals"
-              width="15.2rem"
-              onClick={handleDialogOpen}
-            />
+            <FilterList title="Filter" onClick={handleDialogOpen} />
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
@@ -312,10 +312,6 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         <Chip
                           label="View requests"
                           variant="outlined"
-                          onClick={() => {
-                            setSelectedSubMenu(2);
-                            setSelectedPatientMenu(1);
-                          }}
                           component={Link}
                           to={`pending/${_id}/request`}
                           className={classes.chip}
@@ -341,10 +337,10 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         rowSpacing={5}
         handleClose={handleDialogClose}
       >
-        <Grid item container direction="column">
+        <Grid item container direction="column" rowGap={3}>
           <Grid item>
             <Grid container spacing={2}>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -364,7 +360,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md>
+              <Grid item xs={6}>
                 <Grid container direction="column">
                   <Grid item>
                     <FormLabel component="legend" className={classes.FormLabel}>
@@ -386,7 +382,7 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+          <Grid item>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <Grid container direction="column">
@@ -410,25 +406,20 @@ const Pending = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item marginTop={3}>
             <Button
               variant="contained"
               onClick={handleDialogClose}
               type="submit"
               className={classes.searchFilterBtn}
             >
-              Apply Filter
+              Apply Filters
             </Button>
           </Grid>
         </Grid>
       </Modals>
     </>
   );
-};
-
-Pending.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default Pending;

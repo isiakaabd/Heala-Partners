@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import displayPhoto from "assets/images/avatar.svg";
 import { NoData, EmptyTable } from "components/layouts";
 import FormikControl from "components/validation/FormikControl";
-import PropTypes from "prop-types";
 import { useQuery, useMutation } from "@apollo/client";
 import { makeStyles } from "@mui/styles";
 import {
@@ -59,9 +58,9 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "2rem",
       display: "flex",
       alignItems: "center",
-      padding: "0.5rem",
-      maxWidth: "12rem",
-      fontSize: "1rem",
+      padding: "1rem",
+      maxWidth: "10rem",
+      whiteSpace: "nowrap",
 
       "&:hover": {
         background: "#fcfcfc",
@@ -72,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
       },
 
       "& .MuiButton-endIcon>*:nth-of-type(1)": {
-        fontSize: ".85rem",
+        fontSize: "1.2rem",
       },
 
       "& .MuiButton-endIcon": {
-        marginLeft: ".2rem",
+        marginLeft: ".3rem",
         marginTop: "-.2rem",
       },
     },
@@ -115,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
+const Hcps = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [pageInfo, setPageInfo] = useState([]);
@@ -148,12 +147,12 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
     });
   };
 
-  const onChange = async (e) => {
-    setSearchHcp(e);
-    if (e === "") {
-      refetch();
-    } else refetch({ dociId: `HEALA-${e.toUpperCase()}` });
-  };
+  // const onChange = async (e) => {
+  //   setSearchHcp(e);
+  //   if (e === "") {
+  //     refetch();
+  //   } else refetch({ dociId: `HEALA-${e.toUpperCase()}` });
+  // };
   const [profiles, setProfiles] = useState("");
   useEffect(() => {
     if (data) {
@@ -161,8 +160,8 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       setPageInfo(data.doctorProfiles.pageInfo);
     }
   }, [data]);
-  console.log(profiles);
-  const [searchHcp, setSearchHcp] = useState("");
+
+  // const [searchHcp, setSearchHcp] = useState("");
   const [openHcpFilter, setOpenHcpFilter] = useState(false);
   const [openAddHcp, setOpenAddHcp] = useState(false);
 
@@ -282,28 +281,41 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
   if (error) return <NoData error={error} />;
   return (
     <Grid container direction="column" gap={2} flexWrap="nowrap" height="100%">
-      <Grid item container>
-        <Grid item className={classes.searchGrid}>
+      <Grid
+        item
+        gap={{ md: 4, sm: 4, xs: 2 }}
+        flexDirection={{ md: "row", sm: "row", xs: "column" }}
+        container
+        justifyContent="space-between"
+      >
+        <Grid item container flex={2}>
           <Search
-            value={searchHcp}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => {
+              let value = e.target.value;
+              console.log(value);
+              //   if (value !== "") {
+              //     return debouncer({
+              //       variables: { dociId: `HEALA-${value.toUpperCase()}` },
+              //     });
+              //   }
+            }}
+            // onChange={(e) => onChange(e.target.value)}
             placeholder="Type to search Doctors by Heala ID e.g AJV9WVIP6M"
             height="5rem"
           />
         </Grid>
-        <Grid item className={classes.filterBtnGrid}>
-          <FilterList
-            onClick={() => setOpenHcpFilter(true)}
-            title="Filter Doctors"
-          />
-        </Grid>
-        <Grid item>
-          <CustomButton
-            endIcon={<AddIcon />}
-            title="Add Doctor"
-            type={buttonType}
-            onClick={() => setOpenAddHcp(true)}
-          />
+        <Grid item container flex={1} justifyContent="space-between">
+          <Grid item>
+            <CustomButton
+              endIcon={<AddIcon />}
+              title="Add Doctor"
+              type={buttonType}
+              onClick={() => setOpenAddHcp(true)}
+            />
+          </Grid>
+          <Grid item>
+            <FilterList onClick={() => setOpenHcpFilter(true)} title="Filter" />
+          </Grid>
         </Grid>
       </Grid>
       {profiles.length > 0 ? (
@@ -370,7 +382,7 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                         minWidth: "10rem",
                       }}
                     >
-                      {dociId && dociId.split("-")[1]}
+                      {dociId?.split("-")[1]}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
@@ -432,10 +444,6 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
                         component={Link}
                         to={`hcps/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        onClick={() => {
-                          setSelectedSubMenu(3);
-                          setSelectedHcpMenu(0);
-                        }}
                       >
                         View Doctor
                       </Button>
@@ -671,11 +679,6 @@ const Hcps = ({ setSelectedSubMenu, setSelectedHcpMenu }) => {
       </Modals>
     </Grid>
   );
-};
-
-Hcps.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedHcpMenu: PropTypes.func,
 };
 
 export default Hcps;

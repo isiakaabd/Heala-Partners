@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import FormikControl from "components/validation/FormikControl";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import PropTypes from "prop-types";
 import { NoData, EmptyTable } from "components/layouts";
 import { debounce } from "lodash";
 import {
@@ -21,7 +20,7 @@ import {
   Search,
   CustomButton,
 } from "components/Utilities";
-import EnhancedTable from "components/layouts/EnhancedTable";
+import { EnhancedTable } from "components/layouts";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { patientsHeadCells1 } from "components/Utilities/tableHeaders";
@@ -41,10 +40,9 @@ const genderType = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
+  searchFilterContainer: {
     "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
+      justifyContent: "space-between",
     },
   },
   button: {
@@ -57,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       padding: "1rem",
       maxWidth: "10rem",
+      whiteSpace: "nowrap",
 
       "&:hover": {
         background: "#fcfcfc",
@@ -101,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
+const Patients = () => {
   const classes = useStyles();
   const theme = useTheme();
   // const inputRef = createRef();
@@ -197,27 +196,30 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          spacing={{ sm: 4, md: 4, xs: 2 }}
+          className={classes.searchFilterContainer}
+        >
+          <Grid item flex={1}>
             <Search
-              // value={searchPatient}
               onChange={(e) => {
-                let value = "";
-                if (value !== "") value = `HEALA-${value.toUpperCase()}`;
-                else value = "";
-                return debouncer({ variables: { dociId: value } });
+                let value = e.target.value;
+
+                if (value !== "") {
+                  return debouncer({
+                    variables: { dociId: `HEALA-${value.toUpperCase()}` },
+                  });
+                }
               }}
               // onChange={debouncedChangeHandler}
-              placeholder="Type to search patients by Heala ID e.g 7NE6ELLO "
+              placeholder="Search by ID e.g 7NE6ELLO "
               height="5rem"
             />
           </Grid>
           <Grid item>
-            <FilterList
-              title="Filter Patients"
-              width="15.2rem"
-              onClick={handleDialogOpen}
-            />
+            <FilterList title="Filter" onClick={handleDialogOpen} />
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
@@ -290,14 +292,14 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         textAlign: "left",
                       }}
                     >
-                      {dociId && dociId.split("-")[1]}
+                      {dociId?.split("-")[1]}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
                         style={{
                           height: "100%",
                           display: "flex",
-                          alignItems: "left",
+                          alignItems: "center",
                         }}
                       >
                         <span style={{ marginRight: "1rem" }}>
@@ -344,10 +346,6 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                         component={Link}
                         to={`patients/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        onClick={() => {
-                          setSelectedSubMenu(2);
-                          setSelectedPatientMenu(0);
-                        }}
                       >
                         View Profile
                       </Button>
@@ -391,9 +389,6 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                       placeholder="Filter by Gender"
                     />
                   </Grid>
-                  <br></br>
-                  <br></br>
-                  <br></br>
 
                   <Grid item>
                     <CustomButton
@@ -412,11 +407,6 @@ const Patients = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
       </Modals>
     </>
   );
-};
-
-Patients.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default Patients;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import {
   Grid,
   Typography,
@@ -23,7 +22,7 @@ import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
-import { PreviousButton, Loader } from "components/Utilities";
+import { Loader } from "components/Utilities";
 import { useQuery } from "@apollo/client";
 import { getEarningStats } from "components/graphQL/useQuery";
 
@@ -87,12 +86,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Financetable = ({
-  selectedMenu,
-  setSelectedMenu,
-  selectedSubMenu,
-  setSelectedSubMenu,
-}) => {
+const Financetable = () => {
   const classes = useStyles();
   const theme = useTheme();
   const { selectedRows } = useSelector((state) => state.tables);
@@ -115,24 +109,15 @@ const Financetable = ({
       setPageInfo(data.getEarningStats.earningData.PageInfo);
     }
   }, [earning, data]);
-  useEffect(() => {
-    setSelectedMenu(8);
-    setSelectedSubMenu(9);
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
 
   const [rowsPerPage, setRowsPerPage] = useState(0);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
     pageInfo;
-  console.log(page, limit);
+
   return (
     <Grid container direction="column" gap={2} height="100%">
-      <Grid item>
-        <PreviousButton path="/finance" onClick={() => setSelectedSubMenu(0)} />
-      </Grid>
-
       <>
         <Grid item container gap={1} alignItems="center">
           <Grid item>
@@ -255,13 +240,6 @@ const Financetable = ({
       </>
     </Grid>
   );
-};
-
-Financetable.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Financetable;

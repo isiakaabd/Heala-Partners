@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
 import {
   Chip,
@@ -34,17 +33,6 @@ import {
 } from "components/Utilities";
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-  actionBtnGrid: {
-    "&.MuiGrid-root": {
-      marginRight: "1.5rem",
-    },
-  },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -126,12 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CancelledOrders = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const CancelledOrders = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [state, setState] = useState([]);
@@ -139,9 +122,11 @@ const CancelledOrders = ({
   const { data, loading, error } = useQuery(getDrugOrders, {
     variables: { status: orderState },
   });
+
   useEffect(() => {
     if (data) return setState(data?.getDrugOrders.data);
   }, [data]);
+
   const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
   const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
   const dates = ["Hello", "World", "Goodbye", "World"];
@@ -160,14 +145,9 @@ const CancelledOrders = ({
   );
   const { setSelectedRows } = useActions();
 
-  useEffect(() => {
-    setSelectedMenu(5);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  console.log(data);
+
   return (
     <>
       <Grid
@@ -177,8 +157,13 @@ const CancelledOrders = ({
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchMessage}
               onChange={(e) => setSearchMessage(e.target.value)}
@@ -189,18 +174,12 @@ const CancelledOrders = ({
           <Grid item>
             <FilterList
               onClick={() => setOpenFilterPartner(true)}
-              title="Filter referrals"
+              title="Filter"
             />
           </Grid>
         </Grid>
         {state.length > 0 ? (
-          <Grid
-            item
-            container
-            height="100%"
-            direction="column"
-            style={{ marginTop: "5rem" }}
-          >
+          <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={messagesHeadCells}
               rows={state}
@@ -410,13 +389,6 @@ const CancelledOrders = ({
       </Modals>
     </>
   );
-};
-
-CancelledOrders.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default CancelledOrders;

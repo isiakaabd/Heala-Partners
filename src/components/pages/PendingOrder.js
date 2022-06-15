@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { dateMoment } from "components/Utilities/Time";
 import {
   Grid,
@@ -38,12 +37,6 @@ const genderType = ["Male", "Female", "Prefer not to say"];
 const statusType = ["Active", "Blocked"];
 
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -111,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
+const PendingOrder = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [state, setState] = useState([]);
@@ -160,8 +153,13 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchPatient}
               onChange={(e) => setSearchPatient(e.target.value)}
@@ -170,11 +168,7 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
             />
           </Grid>
           <Grid item>
-            <FilterList
-              title="Filter referrals"
-              width="15.2rem"
-              onClick={handleDialogOpen}
-            />
+            <FilterList title="Filter " onClick={handleDialogOpen} />
           </Grid>
         </Grid>
         {/* The Search and Filter ends here */}
@@ -301,10 +295,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
                           <Chip
                             label="view request"
                             variant="outlined"
-                            onClick={() => {
-                              setSelectedSubMenu(2);
-                              setSelectedPatientMenu(0);
-                            }}
                             component={Link}
                             to={`pending-order/${_id}/order`}
                             className={classes.chip}
@@ -434,11 +424,6 @@ const PendingOrder = ({ setSelectedSubMenu, setSelectedPatientMenu }) => {
       </Modals>
     </>
   );
-};
-
-PendingOrder.propTypes = {
-  setSelectedSubMenu: PropTypes.func,
-  setSelectedPatientMenu: PropTypes.func,
 };
 
 export default PendingOrder;

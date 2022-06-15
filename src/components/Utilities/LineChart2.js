@@ -20,7 +20,7 @@ const LineChart2 = ({ doctorStats, type }) => {
     }
   }, [doctorStats, type]);
   const data = {
-    labels: ["ONE DAY", "FIVE DAYS", "ONE MONTH", "THREE MONTHS", "ONE YEAR"],
+    labels: ["1 DAY", "5 DAYS", "1 MONTH", "3 MONTHS", "1 YEAR"],
     datasets: [
       {
         label: "Active",
@@ -112,7 +112,7 @@ const LineChart2 = ({ doctorStats, type }) => {
   }
   return (
     <Grid item container>
-      <Line data={data} options={options} />;
+      <Line data={data} options={options} />
     </Grid>
   );
 };

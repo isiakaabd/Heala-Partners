@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
 import { Grid } from "@mui/material";
@@ -7,18 +6,13 @@ import { useMutation, useQuery } from "@apollo/client";
 import { updatePartner } from "components/graphQL/Mutation";
 import { useTheme } from "@mui/material/styles";
 import { NoData } from "components/layouts";
-import { CustomButton, PreviousButton, Loader } from "components/Utilities";
+import { CustomButton, Loader } from "components/Utilities";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
 import { getPartner } from "components/graphQL/useQuery";
 import * as Yup from "yup";
 
-const Profile = ({
-  selectedMenu,
-  selectedSubMenu,
-  setSelectedMenu,
-  setSelectedSubMenu,
-}) => {
+const Profile = () => {
   const [update] = useMutation(updatePartner);
   const { enqueueSnackbar } = useSnackbar();
   const { loading, error, data } = useQuery(getPartner, {
@@ -85,90 +79,67 @@ const Profile = ({
     image: profile?.logoImageUrl,
   };
 
-  useEffect(() => {
-    setSelectedMenu(11);
-    // setSelectedSubMenu(12)
-
-    // eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
-
   if (loading) return <Loader />;
   if (error) return <NoData />;
   return (
     <Grid container>
-      <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton
-          path={"/setting"}
-          onClick={() => {
-            setSelectedSubMenu(11);
-          }}
-        />
-      </Grid>
-      <Grid container>
-        <Formik
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-          validateOnChange={false}
-          validateOnMount={false}
-          initialValues={initialValues}
-          enableReinitialize
-        >
-          {({ isSubmitting, dirty, isValid, setFieldValue }) => {
-            return (
-              <Grid item container direction="column">
-                <Form>
-                  <Grid item container gap={2} md={4} direction="column">
-                    <Grid item md={6}>
-                      <FormikControl
-                        control="file"
-                        name="image"
-                        label="Upload Your Logo"
-                        setFieldValue={setFieldValue}
-                        type="image"
-                        file={profile?.logoImageUrl}
-                      />
-                    </Grid>
-                    <Grid item md={6}>
-                      <FormikControl
-                        control="input"
-                        name="name"
-                        label="Name "
-                        placeholder="Enter Name"
-                      />
-                    </Grid>
-                    <Grid item md={6}>
-                      <FormikControl
-                        control="input"
-                        name="email"
-                        label="Email"
-                        placeholder="Email"
-                      />
-                    </Grid>
-
-                    <Grid item md={6}>
-                      <CustomButton
-                        title="Save"
-                        type={trasparentButton}
-                        width="100%"
-                        isSubmitting={isSubmitting}
-                        disabled={!(dirty || isValid)}
-                      />
-                    </Grid>
+      <Formik
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+        validateOnChange={false}
+        validateOnMount={false}
+        initialValues={initialValues}
+        enableReinitialize
+      >
+        {({ isSubmitting, dirty, isValid, setFieldValue }) => {
+          return (
+            <Grid item container direction="column">
+              <Form>
+                <Grid item container gap={2} md={4} direction="column">
+                  <Grid item md={6}>
+                    <FormikControl
+                      control="file"
+                      name="image"
+                      label="Upload Your Logo"
+                      setFieldValue={setFieldValue}
+                      type="image"
+                      file={profile?.logoImageUrl}
+                    />
                   </Grid>
-                </Form>
-              </Grid>
-            );
-          }}
-        </Formik>
-      </Grid>
+                  <Grid item md={6}>
+                    <FormikControl
+                      control="input"
+                      name="name"
+                      label="Name "
+                      placeholder="Enter Name"
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <FormikControl
+                      control="input"
+                      name="email"
+                      label="Email"
+                      placeholder="Email"
+                    />
+                  </Grid>
+
+                  <Grid item md={6}>
+                    <CustomButton
+                      title="Save"
+                      type={trasparentButton}
+                      width="100%"
+                      isSubmitting={isSubmitting}
+                      disabled={!(dirty || isValid)}
+                    />
+                  </Grid>
+                </Grid>
+              </Form>
+            </Grid>
+          );
+        }}
+      </Formik>
     </Grid>
   );
-};
-Profile.propTypes = {
-  selectedMenu: PropTypes.number,
-  selectedSubMenu: PropTypes.number,
-  setSelectedMenu: PropTypes.func,
-  setSelectedSubMenu: PropTypes.func,
 };
 
 export default Profile;

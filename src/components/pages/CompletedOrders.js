@@ -33,13 +33,6 @@ import { getDrugOrders } from "components/graphQL/useQuery";
 import { NoData, EmptyTable, EnhancedTable } from "components/layouts";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
 const useStyles = makeStyles((theme) => ({
-  searchGrid: {
-    "&.MuiGrid-root": {
-      flex: 1,
-      marginRight: "5rem",
-    },
-  },
-
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -144,12 +137,7 @@ const dates = ["Hello", "World", "Goodbye", "World"];
 const specializations = ["Dentistry", "Pediatry", "Optometry", "Pathology"];
 const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 
-const CompletedOrders = ({
-  setSelectedMenu,
-  setSelectedSubMenu,
-  selectedSubMenu,
-  selectedMenu,
-}) => {
+const CompletedOrders = () => {
   const classes = useStyles();
   const [searchPartner, setSearchPartner] = useState("");
   const [state, setState] = useState([]);
@@ -180,15 +168,11 @@ const CompletedOrders = ({
   const { rowsPerPage, selectedRows, page } = useSelector(
     (state) => state.tables
   );
-  useEffect(() => {
-    setSelectedMenu(3);
-    setSelectedSubMenu(0);
-    //   eslint-disable-next-line
-  }, [selectedMenu, selectedSubMenu]);
+
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  console.log(123);
+
   return (
     <>
       <Grid
@@ -198,8 +182,13 @@ const CompletedOrders = ({
         flexWrap="nowrap"
         height="100%"
       >
-        <Grid item container>
-          <Grid item className={classes.searchGrid}>
+        <Grid
+          item
+          container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
+          spacing={{ md: 4, sm: 4, xs: 2 }}
+        >
+          <Grid item flex={1}>
             <Search
               value={searchPartner}
               onChange={(e) => setSearchPartner(e.target.value)}
@@ -209,7 +198,7 @@ const CompletedOrders = ({
           </Grid>
           <Grid item>
             <FilterList
-              title="Filter Referrals"
+              title="Filter"
               onClick={() => setOpenFilterPartner(true)}
             />
           </Grid>
