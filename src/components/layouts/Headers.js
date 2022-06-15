@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
 import { AppBar, IconButton, Grid, Toolbar } from "@mui/material";
@@ -23,34 +23,12 @@ const useStyles = makeStyles((theme) => ({
 const Headers = (props) => {
   const {
     selectedMenu,
-    selectedSubMenu,
-    selectedPatientMenu,
-    selectedHcpMenu,
-    waitingListMenu,
-    selectedAppointmentMenu,
-    selectedScopedMenu,
+
     handleDrawerToggle,
     drawerWidth,
   } = props;
   const classes = useStyles();
   return (
-    // <Fragment>
-    //   <AppBar
-    //     position="fixed"
-    //     className={classes.appBar}
-    //     classes={{ root: classes.appBar }}
-    //   >
-    //     <HeadersContents
-    //       selectedMenu={selectedMenu}
-    //       selectedSubMenu={selectedSubMenu}
-    //       selectedPatientMenu={selectedPatientMenu}
-    //       selectedHcpMenu={selectedHcpMenu}
-    //       waitingListMenu={waitingListMenu}
-    //       selectedAppointmentMenu={selectedAppointmentMenu}
-    //       selectedScopedMenu={selectedScopedMenu}
-    //     />
-    //   </AppBar>
-    // </Fragment>
     <AppBar
       position="fixed"
       padding="1rem"

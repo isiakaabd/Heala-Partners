@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { makeStyles } from "@mui/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { Grid, Typography, Stack, Avatar, ModalBox } from "@mui/material";

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import PropTypes from "prop-types";
+
 import { useSnackbar } from "notistack";
 import { makeStyles } from "@mui/styles";
 import { Field, ErrorMessage } from "formik";
@@ -68,7 +68,7 @@ export const Formiks = ({ name, setFieldValue, onBlur }) => {
         "Image upload failed, Try again."
       );
     }
-  }, [isCompleted]);
+  }, [isCompleted, enqueueSnackbar]);
 
   const onChange = async (e) => {
     const file = e.target.files[0];
@@ -142,16 +142,6 @@ export const Formiks = ({ name, setFieldValue, onBlur }) => {
   );
 };
 
-Formiks.propTypes = {
-  value: PropTypes.string,
-  label: PropTypes.string,
-  onChange: PropTypes.func,
-  children: PropTypes.node.isRequired,
-  name: PropTypes.string.isRequired,
-  onBlur: PropTypes.func,
-  setFieldValue: PropTypes.func,
-};
-
 const Files = (props) => {
   const { name, label, isRequired, ...rest } = props;
   const classes = useStyles();
@@ -164,14 +154,6 @@ const Files = (props) => {
       <ErrorMessage name={name} component={TextError} />
     </Grid>
   );
-};
-
-Files.propTypes = {
-  label: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-  placeholder: PropTypes.string,
-  isRequired: PropTypes.bool,
 };
 
 export default Files;

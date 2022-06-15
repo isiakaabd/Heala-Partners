@@ -1,6 +1,6 @@
 import React from "react";
 import Radio from "@mui/material/Radio";
-import PropTypes from "prop-types";
+
 import { makeStyles } from "@mui/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 

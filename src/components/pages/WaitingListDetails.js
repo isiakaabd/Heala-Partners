@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { Chip, Typography, Grid } from "@mui/material";
-import DisplayProfile from "components/Utilities/DisplayProfile";
-import PreviousButton from "components/Utilities/PreviousButton";
+import { DisplayProfile, PreviousButton } from "components/Utilities";
 import displayPhoto from "assets/images/avatar.svg";
 import { makeStyles } from "@mui/styles";
 

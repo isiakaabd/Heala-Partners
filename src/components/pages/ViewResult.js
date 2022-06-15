@@ -117,7 +117,6 @@ const ViewResult = () => {
   if (error) return <NoData error={error} />;
   const {
     createdAt,
-    gender,
     sampleCollection,
     referralId,
     reason,

@@ -328,10 +328,10 @@ const CompletedOrder = () => {
           rowSpacing={5}
           handleClose={() => setOpenFilterPartner(false)}
         >
-          <Grid item container direction="column">
+          <Grid item container direction="column" rowGap={3}>
             <Grid item>
               <Grid container spacing={2}>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -354,7 +354,7 @@ const CompletedOrder = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -379,9 +379,9 @@ const CompletedOrder = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+            <Grid item>
               <Grid container spacing={2}>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel

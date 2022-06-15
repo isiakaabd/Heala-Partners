@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+
 import { makeStyles } from "@mui/styles";
 import { getErrors } from "components/Utilities/Time";
 import { useSnackbar } from "notistack";
@@ -8,7 +8,6 @@ import { FormikControl } from "components/validation";
 import { Formik, Form } from "formik";
 import {
   DisplayProfile,
-  PreviousButton,
   CustomButton,
   Loader,
   Modals,
@@ -453,10 +452,6 @@ const PendingOrderProfile = () => {
       </Modals>
     </>
   );
-};
-
-PendingOrderProfile.propTypes = {
-  type: PropTypes.string,
 };
 
 export default PendingOrderProfile;

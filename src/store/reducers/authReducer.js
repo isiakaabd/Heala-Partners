@@ -54,7 +54,7 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem("Pharmacy_token");
       localStorage.removeItem("email");
       localStorage.removeItem("pharmacyID");
-      localStorage.removeItem('import PropTypes from "prop-types";');
+      localStorage.removeItem("");
       localStorage.removeItem("AppId");
       localStorage.removeItem("role");
       localStorage.clear();

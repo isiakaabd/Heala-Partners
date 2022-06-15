@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import {
   Files,
   Textarea,
@@ -36,7 +36,5 @@ const FormikControl = (props) => {
       return null;
   }
 };
-FormikControl.propTypes = {
-  control: PropTypes.string,
-};
+
 export default FormikControl;

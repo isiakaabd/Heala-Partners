@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import NoData from "components/layouts/NoData";
 import Loader from "components/Utilities/Loader";
 import FormikControl from "components/validation/FormikControl";
-import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import { dateMoment } from "components/Utilities/Time";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

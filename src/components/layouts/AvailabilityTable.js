@@ -14,7 +14,7 @@ import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import displayPhoto from "assets/images/avatar.svg";
 import { hours } from "components/Utilities/Time";
-import PropTypes from "prop-types";
+
 import { EmptyTable } from ".";
 
 const useStyles = makeStyles((theme) => ({
@@ -158,9 +158,6 @@ const AvailabilityTable = ({ data }) => {
       </Grid>
     </Grid>
   );
-};
-AvailabilityTable.propTypes = {
-  data: PropTypes.object,
 };
 
 export default AvailabilityTable;

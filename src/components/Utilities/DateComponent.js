@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-import PropTypes from "prop-types";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const DateComponent = ({ label }) => {
