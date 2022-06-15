@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -100,11 +100,9 @@ const LineChart = ({ details }) => {
   }
 
   return (
-    <Fragment>
-      <Grid item>
-        <Line data={data} options={options} />;
-      </Grid>
-    </Fragment>
+    <Grid item container>
+      <Line data={data} options={options} />
+    </Grid>
   );
 };
 
