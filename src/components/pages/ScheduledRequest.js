@@ -330,7 +330,7 @@ const ScheduledRequest = () => {
           rowSpacing={5}
           handleClose={() => setOpenFilterPartner(false)}
         >
-          <Grid item container direction="column">
+          <Grid item container rowGap={3} direction="column">
             <Grid item>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
@@ -381,9 +381,9 @@ const ScheduledRequest = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item style={{ marginBottom: "18rem", marginTop: "3rem" }}>
+            <Grid item>
               <Grid container spacing={2}>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -409,7 +409,7 @@ const ScheduledRequest = () => {
                 <Grid item md></Grid>
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid item marginTop={3}>
               <Button
                 variant="contained"
                 onClick={() => setOpenFilterPartner(false)}
