@@ -6,6 +6,8 @@ import { store } from "store";
 import { SnackbarProvider } from "notistack";
 import { Typography } from "@mui/material";
 import { Slide } from "@material-ui/core";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
 import {
   ApolloClient,
   ApolloProvider,
@@ -82,3 +84,6 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 // serviceWorkerRegistration.unregister();
+serviceWorkerRegistration.register();
+
+reportWebVitals();
