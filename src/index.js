@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import PWAPrompt from "react-ios-pwa-prompt";
 import { Provider } from "react-redux";
 import { store } from "store";
 import { SnackbarProvider } from "notistack";
@@ -75,6 +76,7 @@ ReactDOM.render(
     <Provider store={store}>
       <ApolloProvider client={client}>
         <App />
+        <PWAPrompt />
       </ApolloProvider>
     </Provider>
   </SnackbarProvider>,
