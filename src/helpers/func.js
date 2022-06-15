@@ -48,10 +48,11 @@ export const setSideNav = (appNavData, pathname, setNav) => {
       setNav(0);
       return;
     }
-
+    // eslint-disable-next-line no-restricted-syntax
     appNavData.map((data) => {
+      // eslint-disable-next-line no-restricted-syntax
       if (data.path === `/${pathArr[1]}`) {
-        setNav(data?.id);
+        return setNav(data?.id);
       }
     });
   } catch (error) {

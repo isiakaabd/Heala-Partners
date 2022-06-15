@@ -333,7 +333,7 @@ const ScheduledRequest = () => {
           <Grid item container direction="column">
             <Grid item>
               <Grid container spacing={2}>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel
@@ -356,7 +356,7 @@ const ScheduledRequest = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item md>
+                <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item>
                       <FormLabel

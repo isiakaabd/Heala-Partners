@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
@@ -99,31 +99,6 @@ const PreApp = ({ window }) => {
           {isAuthenticated && role === "hospital" && state && (
             <Loader color="success" />
           )}
-          {/* {isAuthenticated && role === "diagnostics" && !state && (
-            <>
-              <Header />
-              <ScrollToView>
-                {!isAuthenticated && (
-                  <Route
-                    path={["/", "/login"]}
-                    render={(props) => <Login {...props} />}
-                  />
-                )}
-
-                <main
-                  style={{
-                    display: isAuthenticated ? "flex" : "none",
-                  }}
-                >
-                  <SideNav />
-
-                  <section style={sectionStyles}>
-                    <Private />
-                  </section>
-                </main>
-              </ScrollToView>
-            </>
-          )} */}
 
           {isAuthenticated && role === "diagnostics" && !state && (
             <>
