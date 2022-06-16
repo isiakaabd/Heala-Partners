@@ -275,7 +275,7 @@ const Subscription = () => {
 
         <Grid
           item
-          // direction={{ sm: "row", md: "row", xs: "column" }}
+          flexDirection={{ sm: "row", md: "row", xs: "column" }}
           container
           spacing={{ md: 4, sm: 4, xs: 2 }}
         >

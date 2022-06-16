@@ -233,7 +233,7 @@ const PendingOrderProfile = () => {
 
   return (
     <>
-      <Grid container direction="column">
+      <Grid container direction="column" rowGap={3}>
         {/* Display photo and profile name grid */}
         <Grid item>
           <DisplayProfile

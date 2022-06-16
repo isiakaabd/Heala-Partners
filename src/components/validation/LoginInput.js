@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginInput = (props) => {
   const { label, name, autoFocus, ...rest } = props;
+  console.log(autoFocus);
   const classes = useStyles();
   return (
     <Grid container direction="column">

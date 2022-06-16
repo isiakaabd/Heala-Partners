@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AvailabilityTable = ({ data }) => {
+  console.log(data);
   const [avaliablity, setAvaliablity] = useState([]);
   useEffect(() => {
     setAvaliablity(data);
@@ -117,31 +118,29 @@ const AvailabilityTable = ({ data }) => {
                       </div>
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
-                      {dates &&
-                        dates.map((times) => {
-                          return times.day;
-                        })}
+                      {dates?.map((times) => {
+                        return times.day;
+                      })}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <Grid container gap={1}>
-                        {dates &&
-                          dates.map((times) => {
-                            return times.times.map((time, index) => {
-                              return (
-                                <Chip
-                                  key={index}
-                                  label={`${hours(time.start)} - ${hours(
-                                    time.stop
-                                  )} `}
-                                  className={classes.badge}
-                                  style={{
-                                    background: theme.palette.common.lightGreen,
-                                    color: theme.palette.common.green,
-                                  }}
-                                />
-                              );
-                            });
-                          })}
+                        {dates?.map((times) => {
+                          return times?.times?.map((time, index) => {
+                            return (
+                              <Chip
+                                key={index}
+                                label={`${hours(time.start)} - ${hours(
+                                  time.stop
+                                )} `}
+                                className={classes.badge}
+                                style={{
+                                  background: theme.palette.common.lightGreen,
+                                  color: theme.palette.common.green,
+                                }}
+                              />
+                            );
+                          });
+                        })}
                       </Grid>
                     </TableCell>
                   </TableRow>

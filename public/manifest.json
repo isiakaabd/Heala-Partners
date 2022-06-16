@@ -1,11 +1,21 @@
 {
-  "short_name": "HEALA PARTNER",
-  "name": "HEALA PARTNER",
+  "short_name": "HEALA Partner",
+  "name": "HEALA Partner",
   "icons": [
      {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "heala-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "heala-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
     },
     {
       "src": "heala-192x192.png",
