@@ -26,7 +26,7 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
       position="fixed"
       padding="1rem"
       sx={{
-        width: { md: `calc(100% - (${drawerWidth}px + 5em))` },
+        width: { md: `calc(100% - (${drawerWidth}px + 3em))` },
       }}
     >
       <Toolbar className={classes.appBar}>
