@@ -12,6 +12,7 @@ const SearchContainer = ({
   onChange,
   ref,
   hasStartIcon = true,
+  autoFocus,
   ...rest
 }) => {
   return (
@@ -41,7 +42,7 @@ const SearchContainer = ({
             </InputAdornment>
           )
         }
-        autoFocus
+        autoFocus={autoFocus}
       />
     </Grid>
   );

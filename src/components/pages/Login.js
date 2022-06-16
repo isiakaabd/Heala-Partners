@@ -261,6 +261,7 @@ const Login = () => {
                             id="password"
                             label="Password"
                             name="password"
+                            autoFocus={false}
                             placeholder="Enter your password"
                             type={showPassword ? "text" : "password"}
                             hasStartIcon={false}
