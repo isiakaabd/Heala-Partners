@@ -37,17 +37,18 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
             edge="start"
             onClick={handleDrawerToggle}
             sx={{
-              color: "white",
+              color: "#5c77b6",
               fontSize: "3rem",
-              background: "black",
+              background: "transparent",
               display: { md: "none" },
+              border: "1.9px solid #5c77b6",
+              borderRadius: "8px",
             }}
           >
             <MenuIcon />
           </IconButton>
         </Grid>
         <HeaderContents
-          // selectedMenu={selectedMenu}
           drawerWidth={drawerWidth}
           handleDrawerToggle={handleDrawerToggle}
         />

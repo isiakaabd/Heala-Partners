@@ -46,7 +46,7 @@ export const SubscriptionModal = ({
     description: Yup.string("Enter Description")
       .trim()
       .required("Description is required"),
-    provider: Yup.string("Enter Provider").required("Provider is required"),
+    provider: Yup.string("Enter Provider"),
     duration: Yup.string("Enter Duration").required("Duration is required"),
   });
 
@@ -81,7 +81,8 @@ export const SubscriptionModal = ({
   }, [data]);
 
   const onSubmit = async (values, onSubmitProps) => {
-    const { name, amount, description, duration, provider } = values;
+    const { name, amount, description, duration } = values;
+    let provider =localStorage.getItem("partnerProviderId")
 
     if (type === "edit") {
       try {
@@ -186,7 +187,7 @@ export const SubscriptionModal = ({
                     label="Duration"
                   />
                 </Grid>
-                <Grid item container>
+                {/* <Grid item container>
                   <FormikControl
                     control="select"
                     placeholder="Enter Provider"
@@ -194,7 +195,7 @@ export const SubscriptionModal = ({
                     options={dropDown}
                     label="Provider"
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item container>
                   <FormikControl
                     control="input"
