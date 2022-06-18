@@ -99,7 +99,6 @@ const HeaderProfile = () => {
         gap="3px"
         justifyContent="space-between"
         flexWrap="nowrap"
-        className={classes.head}
       >
         <Grid item>
           <Avatar
@@ -111,7 +110,11 @@ const HeaderProfile = () => {
             }
           />
         </Grid>
-        <Grid item style={{ marginRight: "3em", marginLeft: "1em" }}>
+        <Grid
+          className={classes.head}
+          item
+          style={{ marginRight: "3em", marginLeft: "1em" }}
+        >
           <Grid container direction="column" justifyContent="center">
             <Grid item>
               <Typography variant="body1" className={classes.name}>
@@ -129,7 +132,7 @@ const HeaderProfile = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid className={classes.head} item>
           <IconButton
             aria-label={notificationsLabel(num)}
             onClick={(event) => handleNotification(event)}
