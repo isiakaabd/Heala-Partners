@@ -718,7 +718,7 @@ export const getPatients = gql`
     }
   }
 `;
-export const dashboard = gql`
+export const  dashboard = gql`
   query getStats($providerId: String, $q: String) {
     getStats(filterBy: { providerId: $providerId }, q: $q) {
       patientStats

@@ -12,7 +12,7 @@ import { formatNumber } from "components/Utilities/Time";
 import { EnhancedTable /* NoData*/, EmptyTable } from "components/layouts";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
-import { subscriptionHeadersss } from "components/Utilities/tableHeaders";
+import { subscriptionHeadersss } from "components/Utilities/tableHeaders"; 
 import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";

@@ -197,7 +197,7 @@ const Login = () => {
             background: "white",
             borderRadius: "5px",
             width: "650px",
-            zIndex: "9999999",
+            // zIndex: "2",
             margin: "auto",
           }}
         >

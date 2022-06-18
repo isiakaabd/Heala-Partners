@@ -60,6 +60,7 @@ const AvailabilityTable = ({ data }) => {
   const [avaliablity, setAvaliablity] = useState([]);
   useEffect(() => {
     setAvaliablity(data);
+
   }, [data]);
 
   const classes = useStyles();
@@ -85,7 +86,7 @@ const AvailabilityTable = ({ data }) => {
             {avaliablity
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { _id, doctor, dates } = row;
+                const { _id, doctor, dates,doctorData } = row;
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow hover tabIndex={-1} key={_id}>
@@ -96,7 +97,7 @@ const AvailabilityTable = ({ data }) => {
                       className={classes.tableCell}
                       style={{ color: theme.palette.common.grey }}
                     >
-                      {_id}
+                      {doctorData ? doctorData?.dociId : "no doctor"}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
@@ -110,12 +111,15 @@ const AvailabilityTable = ({ data }) => {
                         <span style={{ marginRight: "1rem" }}>
                           <Avatar
                             alt="Remy Sharp"
-                            src={displayPhoto}
+                            src={doctorData ? doctorData.picture : displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
                         </span>
-                        <span style={{ fontSize: "1.25rem" }}>{doctor}</span>
-                      </div>
+                        <span style={{ fontSize: "1.25rem" }}>
+                          {doctorData
+                            ? `${doctorData?.firstName} ${doctorData?.lastName}`
+                            : "no name"}
+                        </span>                      </div>
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       {dates?.map((times) => {
