@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, IconButton, Grid, Typography, Badge } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-// import { useTheme } from "@mui/material/styles";
 import displayPhoto from "assets/images/avatar.png";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Notifications from "components/layouts/Notifications";
@@ -61,7 +60,7 @@ const HeaderProfile = () => {
     variables: { user: id },
   });
   useEffect(() => {
-    setNum(notifications && notifications.length);
+    setNum(notifications && notifications?.length);
 
     // eslint-disable-next-line
   }, []);
@@ -118,7 +117,7 @@ const HeaderProfile = () => {
           <Grid container direction="column" justifyContent="center">
             <Grid item>
               <Typography variant="body1" className={classes.name}>
-                {pharmacyData && pharmacyData.name}
+                {pharmacyData?.name}
               </Typography>
             </Grid>
             <Grid item>
@@ -127,7 +126,7 @@ const HeaderProfile = () => {
                 className={classes.role}
                 style={{ fontWeight: 300 }}
               >
-                {pharmacyData && pharmacyData.category}
+                {pharmacyData?.category}
               </Typography>
             </Grid>
           </Grid>
