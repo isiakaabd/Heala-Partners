@@ -1,38 +1,50 @@
-import React, { useEffect, useState } from "react";
-import CustomButton from "components/Utilities/CustomButton";
+import React, { useEffect } from "react";
+import { CustomButton } from "components/Utilities";
+import { useSnackbar } from "notistack";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
 import { formatNumber } from "components/Utilities/Time";
 import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { CREATE_PLAN, UPDATE_PLAN } from "components/graphQL/Mutation";
-import {
-  getSinglePlan,
-  getPlans,
-  getUsertypess,
-} from "components/graphQL/useQuery";
-import { useMutation, useQuery } from "@apollo/client";
+import { getSinglePlan, getPlans } from "components/graphQL/useQuery";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
+import { handleError, showSuccessMsg } from "helpers/filterHelperFunctions";
 
 export const SubscriptionModal = ({
   handleDialogClose,
   type,
-  setAlert,
   editId,
   setSingleData,
   initialValues,
   singleData,
 }) => {
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
   const [createPlan] = useMutation(CREATE_PLAN, {
-    refetchQueries: [{ query: getPlans }],
+    refetchQueries: [
+      {
+        query: getPlans,
+        variables: {
+          provider: localStorage.getItem("pharmacyID"),
+        },
+      },
+    ],
   });
   const [updatePlan] = useMutation(UPDATE_PLAN, {
-    refetchQueries: [{ query: getPlans }],
+    refetchQueries: [
+      {
+        query: getPlans,
+        variables: {
+          provider: localStorage.getItem("pharmacyID"),
+        },
+      },
+    ],
   });
 
-  const single = useQuery(getSinglePlan, {
+  const [single, { data }] = useLazyQuery(getSinglePlan, {
     variables: {
       id: editId,
     },
@@ -46,43 +58,28 @@ export const SubscriptionModal = ({
     description: Yup.string("Enter Description")
       .trim()
       .required("Description is required"),
-    provider: Yup.string("Enter Provider"),
     duration: Yup.string("Enter Duration").required("Duration is required"),
   });
 
   useEffect(() => {
-    if (single.data && single.data.getPlan) {
+    if (type === "edit") {
+      single();
+    }
+
+    if (data?.getPlan) {
       setSingleData({
-        description: single.data.getPlan.description,
-        name: single.data.getPlan.name,
-        amount: formatNumber(Number(single.data.getPlan.amount)),
-        duration: single.data.getPlan.duration,
-        provider: single.data.getPlan.provider,
+        description: data.getPlan.description,
+        name: data.getPlan.name,
+        amount: formatNumber(Number(data.getPlan.amount)),
+        duration: data.getPlan.duration,
+        provider: data.getPlan.provider,
       });
     }
-  }, [single.data, setSingleData]);
-  const [dropDown, setDropDown] = useState([]);
-
-  const { data } = useQuery(getUsertypess, {
-    variables: {
-      userTypeId: "61ed2354e6091400135e3d94",
-    },
-  });
-  useEffect(() => {
-    if (data) {
-      const datas = data.getUserTypeProviders.provider;
-      setDropDown(
-        datas &&
-          datas.map((i) => {
-            return { key: i.name, value: i._id };
-          })
-      );
-    }
-  }, [data]);
+  }, [data, type, single, setSingleData]);
 
   const onSubmit = async (values, onSubmitProps) => {
     const { name, amount, description, duration } = values;
-    let provider =localStorage.getItem("partnerProviderId")
+    let provider = localStorage.getItem("pharmacyID");
 
     if (type === "edit") {
       try {
@@ -96,15 +93,9 @@ export const SubscriptionModal = ({
             provider,
           },
         });
-        setAlert({
-          message: "Plan successfully updated",
-          type: "success",
-        });
-        setTimeout(() => {
-          setAlert(null);
-        }, 5000);
+        showSuccessMsg(enqueueSnackbar, "Subscription Changed.");
       } catch (error) {
-        console.log(error);
+        handleError(error, enqueueSnackbar);
       }
     } else if (type === "add") {
       try {
@@ -117,22 +108,10 @@ export const SubscriptionModal = ({
             provider,
           },
         });
-        setAlert({
-          message: "Plan successfully created",
-          type: "success",
-        });
-        setTimeout(() => {
-          setAlert(null);
-        }, 5000);
-      } catch (errors) {
-        setAlert({
-          message: errors.message,
-          type: "danger",
-        });
-        setTimeout(() => {
-          setAlert(null);
-        }, 5000);
-        console.log(errors);
+        showSuccessMsg(enqueueSnackbar, "Subscription Created.");
+      } catch (error) {
+        handleError(error, enqueueSnackbar);
+        console.error(error);
       }
     }
     handleDialogClose();
@@ -172,10 +151,7 @@ export const SubscriptionModal = ({
                   <FormikControl
                     control="input"
                     name="amount"
-                    // value={values.amount !== "" ? formatNumber(values.amount) : values.amount}
-                    // value={values.amount}
                     placeholder="Enter Amount"
-                    // onChange={() => handlechange(setFieldValue, values)} //
                     label="Amount"
                   />
                 </Grid>

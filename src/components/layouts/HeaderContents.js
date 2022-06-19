@@ -191,8 +191,8 @@ const HeaderText = (props) => {
     Patients: null,
   };
 
-  const id = localStorage.getItem("AppId");
   const [pharmacyData, setPharmacyData] = useState([]);
+  const id = localStorage.getItem("AppId");
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   });
@@ -206,7 +206,7 @@ const HeaderText = (props) => {
       setPharmacyData(data.getPartner);
     }
   }, [pharmacy, data]);
-
+  console.log(123);
   switch (pathname) {
     case "/dashboard":
       return (

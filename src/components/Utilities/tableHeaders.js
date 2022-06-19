@@ -262,7 +262,7 @@ export const referralHeaderss = [
 ];
 export const subscriptionHeadersss = [
   {
-    id: 8,
+    id: 108,
     label: "Name of plan",
   },
   {
@@ -273,10 +273,7 @@ export const subscriptionHeadersss = [
     id: 2,
     label: " Description",
   },
-  {
-    id: 4,
-    label: " Provider",
-  },
+
   {
     id: 6,
     label: "Duration",
@@ -453,7 +450,6 @@ export const availabilityHeadCells = [
   { id: 1, label: "Name" },
   { id: 2, label: "Category" },
   { id: 3, label: "Available Time" },
-  { id: 4, label: "" },
 ];
 
 // HCPs HEADCELLS

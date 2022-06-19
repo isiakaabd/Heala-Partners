@@ -1,9 +1,10 @@
 import axios from "axios";
 import patterns from "mocks/patterns";
+import { Typography } from "@mui/material";
 import t from "prop-types";
 import { removeEmptyStringValues } from "./func";
 
-export const showErrorMsg = (enqueueSnackbar, Typography, errorMsg) => {
+export const showErrorMsg = (enqueueSnackbar, errorMsg) => {
   enqueueSnackbar(
     <Typography style={{ fontSize: "1.2rem" }}>{errorMsg}</Typography>,
     {
@@ -18,7 +19,7 @@ export const showErrorMsg = (enqueueSnackbar, Typography, errorMsg) => {
   );
 };
 
-export const showSuccessMsg = (enqueueSnackbar, Typography, successMsg) => {
+export const showSuccessMsg = (enqueueSnackbar, successMsg) => {
   enqueueSnackbar(
     <Typography style={{ fontSize: "1.2rem" }}>{successMsg}</Typography>,
     {
@@ -33,21 +34,20 @@ export const showSuccessMsg = (enqueueSnackbar, Typography, successMsg) => {
   );
 };
 
-export const handleError = (error, enqueueSnackbar, Typography) => {
+export const handleError = (error, enqueueSnackbar) => {
   if (error?.graphQLErrors && error?.graphQLErrors?.length > 0) {
     (error?.graphQLErrors || []).map((err) =>
-      showErrorMsg(enqueueSnackbar, Typography, err.message)
+      showErrorMsg(enqueueSnackbar, err.message)
     );
   } else if (error?.networkError) {
     error.networkError?.result?.errors?.map((err) =>
       showErrorMsg(
         enqueueSnackbar,
-        Typography,
         err.message || "Something went wrong, try again."
       )
     );
   } else if (error?.message) {
-    showErrorMsg(enqueueSnackbar, Typography, error.message);
+    showErrorMsg(enqueueSnackbar, error.message);
   }
 };
 

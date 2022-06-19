@@ -120,7 +120,7 @@ const Login = () => {
           loginUser({
             data,
             messages: {
-              message: "Login sucessful",
+              message: "Login successful",
               type: "success",
             },
           });
