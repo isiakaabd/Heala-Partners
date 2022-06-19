@@ -14,7 +14,6 @@ import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import displayPhoto from "assets/images/avatar.svg";
 import { hours } from "components/Utilities/Time";
-
 import { EmptyTable } from ".";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,11 +55,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AvailabilityTable = ({ data }) => {
-  console.log(data);
   const [avaliablity, setAvaliablity] = useState([]);
   useEffect(() => {
     setAvaliablity(data);
-
   }, [data]);
 
   const classes = useStyles();
@@ -74,7 +71,7 @@ const AvailabilityTable = ({ data }) => {
         <Typography variant="h4">Availability Table</Typography>
       </Grid>
       <Grid item container direction="column" height="100%">
-        {avaliablity && avaliablity.length > 0 ? (
+        {avaliablity?.length > 0 ? (
           <EnhancedTable
             headCells={availabilityHeadCells}
             rows={avaliablity}
@@ -86,7 +83,7 @@ const AvailabilityTable = ({ data }) => {
             {avaliablity
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const { _id, doctor, dates,doctorData } = row;
+                const { _id, dates, doctorData } = row;
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow hover tabIndex={-1} key={_id}>
@@ -97,7 +94,9 @@ const AvailabilityTable = ({ data }) => {
                       className={classes.tableCell}
                       style={{ color: theme.palette.common.grey }}
                     >
-                      {doctorData ? doctorData?.dociId : "no doctor"}
+                      {doctorData
+                        ? doctorData?.dociId.split("-")[1]
+                        : "no doctor"}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <div
@@ -110,7 +109,7 @@ const AvailabilityTable = ({ data }) => {
                       >
                         <span style={{ marginRight: "1rem" }}>
                           <Avatar
-                            alt="Remy Sharp"
+                            alt={doctorData?.firstName}
                             src={doctorData ? doctorData.picture : displayPhoto}
                             sx={{ width: 24, height: 24 }}
                           />
@@ -119,12 +118,11 @@ const AvailabilityTable = ({ data }) => {
                           {doctorData
                             ? `${doctorData?.firstName} ${doctorData?.lastName}`
                             : "no name"}
-                        </span>                      </div>
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
-                      {dates?.map((times) => {
-                        return times.day;
-                      })}
+                      {dates?.map((times) => times.day)}
                     </TableCell>
                     <TableCell align="left" className={classes.tableCell}>
                       <Grid container gap={1}>

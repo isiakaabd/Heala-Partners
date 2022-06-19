@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Checkbox,
-  Button,
-  Alert,
-  TableRow,
-  TableCell,
-} from "@mui/material";
+import { Grid, Checkbox, Button, TableRow, TableCell } from "@mui/material";
 import { Loader, Search, CustomButton, Modals } from "components/Utilities";
 import { formatNumber } from "components/Utilities/Time";
 import { EnhancedTable /* NoData*/, EmptyTable } from "components/layouts";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
-import { subscriptionHeadersss } from "components/Utilities/tableHeaders"; 
+import { subscriptionHeadersss } from "components/Utilities/tableHeaders";
 import { useSelector } from "react-redux";
 import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
-
+import { handleError, showSuccessMsg } from "helpers/filterHelperFunctions";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSnackbar } from "notistack";
 import EditIcon from "@mui/icons-material/Edit";
 import { SubscriptionModal } from "components/modals/SubscriptionModal";
 import DeleteOrDisable from "components/modals/DeleteOrDisable";
@@ -159,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
 const Subscription = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const [alert, setAlert] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
   const [pageInfo, setPageInfo] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [deletePlan] = useMutation(DELETE_PLAN);
@@ -188,20 +182,21 @@ const Subscription = () => {
   };
   const onConfirm = async () => {
     try {
-      const { message } = await deletePlan({
+      await deletePlan({
         variables: { id },
-        refetchQueries: [{ query: getPlans }],
+        refetchQueries: [
+          {
+            query: getPlans,
+            variables: {
+              provider: localStorage.getItem("pharmacyID"),
+            },
+          },
+        ],
       });
-      setAlert({
-        message: message,
-        type: "success",
-      });
+      showSuccessMsg(enqueueSnackbar, "subscription deleted successfully");
     } catch (error) {
-      setAlert({
-        message: error.message,
-        type: "danger",
-      });
-      console.log(error.message);
+      handleError(enqueueSnackbar, error);
+      console.error(error.message);
     }
   };
   const { page, totalPages, hasNextPage, hasPrevPage, limit, totalDocs } =
@@ -221,9 +216,8 @@ const Subscription = () => {
   const [plan, setPlan] = useState([]);
   const { loading, data, error, refetch } = useQuery(getPlans, {
     variables: {
-      provider: localStorage.getItem("partnerProviderId"),
+      provider: localStorage.getItem("pharmacyID"),
     },
-    notifyOnNetworkStatusChange: true,
   });
 
   const onChange = async (e) => {
@@ -263,16 +257,6 @@ const Subscription = () => {
         gap={2}
         height="100%"
       >
-        {alert && Object.keys(alert).length > 0 && (
-          <Alert
-            variant="filled"
-            severity={alert.type}
-            sx={{ justifyContent: "center", width: "70%", margin: "0 auto" }}
-          >
-            {alert.message}
-          </Alert>
-        )}
-
         <Grid
           item
           flexDirection={{ sm: "row", md: "row", xs: "column" }}
@@ -319,14 +303,8 @@ const Subscription = () => {
               {plan
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const {
-                    _id,
-                    amount,
-                    description,
-                    providerData,
-                    duration,
-                    name,
-                  } = row;
+                  const { _id, amount, description, duration, name } = row;
+
                   const isItemSelected = isSelected(_id, selectedRows);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
@@ -383,16 +361,7 @@ const Subscription = () => {
                       >
                         {description}
                       </TableCell>
-                      <TableCell
-                        align="left"
-                        className={classes.tableCell}
-                        style={{
-                          color: theme.palette.common.black,
-                          maxWidth: "20rem",
-                        }}
-                      >
-                        {providerData ? providerData.name : "No Value"}
-                      </TableCell>
+
                       <TableCell
                         align="left"
                         className={classes.tableCell}
@@ -457,7 +426,6 @@ const Subscription = () => {
         <SubscriptionModal
           handleDialogClose={handleDialogClose}
           type="add"
-          setAlert={setAlert}
           initialValues={initialValues}
         />
       </Modals>
@@ -473,8 +441,6 @@ const Subscription = () => {
           handleDialogClose={handleEditCloseDialog}
           type="edit"
           editId={editId}
-          setAlert={setAlert}
-          // initialValues={singleData}
           singleData={singleData}
           setSingleData={setSingleData}
         />

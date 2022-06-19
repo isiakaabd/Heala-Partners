@@ -199,6 +199,7 @@ const HeaderText = (props) => {
     })();
     if (data) {
       localStorage.setItem("partnerID", data.getPartner._id);
+      console.log("partner", data.getPartner._id);
       setPharmacyData(data?.getPartner);
     }
   }, [pharmacy, data]);
