@@ -60,13 +60,9 @@ export const Formiks = ({ name, setFieldValue, onBlur }) => {
 
   React.useEffect(() => {
     isCompleted === "passed" &&
-      showSuccessMsg(enqueueSnackbar, Typography, "Image upload complete.");
+      showSuccessMsg(enqueueSnackbar, "Image upload complete.");
     if (isCompleted === "failed") {
-      showErrorMsg(
-        enqueueSnackbar,
-        Typography,
-        "Image upload failed, Try again."
-      );
+      showErrorMsg(enqueueSnackbar, "Image upload failed, Try again.");
     }
   }, [isCompleted, enqueueSnackbar]);
 

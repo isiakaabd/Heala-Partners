@@ -103,7 +103,7 @@ export const SubscriptionModal = ({
           variables: {
             name,
             amount: Number(amount),
-            description,
+            description: description.trim(),
             duration,
             provider,
           },
@@ -134,7 +134,7 @@ export const SubscriptionModal = ({
       initialValues={type === "edit" ? singleData : initialValues}
       enableReinitialize
     >
-      {({ isSubmitting, dirty, values, isValid }) => {
+      {({ isSubmitting, dirty, isValid }) => {
         return (
           <Form style={{ marginTop: "3rem" }}>
             <Grid item container direction="column" gap={1}>
@@ -163,15 +163,7 @@ export const SubscriptionModal = ({
                     label="Duration"
                   />
                 </Grid>
-                {/* <Grid item container>
-                  <FormikControl
-                    control="select"
-                    placeholder="Enter Provider"
-                    name="provider"
-                    options={dropDown}
-                    label="Provider"
-                  />
-                </Grid> */}
+
                 <Grid item container>
                   <FormikControl
                     control="input"

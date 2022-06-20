@@ -27,7 +27,7 @@ const HospitalHeader = (props) => {
   } = props;
   const classes = useStyles();
   // useEffect(() => {
-  //   const token = localStorage.getItem('Pharmacy_token')
+  //   const token = localStorage.getItem('App_Token')
   //   const { exp } = jwtDecode(token)
   //   ;(async () => {
   //     if (Date.now() < exp * 1000) {

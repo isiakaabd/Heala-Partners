@@ -101,7 +101,7 @@ const HeaderProfile = () => {
       >
         <Grid item>
           <Avatar
-            alt="Display avatar"
+            alt={pharmacyData.name}
             src={
               pharmacyData.logoImageUrl
                 ? pharmacyData.logoImageUrl

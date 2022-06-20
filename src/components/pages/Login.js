@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   form: theme.mixins.toolbar,
   background: {
     width: "100%",
-    height: "100vh !important",
+    minHeight: "100vh !important",
     background:
       "linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),linear-gradient(98.44deg, #3e5ea9 1.92%, #7eedba 122.04%) !important",
   },
@@ -196,7 +196,7 @@ const Login = () => {
             padding: "4rem 3rem 3rem",
             background: "white",
             borderRadius: "5px",
-            width: "650px",
+            // width: "650px",
             // zIndex: "2",
             margin: "auto",
           }}

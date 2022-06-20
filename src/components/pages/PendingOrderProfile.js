@@ -32,10 +32,8 @@ const useStyles = makeStyles((theme) => ({
   gridsWrapper: {
     background: "#fff",
     borderRadius: "1rem",
-    padding: "5rem",
-    gap: "max(2rem, 3vw)",
-    justifyContent: "center",
-    flexWrap: "nowrap",
+    minHeight: "15rem",
+    flexWrap: "wrap",
     width: "100%",
     boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
   },
@@ -50,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
       borderRadius: "1rem",
       flexDirection: "column",
-      padding: "min(3rem,4vw)",
       gap: "1rem",
     },
   },
@@ -76,13 +73,15 @@ const useStyles = makeStyles((theme) => ({
   cardContainer: {
     "&.MuiGrid-root": {
       display: "grid",
-      gridTemplateColumns: "repeat(2,minmax(15rem,1fr))",
-      rowGap: "3rem",
-      columnGap: "2rem",
+      gap: "2rem",
+
       "& > *": {
         flex: 1,
         boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",
         minHeight: "14.9rem",
+        padding: "2rem",
+        justifyContent: "center",
+        alignItems: "center",
         background: "#fff",
       },
     },
@@ -243,8 +242,22 @@ const PendingOrderProfile = () => {
           />
         </Grid>
         {/* PERSONAL INFO SECTION */}
-        <Grid item container className={classes.cardContainer}>
-          <Grid item container md={12} xs={12} className={classes.card}>
+        <Grid
+          item
+          container
+          className={classes.cardContainer}
+          gridTemplateColumns={{ sm: "repeat(2,1fr)", xs: "1fr" }}
+        >
+          <Grid
+            item
+            xs={12}
+            md={12}
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            padding={{ sm: "min(3rem,4vw)" }}
+            container
+            className={classes.card}
+          >
             <Grid item>
               <Typography variant="h4">Date </Typography>
             </Grid>
@@ -259,7 +272,16 @@ const PendingOrderProfile = () => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            md={12}
+            xs={12}
+            container
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="h4">Order ID</Typography>
             </Grid>
@@ -274,7 +296,16 @@ const PendingOrderProfile = () => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            md={12}
+            xs={12}
+            container
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="h4">Doctor Name</Typography>
             </Grid>
@@ -293,7 +324,16 @@ const PendingOrderProfile = () => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            md={12}
+            xs={12}
+            container
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="h4">Diagnostics</Typography>
             </Grid>
@@ -308,7 +348,16 @@ const PendingOrderProfile = () => {
               />
             </Grid>
           </Grid>
-          <Grid item container md={12} xs={12} className={classes.card}>
+          <Grid
+            item
+            justifyContent={{ sm: "flex-start", xs: "center" }}
+            alignItems={{ sm: "flex-start", xs: "center" }}
+            md={12}
+            xs={12}
+            container
+            className={classes.card}
+            padding={{ sm: "min(3rem,4vw)" }}
+          >
             <Grid item>
               <Typography variant="h4">Affliation</Typography>
             </Grid>
@@ -323,48 +372,54 @@ const PendingOrderProfile = () => {
               />
             </Grid>
           </Grid>
-          {prescriptions &&
-            prescriptions.map((i, index) => {
-              return (
-                <Grid item container md={12} xs={12} className={classes.card}>
-                  <Grid item>
-                    <Typography variant="h4">
-                      {index + 1} Prescription
-                    </Typography>
-                  </Grid>
-                  <Grid item container flexWrap="nowrap" gap={3}>
-                    {/* {prescriptions && prescriptions.length > 0 ? ( */}
-                    <Grid item container flexWrap="nowrap" gap={3}>
-                      <ul style={{ padding: "2rem", color: "#606060" }}>
-                        <Typography variant="h4" gutterBottom>
-                          <li>Drugs : {i.drugName}</li>
-                        </Typography>
-                        <Typography variant="h4" gutterBottom>
-                          <li>Dosage : {i.drugName}</li>
-                        </Typography>
-                        <Typography variant="h4" gutterBottom>
-                          <li>Dosage Quantity: {i.dosageQuantity}</li>
-                        </Typography>
-                        <Typography variant="h4" gutterBottom>
-                          <li>Drug Price : {i.drugPrice}</li>
-                        </Typography>
-                      </ul>
-                    </Grid>
-                  </Grid>
+
+          {prescriptions?.map((i, index) => {
+            return (
+              <Grid
+                item
+                justifyContent={{ sm: "flex-start", xs: "center" }}
+                alignItems={{ sm: "flex-start", xs: "center" }}
+                md={12}
+                xs={12}
+                container
+                className={classes.card}
+                padding={{ sm: "min(3rem,4vw)" }}
+              >
+                <Grid item>
+                  <Typography variant="h4">{index + 1} Prescription</Typography>
                 </Grid>
-              );
-            })}
+
+                <Grid item container padding={{ xs: 2 }}>
+                  <ul style={{ color: "#606060" }}>
+                    <Typography variant="h6">
+                      <li>Drugs : {i.drugName}</li>
+                    </Typography>
+                    <Typography variant="h6">
+                      <li>Dosage : {i.drugName}</li>
+                    </Typography>
+                    <Typography variant="h6">
+                      <li>Dosage Quantity: {i.dosageQuantity}</li>
+                    </Typography>
+                    <Typography variant="h6">
+                      <li>Drug Price : {i.drugPrice}</li>
+                    </Typography>
+                  </ul>
+                </Grid>
+              </Grid>
+            );
+          })}
         </Grid>
       </Grid>
       <Grid
         item
         container
-        gap={4}
-        justifyContent="center"
+        rowGap={{ sm: 8, xs: 2 }}
+        justifyContent={{ sm: "space-around", xs: "center" }}
         alignItems="center"
+        flexWrap="nowrap"
         className={`${classes.gridsWrapper} ${classes.buttonsGridWrapper}`}
       >
-        <Grid item xs={3}>
+        <Grid item md={3} xs={8}>
           <CustomButton
             variant="contained"
             title="Cancel Request"
@@ -374,7 +429,7 @@ const PendingOrderProfile = () => {
             onClick={() => setOpenDisablePatient(true)}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item md={3} xs={8}>
           <CustomButton
             variant="contained"
             title="Process Order"

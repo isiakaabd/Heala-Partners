@@ -214,7 +214,7 @@ const HeaderText = (props) => {
             Welcome,
           </Typography>
           <Typography variant="h3" color="primary" className={classes.name}>
-            {pharmacyData?.name}
+            {/* {pharmacyData?.name} */} aDSasd
           </Typography>
         </div>
       );

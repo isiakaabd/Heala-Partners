@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, Checkbox, Button, TableRow, TableCell } from "@mui/material";
 import { Loader, Search, CustomButton, Modals } from "components/Utilities";
 import { formatNumber } from "components/Utilities/Time";
-import { EnhancedTable /* NoData*/, EmptyTable } from "components/layouts";
+import { EnhancedTable, NoData, EmptyTable } from "components/layouts";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { subscriptionHeadersss } from "components/Utilities/tableHeaders";
@@ -245,8 +245,7 @@ const Subscription = () => {
   };
   if (loading) return <Loader />;
 
-  if (error) console.log(error);
-  //  return <NoData error={error} />
+  if (error) return <NoData error={error} />;
 
   return (
     <>

@@ -193,6 +193,7 @@ const HeaderText = (props) => {
     variables: { id },
   });
 
+  console.log(data, "from pharmacy");
   useEffect(() => {
     (async () => {
       setTimeout(pharmacy, 300);
