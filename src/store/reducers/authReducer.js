@@ -19,7 +19,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-
         authError: action.payload.messages,
       };
     case actionTypes.REFRESH_USER:
@@ -37,11 +36,7 @@ const authReducer = (state = initialState, action) => {
         role: action.payload,
       };
     case actionTypes.LOGIN_FAILURE:
-      localStorage.removeItem("auth");
-      localStorage.removeItem("user_id");
-      localStorage.removeItem("App_Token");
-      localStorage.removeItem("email");
-      localStorage.removeItem("hcp");
+      localStorage.clear();
       return {
         ...state,
         loading: false,
@@ -49,14 +44,6 @@ const authReducer = (state = initialState, action) => {
         authError: action.payload,
       };
     case actionTypes.LOGOUT:
-      localStorage.removeItem("auth");
-      localStorage.removeItem("user_id");
-      localStorage.removeItem("App_Token");
-      localStorage.removeItem("email");
-      localStorage.removeItem("pharmacyID");
-      localStorage.removeItem("");
-      localStorage.removeItem("AppId");
-      localStorage.removeItem("role");
       localStorage.clear();
       return {
         ...state,

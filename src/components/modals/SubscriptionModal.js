@@ -28,7 +28,7 @@ export const SubscriptionModal = ({
       {
         query: getPlans,
         variables: {
-          provider: localStorage.getItem("pharmacyID"),
+          provider: localStorage.getItem("hospitalID"),
         },
       },
     ],
@@ -38,7 +38,7 @@ export const SubscriptionModal = ({
       {
         query: getPlans,
         variables: {
-          provider: localStorage.getItem("pharmacyID"),
+          provider: localStorage.getItem("hospitalID"),
         },
       },
     ],
@@ -79,7 +79,7 @@ export const SubscriptionModal = ({
 
   const onSubmit = async (values, onSubmitProps) => {
     const { name, amount, description, duration } = values;
-    let provider = localStorage.getItem("pharmacyID");
+    let provider = localStorage.getItem("hospitalID");
 
     if (type === "edit") {
       try {

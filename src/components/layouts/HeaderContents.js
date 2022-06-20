@@ -201,12 +201,11 @@ const HeaderText = (props) => {
     (async () => {
       setTimeout(pharmacy, 300);
     })();
-    console.log(data);
     if (data) {
       setPharmacyData(data.getPartner);
     }
-    if (data?.getPartner?.category === "pharmacy") {
-      localStorage.setItem("pharmacyID", data.getPartner._id);
+    if (data?.getPartner?.category === "hospital") {
+      localStorage.setItem("hospitalID", data.getPartner._id);
     }
   }, [pharmacy, data]);
   switch (pathname) {

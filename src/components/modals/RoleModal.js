@@ -12,7 +12,14 @@ import { useMutation } from "@apollo/client";
 
 export const RoleModal = ({ handleDialogClose, type }) => {
   const [createRole] = useMutation(addRole, {
-    refetchQueries: [{ query: getRoles }],
+    refetchQueries: [
+      {
+        query: getRoles,
+        variables: {
+          provider: localStorage.getItem("hospitalID"),
+        },
+      },
+    ],
   });
   const theme = useTheme();
   const buttonType = {

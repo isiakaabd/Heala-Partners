@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     "&.MuiGrid-root": {
       display: "grid",
       gap: "2rem",
-      // columnGap: "2rem",
+
       "& > *": {
         flex: 1,
         boxShadow: "0px 0px 5px -1px rgba(0,0,0,0.2)",

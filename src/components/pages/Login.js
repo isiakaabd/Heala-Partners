@@ -76,7 +76,7 @@ const Login = () => {
   const theme = useTheme();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
-  const [loginInfo] = useMutation(Login_USER); //{ data, loading, error }
+  const [loginInfo, { data }] = useMutation(Login_USER); //{ data, loading, error }
   const { loginUser, loginFailue } = useActions();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -105,25 +105,27 @@ const Login = () => {
     try {
       const { email, password, authType } = values;
       if (isMounted) {
-        const { data } = await loginInfo({
+        await loginInfo({
           variables: {
             data: { email, password, authType },
           },
         });
 
         if (data) {
-          const { email, _id, access_token, providerId } = data.login.account;
-          setAccessToken(access_token);
-          localStorage.setItem("AppId", _id);
-          localStorage.setItem("partnerProviderId", providerId);
-          localStorage.setItem("AppEmail", email);
-          loginUser({
-            data,
-            messages: {
-              message: "Login successful",
-              type: "success",
-            },
-          });
+          if (data?.login?.account?.role === "partner") {
+            const { email, _id, access_token, providerId } = data.login.account;
+            setAccessToken(access_token);
+            localStorage.setItem("AppId", _id);
+            localStorage.setItem("partnerProviderId", providerId);
+            localStorage.setItem("AppEmail", email);
+            loginUser({
+              data,
+              messages: {
+                message: "Login successful",
+                type: "success",
+              },
+            });
+          }
 
           history.push("/");
         } else {

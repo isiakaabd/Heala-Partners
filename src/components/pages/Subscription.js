@@ -188,7 +188,7 @@ const Subscription = () => {
           {
             query: getPlans,
             variables: {
-              provider: localStorage.getItem("pharmacyID"),
+              provider: localStorage.getItem("hospitalID"),
             },
           },
         ],
@@ -216,7 +216,7 @@ const Subscription = () => {
   const [plan, setPlan] = useState([]);
   const { loading, data, error, refetch } = useQuery(getPlans, {
     variables: {
-      provider: localStorage.getItem("pharmacyID"),
+      provider: localStorage.getItem("hospitalID"),
     },
   });
 
