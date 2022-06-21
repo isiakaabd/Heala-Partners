@@ -76,7 +76,9 @@ const Login = () => {
   const theme = useTheme();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
-  const [loginInfo, { data }] = useMutation(Login_USER); //{ data, loading, error }
+  const [loginInfo, { data }] = useMutation(Login_USER);
+  console.log(data);
+  //{ data, loading, error }
   const { loginUser, loginFailue } = useActions();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -112,6 +114,7 @@ const Login = () => {
         });
 
         if (data) {
+          console.log(data?.login?.account?.role);
           if (data?.login?.account?.role === "partner") {
             const { email, _id, access_token, providerId } = data.login.account;
             setAccessToken(access_token);
@@ -125,9 +128,21 @@ const Login = () => {
                 type: "success",
               },
             });
+            history.push("/");
           }
+          setAlert({
+            type: "error",
+            message: "You are not a partner",
+          });
+          console.log(data?.login?.account?.role);
+          // else if (data?.login?.account?.role !== "partner") {
+          //   console.log("not a partner");
 
-          history.push("/");
+          //   setAlert({
+          //     type: "error",
+          //     message: "unauthorized Access",
+          //   });
+          // }
         } else {
           history.push("/");
         }
