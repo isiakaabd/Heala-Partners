@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, createElement, useState, useMemo } from "react";
 import { makeStyles } from "@mui/styles";
 import { HiLogout } from "react-icons/hi";
 import { useMutation } from "@apollo/client";
@@ -23,7 +23,7 @@ import {
   diagnosticsMenu,
 } from "helpers/asideMenus";
 
-const SideNav = ({ drawerWidth }) => {
+const SideNav = ({ types, drawerWidth, handleDrawerToggle }) => {
   const useStyles = makeStyles((theme) => ({
     aside: {
       width: `${drawerWidth}`,
@@ -132,10 +132,10 @@ const SideNav = ({ drawerWidth }) => {
   const location = useLocation();
   const { logout } = useActions();
   const [logout_user] = useMutation(LOGOUT_USER);
-  const [Logout, setLogout] = React.useState(false);
-  const [selectedMenu, setSelectedMenu] = React.useState(0);
+  const [Logout, setLogout] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(0);
 
-  const sideNavData = React.useMemo(() => {
+  const sideNavData = useMemo(() => {
     return type === "hospital"
       ? hospitalMenu
       : type === "pharmacy"
@@ -157,8 +157,13 @@ const SideNav = ({ drawerWidth }) => {
       console.log(err.message);
     }
   };
-
-  React.useEffect(() => {
+  const handleClick = (menu) => {
+    if (types === "temporary") {
+      handleDrawerToggle();
+    }
+    setSelectedMenu(menu?.id);
+  };
+  useEffect(() => {
     setSideNav(sideNavData, location?.pathname, setSelectedMenu);
   }, [location?.pathname, sideNavData]);
 
@@ -176,15 +181,13 @@ const SideNav = ({ drawerWidth }) => {
             <ListItemButton
               disableRipple
               key={menu?.id}
-              onClick={() => {
-                setSelectedMenu(menu?.id);
-              }}
+              onClick={handleClick}
               selected={selectedMenu === menu.id}
               component={Link}
               to={menu.path}
             >
               <ListItemIcon>
-                {React.createElement(
+                {createElement(
                   menu?.icon,
                   menu?.id === 5 ? { size: 20, className: "message-icon" } : {}
                 )}
