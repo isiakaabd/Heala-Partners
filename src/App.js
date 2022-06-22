@@ -46,7 +46,7 @@ const PreApp = ({ window }) => {
   }, [role]);
 
   useEffect(() => {
-    const token = localStorage.getItem("Pharmacy_token");
+    const token = localStorage.getItem("App_Token");
     const d = async () => {
       if (token) {
         const { exp } = jwtDecode(token);

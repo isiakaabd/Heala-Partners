@@ -267,13 +267,7 @@ const ProcessingOrders = () => {
         </Grid>
       </Grid>
       {state.length > 0 ? (
-        <Grid
-          item
-          container
-          height="100%"
-          direction="column"
-          style={{ marginTop: "5rem" }}
-        >
+        <Grid item container height="100%" direction="column">
           <EnhancedTable
             headCells={hcpsHeadCells}
             rows={state}
@@ -359,12 +353,11 @@ const ProcessingOrders = () => {
                     </TableCell>
 
                     <TableCell>
-                      <Grid container gap={2}>
+                      <Grid container flexWrap="nowrap" gap={2}>
                         <Chip
                           label="complete order"
                           variant="outlined"
                           onClick={() => openCompleteFunc(_id)}
-                          // onClick={() => handleDialogOpen(_id)}
                           className={classes.chip}
                           deleteIcon={<ArrowForwardIosIcon />}
                         />

@@ -202,11 +202,12 @@ const HeaderText = (props) => {
       setTimeout(pharmacy, 300);
     })();
     if (data) {
-      localStorage.setItem("pharmacyID", data.getPartner._id);
       setPharmacyData(data.getPartner);
     }
+    if (data?.getPartner?.category === "hospital") {
+      localStorage.setItem("hospitalID", data.getPartner._id);
+    }
   }, [pharmacy, data]);
-  console.log(123);
   switch (pathname) {
     case "/dashboard":
       return (

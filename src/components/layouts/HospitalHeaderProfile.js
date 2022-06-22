@@ -71,12 +71,14 @@ const HospitalHeaderProfile = () => {
     //eslint-disable-next-line
   }, [pharmacy, data]);
 
+  console.log(data, "from pharmacy");
+
   return (
     <header>
       <Grid container alignItems="center">
         <Grid item>
           <Avatar
-            alt="Display avatar"
+            alt={pharmacyData.name}
             src={
               pharmacyData.logoImageUrl
                 ? pharmacyData.logoImageUrl

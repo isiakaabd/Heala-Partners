@@ -19,7 +19,7 @@ const HospitalDashboard = () => {
   });
 
   if (loading) return <Loader />;
-  if (error) return <NoData error="error" />;
+  if (error) return <NoData error={error} />;
 
   return (
     <Grid container direction="column" rowGap={3}>
@@ -31,7 +31,7 @@ const HospitalDashboard = () => {
 
       <HospitalDashboardChart data={data} />
 
-      <AvailabilityTable data={data?.getStats.availabilityCalendar} />
+      <AvailabilityTable data={data?.getStats?.availabilityCalendar} />
     </Grid>
   );
 };

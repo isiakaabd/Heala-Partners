@@ -104,10 +104,10 @@ const DashCharts = () => {
 
   const { data, loading, error } = useQuery(getDiagnosticDashboard, {
     variables: {
-      partner: localStorage.getItem("pharmacyID"),
+      partner: localStorage.getItem("AppId"),
     },
   });
-
+  console.log(data, "11");
   useEffect(() => {
     if (data) {
       const {

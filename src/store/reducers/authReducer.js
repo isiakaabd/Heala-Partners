@@ -14,12 +14,11 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
       localStorage.setItem("auth", true);
-      localStorage.setItem("Pharmacy_token", action.payload.access_token);
+      localStorage.setItem("App_Token", action.payload.access_token);
       return {
         ...state,
         loading: false,
         isAuthenticated: true,
-
         authError: action.payload.messages,
       };
     case actionTypes.REFRESH_USER:
@@ -37,11 +36,7 @@ const authReducer = (state = initialState, action) => {
         role: action.payload,
       };
     case actionTypes.LOGIN_FAILURE:
-      localStorage.removeItem("auth");
-      localStorage.removeItem("user_id");
-      localStorage.removeItem("Pharmacy_token");
-      localStorage.removeItem("email");
-      localStorage.removeItem("hcp");
+      localStorage.clear();
       return {
         ...state,
         loading: false,
@@ -49,19 +44,11 @@ const authReducer = (state = initialState, action) => {
         authError: action.payload,
       };
     case actionTypes.LOGOUT:
-      localStorage.removeItem("auth");
-      localStorage.removeItem("user_id");
-      localStorage.removeItem("Pharmacy_token");
-      localStorage.removeItem("email");
-      localStorage.removeItem("pharmacyID");
-      localStorage.removeItem("");
-      localStorage.removeItem("AppId");
-      localStorage.removeItem("role");
       localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
-        Pharmacy_token: null,
+        App_Token: null,
         userId: null,
         authError: {},
         dociId: null,

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   form: theme.mixins.toolbar,
   background: {
     width: "100%",
-    height: "100vh !important",
+    minHeight: "100vh !important",
     background:
       "linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),linear-gradient(98.44deg, #3e5ea9 1.92%, #7eedba 122.04%) !important",
   },
@@ -76,7 +76,7 @@ const Login = () => {
   const theme = useTheme();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
-  const [loginInfo] = useMutation(Login_USER); //{ data, loading, error }
+  const [loginInfo] = useMutation(Login_USER);
   const { loginUser, loginFailue } = useActions();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -100,38 +100,36 @@ const Login = () => {
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    let isMounted = true;
-
     try {
       const { email, password, authType } = values;
-      if (isMounted) {
-        const { data } = await loginInfo({
-          variables: {
-            data: { email, password, authType },
+      const { data } = await loginInfo({
+        variables: {
+          data: { email, password, authType },
+        },
+      });
+      if (data?.login?.account?.role === "partner") {
+        // if (data?.login?.account?.role === "partner") {
+        const { email, _id, access_token, providerId } = data?.login?.account;
+        setAccessToken(access_token);
+        localStorage.setItem("AppId", _id);
+        localStorage.setItem("partnerProviderId", providerId);
+        localStorage.setItem("AppEmail", email);
+        loginUser({
+          data,
+          messages: {
+            message: "Login successful",
+            type: "success",
           },
         });
-
-        if (data) {
-          const { email, _id, access_token, providerId } = data.login.account;
-          setAccessToken(access_token);
-          localStorage.setItem("AppId", _id);
-          localStorage.setItem("partnerProviderId", providerId);
-          localStorage.setItem("AppEmail", email);
-          loginUser({
-            data,
-            messages: {
-              message: "Login successful",
-              type: "success",
-            },
-          });
-
-          history.push("/");
-        } else {
-          history.push("/");
-        }
+        history.push("/dashboard");
+        // }
+      } else {
+        setAlert({
+          type: "error",
+          message: "You are not a partner",
+        });
       }
     } catch (error) {
-      console.log(error.message);
       setAlert({
         type: "error",
         message: error.message,
@@ -141,15 +139,13 @@ const Login = () => {
         type: "error",
       });
     }
-    // formikApi.resetForm({ values: { ...values, firstName: '' } })
+
     onSubmitProps.resetForm({
       values: {
         ...values,
         password: "",
       },
     });
-
-    return () => (isMounted = false);
   };
   useEffect(() => {
     let x = setTimeout(() => {
@@ -196,7 +192,7 @@ const Login = () => {
             padding: "4rem 3rem 3rem",
             background: "white",
             borderRadius: "5px",
-            width: "650px",
+            // width: "650px",
             // zIndex: "2",
             margin: "auto",
           }}
@@ -209,6 +205,7 @@ const Login = () => {
               onSubmit={onSubmit}
               validateOnMount={false}
               validateOnBlur={false}
+              enableReinitialize={true}
             >
               {({ isSubmitting, isValid, dirty }) => {
                 return (
