@@ -7,6 +7,7 @@ import {
   ScheduledRequestProfile,
   CancelledOrder,
   CompletedOrder,
+  PageNotFound,
   Pending,
   PendingProfile,
   Profiles,
@@ -46,6 +47,7 @@ const Private = () => {
       <PrivateRoute exact path="/setting" component={Setting} />
 
       <PrivateRoute path="/setting/profile" component={Profiles} />
+      <PrivateRoute path="*" component={PageNotFound} />
     </Switch>
   );
 };
