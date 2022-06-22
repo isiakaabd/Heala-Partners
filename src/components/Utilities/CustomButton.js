@@ -96,7 +96,7 @@ CustomButton.propTypes = {
   textColor: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  borderRadius: PropTypes.string,
+  borderRadius: PropTypes.number,
   textColorOnHover: PropTypes.string,
   path: PropTypes.string,
   isSubmitting: PropTypes.bool,
