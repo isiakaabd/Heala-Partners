@@ -76,9 +76,7 @@ const Login = () => {
   const theme = useTheme();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
-  const [loginInfo, { data }] = useMutation(Login_USER);
-  console.log(data);
-  //{ data, loading, error }
+  const [loginInfo] = useMutation(Login_USER);
   const { loginUser, loginFailue } = useActions();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -102,53 +100,36 @@ const Login = () => {
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    let isMounted = true;
-
     try {
       const { email, password, authType } = values;
-      if (isMounted) {
-        await loginInfo({
-          variables: {
-            data: { email, password, authType },
+      const { data } = await loginInfo({
+        variables: {
+          data: { email, password, authType },
+        },
+      });
+      if (data?.login?.account?.role === "partner") {
+        // if (data?.login?.account?.role === "partner") {
+        const { email, _id, access_token, providerId } = data?.login?.account;
+        setAccessToken(access_token);
+        localStorage.setItem("AppId", _id);
+        localStorage.setItem("partnerProviderId", providerId);
+        localStorage.setItem("AppEmail", email);
+        loginUser({
+          data,
+          messages: {
+            message: "Login successful",
+            type: "success",
           },
         });
-
-        if (data) {
-          console.log(data?.login?.account?.role);
-          if (data?.login?.account?.role === "partner") {
-            const { email, _id, access_token, providerId } = data.login.account;
-            setAccessToken(access_token);
-            localStorage.setItem("AppId", _id);
-            localStorage.setItem("partnerProviderId", providerId);
-            localStorage.setItem("AppEmail", email);
-            loginUser({
-              data,
-              messages: {
-                message: "Login successful",
-                type: "success",
-              },
-            });
-            history.push("/");
-          }
-          setAlert({
-            type: "error",
-            message: "You are not a partner",
-          });
-          console.log(data?.login?.account?.role);
-          // else if (data?.login?.account?.role !== "partner") {
-          //   console.log("not a partner");
-
-          //   setAlert({
-          //     type: "error",
-          //     message: "unauthorized Access",
-          //   });
-          // }
-        } else {
-          history.push("/");
-        }
+        history.push("/dashboard");
+        // }
+      } else {
+        setAlert({
+          type: "error",
+          message: "You are not a partner",
+        });
       }
     } catch (error) {
-      console.log(error.message);
       setAlert({
         type: "error",
         message: error.message,
@@ -158,15 +139,13 @@ const Login = () => {
         type: "error",
       });
     }
-    // formikApi.resetForm({ values: { ...values, firstName: '' } })
+
     onSubmitProps.resetForm({
       values: {
         ...values,
         password: "",
       },
     });
-
-    return () => (isMounted = false);
   };
   useEffect(() => {
     let x = setTimeout(() => {
@@ -226,6 +205,7 @@ const Login = () => {
               onSubmit={onSubmit}
               validateOnMount={false}
               validateOnBlur={false}
+              enableReinitialize={true}
             >
               {({ isSubmitting, isValid, dirty }) => {
                 return (
