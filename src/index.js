@@ -79,8 +79,8 @@ ReactDOM.render(
       <ApolloProvider client={client}>
         <ErrorBoundary FallbackComponent={Error}>
           <App />
+          <PWAPrompt />
         </ErrorBoundary>
-        <PWAPrompt />
       </ApolloProvider>
     </Provider>
   </SnackbarProvider>,
