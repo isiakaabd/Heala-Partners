@@ -1,12 +1,8 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import Chip from "@mui/material/Chip";
-import Divider from "@mui/material/Divider";
+import { Grid, Divider, Chip, Typography, Avatar } from "@mui/material";
+
 import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -45,10 +41,7 @@ const ViewMail = () => {
   const parseTextArea = ReactHTMLParser(details.textarea);
 
   return (
-    <Grid container direction="column">
-      <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton path={`/email`} />
-      </Grid>
+    <Grid container direction="column" gap={2}>
       <Grid item container direction="column" className={classes.parentGrid}>
         <Grid item className={classes.gridWrapper}>
           <Typography variant="h3"> {details.message}</Typography>

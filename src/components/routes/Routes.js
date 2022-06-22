@@ -11,6 +11,7 @@ import {
   CompletedOrders,
   PendingOrderProfile,
   Dashboard,
+  PageNotFound,
 } from "components/pages";
 
 const Routes = () => {
@@ -53,6 +54,7 @@ const Routes = () => {
       <PrivateRoute exact path="/settings" component={Settings} />
 
       <PrivateRoute path="/settings/profile" component={Profile} />
+      <PrivateRoute path="*" component={PageNotFound} />
     </Switch>
   );
 };
