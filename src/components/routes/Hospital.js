@@ -41,6 +41,7 @@ import {
   ViewMail,
   Financetable,
   HospitalSettings,
+  PageNotFound,
 } from "components/pages";
 
 const Hospital = () => {
@@ -185,6 +186,7 @@ const Hospital = () => {
         path="/hospital-settings/profile"
         component={HospitalProfile}
       />
+      <PrivateRoute path="*" component={PageNotFound} />
     </Switch>
   );
   // }

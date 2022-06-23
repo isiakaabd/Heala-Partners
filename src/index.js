@@ -18,6 +18,8 @@ import {
   concat,
 } from "@apollo/client";
 import { getAccessToken } from "./accessToken";
+import { ErrorBoundary } from "react-error-boundary";
+import { Error } from "components/pages";
 require("dotenv").config();
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -75,17 +77,16 @@ ReactDOM.render(
   >
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <App />
-        <PWAPrompt />
+        <ErrorBoundary FallbackComponent={Error}>
+          <App />
+          <PWAPrompt />
+        </ErrorBoundary>
       </ApolloProvider>
     </Provider>
   </SnackbarProvider>,
   document.getElementById("root")
 );
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-// serviceWorkerRegistration.unregister();
+
 serviceWorkerRegistration.register();
 
 reportWebVitals();

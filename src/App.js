@@ -139,7 +139,10 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav
+                      types="temporary"
+                      handleDrawerToggle={handleDrawerToggle}
+                    />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -211,7 +214,10 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav
+                      types="temporary"
+                      handleDrawerToggle={handleDrawerToggle}
+                    />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -283,7 +289,10 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav
+                      types="temporary"
+                      handleDrawerToggle={handleDrawerToggle}
+                    />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -299,7 +308,7 @@ const PreApp = ({ window }) => {
                     }}
                     open
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav />
                   </Drawer>
                 </Box>
                 <Box

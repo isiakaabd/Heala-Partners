@@ -10,8 +10,4 @@ const ScrollToView = (props) => {
   return <main>{props.children}</main>;
 };
 
-ScrollToView.propTypes = {
-  children: PropTypes.node,
-};
-
 export default ScrollToView;
