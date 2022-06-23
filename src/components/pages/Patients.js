@@ -199,6 +199,7 @@ const Patients = () => {
         <Grid
           item
           container
+          flexDirection={{ md: "row", sm: "row", xs: "column" }}
           spacing={{ sm: 4, md: 4, xs: 2 }}
           className={classes.searchFilterContainer}
         >

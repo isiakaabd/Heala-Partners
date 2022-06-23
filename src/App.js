@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import { Login } from "components/pages";
 import useApptype from "hooks/useAppType";
 import { Header } from "components/layouts";

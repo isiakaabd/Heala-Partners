@@ -1,13 +1,15 @@
 import React from "react";
 import { Typography, Grid } from "@mui/material";
 import logo from "assets/images/logo.svg";
-const Error = () => {
+const Error = ({ error }) => {
+  console.log(error);
   return (
     <Grid
       container
       alignItems="center"
       justifyContent="center"
       flexDirection={"column"}
+      flexWrap="nowrap"
       sx={{ height: "100vh" }}
       padding={{ sm: 6, xs: 3 }}
     >
