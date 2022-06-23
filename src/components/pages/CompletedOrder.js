@@ -152,8 +152,9 @@ const CompletedOrder = () => {
   });
   const [scheduleState, setScheduleState] = useState([]);
   const status = "completed";
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+    variables: { status, partnerProviderId },
   });
 
   useEffect(() => {
@@ -219,7 +220,7 @@ const CompletedOrder = () => {
                 .map((row, index) => {
                   const { createdAt, _id, tests, testId, patientData } = row;
                   const isItemSelected = isSelected(_id, selectedRows);
-                  const x = tests.map((i) => i.price);
+                  const x = (tests || []).map((i) => i?.price);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (

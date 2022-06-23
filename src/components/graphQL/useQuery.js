@@ -379,8 +379,10 @@ export const getConsultations = gql`
   }
 `;
 export const getDiagnosticTests = gql`
-  query getDiagnosticTests($status: String!) {
-    getDiagnosticTests(status: $status) {
+  query getDiagnosticTests($status: String!, $partnerProviderId: String!) {
+    getDiagnosticTests(
+      filterBy: { status: $status, partner: $partnerProviderId }
+    ) {
       data {
         _id
         partner

@@ -71,7 +71,6 @@ const HospitalHeaderProfile = () => {
     //eslint-disable-next-line
   }, [pharmacy, data]);
 
-  console.log(data, "from pharmacy");
 
   return (
     <header>

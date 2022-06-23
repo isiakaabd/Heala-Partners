@@ -54,7 +54,6 @@ const MedicalRecords = () => {
       alergies?.map((alergy) => alergy.name).filter((i) => i !== undefined);
 
     const labResult = lab?.map((alergy) => alergy);
-    console.log(patientProfile);
     return (
       <Grid
         container

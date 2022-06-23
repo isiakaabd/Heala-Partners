@@ -40,7 +40,6 @@ const ViewMessage = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
 
       setMessage(data.getMessage);
     }

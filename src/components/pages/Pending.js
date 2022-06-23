@@ -118,8 +118,9 @@ const Pending = () => {
   const [pendingState, setPendingState] = useState([]);
 
   const status = "pending";
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+    variables: { status, partnerProviderId },
   });
 
   useEffect(() => {

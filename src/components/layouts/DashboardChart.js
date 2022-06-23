@@ -104,7 +104,7 @@ const DashboardCharts = () => {
 
   const { data, loading, error } = useQuery(getPharmacyDashboard, {
     variables: {
-      partner: localStorage.getItem("AppId"),
+      partner: localStorage.getItem("partnerProviderId"),
     },
   });
 
@@ -135,7 +135,7 @@ const DashboardCharts = () => {
   const theme = useTheme();
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(0);
-  console.log(data);
+ 
   if (loading) return <Loader />;
   if (error) return <NoData />;
   return (

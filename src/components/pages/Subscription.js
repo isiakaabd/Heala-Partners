@@ -193,6 +193,7 @@ const Subscription = () => {
           },
         ],
       });
+      refetch();
       showSuccessMsg(enqueueSnackbar, "subscription deleted successfully");
     } catch (error) {
       handleError(enqueueSnackbar, error);
@@ -216,7 +217,7 @@ const Subscription = () => {
   const [plan, setPlan] = useState([]);
   const { loading, data, error, refetch } = useQuery(getPlans, {
     variables: {
-      provider: localStorage.getItem("hospitalID"),
+      provider: localStorage.getItem("partnerProviderId"),
     },
   });
 

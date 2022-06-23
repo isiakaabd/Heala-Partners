@@ -103,7 +103,6 @@ const PatientProfile = () => {
     phoneNumber,
     email,
   } = patientProfile;
-  console.log(gender);
   return (
     <Grid container direction="column" gap={2}>
       {/* Display photo and profile name grid */}

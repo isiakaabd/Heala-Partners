@@ -135,7 +135,6 @@ const DashCharts = () => {
   const theme = useTheme();
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(0);
-  console.log(data, "pharmacy");
   if (loading) return <Loader />;
   if (error) return <NoData />;
   return (

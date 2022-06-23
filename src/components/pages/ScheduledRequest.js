@@ -147,10 +147,11 @@ const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 const ScheduledRequest = () => {
   const classes = useStyles();
   const status = "scheduled";
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const [searchPartner, setSearchPartner] = useState("");
   const [scheduleState, setScheduleState] = useState(null);
   const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+    variables: { status, partnerProviderId },
   });
 
   useEffect(() => {
@@ -180,7 +181,6 @@ const ScheduledRequest = () => {
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  console.log(scheduleState);
   return (
     <>
       <Grid

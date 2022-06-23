@@ -114,9 +114,10 @@ const useStyles = makeStyles((theme) => ({
 const CancelledOrder = () => {
   const classes = useStyles();
   const status = "cancelled";
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const [scheduleState, setScheduleState] = useState([]);
   const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+    variables: { status, partnerProviderId },
   });
   useEffect(() => {
     if (data) {
