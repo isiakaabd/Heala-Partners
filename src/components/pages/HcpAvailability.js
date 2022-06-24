@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { getAvailability } from "components/graphQL/useQuery";
 import { NoData } from "components/layouts";
 
-const HcpAvailability = (props) => {
+const HcpAvailability = () => {
   const [availabiltyArray, setAvailabiltyArray] = useState([]);
   const { hcpId } = useParams();
   const { loading, data, error } = useQuery(getAvailability, {
@@ -15,7 +15,12 @@ const HcpAvailability = (props) => {
     },
   });
   useEffect(() => {
-    if (data) setAvailabiltyArray(data.getAvailabilities.availability);
+    if (data) {
+      const filteredAvailbility = (
+        data?.getAvailabilities?.availability || []
+      ).filter((availability) => availability?.dates[0]?.times?.length > 0);
+      setAvailabiltyArray(filteredAvailbility);
+    }
   }, [data]);
 
   if (loading) return <Loader />;
@@ -35,11 +40,17 @@ const HcpAvailability = (props) => {
       >
         {availabiltyArray.length > 0 ? (
           availabiltyArray.map((availability, index) => {
-            return (
-              <Grid item key={index}>
-                <AvailabilityCard availability={availability} />
-              </Grid>
-            );
+            const avalCard =
+              availability?.dates[0]?.times ||
+              availability?.dates[0]?.times?.length > 0 ? (
+                <Grid item key={index}>
+                  <AvailabilityCard availability={availability?.dates[0]} />
+                </Grid>
+              ) : (
+                ""
+              );
+
+            return avalCard;
           })
         ) : (
           <NoData />

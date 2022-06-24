@@ -109,9 +109,9 @@ const HcpConsultations = () => {
         <Grid item flex={1}>
           <Typography variant="h2">Consultations</Typography>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <FilterList options={filterOptions} title="Filter " />
-        </Grid>
+        </Grid> */}
       </Grid>
       {consultations.length > 0 ? (
         <Grid item container>
@@ -134,7 +134,6 @@ const HcpConsultations = () => {
                   createdAt,
                   symptoms,
                   status,
-                  type,
                   contactMedium,
                   patientData,
 
@@ -229,16 +228,6 @@ const HcpConsultations = () => {
                         maxWidth: "20rem",
                       }}
                     >
-                      {type ? type : "No Value"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      className={classes.tableCell}
-                      style={{
-                        color: theme.palette.common.grey,
-                        maxWidth: "20rem",
-                      }}
-                    >
                       {status ? status : "No Value"}
                     </TableCell>
                     <TableCell align="left">
@@ -246,13 +235,8 @@ const HcpConsultations = () => {
                         variant="contained"
                         className={classes.button}
                         component={Link}
-                        to={`/hcps/${hcpId}/consultations/case-notes/${_id}`}
+                        to={`/hcps/${hcpId}/consultations/case-note/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        /* onClick={() => {
-                          setSelectedSubMenu(2);
-                          setSelectedHcpMenu(0);
-                          setSelectedScopedMenu(2);
-                        }} */
                       >
                         View Details
                       </Button>

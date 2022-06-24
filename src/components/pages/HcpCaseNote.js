@@ -93,7 +93,7 @@ const HcpCaseNotes = () => {
     doctorNote,
     severity,
     firstNotice,
-    patient,
+    patientData,
     contactMedium,
     symptoms,
   } = consult;
@@ -206,7 +206,7 @@ const HcpCaseNotes = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5">{patient}</Typography>
+                    <Typography variant="h5">{`${patientData?.firstName} ${patientData?.lastName}`}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -379,12 +379,14 @@ const HcpCaseNotes = () => {
               justifyContent="flex-end"
             >
               <Grid item container sx={{ width: "20%" }}>
-                <CustomButton
-                  title="View Prescription"
-                  width="100%"
-                  type={buttonType}
-                  onClick={handleDialogOpen}
-                />
+                {consult?.prescription && (
+                  <CustomButton
+                    title="View Prescription"
+                    width="100%"
+                    type={buttonType}
+                    onClick={handleDialogOpen}
+                  />
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -430,7 +432,7 @@ const HcpCaseNotes = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5">{patient}</Typography>
+                    <Typography variant="h5">{`${patientData?.firstName} ${patientData?.lastName}`}</Typography>
                   </Grid>
                 </Grid>
               </Grid>

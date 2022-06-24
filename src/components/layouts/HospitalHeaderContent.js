@@ -192,8 +192,7 @@ const HeaderText = (props) => {
   const [pharmacy, { data }] = useLazyQuery(getPartner, {
     variables: { id },
   });
-
-  console.log(data, "from pharmacy");
+  
   useEffect(() => {
     (async () => {
       setTimeout(pharmacy, 300);

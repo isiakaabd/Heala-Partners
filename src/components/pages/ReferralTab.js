@@ -158,155 +158,134 @@ const ReferralTab = () => {
               fetchData={fetchRefferals}
               dataPageInfo={pageInfo}
             >
-              {referral
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const {
-                    _id,
-                    createdAt,
-                    type,
-                    specialization,
-                    testType,
-                    doctorData,
-                    patientData,
-                  } = row;
+              {referral.map((row, index) => {
+                const { _id, createdAt, type, doctorData, patientData } = row;
 
-                  const isItemSelected = isSelected(_id, selectedRows);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={_id}
-                      selected={isItemSelected}
+                const isItemSelected = isSelected(_id, selectedRows);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={_id}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        onClick={() =>
+                          handleSelectedRows(_id, selectedRows, setSelectedRows)
+                        }
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      id={labelId}
+                      scope="row"
+                      align="left"
+                      className={classes.tableCell}
+                      style={{ color: theme.palette.common.black }}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          onClick={() =>
-                            handleSelectedRows(
-                              _id,
-                              selectedRows,
-                              setSelectedRows
-                            )
-                          }
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        id={labelId}
-                        scope="row"
-                        align="left"
-                        className={classes.tableCell}
-                        style={{ color: theme.palette.common.black }}
+                      {dateMoment(createdAt)}
+                    </TableCell>
+                    <TableCell
+                      id={labelId}
+                      scope="row"
+                      align="left"
+                      className={classes.tableCell}
+                      style={{ color: theme.palette.common.black }}
+                    >
+                      {/* {new Date(updatedAt)} */}
+                      {_id ? _id : "No Value"}
+                    </TableCell>
+                    <TableCell align="left" className={classes.tableCell}>
+                      <div
+                        style={{
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
                       >
-                        {dateMoment(createdAt)}
-                      </TableCell>
-                      <TableCell
-                        id={labelId}
-                        scope="row"
-                        align="left"
-                        className={classes.tableCell}
-                        style={{ color: theme.palette.common.black }}
+                        <span style={{ marginRight: "1rem" }}>
+                          <Avatar
+                            alt={`image of ${
+                              doctorData?.firstName
+                                ? doctorData.firstName
+                                : "placeholder Display Image"
+                            }`}
+                            src={
+                              doctorData?.picture
+                                ? doctorData?.picture
+                                : displayPhoto
+                            }
+                            sx={{ width: 24, height: 24 }}
+                          />
+                        </span>
+                        <span style={{ fontSize: "1.25rem" }}>
+                          {doctorData?.firstName
+                            ? `${doctorData?.firstName} ${doctorData?.lastName}`
+                            : "No Doctor"}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell align="left" className={classes.tableCell}>
+                      <div
+                        style={{
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
                       >
-                        {/* {new Date(updatedAt)} */}
-                        {_id ? _id : "No Value"}
-                      </TableCell>
-                      <TableCell align="left" className={classes.tableCell}>
-                        <div
-                          style={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <span style={{ marginRight: "1rem" }}>
-                            <Avatar
-                              alt={`image of ${
-                                doctorData?.firstName
-                                  ? doctorData.firstName
-                                  : "placeholder Display Image"
-                              }`}
-                              src={
-                                doctorData?.picture
-                                  ? doctorData?.picture
-                                  : displayPhoto
-                              }
-                              sx={{ width: 24, height: 24 }}
-                            />
-                          </span>
-                          <span style={{ fontSize: "1.25rem" }}>
-                            {doctorData?.firstName
-                              ? `${doctorData?.firstName} ${doctorData?.lastName}`
-                              : "No Doctor"}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell align="left" className={classes.tableCell}>
-                        <div
-                          style={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <span style={{ marginRight: "1rem" }}>
-                            <Avatar
-                              alt={`image of ${
-                                patientData?.firstName
-                                  ? patientData?.firstName
-                                  : "placeholder Display Image"
-                              }`}
-                              src={
-                                patientData?.picture
-                                  ? patientData?.picture
-                                  : displayPhoto
-                              }
-                              sx={{ width: 24, height: 24 }}
-                            />
-                          </span>
-                          <span style={{ fontSize: "1.25rem" }}>
-                            {patientData?.firstName
-                              ? `${patientData?.firstName} ${patientData?.lastName}`
-                              : "No Patient"}
-                          </span>
-                        </div>
-                      </TableCell>
+                        <span style={{ marginRight: "1rem" }}>
+                          <Avatar
+                            alt={`image of ${
+                              patientData?.firstName
+                                ? patientData?.firstName
+                                : "placeholder Display Image"
+                            }`}
+                            src={
+                              patientData?.picture
+                                ? patientData?.picture
+                                : displayPhoto
+                            }
+                            sx={{ width: 24, height: 24 }}
+                          />
+                        </span>
+                        <span style={{ fontSize: "1.25rem" }}>
+                          {patientData?.firstName
+                            ? `${patientData?.firstName} ${patientData?.lastName}`
+                            : "No Patient"}
+                        </span>
+                      </div>
+                    </TableCell>
 
-                      <TableCell
-                        align="left"
-                        className={classes.tableCell}
-                        style={{ color: theme.palette.common.black }}
-                      >
-                        {type}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        className={classes.tableCell}
-                        style={{ color: theme.palette.common.black }}
-                      >
-                        {type === "hcp" ? specialization : testType}
-                      </TableCell>
+                    <TableCell
+                      align="left"
+                      className={classes.tableCell}
+                      style={{ color: theme.palette.common.black }}
+                    >
+                      {type}
+                    </TableCell>
 
-                      <TableCell align="left" className={classes.tableCell}>
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          component={Link}
-                          to={`referrals/${_id}`}
-                          endIcon={<ArrowForwardIosIcon />}
-                        >
-                          View Referral
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                    <TableCell align="left" className={classes.tableCell}>
+                      <Button
+                        variant="contained"
+                        className={classes.button}
+                        component={Link}
+                        to={`referrals/${_id}`}
+                        endIcon={<ArrowForwardIosIcon />}
+                      >
+                        View Referral
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </EnhancedTable>
           </Grid>
         ) : (

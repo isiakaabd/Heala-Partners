@@ -49,7 +49,7 @@ const ViewReferral = () => {
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
   const {
-    specialization,
+    /* specialization, */
     referrals,
     type,
     reason,
@@ -176,7 +176,7 @@ const ViewReferral = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Grid item container alignItems="center" gap={2}>
               <Grid item>
                 <Typography variant="body1" className={classes.title}>
@@ -187,7 +187,7 @@ const ViewReferral = () => {
                 <Typography variant="h5">{specialization}</Typography>
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid item>
             <Grid item container alignItems="center" gap={2}>
               <Grid item>

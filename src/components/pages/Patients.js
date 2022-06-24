@@ -219,9 +219,9 @@ const Patients = () => {
               height="5rem"
             />
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <FilterList title="Filter" onClick={handleDialogOpen} />
-          </Grid>
+          </Grid> */}
         </Grid>
         {/* The Search and Filter ends here */}
 

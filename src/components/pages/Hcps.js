@@ -7,7 +7,7 @@ import FormikControl from "components/validation/FormikControl";
 import { useQuery, useMutation } from "@apollo/client";
 import { makeStyles } from "@mui/styles";
 import {
-  FilterList,
+  /* FilterList, */
   Search,
   Modals,
   Loader,
@@ -291,8 +291,7 @@ const Hcps = () => {
         <Grid item container flex={2}>
           <Search
             onChange={(e) => {
-              let value = e.target.value;
-              console.log(value);
+              // let value = e.target.value;
               //   if (value !== "") {
               //     return debouncer({
               //       variables: { dociId: `HEALA-${value.toUpperCase()}` },
@@ -313,9 +312,9 @@ const Hcps = () => {
               onClick={() => setOpenAddHcp(true)}
             />
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <FilterList onClick={() => setOpenHcpFilter(true)} title="Filter" />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
       {profiles.length > 0 ? (
@@ -335,122 +334,120 @@ const Hcps = () => {
             handleChangePage={fetchMoreFunc}
             hasCheckbox={true}
           >
-            {profiles
-              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const {
-                  _id,
-                  dociId,
-                  firstName,
-                  hospital,
-                  status,
-                  specialization,
-                  consultations,
-                  picture,
-                  lastName,
-                } = row;
-                const isItemSelected = isSelected(_id, selectedRows);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={_id}
-                    selected={isItemSelected}
+            {profiles.map((row, index) => {
+              const {
+                _id,
+                dociId,
+                firstName,
+                hospital,
+                status,
+                specialization,
+                consultations,
+                picture,
+                lastName,
+              } = row;
+              const isItemSelected = isSelected(_id, selectedRows);
+              const labelId = `enhanced-table-checkbox-${index}`;
+              return (
+                <TableRow
+                  hover
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={_id}
+                  selected={isItemSelected}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      onClick={() =>
+                        handleSelectedRows(_id, selectedRows, setSelectedRows)
+                      }
+                      color="primary"
+                      checked={isItemSelected}
+                      inputProps={{
+                        "aria-labelledby": labelId,
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell
+                    id={labelId}
+                    scope="row"
+                    align="left"
+                    className={classes.tableCell}
+                    style={{
+                      color: theme.palette.common.grey,
+                      minWidth: "10rem",
+                    }}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        onClick={() =>
-                          handleSelectedRows(_id, selectedRows, setSelectedRows)
-                        }
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      id={labelId}
-                      scope="row"
-                      align="left"
-                      className={classes.tableCell}
+                    {dociId?.split("-")[1]}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCell}>
+                    <div
                       style={{
-                        color: theme.palette.common.grey,
-                        minWidth: "10rem",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "left",
                       }}
                     >
-                      {dociId?.split("-")[1]}
-                    </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      <div
-                        style={{
-                          height: "100%",
-                          display: "flex",
-                          alignItems: "left",
-                        }}
-                      >
-                        <span style={{ marginRight: "1rem" }}>
-                          <Avatar
-                            alt={`Display Photo of ${firstName}`}
-                            src={picture ? picture : displayPhoto}
-                            sx={{ width: 24, height: 24 }}
-                          />
-                        </span>
-                        <span style={{ fontSize: "1.25rem" }}>
-                          {firstName} {lastName}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      className={classes.tableCell}
-                      style={{ color: theme.palette.common.grey }}
+                      <span style={{ marginRight: "1rem" }}>
+                        <Avatar
+                          alt={`Display Photo of ${firstName}`}
+                          src={picture ? picture : displayPhoto}
+                          sx={{ width: 24, height: 24 }}
+                        />
+                      </span>
+                      <span style={{ fontSize: "1.25rem" }}>
+                        {firstName} {lastName}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    className={classes.tableCell}
+                    style={{ color: theme.palette.common.grey }}
+                  >
+                    {specialization}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCell}>
+                    {consultations ? consultations : 0}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    className={classes.tableCell}
+                    style={{ color: theme.palette.common.grey }}
+                  >
+                    {hospital ? hospital : "No Hospital"}
+                  </TableCell>
+                  <TableCell align="left" className={classes.tableCell}>
+                    <Chip
+                      label={status ? status : "No Status"}
+                      className={classes.badge}
+                      style={{
+                        background:
+                          status === "Active"
+                            ? theme.palette.common.lightGreen
+                            : theme.palette.common.lightRed,
+                        color:
+                          status === "Active"
+                            ? theme.palette.common.green
+                            : theme.palette.common.red,
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      className={classes.button}
+                      component={Link}
+                      to={`hcps/${_id}`}
+                      endIcon={<ArrowForwardIosIcon />}
                     >
-                      {specialization}
-                    </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      {consultations ? consultations : 0}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      className={classes.tableCell}
-                      style={{ color: theme.palette.common.grey }}
-                    >
-                      {hospital ? hospital : "No Hospital"}
-                    </TableCell>
-                    <TableCell align="left" className={classes.tableCell}>
-                      <Chip
-                        label={status ? status : "No Status"}
-                        className={classes.badge}
-                        style={{
-                          background:
-                            status === "Active"
-                              ? theme.palette.common.lightGreen
-                              : theme.palette.common.lightRed,
-                          color:
-                            status === "Active"
-                              ? theme.palette.common.green
-                              : theme.palette.common.red,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        className={classes.button}
-                        component={Link}
-                        to={`hcps/${_id}`}
-                        endIcon={<ArrowForwardIosIcon />}
-                      >
-                        View Doctor
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      View Doctor
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </EnhancedTable>
         </Grid>
       ) : (
