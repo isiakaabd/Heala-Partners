@@ -167,6 +167,7 @@ const ProcessingOrders = () => {
     setCancelId(id);
   };
   const onConfirm = () => setCancel(true);
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
 
   const onSubmit = async (values) => {
     const { reason } = values;
@@ -180,12 +181,14 @@ const ProcessingOrders = () => {
           query: getDrugOrders,
           variables: {
             status: "processing",
+            partnerProviderId,
           },
         },
         {
           query: getDrugOrders,
           variables: {
             status: "cancelled",
+            partnerProviderId,
           },
         },
       ],
@@ -215,12 +218,14 @@ const ProcessingOrders = () => {
           query: getDrugOrders,
           variables: {
             status: "processing",
+            partnerProviderId,
           },
         },
         {
           query: getDrugOrders,
           variables: {
             status: "completed",
+            partnerProviderId,
           },
         },
       ],

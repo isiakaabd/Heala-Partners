@@ -157,6 +157,7 @@ const ScheduledRequestProfile = () => {
   const validationSchema = Yup.object({
     reason: Yup.string("Enter Reason ").trim().required("Reason is required"),
   });
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const [cancelTest] = useMutation(cancelDiagnosticTest);
   const onSubmit = async (values) => {
     const { reason } = values;
@@ -171,12 +172,14 @@ const ScheduledRequestProfile = () => {
             query: getDiagnosticTests,
             variables: {
               status: "scheduled",
+              partnerProviderId,
             },
           },
           {
             query: getDiagnosticTests,
             variables: {
               status: "cancelled",
+              partnerProviderId,
             },
           },
         ],

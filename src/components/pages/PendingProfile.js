@@ -102,6 +102,7 @@ const PendingProfile = () => {
   const initialValues = {
     reason: "",
   };
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const validationSchema = Yup.object({
     reason: Yup.string("Enter Reason").trim().required("Reason is required"),
   });
@@ -132,12 +133,14 @@ const PendingProfile = () => {
             query: getDiagnosticTests,
             variables: {
               status: "pending",
+              partnerProviderId,
             },
           },
           {
             query: getDiagnosticTests,
             variables: {
               status: "cancelled",
+              partnerProviderId,
             },
           },
         ],
@@ -152,7 +155,6 @@ const PendingProfile = () => {
       });
       console.error(error);
     }
-    /* setSelectedSubMenu(6); */
   };
 
   const onConfirm = () => setCancel(true);
@@ -177,12 +179,14 @@ const PendingProfile = () => {
             query: getDiagnosticTests,
             variables: {
               status: "pending",
+              partnerProviderId,
             },
           },
           {
             query: getDiagnosticTests,
             variables: {
               status: "scheduled",
+              partnerProviderId,
             },
           },
         ],
