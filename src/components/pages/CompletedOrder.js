@@ -172,7 +172,7 @@ const CompletedOrder = () => {
         partnerProviderId,
       },
     });
-  }, [fetchDiagnostics, partnerProviderId, pageInfo]);
+  }, [fetchDiagnostics, pageInfo.limit, status, partnerProviderId]);
 
   useEffect(() => {
     if (data) {
@@ -238,7 +238,7 @@ const CompletedOrder = () => {
               changeLimit={changeTableLimit}
               fetchData={fetchDiagnostics}
               dataPageInfo={pageInfo}
-              value={status}
+              value="completed"
               partnerId={partnerProviderId}
             >
               {scheduleState
@@ -333,7 +333,6 @@ const CompletedOrder = () => {
                           to={`/completed/${_id}/view`}
                           className={classes.chip}
                           deleteIcon={<ArrowForwardIosIcon />}
-                          onDelete={() => console.log(" ")}
                         />
                       </TableCell>
                     </TableRow>

@@ -101,16 +101,24 @@ export const changeTableLimit = async (limit, fetchFunc, value, partnerId) => {
   }
 };
 
-export const handlePageChange = (fetchDataFN, type, pageInfo, value) => {
+export const handlePageChange = (
+  fetchDataFN,
+  type,
+  pageInfo,
+  value,
+  partnerId
+) => {
   const getData = (pageNumber) => {
     fetchDataFN({
       variables: {
         page: pageNumber,
         first: pageInfo.limit,
         status: value,
+        partnerProviderId: partnerId,
       },
     });
   };
+
   switch (type) {
     case "FIRSTPAGE":
       getData(1);

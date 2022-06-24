@@ -117,7 +117,6 @@ const ScheduledRequestProfile = () => {
   const handleClick = (values, setFieldValue) => {
     const { title, image } = values;
     if (title !== "" && image !== null) {
-      //||
       const newValue = {
         title,
         file: image,
@@ -126,7 +125,6 @@ const ScheduledRequestProfile = () => {
       setValue((prevState) => ({
         val: [...prevState.val, newValue],
       }));
-
       setFieldValue("image", "");
       setFieldValue("title", "");
     }

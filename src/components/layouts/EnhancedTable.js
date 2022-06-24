@@ -71,7 +71,7 @@ const EnhancedTable = ({
     }
     setSelectedRows([]);
   };
-  console.log(dataPageInfo?.limit);
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -98,8 +98,8 @@ const EnhancedTable = ({
               rowsPerPage={dataPageInfo?.limit || 5}
               page={dataPageInfo?.page - 1}
               labelRowsPerPage={paginationLabel}
-              onPageChange={(e, pageNum) => {
-                handleChangePage(e, pageNum, value);
+              onPageChange={(e, pageNum, value) => {
+                handleChangePage(e, pageNum, value, partnerId);
               }}
               onRowsPerPageChange={(e) => {
                 changeLimit(
@@ -115,6 +115,8 @@ const EnhancedTable = ({
                   {...{
                     fetchData,
                     dataPageInfo,
+                    value,
+                    partnerId,
                   }}
                 />
               )}
@@ -140,7 +142,7 @@ EnhancedTable.propTypes = {
   hasPagination: PropTypes.bool,
 };
 
-const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
+const EnhancedTableAction = ({ fetchData, dataPageInfo, value, partnerId }) => {
   const theme = useTheme();
   const { FIRSTPAGE, NEXTPAGE, PREVPAGE, LASTPAGE } = paginationActionTypes;
 
@@ -148,7 +150,7 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
         onClick={() =>
-          handlePageChange(fetchData, FIRSTPAGE, dataPageInfo, value)
+          handlePageChange(fetchData, FIRSTPAGE, dataPageInfo, value, partnerId)
         }
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="first page"
@@ -157,7 +159,7 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
       </IconButton>
       <IconButton
         onClick={() =>
-          handlePageChange(fetchData, PREVPAGE, dataPageInfo, value)
+          handlePageChange(fetchData, PREVPAGE, dataPageInfo, value, partnerId)
         }
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="previous page"
@@ -169,9 +171,9 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
         )}
       </IconButton>
       <IconButton
-        onClick={() =>
-          handlePageChange(fetchData, NEXTPAGE, dataPageInfo, value)
-        }
+        onClick={() => {
+          handlePageChange(fetchData, NEXTPAGE, dataPageInfo, value, partnerId);
+        }}
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="next page"
       >
@@ -183,7 +185,7 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
       </IconButton>
       <IconButton
         onClick={() =>
-          handlePageChange(fetchData, LASTPAGE, dataPageInfo, value)
+          handlePageChange(fetchData, LASTPAGE, dataPageInfo, value, partnerId)
         }
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="last page"
