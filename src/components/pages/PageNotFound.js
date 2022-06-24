@@ -22,13 +22,13 @@ const PageNotFound = () => {
       rowGap={3}
       flexWrap="nowrap"
     >
-      <Grid item flex={1}>
+      <Grid item>
         <ErrorOutlineIcon
           sx={{ fontSize: "10rem", color: "#3e5ea9" }}
           color={theme.palette.warning.main}
         />
       </Grid>
-      <Grid item flex={1}>
+      <Grid item>
         <Typography textAlign="center" variant="h1" gutterBottom>
           Lost your way?
         </Typography>
@@ -40,7 +40,6 @@ const PageNotFound = () => {
         item
         container
         alignItems="center"
-        flex={1}
         justifyContent="center"
         xs={6}
         sm={5}
