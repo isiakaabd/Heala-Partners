@@ -3,11 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { calculateBMI } from "components/Utilities/bMI";
-import {
-  getProfile,
-  findAllergies,
-  // getLabResult,
-} from "components/graphQL/useQuery";
+import { getProfile, findAllergies } from "components/graphQL/useQuery";
 import { Loader, ProfileCard } from "components/Utilities";
 import { NoData } from "components/layouts";
 const MedicalRecords = () => {
@@ -54,7 +50,6 @@ const MedicalRecords = () => {
       alergies?.map((alergy) => alergy.name).filter((i) => i !== undefined);
 
     const labResult = lab?.map((alergy) => alergy);
-    console.log(patientProfile);
     return (
       <Grid
         container

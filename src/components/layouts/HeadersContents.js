@@ -199,7 +199,6 @@ const HeaderText = (props) => {
     })();
     if (data) {
       localStorage.setItem("partnerID", data.getPartner._id);
-      console.log("partner", data.getPartner._id);
       setPharmacyData(data?.getPartner);
     }
   }, [pharmacy, data]);
@@ -278,7 +277,6 @@ const HeaderText = (props) => {
       return (
         <CustomHeaderText title="Completed Orders" path="completed-order" />
       );
-
     case 5:
       if (selectedSubMenu === 6) {
         return (
@@ -292,20 +290,6 @@ const HeaderText = (props) => {
       return (
         <CustomHeaderTitle title="Cancelled Orders" path="cancelled-order" />
       );
-    // case 7:
-    // if (selectedSubMenu === 8) {
-    //   return (
-    //     <CustomSubHeaderText
-    //       title="Completed Orders"
-    //       scopedMenu={0}
-    //       scopedSubMenu={0}
-    //       subTitle="View Completed Results"
-    //     />
-    //   );
-    // }
-    // return (
-    //   <CustomHeaderTitle title="Completed Orders" path="completed-order" />
-    // );
     case 8:
       if (selectedSubMenu === 9) {
         return (
@@ -320,7 +304,6 @@ const HeaderText = (props) => {
       return (
         <CustomHeaderTitle title="Scheduled Orders" path="schedule-request" />
       );
-
     case 11:
       if (selectedSubMenu === 12) {
         return (

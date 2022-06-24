@@ -31,8 +31,9 @@ import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
+import { changeTableLimit, fetchMoreData } from "helpers/filterHelperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -152,12 +153,32 @@ const CompletedOrder = () => {
   });
   const [scheduleState, setScheduleState] = useState([]);
   const status = "completed";
-  const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
+  const [fetchDiagnostics, { data, loading, error }] =
+    useLazyQuery(getDiagnosticTests);
+  const [pageInfo, setPageInfo] = useState({
+    page: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+    limit: 10,
+    totalDocs: 0,
   });
+  useEffect(() => {
+    fetchDiagnostics({
+      variables: {
+        first: pageInfo.limit,
+        status,
+        partnerProviderId,
+      },
+    });
+  }, [fetchDiagnostics, partnerProviderId, pageInfo]);
 
   useEffect(() => {
-    if (data) return setScheduleState(data.getDiagnosticTests.data);
+    if (data) {
+      setScheduleState(data?.getDiagnosticTests.data);
+      setPageInfo(data.getDiagnosticTests.pageInfo);
+    }
   }, [data]);
   const prettyDollarConfig = {
     currency: "₦",
@@ -210,16 +231,22 @@ const CompletedOrder = () => {
             <EnhancedTable
               headCells={partnersHeadCells}
               rows={scheduleState}
-              page={page}
+              // page={page}
               paginationLabel="Orders per page"
               hasCheckbox={true}
+              handleChangePage={fetchMoreData}
+              changeLimit={changeTableLimit}
+              fetchData={fetchDiagnostics}
+              dataPageInfo={pageInfo}
+              value={status}
+              partnerId={partnerProviderId}
             >
               {scheduleState
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const { createdAt, _id, tests, testId, patientData } = row;
                   const isItemSelected = isSelected(_id, selectedRows);
-                  const x = tests.map((i) => i.price);
+                  const x = (tests || []).map((i) => i?.price);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (

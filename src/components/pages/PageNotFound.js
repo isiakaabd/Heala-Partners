@@ -18,7 +18,7 @@ const PageNotFound = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height="100%"
+      height="calc(100vh - 150px)"
       rowGap={3}
       flexWrap="nowrap"
     >

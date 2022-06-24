@@ -80,7 +80,6 @@ export const resetFilters = (
   variables,
   refetchData
 ) => {
-  console.log(setFilterValues, values, variables, refetchData);
   setFilterValues(values);
   for (const key in variables) {
     delete variables[key];
@@ -88,11 +87,13 @@ export const resetFilters = (
   refetchData();
 };
 
-export const changeTableLimit = async (limit, fetchFunc) => {
+export const changeTableLimit = async (limit, fetchFunc, value, partnerId) => {
   try {
     fetchFunc({
       variables: {
         first: limit,
+        status: value,
+        partnerProviderId: partnerId,
       },
     });
   } catch (error) {
@@ -100,12 +101,13 @@ export const changeTableLimit = async (limit, fetchFunc) => {
   }
 };
 
-export const handlePageChange = (fetchDataFN, type, pageInfo) => {
+export const handlePageChange = (fetchDataFN, type, pageInfo, value) => {
   const getData = (pageNumber) => {
     fetchDataFN({
       variables: {
         page: pageNumber,
         first: pageInfo.limit,
+        status: value,
       },
     });
   };
@@ -131,10 +133,11 @@ export const handlePageChange = (fetchDataFN, type, pageInfo) => {
   }
 };
 
-export const fetchMoreData = async (newPage, fetchData) => {
+export const fetchMoreData = async (newPage, fetchData, value) => {
   fetchData({
     variables: {
       page: newPage,
+      status: value,
     },
   });
 };

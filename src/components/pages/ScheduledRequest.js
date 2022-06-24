@@ -30,9 +30,9 @@ import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
-
+import { changeTableLimit, fetchMoreData } from "helpers/filterHelperFunctions";
 const useStyles = makeStyles((theme) => ({
   button: {
     "&.MuiButton-root": {
@@ -147,14 +147,35 @@ const hospitals = ["General Hospital, Lekki", "H-Medix", "X Lab"];
 const ScheduledRequest = () => {
   const classes = useStyles();
   const status = "scheduled";
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const [searchPartner, setSearchPartner] = useState("");
   const [scheduleState, setScheduleState] = useState(null);
-  const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+
+  const [fetchDiagnostics, { loading, error, data }] =
+    useLazyQuery(getDiagnosticTests);
+  const [pageInfo, setPageInfo] = useState({
+    page: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+    limit: 10,
+    totalDocs: 0,
   });
+  useEffect(() => {
+    fetchDiagnostics({
+      variables: {
+        first: pageInfo.limit,
+        status,
+        partnerProviderId,
+      },
+    });
+  }, [fetchDiagnostics, partnerProviderId, pageInfo]);
 
   useEffect(() => {
-    if (data) return setScheduleState(data?.getDiagnosticTests.data);
+    if (data) {
+      setScheduleState(data?.getDiagnosticTests.data);
+      setPageInfo(data?.getDiagnosticTests.pageInfo);
+    }
   }, [data]);
   const [openFilterPartner, setOpenFilterPartner] = useState(false);
 
@@ -180,7 +201,6 @@ const ScheduledRequest = () => {
   const { setSelectedRows } = useActions();
   if (loading) return <Loader />;
   if (error) return <NoData error={error} />;
-  console.log(scheduleState);
   return (
     <>
       <Grid
@@ -219,6 +239,12 @@ const ScheduledRequest = () => {
               page={page}
               paginationLabel="schedule per page"
               hasCheckbox={true}
+              handleChangePage={fetchMoreData}
+              changeLimit={changeTableLimit}
+              fetchData={fetchDiagnostics}
+              dataPageInfo={pageInfo}
+              value={status}
+              partnerId={partnerProviderId}
             >
               {scheduleState
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

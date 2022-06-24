@@ -104,7 +104,7 @@ const DashboardCharts = () => {
 
   const { data, loading, error } = useQuery(getPharmacyDashboard, {
     variables: {
-      partner: localStorage.getItem("AppId"),
+      partner: localStorage.getItem("partnerProviderId"),
     },
   });
 
@@ -120,7 +120,7 @@ const DashboardCharts = () => {
         completedDrugOrdersStats: completedTestsStats,
         cancelledDrugOrdersStats: cancelledTestsStats,
       } = data?.getPharmacyDashboard;
-      // setState(data.getDiagnosticTests.data)
+
       setTestRequest(testRequestsCount);
       setScheduledTests(scheduledTestsCount);
       setCompletedTests(completedTestsCount);
@@ -135,7 +135,7 @@ const DashboardCharts = () => {
   const theme = useTheme();
 
   const [selectedTimeframe, setSelectedTimeframe] = useState(0);
-  console.log(data);
+
   if (loading) return <Loader />;
   if (error) return <NoData />;
   return (
@@ -147,11 +147,7 @@ const DashboardCharts = () => {
     >
       <Grid item md={6} sm={12} lg={6}>
         <Grid container direction="column">
-          <Grid
-            item
-            className={classes.chartCard}
-            // style={{ marginBottom: '3em' }}
-          >
+          <Grid item className={classes.chartCard}>
             <Grid container direction="column">
               <Grid item className={classes.headerGrid}>
                 <Typography variant="h5">Pending Orders</Typography>
@@ -204,7 +200,7 @@ const DashboardCharts = () => {
               </Grid>
             </Grid>
           </Grid>
-          {/* hehre */}
+
           <Divider color={theme.palette.common.lighterGrey} />
           <Grid item className={classes.headerGrid}>
             <Typography variant="h5">Completed Orders</Typography>

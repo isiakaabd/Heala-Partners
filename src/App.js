@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import { Login } from "components/pages";
 import useApptype from "hooks/useAppType";
 import { Header } from "components/layouts";
@@ -37,9 +36,8 @@ const PreApp = ({ window }) => {
   });
   const { isAuthenticated, role } = useSelector((state) => state.auth);
   const drawerWidth = 200;
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
   useEffect(() => {
     changeAppType(role);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,7 +137,10 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav
+                      types="temporary"
+                      handleDrawerToggle={handleDrawerToggle}
+                    />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -211,7 +212,10 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav
+                      types="temporary"
+                      handleDrawerToggle={handleDrawerToggle}
+                    />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -283,7 +287,10 @@ const PreApp = ({ window }) => {
                       },
                     }}
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav
+                      types="temporary"
+                      handleDrawerToggle={handleDrawerToggle}
+                    />
                   </Drawer>
                   <Drawer
                     variant="permanent"
@@ -299,7 +306,7 @@ const PreApp = ({ window }) => {
                     }}
                     open
                   >
-                    <SideNav handleDrawerToggle={handleDrawerToggle} />
+                    <SideNav />
                   </Drawer>
                 </Box>
                 <Box

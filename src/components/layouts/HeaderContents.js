@@ -251,7 +251,7 @@ const Breadcrumb = ({ breadcrumbs = [], counts = {} }) => {
     <Grid container justifyContent="flex-start" alignItems="center">
       {breadcrumbs.map((text, index) => {
         return (
-          <>
+          <Fragment key={index}>
             {breadcrumbs.length < 2 ? (
               <Grid container alignContent="center">
                 <Grid item>
@@ -297,7 +297,7 @@ const Breadcrumb = ({ breadcrumbs = [], counts = {} }) => {
                 }}
               />
             ) : null}
-          </>
+          </Fragment>
         );
       })}
     </Grid>

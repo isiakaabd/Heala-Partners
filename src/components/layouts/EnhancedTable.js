@@ -56,6 +56,8 @@ const EnhancedTable = ({
   fetchData,
   dataPageInfo,
   hasPagination = true,
+  value,
+  partnerId,
 }) => {
   const classes = useStyles();
   const { setSelectedRows } = useActions();
@@ -69,7 +71,7 @@ const EnhancedTable = ({
     }
     setSelectedRows([]);
   };
-
+  console.log(dataPageInfo?.limit);
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -93,14 +95,19 @@ const EnhancedTable = ({
               rowsPerPageOptions={[5, 10, 15, 25]}
               component="div"
               count={dataPageInfo?.totalDocs || 0}
-              rowsPerPage={dataPageInfo?.limit || 10}
+              rowsPerPage={dataPageInfo?.limit || 5}
               page={dataPageInfo?.page - 1}
               labelRowsPerPage={paginationLabel}
               onPageChange={(e, pageNum) => {
-                handleChangePage(e, pageNum);
+                handleChangePage(e, pageNum, value);
               }}
               onRowsPerPageChange={(e) => {
-                changeLimit(parseInt(e.target.value, 10), fetchData);
+                changeLimit(
+                  parseInt(e.target.value, 10),
+                  fetchData,
+                  value,
+                  partnerId
+                );
               }}
               className={classes.pagination}
               ActionsComponent={() => (
@@ -133,21 +140,25 @@ EnhancedTable.propTypes = {
   hasPagination: PropTypes.bool,
 };
 
-const EnhancedTableAction = ({ fetchData, dataPageInfo }) => {
+const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
   const theme = useTheme();
   const { FIRSTPAGE, NEXTPAGE, PREVPAGE, LASTPAGE } = paginationActionTypes;
 
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
-        onClick={() => handlePageChange(fetchData, FIRSTPAGE, dataPageInfo)}
+        onClick={() =>
+          handlePageChange(fetchData, FIRSTPAGE, dataPageInfo, value)
+        }
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="first page"
       >
         {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
-        onClick={() => handlePageChange(fetchData, PREVPAGE, dataPageInfo)}
+        onClick={() =>
+          handlePageChange(fetchData, PREVPAGE, dataPageInfo, value)
+        }
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="previous page"
       >
@@ -158,7 +169,9 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo }) => {
         )}
       </IconButton>
       <IconButton
-        onClick={() => handlePageChange(fetchData, NEXTPAGE, dataPageInfo)}
+        onClick={() =>
+          handlePageChange(fetchData, NEXTPAGE, dataPageInfo, value)
+        }
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="next page"
       >
@@ -169,7 +182,9 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo }) => {
         )}
       </IconButton>
       <IconButton
-        onClick={() => handlePageChange(fetchData, LASTPAGE, dataPageInfo)}
+        onClick={() =>
+          handlePageChange(fetchData, LASTPAGE, dataPageInfo, value)
+        }
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="last page"
       >

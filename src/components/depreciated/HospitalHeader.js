@@ -35,7 +35,6 @@ const HospitalHeader = (props) => {
   //       setSelectedMenu(13)
   //       logout()
   //     } else {
-  //       console.log(123)
   //       // setAccessToken(token)
   //       // try {
   //       //   setTimeout(pharmacy, 300)
