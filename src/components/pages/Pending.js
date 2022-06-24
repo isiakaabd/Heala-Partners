@@ -29,10 +29,10 @@ import { useActions } from "components/hooks/useActions";
 import { handleSelectedRows } from "helpers/selectedRows";
 import { isSelected } from "helpers/isSelected";
 import useFormInput from "components/hooks/useFormInput";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { getDiagnosticTests } from "components/graphQL/useQuery";
 import prettyMoney from "pretty-money";
-
+import { changeTableLimit, fetchMoreData } from "helpers/filterHelperFunctions";
 const referralOptions = ["Hello", "World", "Goodbye", "World"];
 
 const plans = ["Plan 1", "Plan 2", "Plan 3", "Plan 4"];
@@ -40,12 +40,6 @@ const plans = ["Plan 1", "Plan 2", "Plan 3", "Plan 4"];
 const statusType = ["Active", "Blocked"];
 
 const useStyles = makeStyles((theme) => ({
-  // searchGrid: {
-  //   "&.MuiGrid-root": {
-  //     flex: 1,
-  //     marginRight: "5rem",
-  //   },
-  // },
   button: {
     "&.MuiButton-root": {
       background: "#fff",
@@ -116,14 +110,33 @@ const useStyles = makeStyles((theme) => ({
 const Pending = () => {
   const classes = useStyles();
   const [pendingState, setPendingState] = useState([]);
-
   const status = "pending";
-  const { data, loading, error } = useQuery(getDiagnosticTests, {
-    variables: { status },
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
+  const [fetchDiagnostics, { data, loading, error }] =
+    useLazyQuery(getDiagnosticTests);
+  const [pageInfo, setPageInfo] = useState({
+    page: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+    limit: 10,
+    totalDocs: 0,
   });
+  useEffect(() => {
+    fetchDiagnostics({
+      variables: {
+        first: pageInfo.limit,
+        status,
+        partnerProviderId,
+      },
+    });
+  }, [fetchDiagnostics, partnerProviderId, pageInfo]);
 
   useEffect(() => {
-    if (data) return setPendingState(data?.getDiagnosticTests.data);
+    if (data) {
+      setPendingState(data?.getDiagnosticTests.data);
+      setPageInfo(data.getDiagnosticTests.pageInfo);
+    }
   }, [data]);
 
   const [inputValue, handleInputValue] = useFormInput({
@@ -191,6 +204,12 @@ const Pending = () => {
               page={page}
               paginationLabel="orders per page"
               hasCheckbox={true}
+              handleChangePage={fetchMoreData}
+              changeLimit={changeTableLimit}
+              fetchData={fetchDiagnostics}
+              dataPageInfo={pageInfo}
+              value="pending"
+              partnerId={partnerProviderId}
             >
               {pendingState
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -310,11 +329,12 @@ const Pending = () => {
 
                       <TableCell>
                         <Chip
-                          label="View requests"
+                          label="View request"
                           variant="outlined"
                           component={Link}
                           to={`pending/${_id}/request`}
                           className={classes.chip}
+                          sx={{ "&:hover": { cursor: "pointer" } }}
                           deleteIcon={<ArrowForwardIosIcon />}
                         />
                       </TableCell>

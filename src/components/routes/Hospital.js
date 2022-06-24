@@ -2,47 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Switch } from "react-router-dom";
 import PrivateRoute from "components/routes/PrivateRoute";
 import { Loader } from "components/Utilities";
-import {
-  // Chat,
-  // // Patients,
-  // Subscription,
-  // Hcps,
-  // SingleHCP,
-  // Appointments,
-  // HcpEarnings,
-  // HcpAvailability,
-  // HcpPatients,
-  // HcpAppointments,
-  // HcpProfile,
-  // Medications,
-  // HospitalProfile,
-  // // SinglePatient,
-  // CaseNotes,
-  // MedicalRecords,
-  // Prescriptions,
-  // PatientAppointment,
-  // Email,
-  // Consultations,
-  // PatientProfile,
-  // // HospitalDashboard,
-  // HcpCaseNote,
-  // HcpConsultations,
-  // ViewMessage,
-  // CreateMessage,
-  // Messages,
-  // WaitingListDetails,
-  // WaitingList,
-  // ViewReferral,
-  // ReferralTab,
-  // Finance,
-  // Payout,
-  // HCPChat,
-  // CreateEmail,
-  // ViewMail,
-  // Financetable,
-  // HospitalSettings,
-  PageNotFound,
-} from "components/pages";
+import { PageNotFound } from "components/pages";
 const HospitalDashboard = lazy(() =>
   import("components/pages/HospitalDashboard")
 );
@@ -93,8 +53,8 @@ const PatientAppointment = lazy(() =>
 );
 const Hospital = () => {
   return (
-    <Switch>
-      <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader />}>
+      <Switch>
         <PrivateRoute
           path={["/", "/dashboard"]}
           exact
@@ -128,6 +88,7 @@ const Hospital = () => {
         />
 
         <PrivateRoute
+          exact
           path="/patients/:patientId/prescriptions"
           component={Prescriptions}
         />
@@ -177,7 +138,11 @@ const Hospital = () => {
           component={HcpAvailability}
         />
 
-        <PrivateRoute path="/hcps/:hcpId/earnings" component={HcpEarnings} />
+        <PrivateRoute
+          exact
+          path="/hcps/:hcpId/earnings"
+          component={HcpEarnings}
+        />
         <PrivateRoute
           path="/hcps/:hcpId/doctor-patients"
           component={HcpPatients}
@@ -212,16 +177,28 @@ const Hospital = () => {
           path="/messages/create-message"
           component={CreateMessage}
         />
-        <PrivateRoute path="/messages/:messageId" component={ViewMessage} />
-        <PrivateRoute path="/email/create-email" component={CreateEmail} />
-        <PrivateRoute path="/email/:emailId" component={ViewMail} />
-        <PrivateRoute path="/email" component={Email} />
+        <PrivateRoute
+          exact
+          path="/messages/:messageId"
+          component={ViewMessage}
+        />
+        <PrivateRoute
+          exact
+          path="/email/create-email"
+          component={CreateEmail}
+        />
+        <PrivateRoute exact path="/email/:emailId" component={ViewMail} />
+        <PrivateRoute exact path="/email" component={Email} />
         <PrivateRoute exact path="/finance" component={Finance} />
         <PrivateRoute exact path="/finance/earnings" component={Financetable} />
         <PrivateRoute exact path="/finance/payouts" component={Payout} />
-        <PrivateRoute path="/referrals/:referralId" component={ViewReferral} />
-        <PrivateRoute path="/referrals" component={ReferralTab} />
-        <PrivateRoute path="/plans" component={Subscription} />
+        <PrivateRoute
+          exact
+          path="/referrals/:referralId"
+          component={ViewReferral}
+        />
+        <PrivateRoute exact path="/referrals" component={ReferralTab} />
+        <PrivateRoute exact path="/plans" component={Subscription} />
 
         <PrivateRoute
           exact
@@ -230,12 +207,13 @@ const Hospital = () => {
         />
 
         <PrivateRoute
+          exact
           path="/hospital-settings/profile"
           component={HospitalProfile}
         />
-      </Suspense>
-      <PrivateRoute path="*" component={PageNotFound} />
-    </Switch>
+        <PrivateRoute component={PageNotFound} />
+      </Switch>
+    </Suspense>
   );
   // }
 };

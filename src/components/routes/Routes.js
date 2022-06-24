@@ -19,8 +19,8 @@ const PendingOrderProfile = lazy(() =>
 
 const Routes = () => {
   return (
-    <Switch>
-      <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader />}>
+      <Switch>
         <PrivateRoute path={["/", "/dashboard"]} exact component={Dashboard} />
 
         <PrivateRoute exact path="/pending-order" component={PendingOrder} />
@@ -66,9 +66,9 @@ const Routes = () => {
         <PrivateRoute exact path="/settings" component={Settings} />
 
         <PrivateRoute path="/settings/profile" component={Profile} />
-      </Suspense>
-      <PrivateRoute path="*" component={PageNotFound} />
-    </Switch>
+        <PrivateRoute path="*" component={PageNotFound} />
+      </Switch>
+    </Suspense>
   );
 };
 

@@ -12,31 +12,8 @@ import {
 } from "@mui/material";
 
 import EnhancedTableHeader from "./EnhancedTableHeader";
-// import { makeStyles } from "@mui/styles";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import { NoData } from ".";
-
-// const useStyles = makeStyles((theme) => ({
-//   pagination: {
-//     "& .MuiTablePagination-selectLabel": {
-//       fontSize: "1.2rem",
-//     },
-
-//     "& .MuiTablePagination-select": {
-//       fontSize: "1.2rem",
-//     },
-
-//     "& .MuiTablePagination-displayedRows": {
-//       fontSize: "1.2rem",
-//     },
-//   },
-
-//   tableToolbar: {
-//     "&.MuiToolbar-root": {
-//       background: "#eee",
-//     },
-//   },
-// }));
 
 const EmptyCell = (props) => {
   const { headCells, title } = props;

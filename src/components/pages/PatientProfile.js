@@ -3,7 +3,6 @@ import { dateMoment } from "components/Utilities/Time";
 import { NoData } from "components/layouts";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-
 import {
   Loader,
   DisplayProfileHospital,
@@ -80,12 +79,12 @@ const PatientProfile = () => {
 
   useEffect(() => {
     if (emailStatus) {
-      setEmailStat(emailStatus.accounts.data[0].isEmailVerified);
+      setEmailStat(emailStatus?.accounts.data[0].isEmailVerified);
     }
   }, [emailStatus]);
   useEffect(() => {
     if (data) {
-      setPatientProfile(data.profile);
+      setPatientProfile(data?.profile);
     }
   }, [data, patientId]);
 
@@ -103,7 +102,6 @@ const PatientProfile = () => {
     phoneNumber,
     email,
   } = patientProfile;
-  console.log(gender);
   return (
     <Grid container direction="column" gap={2}>
       {/* Display photo and profile name grid */}

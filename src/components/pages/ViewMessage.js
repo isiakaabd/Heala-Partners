@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography, Avatar, Chip, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useQuery } from "@apollo/client";
 import { getAMessage } from "components/graphQL/useQuery";
-import NoData from "components/layouts/NoData";
-import Loader from "components/Utilities/Loader";
+import { NoData } from "components/layouts";
+import { Loader } from "components/Utilities";
 import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,8 +39,6 @@ const ViewMessage = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-
       setMessage(data.getMessage);
     }
   }, [message, data]);
@@ -50,9 +47,6 @@ const ViewMessage = () => {
   const { body, recipient, subject, sender } = message;
   return (
     <Grid container direction="column">
-      <Grid item style={{ marginBottom: "3rem" }}>
-        <PreviousButton path={`/messages`} />
-      </Grid>
       <Grid item container direction="column" className={classes.parentGrid}>
         <Grid item className={classes.gridWrapper}>
           <Typography variant="h3">{subject}</Typography>

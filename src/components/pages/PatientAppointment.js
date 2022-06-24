@@ -214,8 +214,6 @@ const PatientAppointment = () => {
   const onSubmit = (values) => {
     // const { date } = values;
     // let d = timeConverter(date);
-
-    console.log(values);
   };
 
   const [getPatientsAppointment, { loading, data, error }] =

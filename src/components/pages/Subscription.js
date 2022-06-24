@@ -162,12 +162,8 @@ const Subscription = () => {
   const [edit, setEdit] = useState(false);
   const [singleData, setSingleData] = useState("");
   const [deleteModal, setdeleteModal] = useState(false);
-  const handleDialogOpen = () => {
-    setIsOpen(true);
-  };
-  const handleEditCloseDialog = () => {
-    setEdit(false);
-  };
+  const handleDialogOpen = () => setIsOpen(true);
+  const handleEditCloseDialog = () => setEdit(false);
   const handleDeleteOpenDialog = (id) => {
     setId(id);
     setdeleteModal(true);
@@ -193,6 +189,7 @@ const Subscription = () => {
           },
         ],
       });
+      refetch();
       showSuccessMsg(enqueueSnackbar, "subscription deleted successfully");
     } catch (error) {
       handleError(enqueueSnackbar, error);
@@ -216,7 +213,7 @@ const Subscription = () => {
   const [plan, setPlan] = useState([]);
   const { loading, data, error, refetch } = useQuery(getPlans, {
     variables: {
-      provider: localStorage.getItem("hospitalID"),
+      provider: localStorage.getItem("partnerProviderId"),
     },
   });
 

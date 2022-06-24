@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
+import { useSnackbar } from "notistack";
 import { ReactComponent as HealaIconW } from "assets/images/logo-white1.svg";
 import { LoginInput } from "components/validation";
 import { Formik, Form } from "formik";
@@ -25,6 +26,7 @@ import { Login_USER } from "components/graphQL/Mutation";
 import { useMutation } from "@apollo/client";
 import { setAccessToken } from "../../accessToken";
 import { useActions } from "components/hooks/useActions";
+import { handleError, showErrorMsg } from "helpers/filterHelperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   form: theme.mixins.toolbar,
@@ -74,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
   const [loginInfo] = useMutation(Login_USER);
@@ -108,7 +111,6 @@ const Login = () => {
         },
       });
       if (data?.login?.account?.role === "partner") {
-        // if (data?.login?.account?.role === "partner") {
         const { email, _id, access_token, providerId } = data?.login?.account;
         setAccessToken(access_token);
         localStorage.setItem("AppId", _id);
@@ -122,30 +124,23 @@ const Login = () => {
           },
         });
         history.push("/dashboard");
-        // }
       } else {
-        setAlert({
-          type: "error",
-          message: "You are not a partner",
-        });
+        showErrorMsg(enqueueSnackbar, "Please login using a Partner account");
       }
-    } catch (error) {
-      setAlert({
-        type: "error",
-        message: error.message,
+      onSubmitProps.resetForm({
+        values: {
+          ...values,
+          password: "",
+        },
       });
+    } catch (error) {
+      console.error("Failed to login", error);
+      handleError(error, enqueueSnackbar);
       loginFailue({
         message: error.message,
         type: "error",
       });
     }
-
-    onSubmitProps.resetForm({
-      values: {
-        ...values,
-        password: "",
-      },
-    });
   };
   useEffect(() => {
     let x = setTimeout(() => {
@@ -192,8 +187,6 @@ const Login = () => {
             padding: "4rem 3rem 3rem",
             background: "white",
             borderRadius: "5px",
-            // width: "650px",
-            // zIndex: "2",
             margin: "auto",
           }}
         >

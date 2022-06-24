@@ -150,7 +150,6 @@ const Payout = () => {
               {payout
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row);
                   const { amount, createdAt, /* doctorData, */ status, _id } =
                     row;
 

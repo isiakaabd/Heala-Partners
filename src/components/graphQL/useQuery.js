@@ -379,8 +379,19 @@ export const getConsultations = gql`
   }
 `;
 export const getDiagnosticTests = gql`
-  query getDiagnosticTests($status: String!) {
-    getDiagnosticTests(status: $status) {
+  ${PageInfo}
+  query getDiagnosticTests(
+    $status: String!
+    $page: Int
+    $first: Int
+    $partnerProviderId: String!
+  ) {
+    getDiagnosticTests(
+      filterBy: { status: $status, partner: $partnerProviderId }
+      orderBy: "-createdAt"
+      page: $page
+      first: $first
+    ) {
       data {
         _id
         partner
@@ -407,6 +418,9 @@ export const getDiagnosticTests = gql`
           lat
           lng
         }
+      }
+      pageInfo {
+        ...pageDetails
       }
     }
   }

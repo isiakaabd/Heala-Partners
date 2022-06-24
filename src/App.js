@@ -36,9 +36,8 @@ const PreApp = ({ window }) => {
   });
   const { isAuthenticated, role } = useSelector((state) => state.auth);
   const drawerWidth = 200;
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
   useEffect(() => {
     changeAppType(role);
     // eslint-disable-next-line react-hooks/exhaustive-deps

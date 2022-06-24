@@ -20,8 +20,8 @@ const ScheduledRequest = lazy(() =>
 
 const Private = () => {
   return (
-    <Switch>
-      <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader />}>
+      <Switch>
         <PrivateRoute path={["/", "/dashboard"]} exact component={Dashboards} />
 
         <PrivateRoute exact path="/pending" component={Pending} />
@@ -51,9 +51,9 @@ const Private = () => {
         <PrivateRoute exact path="/setting" component={Setting} />
 
         <PrivateRoute path="/setting/profile" component={Profiles} />
-      </Suspense>
-      <PrivateRoute path="*" component={PageNotFound} />
-    </Switch>
+        <PrivateRoute path="*" component={PageNotFound} />
+      </Switch>
+    </Suspense>
   );
 };
 
