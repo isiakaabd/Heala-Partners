@@ -288,7 +288,7 @@ const Hcps = () => {
         container
         justifyContent="space-between"
       >
-        <Grid item container flex={2}>
+        <Grid item container flex={1}>
           <Search
             onChange={(e) => {
               // let value = e.target.value;
@@ -303,18 +303,13 @@ const Hcps = () => {
             height="5rem"
           />
         </Grid>
-        <Grid item container flex={1} justifyContent="space-between">
-          <Grid item>
-            <CustomButton
-              endIcon={<AddIcon />}
-              title="Add Doctor"
-              type={buttonType}
-              onClick={() => setOpenAddHcp(true)}
-            />
-          </Grid>
-          {/* <Grid item>
-            <FilterList onClick={() => setOpenHcpFilter(true)} title="Filter" />
-          </Grid> */}
+        <Grid item>
+          <CustomButton
+            endIcon={<AddIcon />}
+            title="Add Doctor"
+            type={buttonType}
+            onClick={() => setOpenAddHcp(true)}
+          />
         </Grid>
       </Grid>
       {profiles.length > 0 ? (

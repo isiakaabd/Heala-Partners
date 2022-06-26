@@ -9,7 +9,6 @@ import { dateMoment, duration, daily } from "components/Utilities/Time";
 import displayPhoto from "assets/images/avatar.svg";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +55,7 @@ const HcpCaseNotes = () => {
     disabled: theme.palette.common.black,
   };
 
-  const { hcpId, rowId } = useParams();
+  const { rowId } = useParams();
 
   const [consult, setConsult] = useState([]);
 
@@ -100,9 +99,6 @@ const HcpCaseNotes = () => {
   return (
     <>
       <Grid container direction="column" gap={2}>
-        <Grid item>
-          <PreviousButton path={`/hcps/${hcpId}/consultations`} />
-        </Grid>
         <Grid item>
           <Typography variant="h2">Consultation Details</Typography>
         </Grid>

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
@@ -127,21 +126,6 @@ const EnhancedTable = ({
   );
 };
 
-EnhancedTable.propTypes = {
-  children: PropTypes.node,
-  rows: PropTypes.array,
-  headCells: PropTypes.array,
-  paginationLabel: PropTypes.string,
-  title: PropTypes.string,
-  handleChangePage: PropTypes.func,
-  hasCheckbox: PropTypes.bool,
-  type: PropTypes.string,
-  changeLimit: PropTypes.func,
-  fetchData: PropTypes.func,
-  dataPageInfo: PropTypes.object,
-  hasPagination: PropTypes.bool,
-};
-
 const EnhancedTableAction = ({ fetchData, dataPageInfo, value, partnerId }) => {
   const theme = useTheme();
   const { FIRSTPAGE, NEXTPAGE, PREVPAGE, LASTPAGE } = paginationActionTypes;
@@ -194,20 +178,6 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value, partnerId }) => {
       </IconButton>
     </Box>
   );
-};
-
-EnhancedTableAction.propTypes = {
-  count: PropTypes.number,
-  page: PropTypes.number,
-  pagnumber: PropTypes.number,
-  totalPages: PropTypes.number,
-  dataPageInfo: PropTypes.object,
-  rowsPerPage: PropTypes.number,
-  hasPrevPage: PropTypes.bool,
-  setPageNumber: PropTypes.func,
-  handleChangePage: PropTypes.func,
-  hasNextPage: PropTypes.bool,
-  fetchData: PropTypes.func,
 };
 
 export default EnhancedTable;

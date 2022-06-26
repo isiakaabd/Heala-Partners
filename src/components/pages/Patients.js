@@ -13,13 +13,7 @@ import {
   TableRow,
   Grid,
 } from "@mui/material";
-import {
-  Modals,
-  FilterList,
-  Loader,
-  Search,
-  CustomButton,
-} from "components/Utilities";
+import { Modals, Loader, Search, CustomButton } from "components/Utilities";
 import { EnhancedTable } from "components/layouts";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
@@ -103,7 +97,6 @@ const useStyles = makeStyles((theme) => ({
 const Patients = () => {
   const classes = useStyles();
   const theme = useTheme();
-  // const inputRef = createRef();
 
   const initialValues = {
     name: "",
@@ -126,19 +119,14 @@ const Patients = () => {
     },
   });
 
-  // ), {
-  //   notifyOnNetworkStatusChange: true,
-  // });
   useEffect(() => {
     (async () => {
       fetchpatient();
     })();
   }, [fetchpatient]);
-  // const [fetchUser] = useLazyQuery(getPatients);
   const [profiles, setProfiles] = useState([]);
   const onSubmit = async (values) => {
     const { gender } = values;
-    // if (!gender) return;
 
     await fetchpatient({
       variables: {
@@ -171,11 +159,9 @@ const Patients = () => {
         page: newPage,
       },
     });
-    //refetch({ page: newPage });
   };
 
   const [isOpen, setIsOpen] = useState(false);
-  const handleDialogOpen = () => setIsOpen(true);
   const handleDialogClose = () => setIsOpen(false);
 
   const buttonType = {
@@ -219,13 +205,10 @@ const Patients = () => {
               height="5rem"
             />
           </Grid>
-          {/* <Grid item>
-            <FilterList title="Filter" onClick={handleDialogOpen} />
-          </Grid> */}
         </Grid>
         {/* The Search and Filter ends here */}
 
-        {profiles.length > 0 ? (
+        {profiles?.length > 0 ? (
           <Grid item container height="100%" direction="column">
             <EnhancedTable
               headCells={patientsHeadCells1}

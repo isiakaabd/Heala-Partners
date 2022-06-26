@@ -5,8 +5,8 @@ import { makeStyles } from "@mui/styles";
 import displayPhoto from "assets/images/avatar.svg";
 import { useQuery } from "@apollo/client";
 import { getRefferal } from "components/graphQL/useQuery";
-import NoData from "components/layouts/NoData";
-import Loader from "components/Utilities/Loader";
+import { NoData } from "components/layouts";
+import { Loader } from "components/Utilities";
 import { useParams } from "react-router-dom";
 import { dateMoment, timeMoment } from "components/Utilities/Time";
 
