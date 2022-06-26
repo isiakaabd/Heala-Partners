@@ -40,6 +40,7 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "source-map-explorer": "^2.5.2",
     "styled-components": "^5.3.3",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^6.5.3",
@@ -57,9 +58,10 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -81,6 +83,9 @@
     ]
   },
   "devDependencies": {
-    "dotenv-webpack": "^7.1.0"
+    "babel-plugin-import": "^1.13.5",
+    "customize-cra": "^1.0.0",
+    "dotenv-webpack": "^7.1.0",
+    "react-app-rewired": "^2.2.1"
   }
 }

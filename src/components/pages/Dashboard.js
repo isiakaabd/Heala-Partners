@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import DashboardCharts from "components/layouts/DashboardChart";
+import { DashboardCharts } from "components/layouts";
 
 const Dashboard = () => {
   return (
