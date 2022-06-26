@@ -79,7 +79,7 @@ const PatientProfile = () => {
 
   useEffect(() => {
     if (emailStatus) {
-      setEmailStat(emailStatus?.accounts.data[0].isEmailVerified);
+      setEmailStat(emailStatus?.accounts?.data[0]?.isEmailVerified);
     }
   }, [emailStatus]);
   useEffect(() => {

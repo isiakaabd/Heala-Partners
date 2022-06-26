@@ -8,7 +8,6 @@ const NotistackAlert = ({ variant, message, error }) => {
     setState(message);
   }, [message, variant, error]);
   const newMessage = error?.networkError?.result?.errors[0].message;
-  console.log(message);
   const { enqueueSnackbar } = useSnackbar();
   return enqueueSnackbar(error ? newMessage : state, {
     variant,

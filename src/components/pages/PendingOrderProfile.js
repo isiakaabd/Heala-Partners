@@ -170,7 +170,7 @@ const PendingOrderProfile = () => {
     active: "#f4f4f4",
   };
   const history = useHistory();
-
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const initialValues = {
     reason: "",
   };
@@ -190,18 +190,21 @@ const PendingOrderProfile = () => {
             query: getDrugOrders,
             variables: {
               status: "pending",
+              partnerProviderId,
             },
           },
           {
             query: getDrugOrders,
             variables: {
               status: "processing",
+              partnerProviderId,
             },
           },
           {
             query: getDrugOrders,
             variables: {
               status: "cancelled",
+              partnerProviderId,
             },
           },
         ],

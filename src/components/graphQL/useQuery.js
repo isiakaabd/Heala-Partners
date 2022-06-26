@@ -296,6 +296,8 @@ export const getConsult = gql`
   query getConsultation($id: ID!) {
     getConsultation(id: $id) {
       _id
+      doctorData
+      patientData
       patient
       consultationOwner
       contactMedium

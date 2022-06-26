@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
@@ -71,7 +70,7 @@ const EnhancedTable = ({
     }
     setSelectedRows([]);
   };
-  console.log(dataPageInfo?.limit);
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -98,8 +97,8 @@ const EnhancedTable = ({
               rowsPerPage={dataPageInfo?.limit || 5}
               page={dataPageInfo?.page - 1}
               labelRowsPerPage={paginationLabel}
-              onPageChange={(e, pageNum) => {
-                handleChangePage(e, pageNum, value);
+              onPageChange={(e, pageNum, value) => {
+                handleChangePage(e, pageNum, value, partnerId);
               }}
               onRowsPerPageChange={(e) => {
                 changeLimit(
@@ -115,6 +114,8 @@ const EnhancedTable = ({
                   {...{
                     fetchData,
                     dataPageInfo,
+                    value,
+                    partnerId,
                   }}
                 />
               )}
@@ -125,22 +126,7 @@ const EnhancedTable = ({
   );
 };
 
-EnhancedTable.propTypes = {
-  children: PropTypes.node,
-  rows: PropTypes.array,
-  headCells: PropTypes.array,
-  paginationLabel: PropTypes.string,
-  title: PropTypes.string,
-  handleChangePage: PropTypes.func,
-  hasCheckbox: PropTypes.bool,
-  type: PropTypes.string,
-  changeLimit: PropTypes.func,
-  fetchData: PropTypes.func,
-  dataPageInfo: PropTypes.object,
-  hasPagination: PropTypes.bool,
-};
-
-const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
+const EnhancedTableAction = ({ fetchData, dataPageInfo, value, partnerId }) => {
   const theme = useTheme();
   const { FIRSTPAGE, NEXTPAGE, PREVPAGE, LASTPAGE } = paginationActionTypes;
 
@@ -148,7 +134,7 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
         onClick={() =>
-          handlePageChange(fetchData, FIRSTPAGE, dataPageInfo, value)
+          handlePageChange(fetchData, FIRSTPAGE, dataPageInfo, value, partnerId)
         }
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="first page"
@@ -157,7 +143,7 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
       </IconButton>
       <IconButton
         onClick={() =>
-          handlePageChange(fetchData, PREVPAGE, dataPageInfo, value)
+          handlePageChange(fetchData, PREVPAGE, dataPageInfo, value, partnerId)
         }
         disabled={!dataPageInfo?.hasPrevPage}
         aria-label="previous page"
@@ -169,9 +155,9 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
         )}
       </IconButton>
       <IconButton
-        onClick={() =>
-          handlePageChange(fetchData, NEXTPAGE, dataPageInfo, value)
-        }
+        onClick={() => {
+          handlePageChange(fetchData, NEXTPAGE, dataPageInfo, value, partnerId);
+        }}
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="next page"
       >
@@ -183,7 +169,7 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
       </IconButton>
       <IconButton
         onClick={() =>
-          handlePageChange(fetchData, LASTPAGE, dataPageInfo, value)
+          handlePageChange(fetchData, LASTPAGE, dataPageInfo, value, partnerId)
         }
         disabled={!dataPageInfo?.hasNextPage}
         aria-label="last page"
@@ -192,20 +178,6 @@ const EnhancedTableAction = ({ fetchData, dataPageInfo, value }) => {
       </IconButton>
     </Box>
   );
-};
-
-EnhancedTableAction.propTypes = {
-  count: PropTypes.number,
-  page: PropTypes.number,
-  pagnumber: PropTypes.number,
-  totalPages: PropTypes.number,
-  dataPageInfo: PropTypes.object,
-  rowsPerPage: PropTypes.number,
-  hasPrevPage: PropTypes.bool,
-  setPageNumber: PropTypes.func,
-  handleChangePage: PropTypes.func,
-  hasNextPage: PropTypes.bool,
-  fetchData: PropTypes.func,
 };
 
 export default EnhancedTable;

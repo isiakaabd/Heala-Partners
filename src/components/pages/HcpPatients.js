@@ -76,6 +76,7 @@ const HcpPatients = () => {
     });
   }, [fetchDoctorsPatients, hcpId]);
   const [profiles, setProfiles] = useState([]);
+
   useEffect(() => {
     if (data) {
       setProfiles(data.getDoctorPatients.data);

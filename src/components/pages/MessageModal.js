@@ -2,8 +2,15 @@ import React from "react";
 
 import { makeStyles } from "@mui/styles";
 import CloseIcon from "@mui/icons-material/Close";
-import { Grid, Typography, Stack, Avatar, ModalBox } from "@mui/material";
-import { Paper } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Stack,
+  Paper,
+  Avatar,
+  Modal,
+  Box,
+} from "@mui/material";
 import TextChat from "components/Utilities/TextChat";
 import displayPhoto from "assets/images/avatar.png";
 import { useSelector } from "react-redux";
@@ -162,16 +169,6 @@ const MessageModal = ({
       </Modal>
     </Stack>
   );
-};
-MessageModal.propTypes = {
-  isOpen: PropTypes.bool,
-  handleClose: PropTypes.func,
-  children: PropTypes.node,
-  title: PropTypes.string,
-  color: PropTypes.string,
-  height: PropTypes.string,
-  minHeight: PropTypes.string,
-  rowSpacing: PropTypes.number,
 };
 
 MessageModal.defaultProps = {

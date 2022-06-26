@@ -9,7 +9,6 @@ import { dateMoment, duration, daily } from "components/Utilities/Time";
 import displayPhoto from "assets/images/avatar.svg";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
-import PreviousButton from "components/Utilities/PreviousButton";
 import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +55,7 @@ const HcpCaseNotes = () => {
     disabled: theme.palette.common.black,
   };
 
-  const { hcpId, rowId } = useParams();
+  const { rowId } = useParams();
 
   const [consult, setConsult] = useState([]);
 
@@ -93,16 +92,13 @@ const HcpCaseNotes = () => {
     doctorNote,
     severity,
     firstNotice,
-    patient,
+    patientData,
     contactMedium,
     symptoms,
   } = consult;
   return (
     <>
       <Grid container direction="column" gap={2}>
-        <Grid item>
-          <PreviousButton path={`/hcps/${hcpId}/consultations`} />
-        </Grid>
         <Grid item>
           <Typography variant="h2">Consultation Details</Typography>
         </Grid>
@@ -206,7 +202,7 @@ const HcpCaseNotes = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5">{patient}</Typography>
+                    <Typography variant="h5">{`${patientData?.firstName} ${patientData?.lastName}`}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -379,12 +375,14 @@ const HcpCaseNotes = () => {
               justifyContent="flex-end"
             >
               <Grid item container sx={{ width: "20%" }}>
-                <CustomButton
-                  title="View Prescription"
-                  width="100%"
-                  type={buttonType}
-                  onClick={handleDialogOpen}
-                />
+                {consult?.prescription && (
+                  <CustomButton
+                    title="View Prescription"
+                    width="100%"
+                    type={buttonType}
+                    onClick={handleDialogOpen}
+                  />
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -430,7 +428,7 @@ const HcpCaseNotes = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5">{patient}</Typography>
+                    <Typography variant="h5">{`${patientData?.firstName} ${patientData?.lastName}`}</Typography>
                   </Grid>
                 </Grid>
               </Grid>

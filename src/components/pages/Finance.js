@@ -283,7 +283,7 @@ const Finance = () => {
       </Grid>
 
       {/* iterms */}
-      <Grid item container spacing={2} justifyContent="space-between">
+      <Grid item container spacing={2}>
         {/* 1 */}
         <Grid item container md={4} sm={4} xs={12}>
           <Grid item container flexDirection="column">
@@ -316,7 +316,7 @@ const Finance = () => {
           </Grid>
         </Grid>
         {/* 3 */}
-        <Grid item container md={4} sm={4} xs={12}>
+        {/* <Grid item container md={4} sm={4} xs={12}>
           <Grid item container flexDirection="column">
             <Link to="/finance/payout" style={{ textDecoration: "none" }}>
               <Card
@@ -332,7 +332,7 @@ const Finance = () => {
               </Card>
             </Link>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );

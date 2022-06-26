@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Login } from "components/pages";
 import useApptype from "hooks/useAppType";
 import { Header } from "components/layouts";
-import { Loader } from "components/Utilities";
 import Routes from "components/routes/Routes";
 import { muiTheme } from "components/muiTheme";
 import { setAccessToken } from "./accessToken";
@@ -40,6 +39,7 @@ const PreApp = ({ window }) => {
 
   useEffect(() => {
     changeAppType(role);
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role]);
 
@@ -86,16 +86,6 @@ const PreApp = ({ window }) => {
               path={["/login", "/"]}
               render={(props) => <Login {...props} />}
             />
-          )}
-
-          {isAuthenticated && role === "diagnostics" && state && (
-            <Loader color="success" />
-          )}
-          {isAuthenticated && role === "pharmacy" && state && (
-            <Loader color="success" />
-          )}
-          {isAuthenticated && role === "hospital" && state && (
-            <Loader color="success" />
           )}
 
           {isAuthenticated && role === "diagnostics" && !state && (

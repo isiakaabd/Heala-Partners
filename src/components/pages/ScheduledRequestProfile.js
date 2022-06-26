@@ -117,7 +117,6 @@ const ScheduledRequestProfile = () => {
   const handleClick = (values, setFieldValue) => {
     const { title, image } = values;
     if (title !== "" && image !== null) {
-      //||
       const newValue = {
         title,
         file: image,
@@ -126,7 +125,6 @@ const ScheduledRequestProfile = () => {
       setValue((prevState) => ({
         val: [...prevState.val, newValue],
       }));
-
       setFieldValue("image", "");
       setFieldValue("title", "");
     }
@@ -157,6 +155,7 @@ const ScheduledRequestProfile = () => {
   const validationSchema = Yup.object({
     reason: Yup.string("Enter Reason ").trim().required("Reason is required"),
   });
+  const partnerProviderId = localStorage.getItem("partnerProviderId");
   const [cancelTest] = useMutation(cancelDiagnosticTest);
   const onSubmit = async (values) => {
     const { reason } = values;
@@ -171,12 +170,14 @@ const ScheduledRequestProfile = () => {
             query: getDiagnosticTests,
             variables: {
               status: "scheduled",
+              partnerProviderId,
             },
           },
           {
             query: getDiagnosticTests,
             variables: {
               status: "cancelled",
+              partnerProviderId,
             },
           },
         ],

@@ -1,12 +1,11 @@
+import { createRoot } from "react-dom/client";
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
 import PWAPrompt from "react-ios-pwa-prompt";
 import { Provider } from "react-redux";
 import { store } from "store";
 import { SnackbarProvider } from "notistack";
-import { Typography } from "@mui/material";
-import { Slide } from "@material-ui/core";
+import { Typography, Slide } from "@mui/material";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import {
@@ -20,9 +19,8 @@ import {
 import { getAccessToken } from "./accessToken";
 import { ErrorBoundary } from "react-error-boundary";
 import { Error } from "components/pages";
-require("dotenv").config();
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const httpLink = createHttpLink({
   uri: BASE_URL,
 });
@@ -53,7 +51,10 @@ const onClickDismiss = (key) => () => {
   notistackRef.current.closeSnackbar(key);
 };
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(
+  // <React.StrictMode>
   <SnackbarProvider
     ref={notistackRef}
     maxSnack={3}
@@ -83,8 +84,8 @@ ReactDOM.render(
         </ErrorBoundary>
       </ApolloProvider>
     </Provider>
-  </SnackbarProvider>,
-  document.getElementById("root")
+  </SnackbarProvider>
+  // </React.StrictMode>
 );
 
 serviceWorkerRegistration.register();

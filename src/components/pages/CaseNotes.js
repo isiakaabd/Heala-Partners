@@ -64,12 +64,12 @@ const useStyles = makeStyles((theme) => ({
 const CaseNotes = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const { rowId } = useParams();
+  const { id } = useParams();
   const [caseNoteState, setCaseNoteState] = useState([]);
 
   const { loading, data, error } = useQuery(getConsult, {
     variables: {
-      id: rowId,
+      id: id,
     },
   });
 
@@ -84,7 +84,7 @@ const CaseNotes = () => {
     if (data) {
       setCaseNoteState(data.getConsultation);
     }
-  }, [data, rowId]);
+  }, [data, id]);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleDialogOpen = () => {
@@ -112,7 +112,7 @@ const CaseNotes = () => {
     contactMedium,
     symptoms,
   } = caseNoteState;
-
+  console.log("data", caseNoteState);
   return (
     <>
       <Grid container direction="column" gap={2}>
@@ -431,12 +431,14 @@ const CaseNotes = () => {
             justifyContent="flex-end"
           >
             <Grid item container width={{ md: "20%", xs: "100%", sm: "50%" }}>
-              <CustomButton
-                title="View Prescription"
-                width="100%"
-                type={buttonType}
-                onClick={handleDialogOpen}
-              />
+              {caseNoteState?.prescription && (
+                <CustomButton
+                  title="View Prescription"
+                  width="100%"
+                  type={buttonType}
+                  onClick={handleDialogOpen}
+                />
+              )}
             </Grid>
           </Grid>
         </Grid>

@@ -240,7 +240,7 @@ const Consultations = () => {
                         variant="contained"
                         className={classes.button}
                         component={Link}
-                        to={`/patients/${patientId}/consultations/case-notes/${_id}`}
+                        to={`/patients/${patientId}/consultations/case-note/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
                       >
                         View Details

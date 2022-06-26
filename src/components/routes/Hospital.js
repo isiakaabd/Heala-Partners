@@ -24,14 +24,6 @@ const HcpAvailability = lazy(() => import("components/pages/HcpAvailability"));
 const HcpEarnings = lazy(() => import("components/pages/HcpEarnings"));
 const HcpPatients = lazy(() => import("components/pages/HcpPatients"));
 const HcpCaseNote = lazy(() => import("components/pages/HcpCaseNote"));
-const Appointments = lazy(() => import("components/pages/Appointments"));
-const WaitingList = lazy(() => import("components/pages/WaitingList"));
-const Messages = lazy(() => import("components/pages/Messages"));
-const CreateMessage = lazy(() => import("components/pages/CreateMessage"));
-const CreateEmail = lazy(() => import("components/pages/CreateEmail"));
-const ViewMessage = lazy(() => import("components/pages/ViewMessage"));
-const ViewMail = lazy(() => import("components/pages/ViewMail"));
-const Email = lazy(() => import("components/pages/Email"));
 const Finance = lazy(() => import("components/pages/Finance"));
 const Financetable = lazy(() => import("components/pages/Financetable"));
 const Payout = lazy(() => import("components/pages/Payout"));
@@ -42,9 +34,7 @@ const ReferralTab = lazy(() => import("components/pages/ReferralTab"));
 const HospitalSettings = lazy(() =>
   import("components/pages/HospitalSettings")
 );
-const WaitingListDetails = lazy(() =>
-  import("components/pages/WaitingListDetails")
-);
+
 const HcpConsultations = lazy(() =>
   import("components/pages/HcpConsultations")
 );
@@ -159,36 +149,6 @@ const Hospital = () => {
           component={HcpCaseNote}
         />
 
-        <PrivateRoute exact path="/appointments" component={Appointments} />
-
-        <PrivateRoute
-          exact
-          path="/appointments/waiting-list"
-          component={WaitingList}
-        />
-
-        <PrivateRoute
-          path="/appointments/waiting-list/:listId"
-          component={WaitingListDetails}
-        />
-
-        <PrivateRoute exact path="/messages" component={Messages} />
-        <PrivateRoute
-          path="/messages/create-message"
-          component={CreateMessage}
-        />
-        <PrivateRoute
-          exact
-          path="/messages/:messageId"
-          component={ViewMessage}
-        />
-        <PrivateRoute
-          exact
-          path="/email/create-email"
-          component={CreateEmail}
-        />
-        <PrivateRoute exact path="/email/:emailId" component={ViewMail} />
-        <PrivateRoute exact path="/email" component={Email} />
         <PrivateRoute exact path="/finance" component={Finance} />
         <PrivateRoute exact path="/finance/earnings" component={Financetable} />
         <PrivateRoute exact path="/finance/payouts" component={Payout} />

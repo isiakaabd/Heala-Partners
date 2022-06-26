@@ -21,7 +21,7 @@ import { isSelected } from "helpers/isSelected";
 import { handleSelectedRows } from "helpers/selectedRows";
 import displayPhoto from "assets/images/avatar.svg";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { FilterList, Loader } from "components/Utilities";
+import { Loader } from "components/Utilities";
 import { useParams } from "react-router-dom";
 import { dateMoment } from "components/Utilities/Time";
 import { changeTableLimit } from "helpers/filterHelperFunctions";
@@ -63,11 +63,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const filterOptions = [
-  { id: 0, value: "Name" },
-  { id: 1, value: "Date" },
-  { id: 2, value: "Description" },
-];
+// const filterOptions = [
+//   { id: 0, value: "Name" },
+//   { id: 1, value: "Date" },
+//   { id: 2, value: "Description" },
+// ];
 
 const HcpConsultations = () => {
   const classes = useStyles();
@@ -109,9 +109,6 @@ const HcpConsultations = () => {
         <Grid item flex={1}>
           <Typography variant="h2">Consultations</Typography>
         </Grid>
-        <Grid item>
-          <FilterList options={filterOptions} title="Filter " />
-        </Grid>
       </Grid>
       {consultations.length > 0 ? (
         <Grid item container>
@@ -134,7 +131,6 @@ const HcpConsultations = () => {
                   createdAt,
                   symptoms,
                   status,
-                  type,
                   contactMedium,
                   patientData,
 
@@ -229,16 +225,6 @@ const HcpConsultations = () => {
                         maxWidth: "20rem",
                       }}
                     >
-                      {type ? type : "No Value"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      className={classes.tableCell}
-                      style={{
-                        color: theme.palette.common.grey,
-                        maxWidth: "20rem",
-                      }}
-                    >
                       {status ? status : "No Value"}
                     </TableCell>
                     <TableCell align="left">
@@ -246,13 +232,8 @@ const HcpConsultations = () => {
                         variant="contained"
                         className={classes.button}
                         component={Link}
-                        to={`/hcps/${hcpId}/consultations/case-notes/${_id}`}
+                        to={`/hcps/${hcpId}/consultations/case-note/${_id}`}
                         endIcon={<ArrowForwardIosIcon />}
-                        /* onClick={() => {
-                          setSelectedSubMenu(2);
-                          setSelectedHcpMenu(0);
-                          setSelectedScopedMenu(2);
-                        }} */
                       >
                         View Details
                       </Button>

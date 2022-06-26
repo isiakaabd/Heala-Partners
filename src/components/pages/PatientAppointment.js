@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Modals, CustomButton, Loader, FilterList } from "components/Utilities";
+import {
+  Modals,
+  CustomButton,
+  Loader /* FilterList */,
+} from "components/Utilities";
 import { Formik, Form } from "formik";
 import FormikControl from "components/validation/FormikControl";
 import {
@@ -94,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const filterOptions = [
+/* const filterOptions = [
   { id: 0, value: "Name" },
   { id: 1, value: "Date" },
   { id: 2, value: "Description" },
-];
+]; */
 
 const PatientAppointment = () => {
   const [updateAppoint] = useMutation(updateAppointment);
@@ -155,7 +159,7 @@ const PatientAppointment = () => {
   const [isPatient, setIsPatient] = useState(false);
   const [isPatients, setIsPatients] = useState(false);
   const [id, setId] = useState(null);
-  const handlePatientOpen = () => setIsPatient(true);
+  /* const handlePatientOpen = () => setIsPatient(true); */
   const handlePatientClose = () => setIsPatient(false);
   const handlePatientCloses = () => setIsPatients(false);
   const { patientId } = useParams();
@@ -218,6 +222,16 @@ const PatientAppointment = () => {
 
   const [getPatientsAppointment, { loading, data, error }] =
     useLazyQuery(getAppoint);
+
+  React.useEffect(() => {
+    getPatientsAppointment({
+      variables: {
+        id: patientId,
+        orderBy: "createdAt",
+        page: 1,
+      },
+    });
+  }, [getPatientsAppointment, patientId]);
 
   useEffect(() => {
     if (data) {
@@ -289,13 +303,13 @@ const PatientAppointment = () => {
             <Grid item flex={1}>
               <Typography variant="h2">Appointments</Typography>
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <FilterList
                 onClick={handlePatientOpen}
                 options={filterOptions}
                 title="Filter"
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           {patientAppointment.length > 0 ? (
             <Grid item container height="100%" direction="column">

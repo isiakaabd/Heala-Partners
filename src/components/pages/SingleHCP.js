@@ -6,7 +6,6 @@ import { NoData } from "components/layouts";
 import { doctor, getDoctorsProfile } from "components/graphQL/useQuery";
 import { CustomButton, Loader, Card } from "components/Utilities";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import DisablePatient from "components/modals/DeleteOrDisable";
 import { makeStyles } from "@mui/styles";
@@ -15,7 +14,6 @@ import { ReactComponent as UserIcon } from "assets/images/user.svg";
 import { ReactComponent as CalendarIcon } from "assets/images/calendar.svg";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { deleteDoctor } from "components/graphQL/Mutation";
-//
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
@@ -68,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
 const SingleHCP = () => {
   const classes = useStyles();
   const theme = useTheme();
-
   const { hcpId } = useParams();
   const history = useHistory();
   const [disableUser] = useMutation(deleteDoctor);
@@ -106,18 +103,18 @@ const SingleHCP = () => {
       fill: theme.palette.common.red,
     },
     {
-      id: 2,
-      title: "Appointments",
+      id: 3,
+      title: "Availability",
       background: theme.palette.common.lightGreen,
-      path: "appointments",
-      icon: CalendarIcon,
+      path: "availability",
+      icon: ConsultationIcon,
       fill: theme.palette.common.green,
     },
     {
-      id: 3,
-      title: "Availability",
+      id: 6,
+      title: "Consultations",
       background: theme.palette.common.lightRed,
-      path: "availability",
+      path: "consultations",
       icon: ConsultationIcon,
       fill: theme.palette.common.red,
     },
@@ -138,12 +135,12 @@ const SingleHCP = () => {
       fill: theme.palette.common.red,
     },
     {
-      id: 6,
-      title: "Consultations",
+      id: 2,
+      title: "Appointments",
       background: theme.palette.common.lightGreen,
-      path: "consultations",
-      icon: AssignmentIcon,
-      fill: theme.palette.common.red,
+      path: "appointments",
+      icon: CalendarIcon,
+      fill: theme.palette.common.green,
     },
   ];
 
