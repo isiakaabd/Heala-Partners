@@ -10,11 +10,11 @@ const LineChart2 = ({ doctorStats, type }) => {
   const [inActives, setInActives] = useState([]);
   useEffect(() => {
     const doc = doctorStats.oneYear;
-    if (doc && doc.inactiveCount) {
+    if (doc?.inactiveCount) {
       const z = doc.inactiveCount.map((i) => i.count);
       setInActives(z);
     }
-    if (doc && doc.activeCount) {
+    if (doc?.activeCount) {
       const z = doc.activeCount.map((i) => i.count);
       setActives(z);
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, lazy, useEffect } from "react";
 import { Grid, Typography, Divider } from "@mui/material";
 import PropTypes from "prop-types";
 import GroupIcon from "@mui/icons-material/Group";
@@ -15,13 +15,13 @@ import chart1 from "assets/images/chart1.png";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import {
-  LineChart2,
-  CircularProgressBar,
-  FormSelect,
-} from "components/Utilities";
 import "chartjs-plugin-style";
 import { ArrowDownwardOutlined } from "@mui/icons-material";
+const LineChart2 = lazy(() => import("components/Utilities/LineChart2"));
+const CircularProgressBar = lazy(() =>
+  import("components/Utilities/CircularProgress")
+);
+const FormSelect = lazy(() => import("components/Utilities/FormSelect"));
 
 const useStyles = makeStyles((theme) => ({
   chartCard: {
@@ -152,12 +152,6 @@ const HopsitalDashboardChart = ({ data, refetch }) => {
     setForms(e.target.value);
     await refetch({ q: e.target.value });
   };
-
-  // useEffect(() => {
-  //   if (earningData) {
-
-  //   }
-  // }, [earningData, refetch])
 
   return (
     <Grid

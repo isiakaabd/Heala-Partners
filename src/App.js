@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { Box, Drawer, Toolbar, CssBaseline } from "@mui/material";
+import React, { useState, Suspense, lazy, useEffect } from "react";
 import "./App.css";
 import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
@@ -8,18 +9,17 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Login } from "components/pages";
 import useApptype from "hooks/useAppType";
 import { Header } from "components/layouts";
-import Routes from "components/routes/Routes";
 import { muiTheme } from "components/muiTheme";
 import { setAccessToken } from "./accessToken";
-import Private from "components/routes/Private";
-import SideNav from "components/layouts/SideNav";
-import Hospital from "components/routes/Hospital";
 import { getPartner } from "components/graphQL/useQuery";
 import { LOGOUT_USER } from "components/graphQL/Mutation";
 import { useActions } from "components/hooks/useActions";
 import { AppTypeProvider } from "store/contexts/AppTypeContext";
-import { Box, Drawer, Toolbar, CssBaseline } from "@mui/material";
-
+import Loader from "components/Utilities/Loader";
+const SideNav = lazy(() => import("components/layouts/SideNav"));
+const Hospital = lazy(() => import("components/routes/Hospital"));
+const Private = lazy(() => import("components/routes/Private"));
+const Routes = lazy(() => import("components/routes/Routes"));
 const PreApp = ({ window }) => {
   const { changeAppType } = useApptype();
   const container =
@@ -39,7 +39,7 @@ const PreApp = ({ window }) => {
 
   useEffect(() => {
     changeAppType(role);
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [role]);
 
@@ -323,7 +323,9 @@ const App = () => {
   return (
     <ThemeProvider theme={muiTheme}>
       <AppTypeProvider>
-        <PreApp />
+        <Suspense fallback={<Loader />}>
+          <PreApp />
+        </Suspense>
       </AppTypeProvider>
     </ThemeProvider>
   );
